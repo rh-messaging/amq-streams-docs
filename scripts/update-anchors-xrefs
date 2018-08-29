@@ -1,0 +1,90 @@
+#!/usr/bin/env python
+
+# update-anchors-xrefs - This program updates the anchor ID and xref formats
+# to match the formats defined in the CCS modularization reference guide.
+# Anchors are updated from "[[anchor_name]]" to "[id='anchor-name']", and
+# xrefs are updated from "xref:anchor_name" to "xref:anchor-name".
+#
+# Usage: ./update-anchors-xrefs <directory>
+
+# TODO: Add option to update a single file instead of a directory
+# TODO: Add some better input validation
+# TODO: Add functionality to update the anchor names in "link" elements
+
+import sys
+import re
+import os
+
+# Validate input and assign variables.
+try:
+    input_dir = os.path.abspath(sys.argv[1])
+except:
+    print('Usage: update-anchors-xrefs <dir>')
+    sys.exit()
+
+# Construct regex objects.
+anchor_regex = re.compile(r'\[\[[\w]+\]\]')
+xref_regex = re.compile(r'(?<=xref:)\w+')
+
+# Dictionary of replacement strings for anchor IDs and xrefs.
+# NOTE: This could break if the id portion of an xref contains the characters
+# "[[" or "]]".
+text_replacements = {
+    '[[': '[id=\'',
+    '_': '-',
+    ']]': '\']'
+}
+
+def read_file(file_path):
+    # Opens a file and returns the content as a string.
+    curr_file = open(file_path)
+    file_content = curr_file.read()
+    curr_file.close()
+    return file_content
+
+
+def write_file(file_path, updated_content):
+    # Opens a file and overwrites the content.
+    new_file = open(file_path, 'w')
+    new_file.write(updated_content)
+    new_file.close()
+
+
+def replace_chars(text):
+    # Replaces characters in a string using a globally-defined dictionary.
+    for k, v in text_replacements.iteritems():
+        text = text.replace(k, v)
+    return text
+
+
+def replace_strings(file_content, regex):
+    # Given a string, this function searches for and replaces each instance of 
+    # a regex match with a replacement string.
+    results_list = regex.findall(file_content)
+    num_updates = 0
+    for i in range(len(results_list)):
+        new_string = replace_chars(results_list[i])
+        file_content = file_content.replace(results_list[i], new_string)
+        if new_string != results_list[i]:
+            num_updates += 1
+    return file_content, num_updates
+
+
+print('Updating AsciiDoc files in ' + input_dir + '...')
+
+# Loop over each .adoc file in the directory.
+for file_name in os.listdir(input_dir):
+    if file_name.endswith('.adoc'):
+        # Get the content of the file, update the anchor IDs, update the xrefs,
+        # and write the changes to the file.
+        print('\n' + file_name + ":")
+        full_path = os.path.join(input_dir, file_name)
+        content = read_file(full_path)
+        updated_content, anchor_count = replace_strings(content, anchor_regex)
+        print(str(anchor_count) + ' anchors updated')
+        updated_content, xref_count = replace_strings(updated_content,
+            xref_regex)
+        print(str(xref_count) + ' xrefs updated')
+        write_file(full_path, updated_content)
+    else:
+        continue

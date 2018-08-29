@@ -1,0 +1,11 @@
+
+include::common/attributes.adoc[]
+
+:context: str
+
+= Using {ProductName}
+
+
+
+// Revision information
+include::common/revision-info.adoc[]

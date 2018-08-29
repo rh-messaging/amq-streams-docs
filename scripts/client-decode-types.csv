@@ -1,0 +1,25 @@
+AMQP type,JMS,JavaScript,C++,.NET,Python 2,Ruby
+array,?,Array,? std::list or proton::array,?,proton.Array,Array
+binary,byte[],string,proton::binary,System.Byte[],bytes,String
+boolean,boolean,boolean,bool,System.Boolean,bool,"true, false"
+byte,byte,number,int8_t,System.SByte,int,Integer
+char,char,number,wchar_t,System.Char,unicode,String
+decimal128,?,?,proton::decimal128,? System.Decimal,?,?
+decimal32,?,?,proton::decimal32,? System.Decimal,?,?
+decimal64,?,?,proton::decimal64,? System.Decimal,?,?
+double,Double,number,double,System.Double,float,Float
+float,Float,number,float,System.Single,float,Float
+int,Integer,number,int32_t,System.Int32,long,Integer
+list,java.util.List,Array,std::vector,Amqp.List,list,Array
+long,Long,number,int64_t,System.Int64,long,Integer
+map,java.util.Map,object,std::map,Amqp.Map,dict,Hash
+null,null,null,nullptr,null,None,nil
+short,Short,number,int16_t,System.Int16,int,Integer
+string,String,string,std::string,System.String,unicode,String
+symbol,? String,string,proton::symbol,Amqp.Symbol,str,Symbol
+timestamp,java.util.Date,number,proton::timestamp,System.DateTime,long,Time
+ubyte,? Short,number,uint8_t,System.Byte,long,Integer
+uint,? Long,number,uint32_t,System.UInt32,long,Integer
+ulong,? java.math.BigInteger,number,uint64_t,System.UInt64,long,Integer
+ushort,? int,number,uint16_t,System.UInt16,long,Integer
+uuid,java.util.UUID,number,proton::uuid,System.Guid,? uuid.UUID,?

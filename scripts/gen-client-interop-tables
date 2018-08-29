@@ -1,0 +1,299 @@
+#!/usr/bin/python
+
+import csv
+import os
+import sys
+
+amqp_types = [
+    "null",
+    "boolean",
+    "char",
+    "string",
+    "binary",
+    "byte",
+    "short",
+    "int",
+    "long",
+    "ubyte",
+    "ushort",
+    "uint",
+    "ulong",
+    "float",
+    "double",
+    "array",
+    "list",
+    "map",
+    "uuid",
+    "symbol",
+    "timestamp",
+#    "decimal32",
+#    "decimal64",
+#    "decimal128",
+]
+
+amqp_type_descriptions = {
+    "null": "An empty value",
+    "boolean": "A true or false value",
+    "char": "A single Unicode character",
+    "string": "A sequence of Unicode characters",
+    "binary": "A sequence of bytes",
+    "byte": "A signed 8-bit integer",
+    "short": "A signed 16-bit integer",
+    "int": "A signed 32-bit integer",
+    "long": "A signed 64-bit integer",
+    "ubyte": "An unsigned 8-bit integer",
+    "ushort": "An unsigned 16-bit integer",
+    "uint": "An unsigned 32-bit integer",
+    "ulong": "An unsigned 64-bit integer",
+    "float": "A 32-bit floating point number",
+    "double": "A 64-bit floating point number",
+    "array": "A sequence of values of a single type",
+    "list": "A sequence of values of variable type",
+    "map": "A mapping from distinct keys to values",
+    "uuid": "A universally unique identifier",
+    "symbol": "A 7-bit ASCII string from a constrained domain",
+    "timestamp": "An absolute point in time",
+    "decimal32": "A 32-bit decimal floating point number",
+    "decimal64": "A 64-bit decimal floating point number",
+    "decimal128": "A 128-bit decimal floating point number",
+}
+
+spec_types_url = "http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-types-v1.0-os.html"
+
+class Client(object):
+    def __init__(self, name, output_dir):
+        self.name = name
+        self.output_dir = output_dir
+
+        self.encode_types = dict()
+        self.decode_types = dict()
+
+    def __repr__(self):
+        return self.name
+
+    def generate(self):
+        self.generate_amqp_type_table()
+        self.generate_encode_decode_type_table()
+        self.generate_other_client_type_tables()
+        self.generate_jms_message_type_table()
+
+    def generate_amqp_type_table(self):
+        output_file = os.path.join(self.output_dir, "amqp-type-table.adoc")
+
+        with open(output_file, "w") as out:
+            out.write(".AMQP types\n")
+            out.write("[cols=\"20%,80%\", options=\"header\"]\n")
+            out.write("|===\n")
+            out.write("| AMQP type | Description\n")
+
+            for amqp_type in amqp_types:
+                amqp_type_link = "link:{}#type-{}[{}]".format(spec_types_url, amqp_type, amqp_type)
+                description = amqp_type_descriptions[amqp_type]
+
+                out.write("| `{}` | {}\n".format(amqp_type_link, description))
+
+            out.write("|===\n")
+
+    def generate_encode_decode_type_table(self):
+        output_file = os.path.join(self.output_dir, "encode-decode-type-table.adoc")
+
+        with open(output_file, "w") as out:
+            out.write(".{ClientName} types before encoding and after decoding\n")
+            out.write("[cols=\"20%,40%,40%\", options=\"header\"]\n")
+            out.write("|===\n")
+            out.write("| AMQP type | {ClientName} type before encoding | {ClientName} type after decoding\n")
+
+            for amqp_type in amqp_types:
+                try:
+                    encode_type = self.encode_types[amqp_type]
+                except KeyError:
+                    continue
+
+                try:
+                    decode_type = self.decode_types[amqp_type]
+                except KeyError:
+                    continue
+
+                out.write("| `{}` | `{}` | `{}`\n".format(amqp_type, encode_type, decode_type))
+
+            out.write("|===\n")
+
+    def generate_other_client_type_tables(self):
+        other_clients = [x for x in clients if x is not self]
+        split_index = int(len(other_clients) / 2)
+
+        first_slate = other_clients[:split_index]
+        second_slate = other_clients[split_index:]
+
+        output_file = os.path.join(self.output_dir, "other-client-type-table-1.adoc")
+
+        with open(output_file, "w") as out:
+            out.write(".{ClientName} and other {ProductName} client types (1 of 2)\n")
+            out.write("[cols=\"40%,30%,30%\", options=\"header\"]\n")
+            out.write("|===\n")
+            out.write("| {} type before encoding | {} type | {} type\n".format \
+                      (self.name, *[x.name for x in first_slate]))
+
+            for amqp_type in amqp_types:
+                columns = list()
+
+                try:
+                    encode_type = self.encode_types[amqp_type]
+                except KeyError:
+                    continue
+
+                if encode_type == "-":
+                    continue
+
+                columns.append("`{}`".format(encode_type))
+
+                for client in first_slate:
+                    try:
+                        client_type = "`{}`".format(client.decode_types[amqp_type])
+                    except KeyError:
+                        client_type = "-"
+
+                    columns.append(client_type)
+
+                out.write("| {}\n".format(" | ".join(columns)))
+
+            out.write("|===\n")
+
+        output_file = os.path.join(self.output_dir, "other-client-type-table-2.adoc")
+        other_clients = [x for x in clients if x is not self]
+
+        with open(output_file, "w") as out:
+            out.write(".{ClientName} and other {ProductName} client types (2 of 2)\n")
+            out.write("[cols=\"40%,30%,30%\", options=\"header\"]\n")
+            out.write("|===\n")
+            out.write("| {} type before encoding | {} type | {} type\n".format \
+                      (self.name, *[x.name for x in second_slate]))
+
+            for amqp_type in amqp_types:
+                columns = list()
+
+                try:
+                    encode_type = self.encode_types[amqp_type]
+                except KeyError:
+                    continue
+
+                if encode_type == "-":
+                    continue
+
+                columns.append("`{}`".format(encode_type))
+
+                for client in second_slate:
+                    try:
+                        client_type = "`{}`".format(client.decode_types[amqp_type])
+                    except KeyError:
+                        client_type = "-"
+
+                    columns.append(client_type)
+
+                out.write("| {}\n".format(" | ".join(columns)))
+
+            out.write("|===\n")
+
+    def generate_jms_message_type_table(self):
+        output_file = os.path.join(self.output_dir, "jms-message-type-table.adoc")
+        jms_api = "http://docs.oracle.com/javaee/7/api/javax/jms"
+
+        with open(output_file, "w") as out:
+            out.write(".{ClientName} and JMS message types\n")
+            out.write("[cols=\"50%,50%\", options=\"header\"]\n")
+            out.write("|===\n")
+            out.write("| {ClientName} body type | JMS message type\n")
+
+            text_message_link = "link:{}/TextMessage.html[TextMessage]".format(jms_api)
+            bytes_message_link = "link:{}/BytesMessage.html[BytesMessage]".format(jms_api)
+            object_message_link = "link:{}/ObjectMessage.html[ObjectMessage]".format(jms_api)
+
+            out.write("| `{}` | `{}`\n".format(self.encode_types["string"], text_message_link))
+            out.write("| `{}` | `{}`\n".format(self.encode_types["null"], text_message_link))
+            out.write("| `{}` | `{}`\n".format(self.encode_types["binary"], bytes_message_link))
+            out.write("| Any other type | `{}`\n".format(object_message_link))
+
+            out.write("|===\n")
+
+jms_client = Client("{ClientAmqpJmsName}", "client-amqp-jms")
+cpp_client = Client("{ClientAmqpCppName}", "client-amqp-cpp")
+javascript_client = Client("{ClientAmqpJavaScriptName}", "client-amqp-javascript")
+dotnet_client = Client("{ClientAmqpDotNetName}", "client-amqp-dotnet")
+python_client = Client("{ClientAmqpPythonName}", "client-amqp-python")
+ruby_client = Client("{ClientAmqpRubyName}", "client-amqp-ruby")
+
+clients = [
+    cpp_client,
+    javascript_client,
+    dotnet_client,
+    python_client,
+    ruby_client,
+]
+
+def load_client_types():
+    clients_by_column = [
+        None,
+        jms_client,
+        javascript_client,
+        cpp_client,
+        dotnet_client,
+        python_client,
+        ruby_client,
+    ]
+
+    with open("scripts/client-encode-types.csv", "rb") as f:
+        reader = csv.reader(f)
+
+        for i, row in enumerate(reader):
+            if i == 0:
+                continue
+
+            amqp_type = None
+
+            for j, cell in enumerate(row):
+                if j == 0:
+                    amqp_type = cell
+                    continue
+
+                if j == 1:
+                    continue
+
+                assert amqp_type is not None
+
+                if cell.startswith("?"):
+                    continue
+
+                client = clients_by_column[j]
+                client.encode_types[amqp_type] = cell
+
+    with open("scripts/client-decode-types.csv", "rb") as f:
+        reader = csv.reader(f)
+
+        for i, row in enumerate(reader):
+            if i == 0:
+                continue
+
+            amqp_type = None
+
+            for j, cell in enumerate(row):
+                if j == 0:
+                    amqp_type = cell
+                    continue
+
+                if j == 1:
+                    continue
+
+                assert amqp_type is not None
+
+                if cell.startswith("?"):
+                    continue
+
+                client = clients_by_column[j]
+                client.decode_types[amqp_type] = cell
+
+def generate_client_tables():
+    for client in clients:
+        client.generate()
+
+load_client_types()
+generate_client_tables()
