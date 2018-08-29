@@ -1,0 +1,25 @@
+AMQP type,JMS,JavaScript,C++,.NET,Python 2,Ruby
+array,?,"wrap_array(Array, code)",? std::list or proton::array,?,proton.Array,-
+binary,byte[],wrap_binary(string),proton::binary,System.Byte[],bytes,-
+boolean,boolean,boolean,bool,System.Boolean,bool,"true, false"
+byte,byte,wrap_byte(number),int8_t,System.SByte,proton.byte,-
+char,char,wrap_char(number),wchar_t,System.Char,proton.char,-
+decimal128,?,?,proton::decimal128,? System.Decimal,proton.decimal128,-
+decimal32,?,?,proton::decimal32,? System.Decimal,proton.decimal32,-
+decimal64,?,?,proton::decimal64,? System.Decimal,proton.decimal64,-
+double,Double,wrap_double(number),double,System.Double,float,Float
+float,Float,wrap_float(number),float,System.Single,proton.float32,-
+int,Integer,wrap_int(number),int32_t,System.Int32,proton.int32,-
+list,java.util.List,wrap_list(Array),std::vector,Amqp.List,list,Array
+long,Long,wrap_long(number),int64_t,System.Int64,long,Integer
+map,java.util.Map,wrap_map(object),std::map,Amqp.Map,dict,Hash
+null,null,null,nullptr,null,None,nil
+short,Short,wrap_short(number),int16_t,System.Int16,proton.short,-
+string,String,string,std::string,System.String,unicode,String
+symbol,? String,wrap_symbol(string),proton::symbol,Amqp.Symbol,proton.symbol,Symbol
+timestamp,java.util.Date,wrap_timestamp(number),proton::timestamp,System.DateTime,proton.timestamp,"Date, Time"
+ubyte,? Short,wrap_ubyte(number),uint8_t,System.Byte,proton.ubyte,-
+uint,? Long,wrap_uint(number),uint32_t,System.UInt32,proton.uint,-
+ulong,? java.math.BigInteger,wrap_ulong(number),uint64_t,System.UInt64,proton.ulong,-
+ushort,? int,wrap_ushort(number),uint16_t,System.UInt16,proton.ushort,-
+uuid,java.util.UUID,wrap_uuid(number),proton::uuid,System.Guid,uuid.UUID,-

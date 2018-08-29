@@ -1,0 +1,61 @@
+#!/usr/bin/python3
+
+from plano import *
+
+import re
+
+if len(ARGS) < 2:
+    exit("Usage: convert-to-sentence-case ROOT-DIRS...")
+
+proper_names = {
+    "Red", "Hat", "Enterprise", "Linux",
+    "Microsoft", "Windows",
+    "Maven",
+    "InitialContext",
+    "Kerberos",
+    "Hello", "World",
+}
+
+def convert_line(line, start):
+    elems = line.split()
+    out = list(elems[0:start])
+
+    for elem in elems[start:]:
+        if elem in proper_names:
+            out.append(elem)
+            continue
+
+        out.append(convert_elem(elem))
+
+    return " ".join(out) + "\n"
+
+def convert_elem(elem):
+    first_char = elem[0]
+
+    try:
+        second_char = elem[1]
+    except IndexError:
+        second_char = ""
+
+    if first_char.isalpha() and second_char.islower():
+        elem = elem.lower()
+
+    return elem
+
+for dir_ in ARGS[1:]:
+    for file_ in find(dir_, "*.adoc"):
+        temp_file = "{}.tmp".format(file_)
+
+        with open(temp_file, "w") as w:
+            with open(file_) as r:
+                for line in r:
+                    if line.startswith("="):
+                        line = convert_line(line, 2)
+                    elif line.startswith(".Example:"):
+                        line = convert_line(line, 2)
+                    elif re.match(r'^\.[^ \.]', line):
+                        line = convert_line(line, 1)
+
+                    w.write(line)
+
+        move(temp_file, file_)
