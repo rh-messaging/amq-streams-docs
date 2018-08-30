@@ -1,0 +1,393 @@
+== Apache Zookeeper
+
+Apache Kafka uses Apache Zookeeper to store configuration data as well as for cluster coordination (e.g. leader
+election). To start and run a Kafka broker, Zookeeper needs to be installed and available.
+
+=== Installation on Linux
+
+==== Prerequisites
+
+Zookeeper requires following components to be installed:
+
+* JRE 8
+
+==== Installation procedure
+
+Zookeeper can be installed using following installation procedure:
+
+. Add new `zookeeper` user and group:
++
+[source]
+----
+sudo groupadd zookeeper
+sudo useradd -g zookeeper zookeeper
+sudo passwd zookeeper
+----
+. Create directory `/opt/zookeeper`:
++
+[source]
+----
+sudo mkdir /opt/zookeeper
+----
+. Download the latest stable version from Apache Zookeeper http://zookeeper.apache.org/releases.html[download website]
+. Unpack the archive into `/opt/zookeeper` directory (replace `x.x.x` for the downloaded version of Zookeeper - e.g. `3.4.11`)
++
+[source]
+----
+sudo tar xvfz zookeeper-x.x.x.tar.gz -C /opt/zookeeper --strip-components=1
+----
+. Change the ownership of the `/opt/zookeeper` directory to the `zookeeper` user:
++
+[source]
+----
+sudo chown -R zookeeper:zookeeper /opt/zookeeper
+----
+. Create directory `/var/lib/zookeeper` for storing Zookeeper data and set its ownership to the `zookeeper` user:
++
+[source]
+----
+sudo mkdir /var/lib/zookeeper
+sudo chown -R zookeeper:zookeeper /var/lib/zookeeper
+----
+
+=== Standalone configuration
+
+Zookeeper can run in a standalone mode with only a single instance. However, since Kafka broker is fully dependent on
+Zookeeper, using a standalone configuration creates a single point of failure. Therefore the standalone configuration
+is not recommended for any production use cases.
+
+Zookeeper uses a properties file for configuration. The most important configuration options are:
+
+`tickTime`:: Zookeeper's basic time unit (in milliseconds) used for heartbeats and session timeouts (for example, minimum
+session timeout will be two ticks).
+`dataDir`:: The directory where Zookeeper stores its transaction log and snapshots of its in-memory database. This should be
+set to the `/var/lib/zookeeper/` directory created during installation.
+`clientPort`:: Port number where clients can connect. Defaults to `2181`.
+
+NOTE: The sample configuration file can be found in `conf/zoo_sample.cfg` in the Zookeeper installation directory.
+
+TIP: Consider putting the `dataDir` directory on separate disk device to minimize the latency in Zookeeper.
+
+Zookeeper configuration file should be located in `/opt/zookeeper/conf/zoo.cfg`. A basic example of the configuration
+file can be found below. The configuration file should be readable by the `zookeeper` user.
+
+[source]
+----
+timeTick=2000
+dataDir=/var/lib/zookeeper/
+clientPort=2181
+----
+
+Once the configuration file is prepared, Zookeeper can be started using following command. In case the configuration
+file is not located in `/opt/zookeeper/conf/zoo.cfg` the command has to be adapted accordingly.
+
+[source]
+----
+su - zookeeper
+/opt/zookeeper/bin/zkServer.sh start conf/zoo.cfg
+----
+
+The `start` command will start the Zookeeper server in the background. To run Zookeeper attached to the terminal,
+`start` can be replaced with `start-foreground`:
+
+[source]
+----
+su - zookeeper
+/opt/zookeeper/bin/zkServer.sh start-foreground conf/zoo.cfg
+----
+
+To stop running Zookeeper instance following command can be used:
+[source]
+----
+su - zookeeper
+/opt/zookeeper/bin/zkServer.sh stop conf/zoo.cfg
+----
+
+To restart running Zookeeper instance following command can be used:
+[source]
+----
+su - zookeeper
+/opt/zookeeper/bin/zkServer.sh restart conf/zoo.cfg
+----
+
+=== Replicated configuration
+
+For production use cases it is strongly recommended to run a cluster of replicated Zookeeper instances.
+
+TIP: Zookeeper clusters are sometimes also refer to as _ensembles_.
+
+Zookeeper clusters usually consist of an odd number of nodes. Zookeeper requires a majority of cluster nodes to be available
+in order to work. For example, a cluster with 3 nodes requires at least 2 of them to be up and running. In other words, it can
+tolerate 1 node being down. A cluster consisting of 5 nodes requires at least 3 nodes to be available. In other words, it
+can tolerate 2 nodes being down.
+
+TIP: Zookeeper can run in clusters with an even number of nodes. The additional node, however, doesn't increase the
+resiliency of the cluster. A cluster with 4 nodes requires at least 3 nodes to be available and can tolerate only 1 node
+being down. Therefore it has exactly the same resiliency as a cluster with only 3 nodes.
+
+The different Zookeeper nodes should be ideally placed into different data centers or network segments. Increasing the
+number of Zookeeper nodes increases the workload spent on cluster synchronization. For most Kafka use cases Zookeeper
+cluster with 3, 5 or 7 nodes should be fully sufficient.
+
+WARNING: Zookeeper cluster with 3 nodes can tolerate only 1 unavailable node. This means that when a cluster node
+crashes while you are doing maintenance on another node your Zookeeper cluster will be unavailable.
+
+Replicated Zookeeper configuration supports all configuration options supported by the standalone configuration.
+Additional options are added for the cluster configuration:
+
+`initLimit`:: Amount of time to allow followers to connect and sync to the cluster leader. The time is specified as
+a number of ticks (see the `timeTick` potion for more details).
+`syncLimit`:: Amount of time for which followers can be behind the leader. The time is specified as a number of ticks
+(see the `timeTick` potion for more details).
+
+In addition to the options above, every configuration file should contain a list of servers which should be members of
+the Zookeeper cluster. The server records should be specified in the format `server.id=hostname:port1:port2`, where:
+
+`id`:: is the ID of the Zookeeper cluster node.
+`hostname`:: is the hostname or IP address where the node listens for connections.
+`port1`:: is the number of the port used for intra-cluster communication.
+`port2`:: is the number of the port used for leader election.
+
+The following example shows what the configuration file for a Zookeeper cluster might look like:
+
+[source]
+----
+timeTick=2000
+dataDir=/var/lib/zookeeper/
+clientPort=2181
+initLimit=5
+syncLimit=2
+
+server.1=172.17.0.1:2888:3888
+server.2=172.17.0.2:2888:3888
+server.3=172.17.0.3:2888:3888
+----
+
+Each node in the Zookeeper cluster has to be assigned an `ID`. The `ID` has to be unique within the Zookeeper
+cluster. Each node's `ID` is configured in a file named `myid` which has
+to be stored in the `dataDir` folder (e.g. `/var/lib/zookeeper/`). The `myid` files should contain only a single line
+with the `ID` written as text. The `ID` can be any integer from 1 to 255. This file has to be created manually on each
+cluster node. Using this file, each Zookeeper instance will use the configuration from the corresponding `server.` line in the
+configuration file to configure its listeners and use all other `server.` lines to identify other cluster members.
+
+Once the configuration files are prepared, the individual cluster nodes should be started in the same way as a standalone
+Zookeeper instance.
+
+==== Procedure
+
+Follow this procedure *on each node* to start a replicated Zookeeper cluster:
+
+. Create the `myid` file as described above.
+. Create the configuration file with list of all cluster members as described above. This file should be identical on
+all nodes.
+. Start the instance using:
++
+[source]
+----
+su - zookeeper
+/opt/zookeeper/bin/zkServer.sh start conf/zoo.cfg
+----
+
+=== Additional configuration options
+
+Setting the following options should be considered, depending on the exact use case:
+
+`maxClientCnxns`:: Miximum number of simultaneously connected clients.
+`autopurge.snapRetainCount`:: Number of snapshots of Zookeeper's in-memory database which will be retained. Default value is `3`.
+`autopurge.purgeInterval`:: Interval, in hours, for purging snapshots. Default value is `0` (auto-purging disabled).
+
+All available configuration options can be found in Apache Zookeeper
+http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance[documentation].
+
+=== Logging
+
+Zookeeper is using _log4j_ as its logging infrastructure. Logging configuration is by default read from the
+`log4j.propeties` configuration file which should be placed either in the `/opt/zookeeper/conf/` directory or
+in the classpath. The location and name of the configuration file can be changed using the Java property
+`log4j.configuration` which can be passed to Zookeeper using the `SERVER_JVMFLAGS` environment variable:
+
+[source]
+----
+su - zookeeper
+export SERVER_JVMFLAGS="-Dlog4j.configuration=file:/my/path/to/log4j.config"; /opt/zookeeper/bin/zkServer.sh start conf/zoo.cfg
+----
+
+More information about _log4j_ configuration can be found in the
+http://logging.apache.org/log4j/1.2/manual.html[_log4j_ manual].
+
+=== Security
+
+==== SASL Authentication
+
+By default, Zookeeper doesn't use any form of authentication and allows anonymous connections. However it supports Java
+Authentication and Authorization Service (JAAS) which can be used to set up authentication using Simple Authentication
+and Security Layer (SASL). Zookeeper supports authentication using the DIGEST-MD5 SASL mechanism with locally stored
+credentials, or authentication using Kerberos.
+
+JAAS is configured using a separate configuration file. It is recommended to place the JAAS configuration file in the
+same directory as the Zookeeper configuration (`/opt/zookeeper/conf/`). The recommended file name is `jaas.conf`. When
+using Zookeeper cluster, the JAAS configuration file has to be created on all cluster nodes.
+
+SASL Authentication is configured separately for server-to-server communication (communication between Zookeeper
+instances) and client-to-server communication (e.g. communication between Kafka and Zookeeper). Server-to-server
+authentication is relevant only for resilient Zookeeper clusters with multiple nodes.
+
+===== Server-to-Server authentication
+
+For server-to-server authentication, the JAAS configuration file contains both parts: the server configuration as well as the
+client configuration. Each part of the configuration has its own _context_. The context is configuration that has the following
+format:
+
+[source]
+----
+ContextName {
+       param1
+       param2;
+};
+----
+
+When using DIGEST-MD5 SASL mechanism the `QuorumServer` context needs to contain all the usernames and passwords in
+unencrypted form which will be allowed to connect. A second context, `QuorumLearner`, has to be configured to configure the
+client which is built into Zookeeper. It again contains the password in unencrypted form. An example of the JAAS
+configuration file for DIGEST-MD5 mechanism can be found below:
+
+[source]
+----
+QuorumServer {
+       org.apache.zookeeper.server.auth.DigestLoginModule required
+       user_zookeeper="123456";
+};
+
+QuorumLearner {
+       org.apache.zookeeper.server.auth.DigestLoginModule required
+       username="zookeeper"
+       password="123456";
+};
+----
+
+Alternatively, Kerberos-based authentication can be configured. A detailed guide for configuring Kerberos
+authentication is beyond the scope of this document. More details about Kerberos configuration can be found in the
+https://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html[JAAS documentation].
+
+[source]
+----
+QuorumServer {
+       com.sun.security.auth.module.Krb5LoginModule required
+       useKeyTab=true
+       keyTab="/path/to/keytab"
+       storeKey=true
+       useTicketCache=false
+       debug=false
+       principal="zkquorum/fully.qualified.domain.name@EXAMPLE.COM";
+};
+
+QuorumLearner {
+       com.sun.security.auth.module.Krb5LoginModule required
+       useKeyTab=true
+       keyTab="/path/to/keytab"
+       storeKey=true
+       useTicketCache=false
+       debug=false
+       principal="learner/fully.qualified.domain.name@EXAMPLE.COM";
+};
+----
+
+In addition to the JAAS configuration file, the server-to-server authentication also needs to be enabled in the regular
+Zookeeper configuration file. To enable it add following options:
+
+[source]
+----
+quorum.auth.enableSasl=true
+quorum.auth.learnerRequireSasl=true
+quorum.auth.serverRequireSasl=true
+quorum.auth.learner.loginContext=QuorumLearner
+quorum.auth.server.loginContext=QuorumServer
+quorum.cnxn.threads.size=20
+----
+
+Additionally, if Kerberos authentication is used, the _Kerberos service principal_ has to be specified:
+
+[source]
+----
+quorum.auth.kerberos.servicePrincipal=servicename/_HOST
+----
+
+The JAAS configuration file has to be passed to the Zookeeper server as a Java property. 
+The `SERVER_JVMFLAGS` environment variable can be used for that:
+
+[source]
+----
+su - zookeeper
+export SERVER_JVMFLAGS="-Djava.security.auth.login.config=/opt/zookeeper/conf/jaas.conf"; /opt/zookeeper/bin/zkServer.sh start conf/zoo.cfg
+----
+
+More details about server-to-server authentication can be found on the Zookeeper
+https://cwiki.apache.org/confluence/display/ZOOKEEPER/Server-Server+mutual+authentication[wiki].
+
+===== Client-to-Server authentication
+
+Client-to-server authentication is configured in the same JAAS file as the server-to-server authentication. However,
+unlike the server-to-server authentication, it contains only the server part. The client part of the configuration has
+to be done in the client. How to configure a Kafka broker to connect to Zookeeper using authentication is described in the
+Kafka installation part of this guide.
+
+Another context has to be added to the JAAS configuration file to configure client-to-server authentication. This
+context has to be named `Server`. For DIGEST-MD5 mechanism it configures all usernames and passwords:
+
+[source]
+----
+Server {
+    org.apache.zookeeper.server.auth.DigestLoginModule required
+    user_super="123456"
+    user_kafka="123456";
+};
+----
+
+It is also possible to enable authentication using Kerberos. More details about Kerberos configuration can be found in the
+https://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html[JAAS documentation].
+[source]
+----
+Server {
+       com.sun.security.auth.module.Krb5LoginModule required
+       useKeyTab=true
+       keyTab="/path/to/server/keytab"
+       storeKey=true
+       useTicketCache=false
+       principal="zookeeper/yourzkhostname";
+};
+----
+
+After configuring the JAAS context, client-to-server authentication needs to be enabled in the Zookeeper configuration
+file. To enable it following lines should be added:
+
+[source]
+----
+requireClientAuthScheme=sasl
+authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+authProvider.2=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+authProvider.3=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+----
+
+The `authProvider.ID` property has to be added for every server which is part of the Zookeeper cluster.
+
+The JAAS configuration file has to be passed to the Zookeeper server as a Java property. 
+The `SERVER_JVMFLAGS` environment variable can be used for that:
+
+[source]
+----
+su - zookeeper
+export SERVER_JVMFLAGS="-Djava.security.auth.login.config=/opt/zookeeper/conf/jaas.conf"; /opt/zookeeper/bin/zkServer.sh start conf/zoo.cfg
+----
+
+More details about client to server authentication can be found on the Zookeeper
+https://cwiki.apache.org/confluence/display/ZOOKEEPER/Client-Server+mutual+authentication[wiki].
+
+==== ACL Authorization
+
+Zookeeper supports access control lists (ACLs) to protect data stored inside it. Apache Kafka can automatically configure the ACL rights
+for all Zookeeper records it creates so no other ZooKeeper user can modify them. For more details see the Kafka installation
+part of this guide
+
+==== TLS
+
+The latest version of Zookeeper currently doesn't support TLS for encryption or authentication.
