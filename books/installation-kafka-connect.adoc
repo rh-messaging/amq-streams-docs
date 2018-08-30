@@ -1,0 +1,3 @@
+== Apache Kafka Connect
+
+TODO: Describe installation of standalone Kafka Connect and distributed Kafka connect cluster and the basic configuration.

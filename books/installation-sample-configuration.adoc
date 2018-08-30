@@ -1,0 +1,3 @@
+== Sample configuration files
+
+TODO: Add sample configuration files for a Kafka cluster - perhaps something such as 3 node Zookeeper and 3 node Kafka.

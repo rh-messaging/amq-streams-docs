@@ -1,0 +1,879 @@
+== Apache Kafka broker
+
+An Apache Kafka broker is responsible for delivering records from producing clients to consuming clients. A Kafka broker can
+run as a single instance, but usually the brokers run in a cluster consisting of multiple brokers. The cluster is
+scalable. Depending on availability requirements and expected data volumes, the cluster can consist of any number of nodes, from a single digit up to hundreds or thousands of nodes. When required, additional nodes can be added to the cluster or
+removed from it.
+
+=== Installation on Linux
+
+==== Prerequisites
+
+Apache Kafka requires the following components to be installed:
+
+* JRE 8
+* Apache Zookeeper
+
+==== Installation procedure
+
+Kafka can be installed using following installation procedure:
+
+. Add new `kafka` user and group:
++
+[source]
+----
+sudo groupadd kafka
+sudo useradd -g kafka kafka
+sudo passwd kafka
+----
+. Create directory `/opt/kafka`:
++
+[source]
+----
+sudo mkdir /opt/kafka
+----
+. Download the latest stable version from Apache Kafka http://kafka.apache.org/downloads[download website]
+. Unpack the archive into `/opt/kafka` directory (replace `y.y` with the version of Scala and `x.x.x` for the downloaded
+version of Kafka - e.g. `2.12` and `1.0.0`)
++
+[source]
+----
+sudo tar xvfz kafka_y.y-x.x.x.tar.gz -C /opt/kafka --strip-components=1
+----
+. Change the ownership of the `/opt/kafka` directory to the `kafka` user:
++
+[source]
+----
+sudo chown -R kafka:kafka /opt/kafka
+----
+. Create directory `/var/lib/kafka` for storing Kafka data and set its ownership to the `kafka` user:
++
+[source]
+----
+sudo mkdir /var/lib/kafka
+sudo chown -R kafka:kafka /var/lib/kafka
+----
+
+=== Configuration
+
+Kafka uses a properties file to store static configuration. The recommended location for the configuration file is
+`/opt/kafka/config/kafka.properties`. The configuration file should be readable by the `kafka` user.
+
+NOTE: A sample configuration file can be found in `config/server.properties` in Kafka installation directory.
+
+Each broker needs to be assigned a unique broker id. The broker id has to be an integer greater than or equal to 0. The
+broker id is used to identify the brokers after restarts or crashes and it is therefore important that the id is stable
+and doesn't change over time. The broker id is configured in the broker properties file:
+
+[source]
+----
+broker.id=1
+----
+
+==== Zookeeper
+
+Kafka brokers need Zookeeper to store some parts of their configuration as well as to coordinate the cluster (for
+example to decide which node is a leader for which partition). Connection details for the Zookeeper cluster are stored
+in the configuration file. The field `zookeeper.connect` contains a comma-separated list of hostnames and ports of members
+of the zookeeper cluster. For example:
+
+[source]
+----
+zookeeper.connect=zoo1.my-domain.com:2181,zoo2.my-domain.com:2181,zoo3.my-domain.com:2181
+----
+
+Kafka will use these addresses to connect to the Zookeeper cluster. With this configuration, all Kafka znodes will be
+created directly in the root of Zookeeper database. Therefore, such a Zookeeper cluster could be used only for a single Kafka cluster.
+A base (prefix) path can be specified in the Kafka configuration file, so that multiple Kafka clusters can use a single Zookeeper cluster. It can be added to the end of the Zookeeper connection string:
+
+[source]
+----
+zookeeper.connect=zoo1.my-domain.com:2181,zoo2.my-domain.com:2181,zoo3.my-domain.com:2181/my-cluster-1
+----
+
+==== Listeners
+
+Kafka brokers can be configured to use multiple listeners. Each listener can be used to listen on different port or
+network interface and can have different configuration. Listeners are configured in the `listeners` property in the
+configuration file. The `listeners` property contains a list of listeners with each listener configured as
+`listenerName://hostname:port`. When the hostname value is empty, Kafka will use
+`java.net.InetAddress.getCanonicalHostName()` as hostname. The following example shows how multiple listeners might be
+configured:
+
+[source]
+----
+listeners=INT1://:9092,INT2://:9093,REPLICATION://:9094
+----
+
+When a Kafka client wants to connect to a Kafka cluster, it first connects to a _bootstrap server_. The
+_bootstrap server_ is one of the cluster nodes. It will provide the client with a list of all other brokers which are part
+of the cluster and the client will connect to them individually. By default the _bootstrap server_ will provide the
+client with a list of nodes based on the `listeners` field. However, in some situations it might be useful to give the client
+a different set of addresss than given in the `listeners` property. Such situation might be, for example, when
+additional network infrastructure, such as a proxy, is between the client and the broker, or when an external DNS name should
+be used instead of an IP address. For these situations, the broker allows to define the advertised addresses of the
+listeners in `advertised.listeners` configuration property. This property has the same format as the `listeners` property. The following
+example shows how the advertised addresses might be configured. The names of the listeners have to match the names of the
+listeners from the `listeners` property.
+
+[source]
+----
+advertised.listeners=INT1://my-broker-1.my-domain.com:1234,INT2://my-broker-1.my-domain.com:1234:9093
+----
+
+When the cluster has replicated topics, the brokers responsible for such topics  need to communicate with each other
+in order to replicate the messages in these topics. When multiple listeners are configured, the configuration field
+`inter.broker.listener.name` can be used to specify the name of the listener which should be used for this replication. For
+example:
+
+[source]
+----
+inter.broker.listener.name=REPLICATION
+----
+
+==== Kafka Commit Logs
+
+Apache Kafka stores all records it receives from producers in commit logs. Be aware that the commit logs 
+contain the actual data, in the form of records, that Kafka is there to deliver, and should not be 
+confused with application log files (which record whe the broker is doing). The commit logs are placed in one or more log
+directories. Log directories are configured using property field `log.dirs`. It should be set to `/var/lib/zookeeper`
+directory created during installation:
+
+[source]
+----
+log.dirs=/var/lib/zookeeper
+----
+
+If required for performance reasons, `log.dirs` can point to multiple directories, each placed on a different physical
+device to improve disk I/O performance:
+
+[source]
+----
+log.dirs=/var/lib/zookeeper1,/var/lib/zookeeper2,/var/lib/zookeeper3
+----
+
+==== Security
+
+Kafka supports TLS for encrypting the communication with Kafka clients. Additionally, it supports two types of
+authentication:
+
+. TLS client authentication based on TLC client certificates
+. SASL Authentication based on username and password
+
+SASL authentication is configured using Java Authentication and Authorization Service (JAAS). JAAS is also used for
+authentication of connections between Kafka and Zookeeper. JAAS uses its own configuration file. The recommended location
+for this file is `/opt/kafka/config/jaas.conf`. The file should be readable by the `kafka` user. When running Kafka,
+the location of this file is specified using Java system property `java.security.auth.login.config`. This property has to be
+passed to Kafka when starting the broker nodes:
+
+[source]
+KAFKA_OPTS="-Djava.security.auth.login.config=/path/to/my/jaas.config"; bin/kafka-server-start.sh
+
+Each listener in the Kafka broker is configured with its own security protocol. The configuration property `listener.security.protocol.map` defines which listener uses which security protocol. 
+It maps each listener name to its security protocol. Supported security protocols are:
+
+`PLAINTEXT`:: Listener without any encryption or authentication.
+`SSL`:: Listener using TLS encryption and, optionally, authentication using TLS client certificates.
+`SASL_PLAINTEXT`:: Listener without encryption but with SASL-based authentication.
+`SASL_SSL`:: Listener with TLS-based encryption and SASL-based authentication.
+
+Given the following `listeners` configuration:
+
+[source]
+listeners=INT1://:9092,INT2://:9093,REPLICATION://:9094
+
+the `listener.security.protocol.map` might look like this:
+
+[source]
+listener.security.protocol.map=INT1:SASL_PLAINTEXT,INT2:SASL_SSL,REPLICATION:SSL
+
+This would configure the listener `INT1` to use unencrypted connections with SASL authentication, the listener `INT2`
+to use encrypted connections with SASL authentication and the `REPLICATION` interface to use TLS encryption (possibly
+with TLS client authentication). The same security protocol can be used multiple times. The following example is also
+a valid configuration:
+
+[source]
+listener.security.protocol.map=INT1:SSL,INT2:SSL,REPLICATION:SSL
+
+Such a configuration would use TLS encryption and TLS authentication for all interfaces. The following chapters will
+explain in more detail how to configure TLS and SASL.
+
+===== TLS encryption and authentication
+
+In order to use TLS encryption and server authentication, a keystore containing private and public keys has to be provided. This is usually done
+using a file in the Java Keystore (JKS) format. A path to this file is set in the `ssl.keystore.location` property. The 
+`ssl.keystore.password` property should be used to set the password protecting the keystore. For example:
+
+[source]
+ssl.keystore.location=/path/to/keystore/server-1.jks
+ssl.keystore.password=123456
+
+In some cases, an additional password is used to protect the private key. Any such password can be set using the
+`ssl.key.password` property.
+
+TIP: Kafka is able use keys signed by certification authorities as well as self-signed keys. Using keys signed by
+certification authorities should always be the preferred method. In order to allow clients to verify the identity of the
+Kafka broker they are connecting to, the certificate should always contain the advertised hostname(s) as its Common Name
+(CN) or in the Subject Alternative Names (SAN).
+
+In addition to the keystore, a truststore with public keys can be provided to the broker. These keys can be used to
+authenticate clients connecting to the broker. The truststore should be provided in Java Keystore (JKS) format and
+should contain public keys of the certification authorities. All clients with public and private keys signed by one of
+the certification authorities included in the truststore will be able to pass the authentication. The location of the
+truststore is set using field `ssl.truststore.location`. In case the truststore is password protected, the password
+should be set in the `ssl.truststore.password` property. For example:
+
+[source]
+ssl.truststore.location=/path/to/keystore/server-1.jks
+ssl.truststore.password=123456
+
+Once the truststore is configured, TLS client authentication has to be enabled using the `ssl.client.auth` property. This
+property can be set to one of three different values:
+
+`none`:: TLS client authentication is switched off. (Default value)
+`requested`:: TLS client authentication is optional. Clients will be asked to authenticate using TLS client certificate
+but they can choose not to.
+`required`:: Clients are required to authenticate using TLS client certificate.
+
+When a client authenticates using TLS client authentication, the authenticated principal name is the distinguished name
+from the authenticated client certificate. When TLS client authentication is not used and SASL is disabled, the
+principal name will be `ANONYMOUS`.
+
+It is possible to use different SSL configurations for different listeners. All options starting with `ssl.` can be
+prefixed with `listener.name.<NameOfTheListener>.`. This will override the default SSL configuration for that specific
+listener. The following example shows how to use different SSL configurations for different listeners:
+
+[source]
+----
+listeners=INT1://:9092,INT2://:9093,REPLICATION://:9094
+listener.security.protocol.map=INT1:SSL,INT2:SSL,REPLICATION:SSL
+
+# Default configuration - will be used for listeners INT1 and INT2
+ssl.keystore.location=/path/to/keystore/server-1.jks
+ssl.keystore.password=123456
+
+# Different configuration for listener REPLICATION
+listener.name.replication.ssl.keystore.location=/path/to/keystore/server-1.jks
+listener.name.replication.ssl.keystore.password=123456
+listener.name.replication.ssl.truststore.location=/path/to/keystore/server-1.jks
+listener.name.replication.ssl.truststore.password=123456
+listener.name.replication.ssl.client.auth=required
+----
+
+In addition to the main TLS configuration options described above, Kafka supports many options for fine-tuning the TLS
+configuration. For example, to enable of disable TLS / SSL protocols or cipher suites.
+
+`ssl.cipher.suites`:: List of enabled cipher suites. Each cipher suite is a combination of authentication,
+encryption, MAC and key exchange algorithms used for the TLC connection. By default, all available cipher suites are
+enabled.
+`ssl.enabled.protocols`:: List of enabled TLS / SSL protocols. Defaults to `TLSv1.2,TLSv1.1,TLSv1`.
+
+A list of all available TLS configuration options can be found on the
+http://kafka.apache.org/documentation/#configuration[Apache Kafka website].
+
+===== Kafka authentication
+
+Kafka also supports authentication using the Simple Authentication and Security Layer (SASL). 
+SASL in Kafka is implemented using JAAS.
+SASL authentication is supported both through plain unencrypted connections as well as through TLS connections. SASL can
+be enabled individually for each listener. To enable it, the security protocol in `listener.security.protocol.map` has
+to be either `SASL_PLAINTEXT` or `SASL_SSL`.
+
+SASL authentication in Kafka supports three different mechanisms:
+
+- `PLAIN` mechanism implements authentication based on username and passwords. Usernames and passwords are stored
+locally in Kafka configuration.
+- `SCRAM` mechanism implements authentication using Salted Challenge Response Authentication Mechanism. SCRAM
+credentials are stored centrally in Zookeeper. SCRAM can be used in situations where Zookeeper cluster nodes are running
+isolated in private network.
+- `GSSAPI` mechanism implements authentication against a Kerberos server.
+
+TIP: The `PLAIN` mechanism sends the username and password in unencrypted format. It should be therefore used only in
+combination with TLS encryption.
+
+The SASL mechanisms are configured via the JAAS configuration file. Kafka uses the JAAS context named `KafkaServer`.
+After they are configured in JAAS, the SASL mechanisms have to be enabled in the Kafka configuration. This is done using the
+`sasl.enabled.mechanisms` property. This property contains a comma-separated list of enabled mechanisms:
+
+[source]
+sasl.enabled.mechanisms=PLAIN,SCRAM-SHA-256,SCRAM-SHA-512
+
+In case the listener used for inter-broker communication is using SASL, the property `sasl.mechanism.inter.broker.protocol`
+has to be used to specify the SASL mechanism which it should use. For example:
+
+[source]
+sasl.mechanism.inter.broker.protocol=PLAIN
+
+The username and password which will be used for the inter-broker communication has to be specified in the `KafkaServer`
+JAAS context using the field `username` and `password`.
+
+To use the PLAIN mechanism, the usernames and password which are allowed to connect are specified directly in the JAAS
+context. The following example shows the context configured for SASL PLAIN authentication. The example configures three
+different users:
+
+- `admin`
+- `user1`
+- `user2`
+
+[source]
+----
+KafkaServer {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    user_admin="123456"
+    user_user1="123456"
+    user_user2="123456";
+};
+----
+
+CAUTION: To avoid authentication problems, the credentials should be kept in sync between different Kafka brokers.
+
+When SASL PLAIN is also used for inter-broker authentication, the `username` and `password` properties should
+be included in the JAAS context:
+
+[source]
+----
+KafkaServer {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    username="admin"
+    password="123456"
+    user_admin="123456"
+    user_user1="123456"
+    user_user2="123456";
+};
+----
+
+SCRAM authentication in Kafka consists of two mechanisms: `SCRAM-SHA-256` and `SCRAM-SHA-512`. These mechanism differ
+only in the hashing algorithm used - SHA-256 versus stronger SHA-512. To enable SCRAM authentication, the JAAS configuration file
+has to include the following configuration:
+
+[source]
+KafkaServer {
+    org.apache.kafka.common.security.scram.ScramLoginModule required;
+};
+
+When enabling SASL authentication in the Kafka configuration file, both SCRAM mechanisms can be listed. However only one
+of them can be chosen for the inter-broker communication. For example:
+
+[source]
+sasl.enabled.mechanisms=SCRAM-SHA-256,SCRAM-SHA-512
+sasl.mechanism.inter.broker.protocol=SCRAM-SHA-512
+
+User credentials for the SCRAM mechanism are stored in Zookeeper. Command line tool `kafka-configs.sh` can be used to
+manage them. For example to add user `user1` with password `123456`, the following command can be used:
+
+[source]
+bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --alter --add-config 'SCRAM-SHA-256=[password=123456],SCRAM-SHA-512=[password=123456]' --entity-type users --entity-name user1
+
+To delete a user credential use:
+
+[source]
+bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --alter --delete-config 'SCRAM-SHA-512' --entity-type users --entity-name user1
+
+The SASL mechanism used for authentication using Kerberos is called `GSSAPI`. To configure Kerberos SASL authentication,
+the following configuration should be added to the JAAS configuration file:
+
+[source]
+KafkaServer {
+    com.sun.security.auth.module.Krb5LoginModule required
+    useKeyTab=true
+    storeKey=true
+    keyTab="/etc/security/keytabs/kafka_server.keytab"
+    principal="kafka/kafka1.hostname.com@EXAMPLE.COM";
+};
+
+In addition to the JAAS configuration, the Kerberos service name needs to be specified in the
+`sasl.kerberos.service.name` property in the Kafka configuration:
+
+[source]
+sasl.enabled.mechanisms=GSSAPI
+sasl.mechanism.inter.broker.protocol=GSSAPI
+sasl.kerberos.service.name=kafka
+
+Kafka can use multiple SASL mechanisms at the same time. The different JAAS configurations can be all added to the same context:
+
+[source]
+----
+KafkaServer {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    user_admin="123456"
+    user_user1="123456"
+    user_user2="123456";
+
+    com.sun.security.auth.module.Krb5LoginModule required
+    useKeyTab=true
+    storeKey=true
+    keyTab="/etc/security/keytabs/kafka_server.keytab"
+    principal="kafka/kafka1.hostname.com@EXAMPLE.COM";
+
+    org.apache.kafka.common.security.scram.ScramLoginModule required;
+};
+----
+
+When multiple mechanisms are enabled, clients will be able to choose the mechanism which they want to use.
+
+===== Kafka authorization
+
+The Kafka broker has out-of-the-box support for authorization. It is implemented using Access Control Lists (ACLs) - a set of rules
+describing what uses can and cannot do. The ACL rules are stored in Zookeeper.
+
+To enable Authorization / ACLs, the property `authorizer.class.name` has to be specified. It has to contain a fully
+qualified name of the Authorizer class. For the built-in authorizer, the fully qualified name is `kafka.security.auth.SimpleAclAuthorizer`:
+
+[source]
+authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
+
+The structure of ACL rules is: _Principal `P` is allowed / denied operation `O` on resource `R` from host
+`H`._ When no rules are present for a given resource, all actions are denied. This behavior can be changed by setting the
+property `allow.everyone.if.no.acl.found` to `true` in the Kafka configuration file.
+
+A set of users can be defined as _super users_. Super users are allowed to take all actions regardless of the ACL
+rules. Super users are defined in the Kafka configuration file using the property `super.users`. Users are defined using
+their principals. For example:
+
+[source]
+super.users=User:admin,User:operator
+
+The _principal_ is the identity of the user and its exact format depends on the authentication mechanism:
+
+- Clients which connected to Kafka without authentication will have principal `User:ANONYMOUS`.
+- Clients which connected using simple authentication mechanisms such as PLAIN or SCRAM will have principal consisting of
+the string `User:` and their username. For example `User:admin` or `User:user1`.
+- Clients authenticated using TLS client authentication will have the principal based on the Distinguished Name of their
+client certificate, prefixed with `User:`. For example `User:CN=user1,O=MyCompany,L=Prague,C=CZ`.
+- Clients authenticated using Kerberos by default will have a Kafka username that is the primary part of their Kerberos principal.
+Property `sasl.kerberos.principal.to.local.rules` can be used to configure how the Kafka principal should be built from the
+Kerberos principal.
+
+Kafka ACLs can be applied to 3 different types of resources:
+
+- Topics
+- Consumer Groups
+- Cluster
+
+It supports several different operations:
+
+- Read
+- Write
+- Create
+- Delete
+- Alter
+- Describe
+- ClusterAction
+- All
+
+Not every operation can be applied to every resource. Following table shows which resources support which operations:
+
+|===
+| |Topics | Consumer Groups |Cluster
+
+|Read
+|X|X|
+
+|Write
+|X||
+
+|Create
+|||X
+
+|Delete
+|X||
+
+|Alter
+|X||
+
+|Describe
+|X|X|X
+
+|ClusterAction
+|||X
+
+|All
+|X|X|X
+
+|===
+
+Management of ACL rules is done using `kafka-acls.sh` utility which is part of the Kafka distribution package. It can
+add, list and remove ACL rules. `kafka-acls.sh` contains three primary options for these functions:
+
+|===
+|Option |Type | Description |Default
+
+|`--add`
+|Action
+|Add ACL rule
+|
+
+|`--remove`
+|Action
+|Remove ACL rile
+|
+
+|`--list`
+|Action
+|List ACL rules
+|
+
+|`--authorizer-properties`
+|Configuration
+|key=val pairs that will be passed to authorizer for initialization. For the default authorizer the example values are:
+`zookeeper.connect=zoo1.my-domain.com:2181`.
+|
+
+|`--cluster`
+|Resource
+|Specifies cluster as an ACL resource.
+|
+
+|`--topic`
+|Resource
+|Specifies topic name as an ACL resource. `*` can be used as a wildcard which translates to "all topics". Multiple
+`--topic` options can be specified in single command.
+|
+
+|`--group`
+|Resource
+|Specifies consumer group name as an ACL resource. Multiple `--group` options can be specified in single command.
+|
+
+|`--allow-principal`
+|Principal
+| Principal which will be added to an allow ACL rule. Multiple `--allow-principal` options can be specified in single
+command.
+|
+
+|`--deny-principal`
+|Principal
+| Principal which will be added to a deny ACL rule. Multiple `--deny-principal` options can be specified in single
+command.
+|
+
+|`--allow-host`
+|Host
+|IP address from which principals listed in `--allow-principal` will be allowed. `--deny-host` can be only specified as
+IP address. Hostnames or CIDR ranges are not supported.
+|If `--allow-principal` is specified defaults to `*` which translates to "all hosts".
+
+|`--deny-host`
+|Host
+|IP address from which principals listed in `--deny-principal` will be denied. `--deny-host` can be only specified as IP
+address. Hostnames or CIDR ranges are not supported.
+|if `--deny-principal` is specified defaults to `*` which translates to "all hosts"
+
+|`--operation`
+|Operation
+|An operation which will be allowed or denied. Multiple `--operation` options can be specified in single command.
+|All
+
+|`--producer`
+|Convenience
+|A shortcut to allow or deny all operations needed by a message producer (WRITE and DESCRIBE on topic, CREATE
+on cluster).
+|
+
+|`--consumer`
+|Convenience
+|A shortcut to allow or deny all operations needed by a message consumer (READ and DESCRIBE on topic, READ on consumer
+group)
+|
+
+|`--force`
+|Convenience
+|Assume yes to all queries and do not prompt.
+|
+
+|===
+
+The following examples show how to use `kafka-acls.sh` to manage ACL rules:
+
+- Adding ACL rules
++
+[source]
+----
+# Allow user1 and user2 read from topic myTopic using consumer group MyConsumerGroup
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Read --topic myTopic --allow-principal User:user1 --allow-principal User:user2
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Describe --topic myTopic --allow-principal User:user1 --allow-principal User:user2
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Read --operation Describe --group MyConsumerGroup --allow-principal User:user1 --allow-principal User:user2
+
+# Deny user1 to read the topic from IP address 127.0.0.1
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Describe --operation Read --topic myTopic --group MyConsumerGroup --deny-principal User:user1 --deny-host 127.0.0.1
+
+# Add principal as consumer
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --consumer --topic myTopic --group MyConsumerGroup --allow-principal User:user1
+----
+- Removing ACL rules
++
+[source]
+----
+# Remove principal as consumer
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --remove --consumer --topic myTopic --group MyConsumerGroup --allow-principal User:user1
+
+# Deny user1 to read the topic from IP address 127.0.0.1
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --remove --operation Describe --operation Read --topic myTopic --group MyConsumerGroup --deny-principal User:user1 --deny-host 127.0.0.1
+
+# Allow user1 and user2 read from topic myTopic using consumer group MyConsumerGroup
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --remove --operation Read --topic myTopic --allow-principal User:user1 --allow-principal User:user2
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --remove --operation Describe --topic myTopic --allow-principal User:user1 --allow-principal User:user2
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --remove --operation Read --operation Describe --group MyConsumerGroup --allow-principal User:user1 --allow-principal User:user2
+----
+- Listing ACL rules
++
+[source]
+----
+$ bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --list --topic myTopic
+Current ACLs for resource `Topic:myTopic`:
+        User:user1 has Allow permission for operations: Read from hosts: *
+        User:user2 has Allow permission for operations: Read from hosts: *
+        User:user2 has Deny permission for operations: Read from hosts: 127.0.0.1
+        User:user1 has Allow permission for operations: Describe from hosts: *
+        User:user2 has Allow permission for operations: Describe from hosts: *
+        User:user2 has Deny permission for operations: Describe from hosts: 127.0.0.1
+----
+
+To make sure topic replication works as expected, the Kafka broker nodes have to be allowed to:
+
+- Allowed to do `ClusterAction` on cluster
+- Allowed to `Read` from all topics (`*`).
+
+To add such ACL rules, following ACL rules can be used (principal should be adapted according to the actual cluster
+configuration):
+
+[source]
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation ClusterAction --cluster --allow-principal User:kafka
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Read --topic "*"
+
+===== Zookeeper authentication
+
+Apache Zookeeper can be configured to use SASL-based authentication. SASL authentication for Zookeeper connections has
+to be configured in the JAAS configuration file. By default, Kafka will use the JAAS context named `Client` for
+connecting to Zookeeper. If needed, the context can be changed using the `zookeeper.sasl.clientconfig` system property.
+
+TIP: The Apache Zookeeper section of this document describes in detail how to enable authentication in Zookeeper.
+
+The `Client` context should configure either the `PLAIN` SASL mechanism or Kerberos depending on the Zookeeper
+configuration. The following example shows the configuration for SASL `PLAIN`:
+
+[source]
+----
+Client {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    username="kafka"
+    password="123456";
+};
+----
+
+Similarly it can be also configured to use Kerberos:
+
+[source]
+----
+Client {
+       com.sun.security.auth.module.Krb5LoginModule required
+       useKeyTab=true
+       keyTab="/path/to/client/keytab"
+       storeKey=true
+       useTicketCache=false
+       principal="yourzookeeperclient";
+};
+----
+
+More information about JAAS configuration can be found in the
+https://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html[JAAS documentation].
+
+===== Zookeeper authorization
+
+When authentication is enabled between Kafka and Zookeeper, Kafka can be configured to automatically protect all its
+records with ACLs rules which will allow only the Kafka user to change the data. All other users will have read-only
+access. ACL rules are controlled by the `zookeeper.set.acl` property and are disabled by default. To enabled the ACL
+protection set `zookeeper.set.acl` to `true`:
+
+[source]
+----
+zookeeper.set.acl=true
+----
+
+Kafka will set the ACL rules only for newly created Zookeeper nodes. When the ACLs are only enabled after the first
+start of the cluster, the tool `zookeeper-security-migration.sh` has to be used to set ACLs on all existing nodes.
+`zookeeper-security-migration.sh` is part of Kafka distribution and can be found in the `bin` directory. To set the
+ACLs, run the following command (the Zookeeper URL and paths might need to be adapted):
+
+[source]
+----
+su - kafka
+cd /opt/kafka
+KAFKA_OPTS="-Djava.security.auth.login.config=./config/jaas.conf"; ./bin/zookeeper-security-migration.sh --zookeeper.acl=secure --zookeeper.connect=zoo1.my-domain.com:2181
+exit
+----
+
+For more info about the `zookeeper-security-migration.sh` tool run:
+
+[source]
+----
+/opt/kafka/bin/zookeeper-security-migration.sh --help
+----
+
+NOTE: Tha data stored in Zookeeper includes information such as topic names and their configuration. But it does not
+include any records sent and received using Kafka. Kafka in general considers the data stored in Zookeeper as
+non-confidential. In case these data are considered confidential (for example because topic names contain customer
+identification) the only way how to protect them is by isolating Zookeeper on the network level and allowing
+access only to Kafka brokers.
+
+==== Topic configuration
+
+When a producer or consumer tries to send or receive messages to / from a topic which doesn't exist, Kafka will, by default,
+automatically create that topic. This behavior is controlled by the configuration property `auto.create.topics.enable`
+which is set to `true` by default. To disable it, set `auto.create.topics.enable` to `false`:
+
+[source]
+----
+auto.create.topics.enable=false
+----
+
+Kafka also offers the possibility to disable deletion of topics. This is configured through the
+`delete.topic.enable` property, which is set to `true` by default (i.e. deleting topics is possible). When this property is set to
+`false` it will be not possible to delete topics and all attempts to delete topic will return success but the topic will
+not be deleted:
+
+[source]
+----
+delete.topic.enable=false
+----
+
+Auto-created topics will use the default topic configuration which can be specified in the broker properties file. However,
+when creating topics manually, their configuration can be specified at creation time. The main topic configuration
+options for manually created topics are:
+
+`cleanup.policy`:: Configures the retention policy which can be `delete` or `compact`. The `delete` policy will delete
+old records. The `compact` policy will enable log compaction. More information about log compaction can be found on
+http://kafka.apache.org/documentation/#compaction[Kafka website]. The default value is `delete`.
+`compression.type`:: Specifies the compression which is used for stored messages. Valid values are `gzip`, `snappy`,
+`lz4`, `uncompressed` (no compression) and `producer` (retain the compression codec used by the producer). The default value
+is `producer`.
+`max.message.bytes`:: Maximum size of a batch of messages allowed by the Kafka broker, in bytes. The default value is `1000012`.
+`min.insync.replicas`:: The minimum number of replicas which must be in sync for a write to be considered successful.
+The default value is `1`.
+`retention.ms`:: Maximum number of milliseconds for which log segments will be retained. Log segments older than this
+value will be deleted. The default value is `604800000` (7 days).
+`retention.bytes`:: Maximum number of bytes a partition will retain. Once the partition size grows over this limit, the
+oldest log segments will be deleted. Value of `-1` indicates no limit. The default value is `-1`.
+`segment.bytes`:: File size of a single commit log segment file in bytes. The default value is `1073741824` bytes (1 gibibyte).
+
+Similar options are available to configure the default settings for auto-created topics:
+
+`log.cleanup.policy`:: See `cleanup.policy` above.
+`compression.type`:: See `compression.type` above.
+`message.max.bytes`:: See `max.message.bytes` above.
+`min.insync.replicas`:: See `min.insync.replicas` above.
+`log.retention.ms`:: See `retention.ms` above.
+`log.retention.bytes`:: See `retention.bytes` above.
+`log.segment.bytes`:: See `segment.bytes` above.
+`default.replication.factor`:: Default replication factor for automatically created topics. Default value is `1`.
+`num.partitions`:: Default number of partitions for automatically created topics. Default value is `1`.
+
+===== Topic management
+
+The `kafka-topics.sh` tool can be used to create, list and delete topics. `kafka-topics.sh` is part of Kafka distribution.
+Following examples show how to create, list, describe and delete a topic:
+
+Adding topics::
++
+[source]
+bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --create --topic myTopic --partitions 50 --replication-factor 3 --config cleanup.policy=compact --config min.insync.replicas=2
+
+List topics::
++
+[source]
+bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --list
+
+Describing topic::
++
+[source]
+bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --describe --topic myTopic
+
+Deleting topic::
++
+[source]
+bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --delete --topic myTopic
+
+Another tool, `kafka-configs.sh`, can be used to see the topic configuration:
+
+[source]
+bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --entity-type topics --entity-name myTopic --describe
+
+The same tool can be used to change topic configuration as well:
+
+[source]
+bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --entity-type topics --entity-name myTopic --alter --add-config min.insync.replicas=1
+
+It can also be used to remove a specific configuration value. Once the configuration override is removed, the default
+value will be used:
+
+[source]
+bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181  --entity-type topics --entity-name myTopic --alter --delete-config min.insync.replicas
+
+===== Internal topics
+
+Kafka has several internal topics. These are used to store consumer offsets (`__consumer_offsets`) or transaction state
+(`__transaction_state`). These topics can be configured using dedicated options starting with prefix `offsets.topic.`
+and `transaction.state.log.`. The most important configuration options are:
+
+`offsets.topic.replication.factor`:: Number of replicas for `__consumer_offsets` topic. The default value is `3`.
+`offsets.topic.num.partitions`:: Number of partitions for `__consumer_offsets` topic. The default value is `50`.
+`transaction.state.log.replication.factor`:: Number of replicas for `__transaction_state` topic. The default value is `3`.
+`transaction.state.log.num.partitions`:: Number of partitions for `__transaction_state` topic. The default value is `50`.
+`transaction.state.log.min.isr`:: Minimum number of replicas that must acknowledge a write to `__transaction_state` topic
+to be considered successful. If this minimum cannot be met, then the producer will fail with an exception. The default value
+is `2`.
+
+==== Other configuration options
+
+A list of all available configuration options can be found on the
+http://kafka.apache.org/documentation/#configuration[Apache Kafka website].
+
+==== Logging
+
+Kafka broker is using _log4j_ as its logging infrastructure. Logging configuration is by default read from the
+`log4j.propeties` configuration file which should be placed either in the `/opt/kafka/config/` directory or
+in the classpath. The location and name of the configuration file can be changed using the Java property
+`log4j.configuration` which can be passed to Zookeeper using the `KAFKA_LOG4J_OPTS` environment variable:
+
+[source]
+----
+su - kafka
+export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/my/path/to/log4j.config"; /opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/kafka.properties
+----
+
+More information about _log4j_ configuration can be found in the
+http://logging.apache.org/log4j/1.2/manual.html[_log4j_ manual].
+
+=== Running Kafka
+
+Kafka broker can be started using a script, `kafka-server-start.sh`, which is part of the Kafka broker distribution. This
+script accepts the configuration file as parameter:
+
+[source]
+su - kafka
+/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/kafka.properties
+
+By default, `kafka-server-start.sh` starts Kafka in the foreground. Adding option `-daemon` will start Kafka as a background
+process. When the `-daemon` option is used, it has to be placed as a first parameter right after the
+`kafka-server-start.sh` script. Another option, `--override`, can be used to override properties in the configuration
+file. For example:
+
+[source]
+su - kafka
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/kafka.properties --override broker.id=1
+
+The `KAFKA_OPTS` environment variable can be used to pass additional JVM options to Kafka. This is useful, for example, for
+specifying the JAAS configuration file when SASL authentication is used:
+
+[source]
+su - kafka
+export KAFKA_OPTS="-Djava.security.auth.login.config=/opt/kafka/config/jaas.config"; \
+    /opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/kafka.properties
+
+The `kafka-server-stop.sh` script can be used to stop all running Kafka brokers:
+
+[source]
+su - kafka
+/opt/kafka/bin/kafka-server-stop.sh
+
+This script will find the PIDs of all running Kafka brokers and stop them.
