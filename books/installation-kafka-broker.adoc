@@ -34,7 +34,7 @@ sudo mkdir /opt/kafka
 ----
 . Download the latest stable version from Apache Kafka http://kafka.apache.org/downloads[download website]
 . Unpack the archive into `/opt/kafka` directory (replace `y.y` with the version of Scala and `x.x.x` for the downloaded
-version of Kafka - e.g. `2.12` and `1.0.0`)
+version of Kafka - for example `2.12` and `1.0.0`)
 +
 [source]
 ----
@@ -63,7 +63,7 @@ NOTE: A sample configuration file can be found in `config/server.properties` in 
 
 Each broker needs to be assigned a unique broker id. The broker id has to be an integer greater than or equal to 0. The
 broker id is used to identify the brokers after restarts or crashes and it is therefore important that the id is stable
-and doesn't change over time. The broker id is configured in the broker properties file:
+and does not change over time. The broker id is configured in the broker properties file:
 
 [source]
 ----
@@ -718,7 +718,7 @@ access only to Kafka brokers.
 
 ==== Topic configuration
 
-When a producer or consumer tries to send or receive messages to / from a topic which doesn't exist, Kafka will, by default,
+When a producer or consumer tries to send or receive messages to / from a topic which does not exist, Kafka will, by default,
 automatically create that topic. This behavior is controlled by the configuration property `auto.create.topics.enable`
 which is set to `true` by default. To disable it, set `auto.create.topics.enable` to `false`:
 
@@ -728,7 +728,7 @@ auto.create.topics.enable=false
 ----
 
 Kafka also offers the possibility to disable deletion of topics. This is configured through the
-`delete.topic.enable` property, which is set to `true` by default (i.e. deleting topics is possible). When this property is set to
+`delete.topic.enable` property, which is set to `true` by default (that is, deleting topics is possible). When this property is set to
 `false` it will be not possible to delete topics and all attempts to delete topic will return success but the topic will
 not be deleted:
 

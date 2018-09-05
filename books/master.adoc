@@ -21,7 +21,7 @@ Kafka Streams API:: API for writting _stream processor_ applications.
 image::overview.jpg[Overview]
 
 Kafka Broker is the central point connecting all these components. The broker itself uses Apache Zookeeper for
-storing configuration data and for cluster coordination (electing leaders, etc.). Before installing Apache Kafka, an Apache
+storing configuration data and for cluster coordination (electing leaders, and so on). Before installing Apache Kafka, an Apache
 Zookeeper cluster has to be ready.
 
 include::installation-zookeeper.adoc[]

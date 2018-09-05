@@ -1,7 +1,7 @@
 == Apache Zookeeper
 
-Apache Kafka uses Apache Zookeeper to store configuration data as well as for cluster coordination (e.g. leader
-election). To start and run a Kafka broker, Zookeeper needs to be installed and available.
+Apache Kafka uses Apache Zookeeper to store configuration data as well as for cluster coordination (leader
+election, for example). To start and run a Kafka broker, Zookeeper needs to be installed and available.
 
 === Installation on Linux
 
@@ -30,7 +30,7 @@ sudo passwd zookeeper
 sudo mkdir /opt/zookeeper
 ----
 . Download the latest stable version from Apache Zookeeper http://zookeeper.apache.org/releases.html[download website]
-. Unpack the archive into `/opt/zookeeper` directory (replace `x.x.x` for the downloaded version of Zookeeper - e.g. `3.4.11`)
+. Unpack the archive into `/opt/zookeeper` directory (replace `x.x.x` for the downloaded version of Zookeeper - for example, `3.4.11`)
 +
 [source]
 ----
@@ -121,7 +121,7 @@ in order to work. For example, a cluster with 3 nodes requires at least 2 of the
 tolerate 1 node being down. A cluster consisting of 5 nodes requires at least 3 nodes to be available. In other words, it
 can tolerate 2 nodes being down.
 
-TIP: Zookeeper can run in clusters with an even number of nodes. The additional node, however, doesn't increase the
+TIP: Zookeeper can run in clusters with an even number of nodes. The additional node, however, does not increase the
 resiliency of the cluster. A cluster with 4 nodes requires at least 3 nodes to be available and can tolerate only 1 node
 being down. Therefore it has exactly the same resiliency as a cluster with only 3 nodes.
 
@@ -165,7 +165,7 @@ server.3=172.17.0.3:2888:3888
 
 Each node in the Zookeeper cluster has to be assigned an `ID`. The `ID` has to be unique within the Zookeeper
 cluster. Each node's `ID` is configured in a file named `myid` which has
-to be stored in the `dataDir` folder (e.g. `/var/lib/zookeeper/`). The `myid` files should contain only a single line
+to be stored in the `dataDir` folder (for example `/var/lib/zookeeper/`). The `myid` files should contain only a single line
 with the `ID` written as text. The `ID` can be any integer from 1 to 255. This file has to be created manually on each
 cluster node. Using this file, each Zookeeper instance will use the configuration from the corresponding `server.` line in the
 configuration file to configure its listeners and use all other `server.` lines to identify other cluster members.
@@ -219,7 +219,7 @@ http://logging.apache.org/log4j/1.2/manual.html[_log4j_ manual].
 
 ==== SASL Authentication
 
-By default, Zookeeper doesn't use any form of authentication and allows anonymous connections. However it supports Java
+By default, Zookeeper does not use any form of authentication and allows anonymous connections. However it supports Java
 Authentication and Authorization Service (JAAS) which can be used to set up authentication using Simple Authentication
 and Security Layer (SASL). Zookeeper supports authentication using the DIGEST-MD5 SASL mechanism with locally stored
 credentials, or authentication using Kerberos.
@@ -229,7 +229,7 @@ same directory as the Zookeeper configuration (`/opt/zookeeper/conf/`). The reco
 using Zookeeper cluster, the JAAS configuration file has to be created on all cluster nodes.
 
 SASL Authentication is configured separately for server-to-server communication (communication between Zookeeper
-instances) and client-to-server communication (e.g. communication between Kafka and Zookeeper). Server-to-server
+instances) and client-to-server communication (that is, communication between Kafka and Zookeeper). Server-to-server
 authentication is relevant only for resilient Zookeeper clusters with multiple nodes.
 
 ===== Server-to-Server authentication
@@ -390,4 +390,4 @@ part of this guide
 
 ==== TLS
 
-The latest version of Zookeeper currently doesn't support TLS for encryption or authentication.
+The latest version of Zookeeper currently does not support TLS for encryption or authentication.
