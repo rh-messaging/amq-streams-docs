@@ -1,0 +1,30 @@
+// Module included in the following assemblies:
+//
+// assembly-getting-started.adoc
+
+[id='proc-stopping-amq-streams-{context}']
+
+= Stopping AMQ Streams
+
+.Prerequisites
+
+* AMQ Streams is downloaded and installed on the host
+* Zookeeper and Kafka are up and running
+
+.Procedure
+
+. Stop the Apache Kafka broker.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/kafka-server-start.sh
+----
+
+. Stop Apache Zookeeper.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/zookeeper-server-stop.sh
+----

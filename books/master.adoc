@@ -6,6 +6,8 @@ include::common/attributes.adoc[]
 
 include::assembly-overview.adoc[leveloffset=+1]
 
+include::assembly-getting-started.adoc[leveloffset=+1]
+
 // non-modularized content
 
 This guide describes how to install and configure Apache Zookeeper and Apache Kafka

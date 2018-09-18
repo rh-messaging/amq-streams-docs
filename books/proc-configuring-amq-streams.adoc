@@ -1,0 +1,32 @@
+// Module included in the following assemblies:
+//
+// assembly-getting-started.adoc
+
+[id='proc-configuring-amq-streams-{context}']
+
+= Configuring AMQ Streams
+
+.Prerequisites
+
+* AMQ Streams is downloaded and installed on the host
+
+.Procedure
+
+. Open the configuration file in your favourite editor.
+The configuration files are:
++
+* `/opt/kafka/config/zookeeper.properties` for Zookeeper
+* `/opt/kafka/config/server.properties` for Kafka broker
+
+. Edit the configuration options.
+The configuration files are in the Java properties format.
+Every configuration option should be on separate line in the following format:
++
+[source,subs=+quotes]
+_<option>_ = _<value>_
+
+. Save the changes
+
+. Restart the Zookeeper or Kafka broker
+
+. Apply the same procedure on all members of the cluster.

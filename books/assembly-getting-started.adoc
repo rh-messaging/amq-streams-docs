@@ -1,0 +1,22 @@
+= Getting started
+
+== AMQ Streams distribution
+
+AMQ Streams is distributed as single ZIP file.
+This ZIP file contains all AMQ Streams components:
+
+* Apache Zookeeper
+* Apache Kafka
+* Apache Kafka Connect
+* Apache Kafka Mirror Maker
+
+include::proc-downloading-and-installing-amq-streams.adoc[leveloffset=+1]
+
+include::proc-running-single-node-amq-streams-cluster.adoc[leveloffset=+1]
+
+include::proc-using-amq-streams.adoc[leveloffset=+1]
+
+include::proc-stopping-amq-streams.adoc[leveloffset=+1]
+
+include::proc-configuring-amq-streams.adoc[leveloffset=+1]
+
