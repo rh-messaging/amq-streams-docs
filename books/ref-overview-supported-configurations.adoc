@@ -1,0 +1,24 @@
+// Module included in the following assemblies:
+//
+// assembly-overview.adoc
+
+[id='overview-supported-configurations-{context}']
+= Supported Configurations
+
+In order to be running in a supported configuration, AMQ Streams must be running in one of the following JVM versions and on one of the supported operating systems.
+
+.List of supported Java Virtual Machines
+[width="80%",cols="3,^2",options="header"]
+|=========================================================
+|Java Virtual Machine |Version
+|OpenJDK |1.8
+|OracleJDK |1.8
+|IBM JDK |1.8
+|=========================================================
+
+.List of supported Operating Systems
+[width="80%",cols="3,^2,^2",options="header"]
+|=========================================================
+|Operating System |Architecture |Version
+|Red Hat Enterprise Linux |x86_64 |7.x
+|=========================================================
