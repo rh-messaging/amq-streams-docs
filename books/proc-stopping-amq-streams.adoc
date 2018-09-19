@@ -18,7 +18,7 @@
 [source,shell,subs=+quotes]
 ----
 su - kafka
-/opt/kafka/bin/kafka-server-start.sh
+/opt/kafka/bin/kafka-server-stop.sh
 ----
 
 . Stop Apache Zookeeper.

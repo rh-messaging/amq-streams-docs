@@ -24,6 +24,18 @@ Every configuration option should be on separate line in the following format:
 +
 [source,subs=+quotes]
 _<option>_ = _<value>_
++
+Lines starting with `#` or `!` will be treated as comments and will be ignored by AMQ Streams components.
++
+[source,subs=+quotes]
+# This is a comment
++
+Values can be split into multiple lines by using `\` directly before the newline / carriage return.
++
+[source,subs=+quotes]
+sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required \
+    username="bob" \
+    password="bobs-password";
 
 . Save the changes
 

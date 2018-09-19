@@ -32,3 +32,7 @@ su - kafka
 su - kafka
 /opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/kafka.properties
 ----
+
+.Additional resources
+
+* For more information about installing AMQ Streams, see xref:proc-downloading-and-installing-amq-streams-{context}[].
