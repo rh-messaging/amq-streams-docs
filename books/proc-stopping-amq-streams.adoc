@@ -21,6 +21,13 @@ su - kafka
 /opt/kafka/bin/kafka-server-stop.sh
 ----
 
+. Make sure that Apache Kafka is stoped.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep kafka
+----
+
 . Stop Apache Zookeeper.
 +
 [source,shell,subs=+quotes]

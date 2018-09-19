@@ -25,12 +25,26 @@ su - kafka
 /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
 ----
 
+. Make sure that Apache Zookeeper is running.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep zookeeper
+----
+
 . Start Apache Kafka with the default configuration file.
 +
 [source,shell,subs=+quotes]
 ----
 su - kafka
 /opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/kafka.properties
+----
+
+. Make sure that Apache Kafka is running.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep kafka
 ----
 
 .Additional resources
