@@ -16,7 +16,7 @@ Zookeeper:: Service for highly reliable distributed coordination.
 Kafka Broker:: Messaging broker responsible for delivering records from producing clients to consuming clients.
 Kafka Connect:: A toolkit for streaming data between Kafka brokers and other systems using _Connector_ plugins.
 Kafka Consumer and Producer APIs:: Java based APIs for producing and consuming messages to / from Kafka brokers.
-Kafka Streams API:: API for writting _stream processor_ applications.
+Kafka Streams API:: API for writing _stream processor_ applications.
 
 Kafka Broker is the central point connecting all these components. 
 The broker itself uses Apache Zookeeper for storing configuration data and for cluster coordination (electing leaders, and so on). 
