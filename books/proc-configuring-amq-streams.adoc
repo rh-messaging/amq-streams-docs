@@ -12,11 +12,11 @@
 
 .Procedure
 
-. Open the configuration file in your favourite editor.
-The configuration files are:
+. Open Zookeeper and Kafka broker configuration files in a text editor. 
+The configuration files are located at :
 +
-* `/opt/kafka/config/zookeeper.properties` for Zookeeper
-* `/opt/kafka/config/server.properties` for Kafka broker
+Zookeeper:: `/opt/kafka/config/zookeeper.properties`
+Kafka:: `/opt/kafka/config/server.properties`
 
 . Edit the configuration options.
 The configuration files are in the Java properties format.
@@ -41,4 +41,4 @@ sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule require
 
 . Restart the Zookeeper or Kafka broker
 
-. Apply the same procedure on all members of the cluster.
+. Repeat this procedure on all the nodes of the cluster.

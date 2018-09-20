@@ -4,7 +4,10 @@
 
 [id='proc-stopping-amq-streams-{context}']
 
-= Stopping AMQ Streams
+= Stopping the AMQ Streams services
+
+You can stop the Kafka and Zookeeper services by running a script. 
+All connections to the Kafka and Zookeeper services will be terminated.
 
 .Prerequisites
 
@@ -13,7 +16,7 @@
 
 .Procedure
 
-. Stop the Apache Kafka broker.
+. Stop the Kafka broker.
 +
 [source,shell,subs=+quotes]
 ----
@@ -21,14 +24,14 @@ su - kafka
 /opt/kafka/bin/kafka-server-stop.sh
 ----
 
-. Make sure that Apache Kafka is stoped.
+. Confirm that the Kafka broker is stopped.
 +
 [source,shell,subs=+quotes]
 ----
 jcmd | grep kafka
 ----
 
-. Stop Apache Zookeeper.
+. Stop Zookeeper.
 +
 [source,shell,subs=+quotes]
 ----

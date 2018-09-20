@@ -27,7 +27,9 @@ For example:
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic my-topic
 ----
 
-. Typing the message text and press Enter to send.
+. Type your message into the console where the producer is running.
+
+. Press Enter to send.
 
 . Press Ctrl+C to exit the Kafka console producer.
 
@@ -44,5 +46,7 @@ For example:
 ----
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic my-topic --from-beginning
 ----
+
+. Confirm that you see the incoming messages in the consumer console.
 
 . Press Crtl+C to exit the Kafka console consumer.
