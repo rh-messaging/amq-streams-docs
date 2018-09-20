@@ -3,7 +3,7 @@
 // assembly-overview.adoc
 
 [id='overview-document-conventions-{context}']
-= Document Conventions
+= Document conventions
 
 .Replaceables
 

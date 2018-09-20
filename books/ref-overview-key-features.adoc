@@ -3,7 +3,7 @@
 // assembly-overview.adoc
 
 [id='overview-key-features-{context}']
-= Key Features
+= Key features
 
 * Scalability and performance
 ** Designed for horizontal scalability
