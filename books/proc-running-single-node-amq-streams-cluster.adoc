@@ -49,4 +49,4 @@ jcmd | grep kafka
 
 .Additional resources
 
-* For more information about installing AMQ Streams, see xref:proc-downloading-and-installing-amq-streams-{context}[].
+* For more information about installing AMQ Streams, see xref:proc-installing-amq-streams-{context}[].

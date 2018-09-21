@@ -8,8 +8,8 @@
 
 .Prerequisites
 
-* Download the xref:proc-downloading-amq-streams[installation archive].
-* Review the xref:overview-supported-configurations[]
+* Download the xref:proc-downloading-amq-streams-{context}[installation archive].
+* Review the xref:overview-supported-configurations-{context}[]
 
 .Procedure
 
