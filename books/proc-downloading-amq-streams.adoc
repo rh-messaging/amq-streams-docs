@@ -1,0 +1,14 @@
+// Module included in the following assemblies:
+//
+// assembly-getting-started.adoc
+
+[id='proc-downloading-amq-streams-{context}']
+
+= Downloading an AMQ Streams Archive
+
+An archived distribution of AMQ Streams is available for download from the Red Hat website.
+You can download a copy of the distribution by following the steps below.
+
+.Procedure
+
+. Download AMQ Streams {ReleaseDownload}

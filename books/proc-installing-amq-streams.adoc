@@ -2,18 +2,14 @@
 //
 // assembly-getting-started.adoc
 
-[id='proc-downloading-and-installing-amq-streams-{context}']
+[id='proc-installing-amq-streams-{context}']
 
-= Downloading and Installing AMQ Streams
+= Installing AMQ Streams
 
 .Prerequisites
 
-* AMQ Streams is available for following platforms:
-+
-Red Hat Enterprise Linux 7 / x86_64
-* It requires following components to be installed:
-+
-Java Runtime Environment 8 (OpenJDK 8, OracleJDK 8, IBM JDK 8)
+* Download the xref:proc-downloading-amq-streams[installation archive].
+* Review the xref:overview-supported-configurations[]
 
 .Procedure
 
@@ -33,7 +29,7 @@ sudo passwd kafka
 sudo mkdir /opt/kafka
 ----
 
-. Download AMQ Streams {ReleaseDownload} and unpack the archive into `/opt/kafka` directory
+. Unpack the AMQ Streams ZIP into `/opt/kafka` directory
 +
 [source,shell,subs=+quotes]
 ----
