@@ -11,7 +11,7 @@ All connections to the Kafka and Zookeeper services will be terminated.
 
 .Prerequisites
 
-* AMQ Streams is downloaded and installed on the host
+* AMQ Streams is installed on the host
 * Zookeeper and Kafka are up and running
 
 .Procedure

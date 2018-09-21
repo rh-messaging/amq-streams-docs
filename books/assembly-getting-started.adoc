@@ -10,7 +10,9 @@ This ZIP file contains all AMQ Streams components:
 * Apache Kafka Connect
 * Apache Kafka Mirror Maker
 
-include::proc-downloading-and-installing-amq-streams.adoc[leveloffset=+1]
+include::proc-downloading-amq-streams.adoc[leveloffset=+1]
+
+include::proc-installing-amq-streams.adoc[leveloffset=+1]
 
 include::proc-running-single-node-amq-streams-cluster.adoc[leveloffset=+1]
 
