@@ -10,7 +10,7 @@
 = Overview of AMQ Streams
 
 Red Hat AMQ Streams is a massively-scalable, distributed, and high-performance data streaming platform based on the Apache Zookeeper and Apache Kafka projects.
-It consists from the following main components:
+It consists of the following main components:
 
 Zookeeper:: Service for highly reliable distributed coordination.
 Kafka Broker:: Messaging broker responsible for delivering records from producing clients to consuming clients.
