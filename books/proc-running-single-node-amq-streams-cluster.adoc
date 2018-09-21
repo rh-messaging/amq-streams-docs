@@ -53,7 +53,7 @@ log.dirs=/var/lib/kafka/
 [source,shell,subs=+quotes]
 ----
 su - kafka
-/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/kafka.properties
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
 ----
 
 . Make sure that Apache Kafka is running.
