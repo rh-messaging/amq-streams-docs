@@ -1,0 +1,44 @@
+// Module included in the following assemblies:
+//
+// assembly-getting-started.adoc
+
+[id='proc-configuring-amq-streams-{context}']
+
+= Configuring AMQ Streams
+
+.Prerequisites
+
+* AMQ Streams is downloaded and installed on the host
+
+.Procedure
+
+. Open Zookeeper and Kafka broker configuration files in a text editor. 
+The configuration files are located at :
++
+Zookeeper:: `/opt/kafka/config/zookeeper.properties`
+Kafka:: `/opt/kafka/config/server.properties`
+
+. Edit the configuration options.
+The configuration files are in the Java properties format.
+Every configuration option should be on separate line in the following format:
++
+[source,subs=+quotes]
+_<option>_ = _<value>_
++
+Lines starting with `#` or `!` will be treated as comments and will be ignored by AMQ Streams components.
++
+[source,subs=+quotes]
+# This is a comment
++
+Values can be split into multiple lines by using `\` directly before the newline / carriage return.
++
+[source,subs=+quotes]
+sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required \
+    username="bob" \
+    password="bobs-password";
+
+. Save the changes
+
+. Restart the Zookeeper or Kafka broker
+
+. Repeat this procedure on all the nodes of the cluster.

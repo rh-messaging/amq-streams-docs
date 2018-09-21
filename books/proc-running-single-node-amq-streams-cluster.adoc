@@ -1,0 +1,52 @@
+// Module included in the following assemblies:
+//
+// assembly-getting-started.adoc
+
+[id='proc-running-single-node-amq-streams-cluster-{context}']
+
+= Running single node AMQ Streams cluster
+
+This procedure will show you how to run a basic AMQ Streams cluster consisting of single Zookeeper and single Apache Kafka node both running on the same host.
+It is using the default configuration files for both Zookeeper and Kafka.
+
+WARNING: Single node AMQ Streams cluster does not provide realibility and high availability and is suitable only for development purposes.
+
+.Prerequisites
+
+* AMQ Streams is installed on the host
+
+.Running the cluster
+
+. Start Apache Zookeeper with the default configuration file.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+----
+
+. Make sure that Apache Zookeeper is running.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep zookeeper
+----
+
+. Start Apache Kafka with the default configuration file.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/kafka.properties
+----
+
+. Make sure that Apache Kafka is running.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep kafka
+----
+
+.Additional resources
+
+* For more information about installing AMQ Streams, see xref:proc-installing-amq-streams-{context}[].

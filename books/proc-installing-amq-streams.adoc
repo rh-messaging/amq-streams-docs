@@ -1,0 +1,60 @@
+// Module included in the following assemblies:
+//
+// assembly-getting-started.adoc
+
+[id='proc-installing-amq-streams-{context}']
+
+= Installing AMQ Streams
+
+.Prerequisites
+
+* Download the xref:proc-downloading-amq-streams-{context}[installation archive].
+* Review the xref:overview-supported-configurations-{context}[]
+
+.Procedure
+
+. Add new `kafka` user and group:
++
+[source,shell,subs=+quotes]
+----
+sudo groupadd kafka
+sudo useradd -g kafka kafka
+sudo passwd kafka
+----
+
+. Create directory `/opt/kafka`:
++
+[source,shell,subs=+quotes]
+----
+sudo mkdir /opt/kafka
+----
+
+. Unpack the AMQ Streams ZIP into `/opt/kafka` directory
++
+[source,shell,subs=+quotes]
+----
+sudo tar xvfz kafka_y.y-x.x.x.tar.gz -C /opt/kafka --strip-components=1
+----
+
+. Change the ownership of the `/opt/kafka` directory to the `kafka` user:
++
+[source,shell,subs=+quotes]
+----
+sudo chown -R kafka:kafka /opt/kafka
+----
+
+. Create directory `/var/lib/zookeeper` for storing Zookeeper data and set its ownership to the `kafka` user:
++
+[source,shell,subs=+quotes]
+----
+sudo mkdir /var/lib/zookeeper
+sudo chown -R kafka:kafka /var/lib/zookeeper
+----
+
+. Create directory `/var/lib/kafka` for storing Kafka data and set its ownership to the `kafka` user:
++
+[source,shell,subs=+quotes]
+----
+sudo mkdir /var/lib/kafka
+sudo chown -R kafka:kafka /var/lib/kafka
+----
