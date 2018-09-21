@@ -1,10 +1,12 @@
-= Apache Kafka Installation and Configuration Guide
-Version 0.1
-:sectnums:
-:toc: preamble
-:toclevels: 3
-:toc-title: My Content
-:imagesdir: ./img
+include::common/attributes.adoc[]
+
+:context: str
+
+= Using AMQ Streams
+
+include::assembly-overview.adoc[leveloffset=+1]
+
+// non-modularized content
 
 This guide describes how to install and configure Apache Zookeeper and Apache Kafka
 as non-containerized workloads on bare-metal or virtual machines.
