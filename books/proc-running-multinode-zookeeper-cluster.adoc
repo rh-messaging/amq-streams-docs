@@ -4,7 +4,7 @@
 
 [id='proc-running-multinode-zookeeper-cluster-{context}']
 
-= Running single node AMQ Streams cluster
+= Running multi-node Zookeeper cluster
 
 This procedure will show you how to configure and run Zookeeper as a multi-node cluster.
 
