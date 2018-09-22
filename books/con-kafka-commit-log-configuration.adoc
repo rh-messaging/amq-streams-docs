@@ -1,0 +1,25 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-kafka.adoc
+
+[id='con-kafka-commit-log-configuration-{context}']
+
+= Commit logs
+
+Apache Kafka stores all records it receives from producers in commit logs.
+Be aware that the commit logs contain the actual data, in the form of records, that Kafka is there to deliver, and should not be confused with application log files (which record whe the broker is doing).
+The commit logs are placed in one or more log directories.
+Log directories are configured using property field `log.dirs`.
+It should be set to `/var/lib/zookeeper` directory created during installation:
+
+[source]
+----
+log.dirs=/var/lib/zookeeper
+----
+
+If required for performance reasons, `log.dirs` can point to multiple directories, each placed on a different physical device to improve disk I/O performance:
+
+[source]
+----
+log.dirs=/var/lib/zookeeper1,/var/lib/zookeeper2,/var/lib/zookeeper3
+----
