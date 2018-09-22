@@ -15,7 +15,7 @@ This procedure will show you how to configure and run Zookeeper as a multi-node 
 .Running the cluster
 
 . Create the `myid` file in `/var/lib/zookeeper/`.
-Enter ID `1` for the first Zookeeper node, `2` for the second Zookeeper, node and so on.
+Enter ID `1` for the first Zookeeper node, `2` for the second Zookeeper node, and so on.
 +
 ----
 su - kafka
