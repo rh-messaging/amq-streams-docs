@@ -22,7 +22,7 @@ When a Kafka client wants to connect to a Kafka cluster, it first connects to a 
 The _bootstrap server_ is one of the cluster nodes.
 It will provide the client with a list of all other brokers which are part of the cluster and the client will connect to them individually.
 By default the _bootstrap server_ will provide the client with a list of nodes based on the `listeners` field.
-However, in some situations it might be useful to give the client a different set of addresss than given in the `listeners` property.
+However, in some situations it might be useful to give the client a different set of addresses than given in the `listeners` property.
 Such situation might be, for example, when additional network infrastructure, such as a proxy, is between the client and the broker, or when an external DNS name should be used instead of an IP address.
 For these situations, the broker allows to define the advertised addresses of the listeners in `advertised.listeners` configuration property.
 This property has the same format as the `listeners` property.
