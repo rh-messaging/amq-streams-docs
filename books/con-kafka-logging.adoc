@@ -8,7 +8,7 @@
 
 Kafka broker is using Log4j as its logging infrastructure.
 Logging configuration is by default read from the `log4j.propeties` configuration file which should be placed either in the `/opt/kafka/config/` directory or in the classpath.
-The location and name of the configuration file can be changed using the Java property `log4j.configuration` which can be passed to Zookeeper using the `KAFKA_LOG4J_OPTS` environment variable:
+The location and name of the configuration file can be changed using the Java property `log4j.configuration` which can be passed to Kafka using the `KAFKA_LOG4J_OPTS` environment variable:
 
 [source]
 ----
