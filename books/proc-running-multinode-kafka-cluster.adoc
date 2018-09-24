@@ -4,7 +4,7 @@
 
 [id='proc-running-multinode-kafka-cluster-{context}']
 
-= Running multi-node Kafka cluster
+= Running a multi-node Kafka cluster
 
 This procedure will show you how to configure and run Kafka as a multi-node cluster.
 
@@ -15,7 +15,7 @@ This procedure will show you how to configure and run Kafka as a multi-node clus
 
 .Running the cluster
 
-. Edit the Kafka configuration file `/opt/kafka/config/kafka.properties`.
+. Edit the Kafka configuration file `/opt/kafka/config/server.properties`.
 Set the `broker.id` field to `0` for the first broker, `1` for the second broker, and so on.
 Configure the details for connecting to Zookeeper in the `zookeeper.connect` option.
 Configure the Kafka listeners.
