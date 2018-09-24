@@ -17,7 +17,15 @@ WARNING: Single node AMQ Streams cluster does not provide realibility and high a
 
 .Running the cluster
 
-. Start Apache Zookeeper with the default configuration file.
+. Edit the Zookeeper configuration file `/opt/kafka/config/zookeeper.properties`.
+Set the `dataDir` option to `/var/lib/zookeeper/`.
++
+[source,properties,subs=+quotes]
+----
+dataDir=/var/lib/zookeeper/
+----
+
+. Start Zookeeper.
 +
 [source,shell,subs=+quotes]
 ----
@@ -32,15 +40,23 @@ su - kafka
 jcmd | grep zookeeper
 ----
 
-. Start Apache Kafka with the default configuration file.
+. Edit the Kafka configuration file `/opt/kafka/config/server.properties`.
+Set the `log.dirs` option to `/var/lib/kafka/`.
++
+[source,properties,subs=+quotes]
+----
+log.dirs=/var/lib/kafka/
+----
+
+. Start Kafka.
 +
 [source,shell,subs=+quotes]
 ----
 su - kafka
-/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/kafka.properties
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
 ----
 
-. Make sure that Apache Kafka is running.
+. Make sure that Kafka is running.
 +
 [source,shell,subs=+quotes]
 ----
@@ -50,3 +66,4 @@ jcmd | grep kafka
 .Additional resources
 
 * For more information about installing AMQ Streams, see xref:proc-installing-amq-streams-{context}[].
+* For more information about configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].
