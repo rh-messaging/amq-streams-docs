@@ -6,10 +6,10 @@
 
 = Broker ID
 
-Each broker needs to be assigned a unique broker id.
-The broker id has to be an integer greater than or equal to 0.
-The broker id is used to identify the brokers after restarts or crashes and it is therefore important that the id is stable and does not change over time.
-The broker id is configured in the broker properties file:
+Each broker needs to be assigned a unique broker ID.
+The broker ID has to be an integer greater than or equal to 0.
+The broker ID is used to identify the brokers after restarts or crashes and it is therefore important that the id is stable and does not change over time.
+The broker ID is configured in the broker properties file:
 
 [source]
 ----

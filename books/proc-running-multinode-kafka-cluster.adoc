@@ -30,6 +30,8 @@ listeners=REPLICATION://:9091,PLAINTEXT://:9092
 inter.broker.listener.name=REPLICATION
 log.dirs=/var/lib/zookeeper
 ----
++
+In a typical installation where each Kafka broker is running on identical hardware, only the `broker.id` configuration property will differ between each broker config.
 
 . Start the Kafka broker with the default configuration file.
 +
