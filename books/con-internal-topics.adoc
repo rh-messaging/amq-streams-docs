@@ -1,0 +1,33 @@
+// Module included in the following assemblies:
+//
+// assembly-topics.adoc
+
+[id='con-internal-topics-{context}']
+
+= Internal topics
+
+Kafka has several internal topics.
+These are used to store consumer offsets (`\__consumer_offsets`) or transaction state (`__transaction_state`).
+These topics can be configured using dedicated options starting with prefix `offsets.topic.` and `transaction.state.log.`. 
+The most important configuration options are:
+
+`offsets.topic.replication.factor`::
+Number of replicas for `__consumer_offsets` topic.
+The default value is `3`.
+
+`offsets.topic.num.partitions`::
+Number of partitions for `__consumer_offsets` topic.
+The default value is `50`.
+
+`transaction.state.log.replication.factor`::
+Number of replicas for `__transaction_state` topic.
+The default value is `3`.
+
+`transaction.state.log.num.partitions`::
+Number of partitions for `__transaction_state` topic.
+The default value is `50`.
+
+`transaction.state.log.min.isr`::
+Minimum number of replicas that must acknowledge a write to `__transaction_state` topic to be considered successful.
+If this minimum cannot be met, then the producer will fail with an exception.
+The default value is `2`.

@@ -1,0 +1,45 @@
+// Module included in the following assemblies:
+//
+// assembly-topics.adoc
+
+[id='proc-creating-a-topic-{context}']
+
+= Creating a topic
+
+The `kafka-topics.sh` tool can be used to manage topics.
+`kafka-topics.sh` is part of the AMQ Streams distribution and can be found in the `bin/` directory.
+
+.Prerequisites
+
+* AMQ Streams cluster is installed and running
+
+.Creating a topic
+
+. Create a topic using the `kafka-topics.sh` utility.
+Specify the Zookeeper URL in the `--zookeeper` options.
+Use `--create` option to specify that a new topic should be created.
+Topic name has to be specified in the `--topic` option.
+Number of partitions and replication factor have to be specified using `--partitions` and `--replication-factor` changes.
++
+You can also override some of the default topic configuration options using the option `--config`
+This option can be used multiple times to override different options.
++
+[source,shell,subs=+quotes]
+bin/kafka-topics.sh --zookeeper _<ZookeeperAddress>_ --create --topic _<TopicName>_ --partitions _<NumberOfPartitions>_ --replication-factor _<ReplicationFactor>_ --config _<Option1>_=_<Value1>_ --config _<Option2>_=_<Value2>_
++
+.Example of command to create a topic named `myTopic`
+[source,shell,subs=+quotes]
+bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --create --topic myTopic --partitions 50 --replication-factor 3 --config cleanup.policy=compact --config min.insync.replicas=2
+
+. Verify that the topic exists using `kafka-topics.sh`.
++
+[source,shell,subs=+quotes]
+bin/kafka-topics.sh --zookeeper  _<ZookeeperAddress>_ --describe --topic _<TopicName>_
++
+.Example of command to describe a topic named `myTopic`
+[source,shell,subs=+quotes]
+bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --describe --topic myTopic
+
+.Additional resources
+
+* For more information about topic configuration, see xref:con-topic-configuration-{context}[].

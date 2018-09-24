@@ -1,0 +1,21 @@
+= Topics
+
+include::con-partitions-and-topics.adoc[leveloffset=+1]
+
+include::con-message-retention.adoc[leveloffset=+1]
+
+include::con-topic-autocreation.adoc[leveloffset=+1]
+
+include::con-topic-deletion.adoc[leveloffset=+1]
+
+include::con-topic-configuration.adoc[leveloffset=+1]
+
+include::con-internal-topics.adoc[leveloffset=+1]
+
+include::proc-creating-a-topic.adoc[leveloffset=+1]
+
+include::proc-describing-a-topic.adoc[leveloffset=+1]
+
+include::proc-modifying-a-topic.adoc[leveloffset=+1]
+
+include::proc-deleting-a-topic.adoc[leveloffset=+1]

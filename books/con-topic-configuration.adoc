@@ -1,0 +1,60 @@
+// Module included in the following assemblies:
+//
+// assembly-topics.adoc
+
+[id='con-topic-configuration-{context}']
+
+= Topic configuration
+
+Auto-created topics will use the default topic configuration which can be specified in the broker properties file.
+However, when creating topics manually, their configuration can be specified at creation time.
+The main topic configuration options for manually created topics are:
+
+`cleanup.policy`::
+Configures the retention policy which can be `delete` or `compact`.
+The `delete` policy will delete old records. 
+The `compact` policy will enable log compaction.
+More information about log compaction can be found on link:http://kafka.apache.org/documentation/#compaction[Kafka website^]. 
+The default value is `delete`.
+
+`compression.type`::
+Specifies the compression which is used for stored messages.
+Valid values are `gzip`, `snappy`, `lz4`, `uncompressed` (no compression) and `producer` (retain the compression codec used by the producer).
+The default value is `producer`.
+
+`max.message.bytes`::
+Maximum size of a batch of messages allowed by the Kafka broker, in bytes.
+The default value is `1000012`.
+
+`min.insync.replicas`::
+The minimum number of replicas which must be in sync for a write to be considered successful.
+The default value is `1`.
+
+`retention.ms`::
+Maximum number of milliseconds for which log segments will be retained.
+Log segments older than this value will be deleted.
+The default value is `604800000` (7 days).
+
+`retention.bytes`::
+Maximum number of bytes a partition will retain.
+Once the partition size grows over this limit, the oldest log segments will be deleted.
+Value of `-1` indicates no limit.
+The default value is `-1`.
+
+`segment.bytes`::
+File size of a single commit log segment file in bytes.
+The default value is `1073741824` bytes (1 gibibyte).
+
+Similar options are available to configure in the Kafka broker the default settings for auto-created topics:
+
+`log.cleanup.policy`:: See `cleanup.policy` above.
+`compression.type`:: See `compression.type` above.
+`message.max.bytes`:: See `max.message.bytes` above.
+`min.insync.replicas`:: See `min.insync.replicas` above.
+`log.retention.ms`:: See `retention.ms` above.
+`log.retention.bytes`:: See `retention.bytes` above.
+`log.segment.bytes`:: See `segment.bytes` above.
+`default.replication.factor`:: Default replication factor for automatically created topics.
+Default value is `1`.
+`num.partitions`:: Default number of partitions for automatically created topics.
+Default value is `1`.
