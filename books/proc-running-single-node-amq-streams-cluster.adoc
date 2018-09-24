@@ -18,7 +18,7 @@ WARNING: Single node AMQ Streams cluster does not provide realibility and high a
 .Running the cluster
 
 . Edit the Zookeeper configuration file `/opt/kafka/config/zookeeper.properties`.
-Set the option `dataDir` to `/var/lib/zookeeper/`.
+Set the `dataDir` option to `/var/lib/zookeeper/`.
 +
 [source,properties,subs=+quotes]
 ----
@@ -41,14 +41,14 @@ jcmd | grep zookeeper
 ----
 
 . Edit the Kafka configuration file `/opt/kafka/config/server.properties`.
-Set the option `log.dirs` to `/var/lib/kafka/`.
+Set the `log.dirs` option to `/var/lib/kafka/`.
 +
 [source,properties,subs=+quotes]
 ----
 log.dirs=/var/lib/kafka/
 ----
 
-. Start Apache Kafka.
+. Start Kafka.
 +
 [source,shell,subs=+quotes]
 ----
@@ -56,7 +56,7 @@ su - kafka
 /opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
 ----
 
-. Make sure that Apache Kafka is running.
+. Make sure that Kafka is running.
 +
 [source,shell,subs=+quotes]
 ----
