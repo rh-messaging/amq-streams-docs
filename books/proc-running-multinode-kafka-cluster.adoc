@@ -10,8 +10,8 @@ This procedure will show you how to configure and run Kafka as a multi-node clus
 
 .Prerequisites
 
-* AMQ Streams is installed on all hosts which will be used as Kafka brokers.
-* Zookeeper cluster is configured and running.
+* AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
+* Zookeeper cluster is xref:proc-running-multinode-zookeeper-cluster-{context}[configured and running].
 
 .Running the cluster
 
