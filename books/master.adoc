@@ -12,6 +12,20 @@ include::assembly-configuring-zookeeper.adoc[leveloffset=+1]
 
 include::assembly-configuring-kafka.adoc[leveloffset=+1]
 
+include::ref-broker-config.adoc[leveloffset=+1]
+
+include::ref-topic-config.adoc[leveloffset=+1]
+
+include::ref-consumer-config.adoc[leveloffset=+1]
+
+include::ref-producer-config.adoc[leveloffset=+1]
+
+include::ref-admin-client-config.adoc[leveloffset=+1]
+
+include::ref-connect-config.adoc[leveloffset=+1]
+
+include::ref-streams-config.adoc[leveloffset=+1]
+
 // non-modularized content
 
 This guide describes how to install and configure Apache Zookeeper and Apache Kafka
@@ -43,3 +57,4 @@ include::installation-kafka-producer-and-consumer.adoc[]
 include::installation-kafka-streams.adoc[]
 
 include::installation-sample-configuration.adoc[]
+
