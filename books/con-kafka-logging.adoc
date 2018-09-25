@@ -16,5 +16,4 @@ su - kafka
 export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/my/path/to/log4j.config"; /opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties
 ----
 
-More information about Log4j configuration can be found in the
-link:http://logging.apache.org/log4j/1.2/manual.html[Log4j manual].
+For more information about Log4j configurations, see link:http://logging.apache.org/log4j/1.2/manual.html[Log4j manual].

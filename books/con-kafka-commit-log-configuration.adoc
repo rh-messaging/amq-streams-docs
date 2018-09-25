@@ -7,9 +7,8 @@
 = Commit logs
 
 Apache Kafka stores all records it receives from producers in commit logs.
-
-NOTE: The commit logs contain the actual data, in the form of records, that Kafka is there to deliver. 
-They should not be confused with application log files (which record what the broker is doing).
+The commit logs contain the actual data, in the form of records, that Kafka needs to deliver. 
+These are not the application log files which record what the broker is doing.
 
 The commit logs are placed in one or more log directories.
 Log directories are configured using property field `log.dirs`.

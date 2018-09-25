@@ -20,8 +20,7 @@ zookeeper.connect=zoo1.my-domain.com:2181,zoo2.my-domain.com:2181,zoo3.my-domain
 Kafka will use these addresses to connect to the Zookeeper cluster.
 With this configuration, all Kafka znodes will be created directly in the root of Zookeeper database.
 Therefore, such a Zookeeper cluster could be used only for a single Kafka cluster.
-A base (prefix) path can be specified in the Kafka configuration file, so that multiple Kafka clusters can use a single Zookeeper cluster.
-It can be added to the end of the Zookeeper connection string:
+To configure multiple Kafka clusters to use single Zookeeper cluster, specify a base (prefix) path at the end of the Zookeeper connection string in the Kafka configuration file:
 
 [source,ini]
 ----
