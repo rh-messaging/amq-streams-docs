@@ -6,10 +6,10 @@
 
 = Partitions and replicas
 
-Messages in AMQ Streams are always sent to / received from a topic.
+Messages in Kafka are always sent to / received from a topic.
 A topic is always split into one or more partitions.
 Partitions act as shards and every messages sent by a producer is always written only into single partition.
-Thanks to the sharding of messages into different partitions, AMQ Streams are easy to scale horizontally.
+Thanks to the sharding of messages into different partitions, Kafka brokers are easy to scale horizontally.
 
 Each partition can exist in one or more replicas.
 The replicas will keep copies of the messages.
