@@ -7,7 +7,7 @@
 = Describing a topic
 
 The `kafka-topics.sh` tool can be used to manage topics.
-`kafka-topics.sh` is part of the AMQ Streams distribution and can be found in the `bin/` directory.
+`kafka-topics.sh` is part of the AMQ Streams distribution and can be found in the `bin` directory.
 
 .Prerequisites
 

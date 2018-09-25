@@ -7,7 +7,7 @@
 = Modifying a topic
 
 The `kafka-configs.sh` tool can be used to modify topic configurations.
-`kafka-configs.sh` is part of the AMQ Streams distribution and can be found in the `bin/` directory.
+`kafka-configs.sh` is part of the AMQ Streams distribution and can be found in the `bin` directory.
 
 .Prerequisites
 

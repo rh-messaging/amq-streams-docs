@@ -43,6 +43,7 @@ The default value is `-1`.
 
 `segment.bytes`::
 File size of a single commit log segment file in bytes.
+When the segment reaches its size, a new segment will be started.
 The default value is `1073741824` bytes (1 gibibyte).
 
 Similar options are available to configure in the Kafka broker the default settings for auto-created topics:

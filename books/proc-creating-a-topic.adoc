@@ -7,7 +7,7 @@
 = Creating a topic
 
 The `kafka-topics.sh` tool can be used to manage topics.
-`kafka-topics.sh` is part of the AMQ Streams distribution and can be found in the `bin/` directory.
+`kafka-topics.sh` is part of the AMQ Streams distribution and can be found in the `bin` directory.
 
 .Prerequisites
 
@@ -21,7 +21,7 @@ Use `--create` option to specify that a new topic should be created.
 Topic name has to be specified in the `--topic` option.
 Number of partitions and replication factor have to be specified using `--partitions` and `--replication-factor` changes.
 +
-You can also override some of the default topic configuration options using the option `--config`
+You can also override some of the default topic configuration options using the option `--config`.
 This option can be used multiple times to override different options.
 +
 [source,shell,subs=+quotes]

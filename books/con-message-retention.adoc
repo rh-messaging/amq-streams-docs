@@ -20,6 +20,6 @@ The messages which are passed their retention policy will be deleted only when n
 New log segments are created when the previous log segment gets full.
 Additionally, users can request new segments to be created periodically.
 
-Additionally, AMQ Streams supports compacting policy.
-With compacting policy, the broker will always try to keep the latest message for given key available.
+Additionally, Kafka brokers supports compacting policy.
+With compacting policy, the broker will always try to keep the last message for given key available.
 Older messages with the same key will be deleted.

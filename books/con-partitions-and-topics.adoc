@@ -6,7 +6,7 @@
 
 = Partitions and replicas
 
-Messages in AMQ Streams are always sent to / recieved from a topic.
+Messages in AMQ Streams are always sent to / received from a topic.
 A topic is always split into one or more partitions.
 Partitions act as shards and every messages sent by a producer is always written only into single partition.
 Thanks to the sharding of messages into different partitions, AMQ Streams are easy to scale horizontally.
@@ -17,7 +17,7 @@ To configure the number of replicas, you have to configure the _replication fact
 _Replication factor_ defines the number of copies which will be held within the cluster.
 One of the replicas for given partition will be elected as a leader.
 The leader replica will be used by the producers to send new messages and by the consumer to consume messages.
-The other replicas will be follower replicas
+The other replicas will be follower replicas.
 The follower replicas will keep copies of the messages.
 
 NOTE: The number of replicas in the replication factor includes the leader as well as the follower replicas.
