@@ -8,6 +8,7 @@
 
 Auto-created topics will use the default topic configuration which can be specified in the broker properties file.
 However, when creating topics manually, their configuration can be specified at creation time.
+It is also possible to change a topic's configuration after it has been created.
 The main topic configuration options for manually created topics are:
 
 `cleanup.policy`::
@@ -42,11 +43,11 @@ Value of `-1` indicates no limit.
 The default value is `-1`.
 
 `segment.bytes`::
-File size of a single commit log segment file in bytes.
+The maximum file size of a single commit log segment file in bytes.
 When the segment reaches its size, a new segment will be started.
 The default value is `1073741824` bytes (1 gibibyte).
 
-Similar options are available to configure in the Kafka broker the default settings for auto-created topics:
+The defaults for auto-created topics can be specified in the Kafka broker configuration using similar options:
 
 `log.cleanup.policy`:: See `cleanup.policy` above.
 `compression.type`:: See `compression.type` above.

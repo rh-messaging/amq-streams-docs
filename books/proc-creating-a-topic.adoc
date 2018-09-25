@@ -16,10 +16,10 @@ The `kafka-topics.sh` tool can be used to manage topics.
 .Creating a topic
 
 . Create a topic using the `kafka-topics.sh` utility.
-Specify the Zookeeper URL in the `--zookeeper` options.
+Specify the Zookeeper URL in the `--zookeeper` option.
 Use `--create` option to specify that a new topic should be created.
-Topic name has to be specified in the `--topic` option.
-Number of partitions and replication factor have to be specified using `--partitions` and `--replication-factor` changes.
+The topic name has to be specified in the `--topic` option.
+The number of partitions and replication factor have to be specified using `--partitions` and `--replication-factor` options.
 +
 You can also override some of the default topic configuration options using the option `--config`.
 This option can be used multiple times to override different options.
@@ -27,18 +27,18 @@ This option can be used multiple times to override different options.
 [source,shell,subs=+quotes]
 bin/kafka-topics.sh --zookeeper _<ZookeeperAddress>_ --create --topic _<TopicName>_ --partitions _<NumberOfPartitions>_ --replication-factor _<ReplicationFactor>_ --config _<Option1>_=_<Value1>_ --config _<Option2>_=_<Value2>_
 +
-.Example of command to create a topic named `myTopic`
+.Example of the command to create a topic named `mytopic`
 [source,shell,subs=+quotes]
-bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --create --topic myTopic --partitions 50 --replication-factor 3 --config cleanup.policy=compact --config min.insync.replicas=2
+bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --create --topic mytopic --partitions 50 --replication-factor 3 --config cleanup.policy=compact --config min.insync.replicas=2
 
 . Verify that the topic exists using `kafka-topics.sh`.
 +
 [source,shell,subs=+quotes]
 bin/kafka-topics.sh --zookeeper  _<ZookeeperAddress>_ --describe --topic _<TopicName>_
 +
-.Example of command to describe a topic named `myTopic`
+.Example of the command to describe a topic named `mytopic`
 [source,shell,subs=+quotes]
-bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --describe --topic myTopic
+bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --describe --topic mytopic
 
 .Additional resources
 

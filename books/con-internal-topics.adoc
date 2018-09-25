@@ -8,7 +8,7 @@
 
 Kafka has several internal topics.
 These are used to store consumer offsets (`\__consumer_offsets`) or transaction state (`__transaction_state`).
-These topics can be configured using dedicated options starting with prefix `offsets.topic.` and `transaction.state.log.`. 
+These topics can be configured using dedicated Kafka broker configuration options starting with prefix `offsets.topic.` and `transaction.state.log.`. 
 The most important configuration options are:
 
 `offsets.topic.replication.factor`::
