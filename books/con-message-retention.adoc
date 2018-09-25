@@ -21,5 +21,8 @@ New log segments are created when the previous log segment gets full.
 Additionally, users can request new segments to be created periodically.
 
 Additionally, Kafka brokers supports compacting policy.
-With compacting policy, the broker will always try to keep the last message for given key available.
-Older messages with the same key will be deleted.
+
+With compacting policy, the broker will always keep only the last message for each key.
+The older messages with the same key will be removed form the partition.
+Because compacting is a periodicaly executed action, it doesn't happen immediately when the new message with the same key are sent to the partition. 
+Instead it might take some time until the older messages are removed.
