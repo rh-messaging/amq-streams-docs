@@ -10,8 +10,9 @@ Apache Kafka stores all records it receives from producers in commit logs.
 The commit logs contain the actual data, in the form of records, that Kafka needs to deliver. 
 These are not the application log files which record what the broker is doing.
 
-The commit logs are placed in one or more log directories.
-Log directories are configured using property field `log.dirs`.
+.Log directories
+
+You can configure log directories using the log.dirs property to store commit logs in multiple log directories.
 It should be set to `/var/lib/zookeeper` directory created during installation:
 
 [source]
@@ -19,7 +20,8 @@ It should be set to `/var/lib/zookeeper` directory created during installation:
 log.dirs=/var/lib/zookeeper
 ----
 
-If required for performance reasons, `log.dirs` can point to multiple directories, each placed on a different physical device to improve disk I/O performance:
+For performance reasons, you can configure log.dirs to multiple directories and place each of them on a different physical device to improve disk I/O performance.
+For example:
 
 [source]
 ----
