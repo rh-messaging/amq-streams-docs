@@ -8,13 +8,14 @@
 
 The most important Zookeepr configuration options are:
 
-`tickTime`:: Zookeeper's basic time unit (in milliseconds) used for heartbeats and session timeouts (for example, minimum session timeout will be two ticks).
+`tickTime`:: Zookeeper’s basic time unit in milliseconds.
+It is used for heartbeats and session timeouts.
+For example, minimum session timeout will be two ticks.
 `dataDir`:: The directory where Zookeeper stores its transaction log and snapshots of its in-memory database. This should be set to the `/var/lib/zookeeper/` directory created during installation.
 `clientPort`:: Port number where clients can connect. Defaults to `2181`.
 
-NOTE: A sample configuration file can be found in `config/zookeeper.properties` in the AMQ Streams installation directory.
-
-TIP: Consider putting the `dataDir` directory on separate disk device to minimize the latency in Zookeeper.
+An example zookeeper configuration file `config/zookeeper.properties` is located in the AMQ Streams installation directory.
+It is recommended to place the `dataDir` directory on a separate disk device to minimize the latency in Zookeeper.
 
 Zookeeper configuration file should be located in `/opt/kafka/config/zookeeper.properties`. 
 A basic example of the configuration file can be found below. 
