@@ -1,0 +1,123 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-zookeeper-authentication.adoc
+
+[id='con-zookeeper-sasl-authentication-{context}']
+
+= SASL Authentication
+
+JAAS is configured using a separate configuration file.
+It is recommended to place the JAAS configuration file in the same directory as the Zookeeper configuration (`/opt/kafka/config/`).
+The recommended file name is `zookeeper-jaas.conf`.
+When using Zookeeper cluster with multiple nodes, the JAAS configuration file has to be created on all cluster nodes.
+
+JAAS is configured using contexts.
+Separate parts such se server and client are always configured with a separate _context_.
+The context is configuration that has the following format:
+
+[source]
+----
+ContextName {
+       param1
+       param2;
+};
+----
+
+SASL Authentication is configured separately for server-to-server communication (communication between Zookeeper instances) and client-to-server communication (that is, communication between Kafka and Zookeeper). Server-to-server authentication is relevant only for Zookeeper clusters with multiple nodes.
+
+.Server-to-Server authentication
+
+For server-to-server authentication, the JAAS configuration file contains both parts:
+
+* The server configuration
+* The client configuration 
+
+When using DIGEST-MD5 SASL mechanism the `QuorumServer` context is used to configure the authentication server.
+It needs to contain all the usernames and passwords in unencrypted form which will be allowed to connect.
+A second context, `QuorumLearner`, has to be configured for the client which is built into Zookeeper.
+It again contains the password in unencrypted form.
+An example of the JAAS configuration file for DIGEST-MD5 mechanism can be found below:
+
+[source]
+----
+QuorumServer {
+       org.apache.zookeeper.server.auth.DigestLoginModule required
+       user_zookeeper="123456";
+};
+
+QuorumLearner {
+       org.apache.zookeeper.server.auth.DigestLoginModule required
+       username="zookeeper"
+       password="123456";
+};
+----
+
+In addition to the JAAS configuration file, the server-to-server authentication also needs to be enabled in  the regular Zookeeper configuration file.
+To enable it, following options have to be specifed:
+
+[source]
+----
+quorum.auth.enableSasl=true
+quorum.auth.learnerRequireSasl=true
+quorum.auth.serverRequireSasl=true
+quorum.auth.learner.loginContext=QuorumLearner
+quorum.auth.server.loginContext=QuorumServer
+quorum.cnxn.threads.size=20
+----
+
+The JAAS configuration file has to be passed to the Zookeeper server as a Java property. 
+The `EXTRA_ARGS` environment variable can be used for that:
+
+[source]
+----
+su - kafka
+export EXTRA_ARGS="-Djava.security.auth.login.config=/opt/kafka/config/zookeeper-jaas.conf"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+----
+
+More details about server-to-server authentication can be found on the Zookeeper
+https://cwiki.apache.org/confluence/display/ZOOKEEPER/Server-Server+mutual+authentication[wiki].
+
+.Client-to-Server authentication
+
+Client-to-server authentication is configured in the same JAAS file as the server-to-server authentication.
+However, unlike the server-to-server authentication, it contains only the server part.
+The client part of the configuration has to be done in the client.
+How to configure a Kafka broker to connect to Zookeeper using authentication is described in the Kafka installation part of this guide.
+
+Another context has to be added to the JAAS configuration file to configure client-to-server authentication.
+This context has to be named `Server`.
+For DIGEST-MD5 mechanism it configures all usernames and passwords:
+
+[source]
+----
+Server {
+    org.apache.zookeeper.server.auth.DigestLoginModule required
+    user_super="123456"
+    user_kafka="123456"
+    user_someoneelse="123456";
+};
+----
+
+After configuring the JAAS context, client-to-server authentication needs to be enabled in the Zookeeper configuration file.
+To enable it following lines should be added:
+
+[source]
+----
+requireClientAuthScheme=sasl
+authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+authProvider.2=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+authProvider.3=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+----
+
+The `authProvider._<ID>_` property has to be added for every server which is part of the Zookeeper cluster.
+
+The JAAS configuration file has to be passed to the Zookeeper server as a Java property. 
+The `EXTRA_ARGS` environment variable can be used for that:
+
+[source]
+----
+su - kafka
+export EXTRA_ARGS="-Djava.security.auth.login.config=/opt/kafka/config/zookeeper-jaas.conf"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+----
+
+For more information about configuring Zookeeper authentication in Kafka brokers, see xref:assembly-kafka-zookeeper-authentication-{context}[].

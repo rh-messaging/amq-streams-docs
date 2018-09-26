@@ -1,0 +1,52 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-zookeeper-authentication.adoc
+
+[id='proc-kafka-enable-zookeeper-auth-{context}']
+
+= Enabling Zookeeper authentication
+
+This procedure will show you how to enable authentication using the SASL DIGEST-MD5 mechanism when connecting to Zookeeper.
+
+.Prerequisites
+
+* Client-to-server authentication is xref:assembly-kafka-zookeeper-authentication-{context}-{context}[enabled] in Zookeeper
+
+.Enabling SASL DIGEST-MD5 authentication
+
+. On all Kafka broker nodes, create or edit the `/opt/kafka/config/jaas.conf` JAAS configuration file and add the following context:
++
+[source,subs=+quotes]
+----
+Client {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    username="_<Username1>_"
+    password="_<Password>_";
+};
+----
++
+The username and password should be the same as configured in Zookeeper.
++
+Following example shows the `Client` context:
++
+[source,subs=+quotes]
+----
+Client {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    username="kafka"
+    password="123456";
+};
+----
+
+. Restart all Kafka broker nodes one by one.
+To pass the JAAS configuration to Kafka brokers, use the `KAFKA_OPTS` environment variable.
++
+[source]
+----
+su - kafka
+export KAFKA_OPTS="-Djava.security.auth.login.config=/opt/kafka/config/jaas.conf"; /opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+----
+
+.Additional resources
+
+* For more information about configuring client-to-server authentication in Zookeeper, see xref:assembly-configuring-zookeeper-authentication-{context}[].
