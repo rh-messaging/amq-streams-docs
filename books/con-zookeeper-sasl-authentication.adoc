@@ -9,10 +9,10 @@
 JAAS is configured using a separate configuration file.
 It is recommended to place the JAAS configuration file in the same directory as the Zookeeper configuration (`/opt/kafka/config/`).
 The recommended file name is `zookeeper-jaas.conf`.
-When using Zookeeper cluster with multiple nodes, the JAAS configuration file has to be created on all cluster nodes.
+When using a Zookeeper cluster with multiple nodes, the JAAS configuration file has to be created on all cluster nodes.
 
 JAAS is configured using contexts.
-Separate parts such se server and client are always configured with a separate _context_.
+Separate parts such as the server and client are always configured with a separate _context_.
 The context is configuration that has the following format:
 
 [source]
@@ -33,9 +33,9 @@ For server-to-server authentication, the JAAS configuration file contains both p
 * The client configuration 
 
 When using DIGEST-MD5 SASL mechanism the `QuorumServer` context is used to configure the authentication server.
-It needs to contain all the usernames and passwords in unencrypted form which will be allowed to connect.
+It needs to contain all the usernames which will be allowed to connect together with their passwords in unencrypted form.
 A second context, `QuorumLearner`, has to be configured for the client which is built into Zookeeper.
-It again contains the password in unencrypted form.
+It also contains the password in unencrypted form.
 An example of the JAAS configuration file for DIGEST-MD5 mechanism can be found below:
 
 [source]

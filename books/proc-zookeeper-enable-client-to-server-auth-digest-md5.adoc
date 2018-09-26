@@ -32,7 +32,7 @@ The file can contain multiple users.
 But only one additional user is required by Kafka brokers.
 The recommended name for the Kafka user is `kafka`.
 +
-Following example shows the `Server` context for client-to-server authentication:
+The following example shows the `Server` context for client-to-server authentication:
 +
 [source,subs=+quotes]
 ----

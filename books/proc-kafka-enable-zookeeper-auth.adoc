@@ -20,7 +20,7 @@ This procedure will show you how to enable authentication using the SASL DIGEST-
 ----
 Client {
     org.apache.kafka.common.security.plain.PlainLoginModule required
-    username="_<Username1>_"
+    username="_<Username>_"
     password="_<Password>_";
 };
 ----
