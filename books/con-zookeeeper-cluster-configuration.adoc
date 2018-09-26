@@ -6,24 +6,24 @@
 
 = Zookeeper cluster configuration
 
-For production use cases it is strongly recommended to run a cluster of replicated Zookeeper instances.
-
-TIP: Zookeeper clusters are sometimes also refer to as _ensembles_.
+For reliable ZooKeeper service, you should deploy ZooKeeper in a cluster.
+Hence, for production use cases, you must run a cluster of replicated Zookeeper instances.
+Zookeeper clusters are also referred as ensembles.
 
 Zookeeper clusters usually consist of an odd number of nodes.
-Zookeeper requires a majority of cluster nodes to be available in order to work. 
-For example, a cluster with 3 nodes requires at least 2 of them to be up and running. 
-In other words, it can tolerate 1 node being down. 
-A cluster consisting of 5 nodes requires at least 3 nodes to be available. 
-In other words, it can tolerate 2 nodes being down.
-A cluster consisting of 7 nodes requires at least 4 nodes to be available. 
-In other words, it can tolerate 3 nodes being down.
+Zookeeper requires a majority of the nodes in the cluster should be up and running.
+For example, a cluster with three nodes, at least two of them must be up and running.
+This means it can tolerate one node being down.
+A cluster consisting of five nodes, at least three nodes must be available.
+This means it can tolerate two nodes being down.
+A cluster consisting of seven nodes, at least four nodes must be available.
+This means it can tolerate three nodes being down.
 Having more nodes in the Zookeeper cluster delivers better resiliency and reliability of the whole cluster.
 
-TIP: Zookeeper can run in clusters with an even number of nodes. 
+Zookeeper can run in clusters with an even number of nodes. 
 The additional node, however, does not increase the resiliency of the cluster. 
-A cluster with 4 nodes requires at least 3 nodes to be available and can tolerate only 1 node being down.
-Therefore it has exactly the same resiliency as a cluster with only 3 nodes.
+A cluster with four nodes requires at least three nodes to be available and can tolerate only one node being down.
+Therefore it has exactly the same resiliency as a cluster with only three nodes.
 
 The different Zookeeper nodes should be ideally placed into different data centers or network segments.
 Increasing the number of Zookeeper nodes increases the workload spent on cluster synchronization. 
@@ -36,19 +36,19 @@ Replicated Zookeeper configuration supports all configuration options supported 
 Additional options are added for the clustering configuration:
 
 `initLimit`:: Amount of time to allow followers to connect and sync to the cluster leader. 
-The time is specified as a number of ticks (see the `timeTick` option for more details).
+The time is specified as a number of ticks (see the xref:con-zookeeper-basic-configuration-{context}[`timeTick` option] for more details).
 `syncLimit`:: Amount of time for which followers can be behind the leader.
-The time is specified as a number of ticks (see the `timeTick` option for more details).
+The time is specified as a number of ticks (see the xref:con-zookeeper-basic-configuration-{context}[`timeTick` option] for more details).
 
 In addition to the options above, every configuration file should contain a list of servers which should be members of the Zookeeper cluster. 
 The server records should be specified in the format `server.id=hostname:port1:port2`, where:
 
-`id`:: is the ID of the Zookeeper cluster node.
-`hostname`:: is the hostname or IP address where the node listens for connections.
-`port1`:: is the number of the port used for intra-cluster communication.
-`port2`:: is the number of the port used for leader election.
+`id`:: The ID of the Zookeeper cluster node.
+`hostname`:: The hostname or IP address where the node listens for connections.
+`port1`:: The port number used for intra-cluster communication.
+`port2`:: The port number used for leader election.
 
-The following example shows what the configuration file for a Zookeeper cluster with 3 nodes might look like:
+The following is an example configuration file of a Zookeeper cluster with three nodes:
 
 [source,ini]
 ----
@@ -63,10 +63,12 @@ server.2=172.17.0.2:2888:3888
 server.3=172.17.0.3:2888:3888
 ----
 
-Each node in the Zookeeper cluster has to be assigned an `ID`. 
-The `ID` has to be unique within the Zookeeper cluster. 
-Each node's `ID` is configured in a file named `myid` which has to be stored in the `dataDir` folder (for example `/var/lib/zookeeper/`). 
-The `myid` files should contain only a single line with the `ID` written as text. 
-The `ID` can be any integer from 1 to 255. 
-This file has to be created manually on each cluster node. Using this file, each Zookeeper instance will use the configuration from the corresponding `server.` line in the configuration file to configure its listeners.
+Each node in the Zookeeper cluster has to be assigned with a unique `ID`.
+Each node’s `ID` has to be configured in `myid` file and stored in the `dataDir` folder like `/var/lib/zookeeper/`.
+The `myid` files should contain only a single line with the written `ID` as text. 
+The `ID` can be any integer from 1 to 255.
+You must manually create this file on each cluster node.
+Using this file, each Zookeeper instance will use the configuration from the corresponding `server.` line in the configuration file to configure its listeners.
 It will also use all other `server.` lines to identify other cluster members.
+
+In the above example, there are three nodes, so each one will have a different `myid` with values `1`, `2`, and `3` respectively.

@@ -2,16 +2,16 @@
 //
 // assembly-configuring-zookeeper.adoc
 
-[id='con-zookeeper-additional-configuration-{context}']
+[id='ref-zookeeper-additional-configuration-{context}']
 
 = Additional configuration options
 
-Setting the following options should be considered, depending on the exact use case:
+You can set the following options based on your use case:
 
-`maxClientCnxns`:: Miximum number of simultaneously connected clients.
+`maxClientCnxns`:: The maximum number of concurrent client connections to a single member of the ZooKeeper cluster.
 `autopurge.snapRetainCount`:: Number of snapshots of Zookeeper's in-memory database which will be retained.
 Default value is `3`.
-`autopurge.purgeInterval`:: Interval, in hours, for purging snapshots. 
-Default value is `0` (auto-purging disabled).
+`autopurge.purgeInterval`:: The time interval in hours for purging snapshots.
+The default value is `0` and this option is disabled.
 
 All available configuration options can be found in link:http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance[Zookeeper documentation^].

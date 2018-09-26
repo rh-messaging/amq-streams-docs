@@ -29,13 +29,14 @@ su - kafka
 echo "1" > /var/lib/zookeeper/myid
 ----
 
-. Edit the Zookeeper configuration file `/opt/kafka/config/zookeeper.properties`.
-Set the option `dataDir` to `/var/lib/zookeeper/`.
-Configure the options `initLimit` and `syncLimit`.
-Add a list of all Zookeeper nodes.
+. Edit the Zookeeper `/opt/kafka/config/zookeeper.properties` configuration file for the following:
++
+* Set the option `dataDir` to `/var/lib/zookeeper/`.
++ Configure the `initLimit` and `syncLimit` options.
+* Add a list of all Zookeeper nodes.
 The list should include also the current node.
 +
-.Example configuration for a node of Zookeeper cluster with 5 members
+.Example configuration for a node of Zookeeper cluster with five members
 [source,ini]
 ----
 timeTick=2000
@@ -51,7 +52,7 @@ server.4=172.17.0.4:2888:3888
 server.5=172.17.0.5:2888:3888
 ----
 
-. Start Apache Zookeeper with the default configuration file.
+. Start Zookeeper with the default configuration file.
 +
 [source,shell,subs=+quotes]
 ----
@@ -59,7 +60,7 @@ su - kafka
 /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
 ----
 
-. Make sure that Apache Zookeeper is running.
+. Verify that the Zookeeper is running.
 +
 [source,shell,subs=+quotes]
 ----
@@ -68,8 +69,7 @@ jcmd | grep zookeeper
 
 . Repeat this procedure on all the nodes of the cluster.
 
-. Once all nodes of the clusters are up and running, you can verify that all nodes are members of the cluster.
-You can do it by sending a `stat` command to each of the nodes using `ncat` utility.
+. Once all nodes of the clusters are up and running, verify that all nodes are members of the cluster by sending a `stat` command to each of the nodes using `ncat` utility.
 +
 .Use ncat stat to check the node status
 [source,shell,subs=+quotes]
