@@ -20,12 +20,16 @@ include::ref-topic-config.adoc[leveloffset=+1]
 
 [appendix]
 include::ref-consumer-config.adoc[leveloffset=+1]
+
 [appendix]
 include::ref-producer-config.adoc[leveloffset=+1]
+
 [appendix]
 include::ref-admin-client-config.adoc[leveloffset=+1]
+
 [appendix]
 include::ref-connect-config.adoc[leveloffset=+1]
+
 [appendix]
 include::ref-streams-config.adoc[leveloffset=+1]
 
