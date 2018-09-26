@@ -47,6 +47,8 @@ The maximum file size of a single commit log segment file in bytes.
 When the segment reaches its size, a new segment will be started.
 The default value is `1073741824` bytes (1 gibibyte).
 
+For list of all supported topic configuration options, see xref:topic-configuration-parameters-{context}[].
+
 The defaults for auto-created topics can be specified in the Kafka broker configuration using similar options:
 
 `log.cleanup.policy`:: See `cleanup.policy` above.
@@ -60,3 +62,5 @@ The defaults for auto-created topics can be specified in the Kafka broker config
 Default value is `1`.
 `num.partitions`:: Default number of partitions for automatically created topics.
 Default value is `1`.
+
+For list of all supported Kafka broker configuration options, see xref:broker-configuration-parameters-{context}[].

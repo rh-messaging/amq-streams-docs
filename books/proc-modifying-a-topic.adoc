@@ -58,3 +58,4 @@ bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --entity-type topics --
 
 * For more information about topic configuration, see xref:con-topic-configuration-{context}[].
 * For more information about creating topics, see xref:proc-creating-a-topic-{context}[].
+* For list of all supported topic configuration options, see xref:topic-configuration-parameters-{context}[].

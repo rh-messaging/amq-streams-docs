@@ -43,3 +43,4 @@ bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --describe --topic mytop
 .Additional resources
 
 * For more information about topic configuration, see xref:con-topic-configuration-{context}[].
+* For list of all supported topic configuration options, see xref:topic-configuration-parameters-{context}[].
