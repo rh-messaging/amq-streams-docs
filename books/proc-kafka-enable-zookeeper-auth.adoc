@@ -10,7 +10,7 @@ This procedure will show you how to enable authentication using the SASL DIGEST-
 
 .Prerequisites
 
-* Client-to-server authentication is xref:assembly-kafka-zookeeper-authentication-{context}-{context}[enabled] in Zookeeper
+* Client-to-server authentication is xref:assembly-kafka-zookeeper-authentication-{context}[enabled] in Zookeeper
 
 .Enabling SASL DIGEST-MD5 authentication
 
