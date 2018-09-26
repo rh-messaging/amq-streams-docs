@@ -1,0 +1,19 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-zookeeper.adoc
+
+[id='con-zookeeper-logging-{context}']
+
+= Logging
+
+Zookeeper is using _log4j_ as their logging infrastructure. 
+Logging configuration is by default read from the `log4j.propeties` configuration file which should be placed either in the `/opt/kafka/config/` directory or in the classpath. 
+The location and name of the configuration file can be changed using the Java property `log4j.configuration` which can be passed to Zookeeper using the `KAFKA_LOG4J_OPTS` environment variable:
+
+[source]
+----
+su - kafka
+export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/my/path/to/log4j.properties"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+----
+
+For more information about Log4j configurations, see link:http://logging.apache.org/log4j/1.2/manual.html[Log4j documentation^].

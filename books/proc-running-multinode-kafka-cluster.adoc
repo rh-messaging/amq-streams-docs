@@ -1,0 +1,86 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-kafka.adoc
+
+[id='proc-running-multinode-kafka-cluster-{context}']
+
+= Running a multi-node Kafka cluster
+
+This procedure will show you how to configure and run Kafka as a multi-node cluster.
+
+.Prerequisites
+
+* AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
+* Zookeeper cluster is xref:proc-running-multinode-zookeeper-cluster-{context}[configured and running].
+
+.Running the cluster
+
+. Edit the `/opt/kafka/config/server.properties` Kafka configuration file for the following:
++
+* Set the `broker.id` field to `0` for the first broker, `1` for the second broker, and so on.
++ Configure the details for connecting to Zookeeper in the `zookeeper.connect` option.
++ Configure the Kafka listeners.
++ Set the directories where the commit logs should be stored in the `logs.dir` directory.
++
+The following example shows the configuration for a Kafka broker:
++
+[source,ini]
+----
+broker.id=0
+zookeeper.connect=zoo1.my-domain.com:2181,zoo2.my-domain.com:2181,zoo3.my-domain.com:2181
+listeners=REPLICATION://:9091,PLAINTEXT://:9092
+inter.broker.listener.name=REPLICATION
+log.dirs=/var/lib/zookeeper
+----
++
+In a typical installation where each Kafka broker is running on identical hardware, only the `broker.id` configuration property will differ between each broker config.
+
+. Start the Kafka broker with the default configuration file.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+----
+
+. Verify that the Kafka broker is running.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep Kafka
+----
+
+. Repeat this procedure on all the nodes of the Kafka cluster.
+
+. Once all nodes of the clusters are up and running, verify that all nodes are members of the Kafka cluster by sending a `dump` command to one of the Zookeeper nodes using the `ncat` utility.
+The command will print all Kafka brokers registered in Zookeeper.
++
+.Use ncat stat to check the node status
+[source,shell,subs=+quotes]
+----
+echo dump | ncat zoo1.my-domain.com 2181
+----
++
+The output should contain all Kafka brokers you just configured and started.
++
+.Example output from the `ncat` command for Kafka cluster with 3 nodes
+[source,plain,subs=+quotes]
+----
+SessionTracker dump:
+org.apache.zookeeper.server.quorum.LearnerSessionTracker@28848ab9
+ephemeral nodes dump:
+Sessions with Ephemerals (3):
+0x20000015dd00000:
+        /brokers/ids/1
+0x10000015dc70000:
+        /controller
+        /brokers/ids/0
+0x10000015dc70001:
+        /brokers/ids/2
+----
+
+.Additional resources
+
+* For more information about installing AMQ Streams, see xref:proc-installing-amq-streams-{context}[].
+* For more information about configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].
+* For more information about running a Zookeeper cluster, see xref:proc-running-multinode-zookeeper-cluster-{context}[].

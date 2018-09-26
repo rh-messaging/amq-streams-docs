@@ -1,0 +1,15 @@
+= Configuring Kafka
+
+Kafka uses a properties file to store static configuration.
+The recommended location for the configuration file is `/opt/kafka/config/server.properties`.
+The configuration file has to be readable by the `kafka` user.
+
+AMQ Streams ships an example configuration file that highlights various basic and advanced features of the product.
+It can be found under `config/server.properties` in the AMQ Streams installation directory.
+
+include::con-kafka-zookeeper-configuration.adoc[leveloffset=+1]
+include::con-kafka-listener-configuration.adoc[leveloffset=+1]
+include::con-kafka-commit-log-configuration.adoc[leveloffset=+1]
+include::con-kafka-broker-id-configuration.adoc[leveloffset=+1]
+include::proc-running-multinode-kafka-cluster.adoc[leveloffset=+1]
+include::con-kafka-logging.adoc[leveloffset=+1]
