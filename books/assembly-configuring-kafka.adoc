@@ -7,6 +7,8 @@ The configuration file has to be readable by the `kafka` user.
 AMQ Streams ships an example configuration file that highlights various basic and advanced features of the product.
 It can be found under `config/server.properties` in the AMQ Streams installation directory.
 
+For list of all supported Kafka broker configuration options, see xref:broker-configuration-parameters-{context}[].
+
 include::con-kafka-zookeeper-configuration.adoc[leveloffset=+1]
 include::con-kafka-listener-configuration.adoc[leveloffset=+1]
 include::con-kafka-commit-log-configuration.adoc[leveloffset=+1]
