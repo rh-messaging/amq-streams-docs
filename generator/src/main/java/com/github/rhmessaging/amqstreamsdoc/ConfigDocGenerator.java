@@ -97,7 +97,6 @@ public class ConfigDocGenerator {
                 }
                 out.append(cellFmt).append("¦").append(cellContent).append('\n');
                 // TODO Dynamic broker configs
-                // TODO Topic defaults
             }
             out.append('\n');
         }
@@ -110,7 +109,8 @@ public class ConfigDocGenerator {
             .replace("<li>", "\n* ")
             .replace("</li>", "")
             .replace("</ul>", "")
-            .replace("<p>", "\n");
+            .replaceAll("</?p>", "\n")
+            .replaceAll("<br/?>", "\n");
         Pattern aOpen = Pattern.compile("<a\\s+.*?href=[\\'\"]?([^\\s>'\"]+).*?>");
         Pattern aClose = Pattern.compile("(.*?)<\\s*/a\\s*>");
         Matcher m = aOpen.matcher(adoc);
@@ -134,7 +134,7 @@ public class ConfigDocGenerator {
         Pattern p3 = Pattern.compile("</?[a-zA-Z0-9 '=]*>");
         Matcher m2 = p3.matcher(adoc);
         while (m2.find()) {
-            System.err.println(m2.group());
+            System.err.println("Warning: possible unconverted HTML: "+ m2.group());
         }
         return adoc;
     }
