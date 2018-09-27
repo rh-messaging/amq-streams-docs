@@ -12,18 +12,25 @@ include::assembly-configuring-zookeeper.adoc[leveloffset=+1]
 
 include::assembly-configuring-kafka.adoc[leveloffset=+1]
 
+[appendix]
 include::ref-broker-config.adoc[leveloffset=+1]
 
+[appendix]
 include::ref-topic-config.adoc[leveloffset=+1]
 
+[appendix]
 include::ref-consumer-config.adoc[leveloffset=+1]
 
+[appendix]
 include::ref-producer-config.adoc[leveloffset=+1]
 
+[appendix]
 include::ref-admin-client-config.adoc[leveloffset=+1]
 
+[appendix]
 include::ref-connect-config.adoc[leveloffset=+1]
 
+[appendix]
 include::ref-streams-config.adoc[leveloffset=+1]
 
 // non-modularized content
