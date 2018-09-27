@@ -1,0 +1,42 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-encryption-and-authentication.adoc
+
+[id='proc-kafka-enable-tls-encryption-{context}']
+
+= Enabling TLS encryption
+
+This procedure will show you how to enable encryption in Kafka brokers.
+
+.Prerequisites
+
+* AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
+
+.Enabling TLS encryption
+
+. Generate TLS certificates for all Kafka brokers in your cluster.
+The certificates should have their advertised and bootstrap addresses in their Common Name or Subject Alternative Name.
+
+. Edit the `/opt/kafka/config/server.properties` Kafka configuration file on all cluster nodes for the following:
++
+* Change the `listener.security.protocol.map` field to specify the `SSL` protocol for the listener where you want to use TLS encryption.
+* Set the `ssl.keystore.location` option to the path to the JKS keystore with the broker certificate.
+* Set the `ssl.keystore.password` option to the password you used to protect the keystore.
++
+For example:
++
+[source]
+----
+listeners=UNENCRYPTED://:9092,ENCRYPTED://:9093,REPLICATION://:9094
+listener.security.protocol.map=UNENCRYPTED:PLAINTEXT,ENCRYPTED:SSL,REPLICATION:PLAINTEXT
+ssl.keystore.location=/path/to/keystore/server-1.jks
+ssl.keystore.password=123456
+----
+
+. (Re)start the Kafka brokers
+
+.Additional resources
+
+* For more information about configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].
+* For more information about running a Kafka cluster, see xref:proc-running-multinode-kafka-cluster-{context}[].
+* For more information about configuring TLS encryption in clients, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].

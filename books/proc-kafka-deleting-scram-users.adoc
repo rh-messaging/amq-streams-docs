@@ -1,0 +1,30 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-encryption-and-authentication.adoc
+
+[id='proc-kafka-deleting-scram-users-{context}']
+
+= Deleting SASL SCRAM users
+
+This procedure will show you remove users when using SASL SCRAM authentication.
+
+.Prerequisites
+
+* AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
+* SASL SCRAM authentication is xref:proc-kafka-enable-scram-authentication-{context}[enabled].
+
+.Adding SASL SCRAM users
+
+. Use the utility `kafka-configs.sh` to delete SASL SCRAM users.
++
+[source,subs=+quotes]
+bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --alter --delete-config 'SCRAM-SHA-512' --entity-type users --entity-name _<Username>_
++
+For example:
++
+[source,subs=+quotes]
+bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --alter --delete-config 'SCRAM-SHA-512' --entity-type users --entity-name user1
+
+.Additional resources
+
+* For more information about configuring SASL SCRAM authentication in clients, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].

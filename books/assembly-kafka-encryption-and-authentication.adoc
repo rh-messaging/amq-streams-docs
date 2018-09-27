@@ -1,0 +1,25 @@
+= Encryption and authentication
+
+Kafka supports TLS for encrypting the communication with Kafka clients.
+Additionally, it supports two types of authentication:
+
+* TLS client authentication based on TLC client certificates
+* SASL Authentication based on username and password
+
+include::con-kafka-securing-listeners.adoc[leveloffset=+1]
+
+include::con-kafka-tls-encryption.adoc[leveloffset=+1]
+
+include::proc-kafka-enable-tls-encryption.adoc[leveloffset=+1]
+
+include::con-kafka-authentication.adoc[leveloffset=+1]
+
+include::proc-kafka-enable-tls-client-authentication.adoc[leveloffset=+1]
+
+include::proc-kafka-enable-plain-authentication.adoc[leveloffset=+1]
+
+include::proc-kafka-enable-scram-authentication.adoc[leveloffset=+1]
+
+include::proc-kafka-adding-scram-users.adoc[leveloffset=+1]
+
+include::proc-kafka-deleting-scram-users.adoc[leveloffset=+1]

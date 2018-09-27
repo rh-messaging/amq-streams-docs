@@ -1,0 +1,199 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-encryption-and-authentication.adoc
+
+[id='con-kafka-authentication-{context}']
+
+= Authentication
+
+Kafka supports two authentication mechanisms.
+On all conenctions, authentication using one of the supported SASL (Simple Authentication and Security Layer) mechanisms can be used.
+On encrypted connections, TLS client authentication based on TLS certificates can be used.
+
+== TLS cLient authentication
+
+TLS CLient authentication can be used only on connections which are already using TLS encryption.
+To use TLS client authentication, a truststore with public keys can be provided to the broker.
+These keys can be used to authenticate clients connecting to the broker.
+The truststore should be provided in Java Keystore (JKS) format and should contain public keys of the certification authorities.
+All clients with public and private keys signed by one of the certification authorities included in the truststore will be able to pass the authentication.
+The location of the truststore is set using field `ssl.truststore.location`.
+In case the truststore is password protected, the password should be set in the `ssl.truststore.password` property.
+For example:
+
+[source]
+ssl.truststore.location=/path/to/keystore/server-1.jks
+ssl.truststore.password=123456
+
+Once the truststore is configured, TLS client authentication has to be enabled using the `ssl.client.auth` property.
+This property can be set to one of three different values:
+
+`none`::
+TLS client authentication is switched off. (Default value)
+
+`requested`::
+TLS client authentication is optional.
+Clients will be asked to authenticate using TLS client certificate but they can choose not to.
+
+`required`::
+Clients are required to authenticate using TLS client certificate.
+
+When a client authenticates using TLS client authentication, the authenticated principal name is the distinguished name from the authenticated client certificate.
+When TLS client authentication is not used and SASL is disabled, the principal name will be `ANONYMOUS`.
+
+== SASL authentication
+
+SASL authentication is configured using Java Authentication and Authorization Service (JAAS).
+JAAS is also used for authentication of connections between Kafka and Zookeeper.
+JAAS uses its own configuration file.
+The recommended location for this file is `/opt/kafka/config/jaas.conf`.
+The file has to be be readable by the `kafka` user.
+When running Kafka, the location of this file is specified using Java system property  `java.security.auth.login.config`.
+This property has to be passed to Kafka when starting the broker nodes:
+
+[source]
+KAFKA_OPTS="-Djava.security.auth.login.config=/path/to/my/jaas.config"; bin/kafka-server-start.sh
+
+SASL authentication is supported both through plain unencrypted connections as well as through TLS connections.
+SASL can be enabled individually for each listener.
+To enable it, the security protocol in `listener.security.protocol.map` has to be either `SASL_PLAINTEXT` or `SASL_SSL`.
+
+SASL authentication in Kafka supports three different mechanisms:
+
+`PLAIN`::
+Implements authentication based on username and passwords.
+Usernames and passwords are stored locally in Kafka configuration.
+
+`SCRAM-SHA-256` and `SCRAM-SHA-512`::
+Implements authentication using Salted Challenge Response Authentication Mechanism.
+SCRAM credentials are stored centrally in Zookeeper.
+SCRAM can be used in situations where Zookeeper cluster nodes are running isolated in private network.
+
+`GSSAPI`::
+Implements authentication against a Kerberos server.
+
+WARNING: The `PLAIN` mechanism sends the username and password over the network in unencrypted format.
+It should be therefore used only in combination with TLS encryption.
+
+The SASL mechanisms are configured via the JAAS configuration file.
+Kafka uses the JAAS context named `KafkaServer`.
+After they are configured in JAAS, the SASL mechanisms have to be enabled in the Kafka configuration.
+This is done using the `sasl.enabled.mechanisms` property.
+This property contains a comma-separated list of enabled mechanisms:
+
+[source]
+sasl.enabled.mechanisms=PLAIN,SCRAM-SHA-256,SCRAM-SHA-512
+
+In case the listener used for inter-broker communication is using SASL, the property `sasl.mechanism.inter.broker.protocol` has to be used to specify the SASL mechanism which it should use.
+For example:
+
+[source]
+sasl.mechanism.inter.broker.protocol=PLAIN
+
+The username and password which will be used for the inter-broker communication has to be specified in the `KafkaServer` JAAS context using the field `username` and `password`.
+
+To use the PLAIN mechanism, the usernames and password which are allowed to connect are specified directly in the JAAS context.
+The following example shows the context configured for SASL PLAIN authentication.
+The example configures three different users:
+
+- `admin`
+- `user1`
+- `user2`
+
+[source]
+----
+KafkaServer {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    user_admin="123456"
+    user_user1="123456"
+    user_user2="123456";
+};
+----
+
+The JAAS configuration file with the user database should be kept in sync on all Kafka brokers.
+
+When SASL PLAIN is also used for inter-broker authentication, the `username` and `password` properties should
+be included in the JAAS context:
+
+[source]
+----
+KafkaServer {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    username="admin"
+    password="123456"
+    user_admin="123456"
+    user_user1="123456"
+    user_user2="123456";
+};
+----
+
+SCRAM authentication in Kafka consists of two mechanisms: `SCRAM-SHA-256` and `SCRAM-SHA-512`.
+These mechanism differ only in the hashing algorithm used - SHA-256 versus stronger SHA-512.
+To enable SCRAM authentication, the JAAS configuration file has to include the following configuration:
+
+[source]
+KafkaServer {
+    org.apache.kafka.common.security.scram.ScramLoginModule required;
+};
+
+When enabling SASL authentication in the Kafka configuration file, both SCRAM mechanisms can be listed.
+However only one of them can be chosen for the inter-broker communication.
+For example:
+
+[source]
+sasl.enabled.mechanisms=SCRAM-SHA-256,SCRAM-SHA-512
+sasl.mechanism.inter.broker.protocol=SCRAM-SHA-512
+
+User credentials for the SCRAM mechanism are stored in Zookeeper.
+Command line tool `kafka-configs.sh` can be used to manage them.
+For example to add user `user1` with password `123456`, the following command can be used:
+
+[source]
+bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --alter --add-config 'SCRAM-SHA-256=[password=123456],SCRAM-SHA-512=[password=123456]' --entity-type users --entity-name user1
+
+To delete a user credential use:
+
+[source]
+bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --alter --delete-config 'SCRAM-SHA-512' --entity-type users --entity-name user1
+
+The SASL mechanism used for authentication using Kerberos is called `GSSAPI`. To configure Kerberos SASL authentication,
+the following configuration should be added to the JAAS configuration file:
+
+[source]
+KafkaServer {
+    com.sun.security.auth.module.Krb5LoginModule required
+    useKeyTab=true
+    storeKey=true
+    keyTab="/etc/security/keytabs/kafka_server.keytab"
+    principal="kafka/kafka1.hostname.com@EXAMPLE.COM";
+};
+
+In addition to the JAAS configuration, the Kerberos service name needs to be specified in the `sasl.kerberos.service.name` property in the Kafka configuration:
+
+[source]
+sasl.enabled.mechanisms=GSSAPI
+sasl.mechanism.inter.broker.protocol=GSSAPI
+sasl.kerberos.service.name=kafka
+
+Kafka can use multiple SASL mechanisms at the same time.
+The different JAAS configurations can be all added to the same context:
+
+[source]
+----
+KafkaServer {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    user_admin="123456"
+    user_user1="123456"
+    user_user2="123456";
+
+    com.sun.security.auth.module.Krb5LoginModule required
+    useKeyTab=true
+    storeKey=true
+    keyTab="/etc/security/keytabs/kafka_server.keytab"
+    principal="kafka/kafka1.hostname.com@EXAMPLE.COM";
+
+    org.apache.kafka.common.security.scram.ScramLoginModule required;
+};
+----
+
+When multiple mechanisms are enabled, clients will be able to choose the mechanism which they want to use.

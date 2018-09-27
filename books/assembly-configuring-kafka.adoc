@@ -24,4 +24,6 @@ include::assembly-kafka-zookeeper-authentication.adoc[leveloffset=+1]
 
 include::assembly-kafka-zookeeper-authorization.adoc[leveloffset=+1]
 
+include::assembly-kafka-encryption-and-authentication.adoc[leveloffset=+1]
+
 include::con-kafka-logging.adoc[leveloffset=+1]
