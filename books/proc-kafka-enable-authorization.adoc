@@ -1,0 +1,33 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-authorization.adoc
+
+[id='proc-kafka-enable-authorization-{context}']
+
+= Enabling authorization
+
+This procedure will show you how to enable authorization using the `SimpleACLAuthorizer` plugin in Kafka brokers.
+
+.Prerequisites
+
+* AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
+
+.Enabling authorization
+
+. Edit the `/opt/kafka/config/server.properties` Kafka configuration file.
+Set the `authorizer.class.name` option to the plugin which should be used for authorization.
+For example `kafka.security.auth.SimpleAclAuthorizer`.
++
+For example:
++
+[source]
+----
+authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
+----
+
+. (Re)start the Kafka brokers
+
+.Additional resources
+
+* For more information about configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].
+* For more information about running a Kafka cluster, see xref:proc-running-multinode-kafka-cluster-{context}[].

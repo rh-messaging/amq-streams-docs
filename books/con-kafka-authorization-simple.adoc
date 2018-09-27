@@ -1,0 +1,187 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-authorization.adoc
+
+[id='con-kafka-authorization-simple-{context}']
+
+= Simple ACL authorizer
+
+Kafka has built-in authorization plugin called `SimpleACLAuthorizer`.
+This plugin is using Zookeeper to store the ACLrules.
+To enable Authorization / ACLs, the property `authorizer.class.name` has to be specified.
+It has to contain a fully qualified name of the Authorizer class.
+For the built-in authorizer, the fully qualified name is `kafka.security.auth.SimpleAclAuthorizer`:
+
+[source]
+authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
+
+The structure of ACL rules is: _Principal `P` is allowed / denied operation `O` on resource `R` from host
+`H`._ 
+When no rules are present for a given resource, all actions are denied.
+This behavior can be changed by setting the property `allow.everyone.if.no.acl.found` to `true` in the Kafka configuration file.
+
+A set of users can be defined as _super users_.
+Super users are allowed to take all actions regardless of the ACL rules.
+Super users are defined in the Kafka configuration file using the property `super.users`.
+Users are defined using their principals.
+For example:
+
+[source]
+super.users=User:admin,User:operator
+
+The _principal_ is the identity of the user and its exact format depends on the authentication mechanism:
+
+* Clients which connected to Kafka without authentication will have principal `User:ANONYMOUS`.
+* Clients which connected using simple authentication mechanisms such as PLAIN or SCRAM will have principal consisting of
+the string `User:` and their username.
+For example `User:admin` or `User:user1`.
+* Clients authenticated using TLS client authentication will have the principal based on the Distinguished Name of their
+client certificate, prefixed with `User:`.
+For example `User:CN=user1,O=MyCompany,L=Prague,C=CZ`.
+* Clients authenticated using Kerberos by default will have a Kafka username that is the primary part of their Kerberos principal.
+Property `sasl.kerberos.principal.to.local.rules` can be used to configure how the Kafka principal should be built from the Kerberos principal.
+
+Kafka ACLs can be applied to 3 different types of resources:
+
+- Topics
+- Consumer Groups
+- Cluster
+
+It supports several different operations:
+
+- Read
+- Write
+- Create
+- Delete
+- Alter
+- Describe
+- ClusterAction
+- All
+
+Not every operation can be applied to every resource.
+Following table shows which resources support which operations:
+
+|===
+| |Topics | Consumer Groups |Cluster
+
+|Read
+|X|X|
+
+|Write
+|X||
+
+|Create
+|||X
+
+|Delete
+|X||
+
+|Alter
+|X||
+
+|Describe
+|X|X|X
+
+|ClusterAction
+|||X
+
+|All
+|X|X|X
+
+|===
+
+Management of ACL rules is done using `kafka-acls.sh` utility which is part of the Kafka distribution package.
+It can add, list and remove ACL rules.
+`kafka-acls.sh` contains three primary options for these functions:
+
+|===
+|Option |Type | Description |Default
+
+|`--add`
+|Action
+|Add ACL rule
+|
+
+|`--remove`
+|Action
+|Remove ACL rile
+|
+
+|`--list`
+|Action
+|List ACL rules
+|
+
+|`--authorizer-properties`
+|Configuration
+|key=val pairs that will be passed to authorizer for initialization.
+For the default authorizer the example values are:
+`zookeeper.connect=zoo1.my-domain.com:2181`.
+|
+
+|`--cluster`
+|Resource
+|Specifies cluster as an ACL resource.
+|
+
+|`--topic`
+|Resource
+|Specifies topic name as an ACL resource.
+`*` can be used as a wildcard which translates to "all topics".
+Multiple `--topic` options can be specified in single command.
+|
+
+|`--group`
+|Resource
+|Specifies consumer group name as an ACL resource.
+Multiple `--group` options can be specified in single command.
+|
+
+|`--allow-principal`
+|Principal
+| Principal which will be added to an allow ACL rule.
+Multiple `--allow-principal` options can be specified in single command.
+|
+
+|`--deny-principal`
+|Principal
+| Principal which will be added to a deny ACL rule.
+Multiple `--deny-principal` options can be specified in single command.
+|
+
+|`--allow-host`
+|Host
+|IP address from which principals listed in `--allow-principal` will be allowed.
+`--deny-host` can be only specified as IP address.
+Hostnames or CIDR ranges are not supported.
+|If `--allow-principal` is specified defaults to `*` which translates to "all hosts".
+
+|`--deny-host`
+|Host
+|IP address from which principals listed in `--deny-principal` will be denied.
+`--deny-host` can be only specified as IP address.
+Hostnames or CIDR ranges are not supported.
+|if `--deny-principal` is specified defaults to `*` which translates to "all hosts"
+
+|`--operation`
+|Operation
+|An operation which will be allowed or denied.
+Multiple `--operation` options can be specified in single command.
+|All
+
+|`--producer`
+|Convenience
+|A shortcut to allow or deny all operations needed by a message producer (WRITE and DESCRIBE on topic, CREATE on cluster).
+|
+
+|`--consumer`
+|Convenience
+|A shortcut to allow or deny all operations needed by a message consumer (READ and DESCRIBE on topic, READ on consumer group)
+|
+
+|`--force`
+|Convenience
+|Assume yes to all queries and do not prompt.
+|
+
+|===

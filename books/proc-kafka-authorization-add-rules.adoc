@@ -1,0 +1,39 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-authorization.adoc
+
+[id='proc-kafka-authorization-add-rules-{context}']
+
+= Adding ACL rules
+
+This procedure will show you how to add ACL rules for the `SimpleACLAuthorizer` plugin in Kafka brokers.
+
+.Prerequisites
+
+* AMQ Streams cluster is installed and running
+* Authorization is xref:proc-kafka-enable-authorization-{context}[enabled] in Kafka brokers.
+
+.Adding ACL rules
+
+. `kafka-acls.sh` utility can be used to manage ACL rules.
+To add new rules, call it with option `--add`.
+Following examples show different ACL rules being added.
++
+[source,shell]
+----
+# Allow user1 and user2 read from topic myTopic using consumer group MyConsumerGroup
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Read --topic myTopic --allow-principal User:user1 --allow-principal User:user2
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Describe --topic myTopic --allow-principal User:user1 --allow-principal User:user2
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Read --operation Describe --group MyConsumerGroup --allow-principal User:user1 --allow-principal User:user2
+
+# Deny user1 to read the topic from IP address 127.0.0.1
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Describe --operation Read --topic myTopic --group MyConsumerGroup --deny-principal User:user1 --deny-host 127.0.0.1
+
+# Add principal as consumer
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --consumer --topic myTopic --group MyConsumerGroup --allow-principal User:user1
+----
+
+.Additional resources
+
+* For list of all `kafka-acls.sh` options, see xref:con-kafka-authorization-simple-{context}[].
+* For more information about enabling authorization, see xref:proc-kafka-enable-authorization-{context}[].

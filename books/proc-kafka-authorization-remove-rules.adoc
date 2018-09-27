@@ -1,0 +1,39 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-authorization.adoc
+
+[id='proc-kafka-authorization-remove-rules-{context}']
+
+= Removing ACL rules
+
+This procedure will show you how to remove ACL rules when using the `SimpleACLAuthorizer` plugin in Kafka brokers.
+
+.Prerequisites
+
+* AMQ Streams cluster is installed and running
+* Authorization is xref:proc-kafka-enable-authorization-{context}[enabled] in Kafka brokers.
+
+.Removing ACL rules
+
+. `kafka-acls.sh` utility can be used to manage ACL rules.
+To delete existing rules, call it with option `--remove`.
+Following examples show different ACL rules being removed.
++
+[source,shell]
+----
+# Remove principal as consumer
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --remove --consumer --topic myTopic --group MyConsumerGroup --allow-principal User:user1
+
+# Deny user1 to read the topic from IP address 127.0.0.1
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --remove --operation Describe --operation Read --topic myTopic --group MyConsumerGroup --deny-principal User:user1 --deny-host 127.0.0.1
+
+# Allow user1 and user2 read from topic myTopic using consumer group MyConsumerGroup
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --remove --operation Read --topic myTopic --allow-principal User:user1 --allow-principal User:user2
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --remove --operation Describe --topic myTopic --allow-principal User:user1 --allow-principal User:user2
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --remove --operation Read --operation Describe --group MyConsumerGroup --allow-principal User:user1 --allow-principal User:user2
+----
+
+.Additional resources
+
+* For list of all `kafka-acls.sh` options, see xref:con-kafka-authorization-simple-{context}[].
+* For more information about enabling authorization, see xref:proc-kafka-enable-authorization-{context}[].
