@@ -1,0 +1,47 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect-distributed.adoc
+
+[id='proc-creating-connector-kafka-connect-distributed-{context}']
+
+= Creating connectors
+
+This procedure will show you how to create a connector on Kafka Connect running in distributed mode.
+
+.Prerequisites
+
+* Kafka Connect is xref:proc-running-kafka-connect-distributed-{context}[running in distributed mode].
+
+.Creating connectors
+
+. Prepare a JSON payload with a connector configuration.
+For example:
++
+[source,json]
+----
+{
+  "name": "my-connector",
+  "config": {
+    "connector.class": "org.apache.kafka.connect.file.FileStreamSinkConnector",
+    "tasks.max": "1",
+    "topics": "my-topic-1,my-topic-2",
+    "file": "/tmp/output-file.txt"
+  }
+}
+----
+
+. Create the connector by sending a `POST` request to the `_<KafkaConnectAddress>_:8083/connectors`.
+Following example shows how to do it using the `curl` utility:
++
+[source,shell,subs=+quotes]
+----
+curl -X POST -H "Content-Type: application/json" --data @sink-connector.json http://connect0.my-domain.com:8083/connectors
+----
+
+. Verify that connector has been deployed by sending a `GET` request to `_<KafkaConnectAddress>_:8083/connectors`.
+Following example shows how to do it using the `curl` utility:
++
+[source,shell,subs=+quotes]
+----
+curl http://connect0.my-domain.com:8083/connectors
+----

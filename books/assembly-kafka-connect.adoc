@@ -1,0 +1,28 @@
+[id='assembly-kafka-connect-{context}']
+
+= Kafka Connect
+
+Kafka Connect is a tool for streaming data between Apache Kafka and other systems.
+It provides a framework for moving large amounts of data while maintaining scalability and reliability.
+Kafka Connect is typically used to integrate Kafka with database, storage and messaging systems.
+
+Kafka Connect is using connector plugins.
+The different plugins implement connectivity for different systems.
+There are two types of connectors: sink and source.
+Sink connectors stream data from Kafka to other systems.
+Source connectors stream data from other systems into Kafka.
+
+Kafka Connect can run in two modes: standalone and distributed.
+In the standalone mode, Kafka Connect is running in a single node mode with pre-defined configuration and stores the data locally in files.
+In the distributed mode, Kafka Connect is running distributed accross one or more worker nodes.
+The workloads are distributed between the nodes.
+The connectors and their configuration can be managed using a HTTP REST interface.
+
+include::assembly-kafka-connect-standalone.adoc[leveloffset=+1]
+
+include::assembly-kafka-connect-distributed.adoc[leveloffset=+1]
+
+include::con-kafka-connect-connector-plugins.adoc[leveloffset=+1]
+
+include::proc-adding-connector-plugins.adoc[leveloffset=+1]
+
