@@ -1,0 +1,17 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-zookeeper.adoc
+
+[id='assembly-configuring-zookeeper-authentication-{context}']
+
+= Authentication
+
+By default, Zookeeper does not use any form of authentication and allows anonymous connections.
+However, it supports Java Authentication and Authorization Service (JAAS) which can be used to set up  authentication using Simple Authentication and Security Layer (SASL).
+Zookeeper supports authentication using the DIGEST-MD5 SASL mechanism with locally stored credentials.
+
+include::con-zookeeper-sasl-authentication.adoc[leveloffset=+1]
+
+include::proc-zookeeper-enable-server-to-server-auth-digest-md5.adoc[leveloffset=+1]
+
+include::proc-zookeeper-enable-client-to-server-auth-digest-md5.adoc[leveloffset=+1]

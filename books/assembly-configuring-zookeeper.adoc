@@ -9,6 +9,12 @@ include::con-zookeeeper-cluster-configuration.adoc[leveloffset=+1]
 
 include::proc-running-multinode-zookeeper-cluster.adoc[leveloffset=+1]
 
+include::assembly-configuring-zookeeper-authentication.adoc[leveloffset=+1]
+
+include::con-zookeeper-authorization.adoc[leveloffset=+1]
+
+include::con-zookeeper-tls.adoc[leveloffset=+1]
+
 include::ref-zookeeper-additional-configuration.adoc[leveloffset=+1]
 
 include::con-zookeeper-logging.adoc[leveloffset=+1]

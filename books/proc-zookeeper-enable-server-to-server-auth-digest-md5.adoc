@@ -1,0 +1,76 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-zookeeper-authentication.adoc
+
+[id='proc-zookeeper-enable-server-to-server-auth-digest-md5-{context}']
+
+= Enabling Server-to-server authentication using DIGEST-MD5
+
+This procedure describes how to enable authentication using the SASL DIGEST-MD5 mechanism between the nodes of the Zookeeper cluster.
+
+.Prerequisites
+
+* AMQ Streams is installed on the host
+* Zookeeper cluster is xref:proc-running-multinode-zookeeper-cluster-{context}[configured] with multiple nodes.
+
+.Enabling SASL DIGEST-MD5 authentication
+
+. On all Zookeeper nodes, create or edit the `/opt/kafka/config/zookeeper-jaas.conf` JAAS configuration file and add the following contexts:
++
+[source,subs=+quotes]
+----
+QuorumServer {
+       org.apache.zookeeper.server.auth.DigestLoginModule required
+       user__<Username>_="_<Password>_";
+};
+
+QuorumLearner {
+       org.apache.zookeeper.server.auth.DigestLoginModule required
+       username="_<Username>_"
+       password="_<Password>_";
+};
+----
++
+The username and password must be the same in both JAAS contexts.
+For example:
++
+[source,subs=+quotes]
+----
+QuorumServer {
+       org.apache.zookeeper.server.auth.DigestLoginModule required
+       user_zookeeper="123456";
+};
+
+QuorumLearner {
+       org.apache.zookeeper.server.auth.DigestLoginModule required
+       username="zookeeper"
+       password="123456";
+};
+----
+
+. On all Zookeeper nodes, edit the `/opt/kafka/config/zookeeper.properties` Zookeeper configuration file and set the following options:
++
+[source,ini,subs=+quotes]
+----
+quorum.auth.enableSasl=true
+quorum.auth.learnerRequireSasl=true
+quorum.auth.serverRequireSasl=true
+quorum.auth.learner.loginContext=QuorumLearner
+quorum.auth.server.loginContext=QuorumServer
+quorum.cnxn.threads.size=20
+----
+
+. Restart all Zookeeper nodes one by one.
+To pass the JAAS configuration to Zookeeper, use the `EXTRA_ARGS` environment variable.
++
+[source]
+----
+su - kafka
+export EXTRA_ARGS="-Djava.security.auth.login.config=/opt/kafka/config/zookeeper-jaas.conf"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+----
+
+.Additional resources
+
+* For more information about installing AMQ Streams, see xref:proc-installing-amq-streams-{context}[].
+* For more information about configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].
+* For more information about running a Zookeeper cluster, see xref:proc-running-multinode-zookeeper-cluster-{context}[].

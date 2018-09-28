@@ -1,0 +1,79 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-zookeeper-authentication.adoc
+
+[id='proc-zookeeper-enable-client-to-server-auth-digest-md5-{context}']
+
+= Enabling Client-to-server authentication using DIGEST-MD5
+
+This procedure describes how to enable authentication using the SASL DIGEST-MD5 mechanism between Zookeeper clients and Zookeeper.
+
+.Prerequisites
+
+* AMQ Streams is installed on the host
+* Zookeeper cluster is xref:proc-running-multinode-zookeeper-cluster-{context}[configured and running].
+
+.Enabling SASL DIGEST-MD5 authentication
+
+. On all Zookeeper nodes, create or edit the `/opt/kafka/config/zookeeper-jaas.conf` JAAS configuration file and add the following context:
++
+[source,subs=+quotes]
+----
+Server {
+    org.apache.zookeeper.server.auth.DigestLoginModule required
+    user_super="_<SuperUserPassword>_"
+    user__<Username1>_="_<Password1>_"
+    user__<USername2>_="_<Password2>_";
+};
+----
++
+The `super` will have automatically administrator priviledges.
+The file can contain multiple users, but only one additional user is required by the Kafka brokers.
+The recommended name for the Kafka user is `kafka`.
++
+The following example shows the `Server` context for client-to-server authentication:
++
+[source,subs=+quotes]
+----
+Server {
+    org.apache.zookeeper.server.auth.DigestLoginModule required
+    user_super="123456"
+    user_kafka="123456";
+};
+----
+
+. On all Zookeeper nodes, edit the `/opt/kafka/config/zookeeper.properties` Zookeeper configuration file and set the following options:
++
+[source,ini,subs=+quotes]
+----
+requireClientAuthScheme=sasl
+authProvider._<IdOfBroker1>_=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+authProvider._<IdOfBroker2>_=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+authProvider._<IdOfBroker3>_=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+----
++
+The `authProvider._<ID>_` property has to be added for every node which is part of the Zookeeper cluster.
+An example three-node Zookeeper cluster configuration must look like the following:
++
+[source,ini,subs=+quotes]
+----
+requireClientAuthScheme=sasl
+authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+authProvider.2=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+authProvider.3=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+----
+
+. Restart all Zookeeper nodes one by one.
+To pass the JAAS configuration to Zookeeper, use the `EXTRA_ARGS` environment variable.
++
+[source]
+----
+su - kafka
+export EXTRA_ARGS="-Djava.security.auth.login.config=/opt/kafka/config/zookeeper-jaas.conf"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+----
+
+.Additional resources
+
+* For more information about installing AMQ Streams, see xref:proc-installing-amq-streams-{context}[].
+* For more information about configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].
+* For more information about running a Zookeeper cluster, see xref:proc-running-multinode-zookeeper-cluster-{context}[].

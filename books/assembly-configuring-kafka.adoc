@@ -11,8 +11,17 @@ This chapter explains the most important configuration options.
 For a complete list of supported Kafka broker configuration options, see xref:broker-configuration-parameters-{context}[].
 
 include::con-kafka-zookeeper-configuration.adoc[leveloffset=+1]
+
 include::con-kafka-listener-configuration.adoc[leveloffset=+1]
+
 include::con-kafka-commit-log-configuration.adoc[leveloffset=+1]
+
 include::con-kafka-broker-id-configuration.adoc[leveloffset=+1]
+
 include::proc-running-multinode-kafka-cluster.adoc[leveloffset=+1]
+
+include::assembly-kafka-zookeeper-authentication.adoc[leveloffset=+1]
+
+include::assembly-kafka-zookeeper-authorization.adoc[leveloffset=+1]
+
 include::con-kafka-logging.adoc[leveloffset=+1]

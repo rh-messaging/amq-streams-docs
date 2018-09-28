@@ -1,0 +1,21 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-zookeeper-authentication.adoc
+
+[id='con-kafka-zookeeper-authentication-jaas-{context}']
+
+= JAAS Configuration
+
+SASL authentication for Zookeeper connections has to be configured in the JAAS configuration file.
+By default, Kafka will use the JAAS context named `Client` for connecting to Zookeeper.
+The `Client` context should be configured in the `/opt/kafka/config/jass.conf` file.
+The context has to enable the `PLAIN` SASL authentication, as in the following example:
+
+[source]
+----
+Client {
+    org.apache.kafka.common.security.plain.PlainLoginModule required
+    username="kafka"
+    password="123456";
+};
+----

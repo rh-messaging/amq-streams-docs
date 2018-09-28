@@ -1,0 +1,16 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-kafka.adoc
+
+[id='assembly-kafka-zookeeper-authentication-{context}']
+
+= Zookeeper authentication
+
+By default, connections between Zookeeper and Kafka are not authenticated.
+However, Kafka and Zookeeper support Java Authentication and Authorization Service (JAAS) which can be used to set up authentication using Simple Authentication and Security Layer (SASL).
+Zookeeper supports authentication using the DIGEST-MD5 SASL mechanism with locally stored credentials.
+
+include::con-kafka-zookeeper-authentication-jaas.adoc[leveloffset=+1]
+
+include::proc-kafka-enable-zookeeper-auth.adoc[leveloffset=+1]
+
