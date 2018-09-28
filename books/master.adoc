@@ -12,6 +12,8 @@ include::assembly-configuring-zookeeper.adoc[leveloffset=+1]
 
 include::assembly-configuring-kafka.adoc[leveloffset=+1]
 
+include::assembly-topics.adoc[leveloffset=+1]
+
 [appendix]
 include::ref-broker-config.adoc[leveloffset=+1]
 
