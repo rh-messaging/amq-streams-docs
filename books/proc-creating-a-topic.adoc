@@ -15,11 +15,12 @@ The `kafka-topics.sh` tool can be used to manage topics.
 
 .Creating a topic
 
-. Create a topic using the `kafka-topics.sh` utility.
-Specify the Zookeeper URL in the `--zookeeper` option.
-Use `--create` option to specify that a new topic should be created.
-The topic name has to be specified in the `--topic` option.
-The number of partitions and replication factor have to be specified using `--partitions` and `--replication-factor` options.
+. Create a topic using the `kafka-topics.sh` utility and specify the following:
+Zookeeper URL in the `--zookeeper` option.
+The new topic to be created in the `--create` option.
+Topic name in the `--topic` option.
+The number of partitions in the `--partitions` option.
+Replication factor in the `--replication-factor` option.
 +
 You can also override some of the default topic configuration options using the option `--config`.
 This option can be used multiple times to override different options.

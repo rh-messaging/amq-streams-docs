@@ -6,20 +6,23 @@
 
 = Partitions and replicas
 
-Messages in Kafka are always sent to / received from a topic.
+Messages in Kafka are always sent to or received from a topic.
 A topic is always split into one or more partitions.
 Partitions act as shards.
-That means that every messages sent by a producer is always written only into a single partition.
+That means that every message sent by a producer is always written only into a single partition.
 Thanks to the sharding of messages into different partitions, topics are easy to scale horizontally.
 
 Each partition can have one or more replicas, which will be stored on different brokers in the cluster.
-The replicas will keep copies of the messages.
 When creating a topic you can configure the number of replicas using the _replication factor_.
 _Replication factor_ defines the number of copies which will be held within the cluster.
 One of the replicas for given partition will be elected as a leader.
 The leader replica will be used by the producers to send new messages and by the consumers to consume messages.
 The other replicas will be follower replicas.
-The follower replicas will keep copies of the messages.
+The followers replicate the leader.
 
-NOTE: The number of replicas in the replication factor includes the leader as well as the follower replicas.
-For example with replication factor `3`, there will be in total three replicas: one leader replica and two follower replicas.
+If the leader fails, one of the followers will automatically become the new leader.
+Each server acts as a leader for some of its partitions and a follower for others so the load is well balanced within the cluster.
+
+NOTE: 
+The replication factor determines the number of replicas including the leader and the followers.
+For example, if you set the replication factor to `3`, then there will one leader and two follower replicas.

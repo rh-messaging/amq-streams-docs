@@ -6,10 +6,11 @@
 
 = Message retention
 
-The message retention policy defines how long will the messages be stored on the Kafka brokers.
+The message retention policy defines how long the messages will be stored on the Kafka brokers.
 It can be defined based on time, partition size or both.
 
 For example, you can define that the messages should be kept:
+
 * For 7 days
 * Until the parition has 1GB of messages. Once the limit is reached, the oldest messages will be removed.
 * For 7 days or until the 1GB limit has been reached.
@@ -20,9 +21,11 @@ The messages which are past their retention policy will be deleted only when a n
 New log segments are created when the previous log segment exceeds the configured log segment size.
 Additionally, users can request new segments to be created periodically.
 
-Additionally, Kafka brokers supports a compacting policy.
+Additionally, Kafka brokers support a compacting policy.
 
 For a topic with the compacted policy, the broker will always keep only the last message for each key.
-The older messages with the same key will be removed form the partition.
-Because compacting is a periodicaly executed action, it does not happen immediately when the new message with the same key are sent to the partition. 
+The older messages with the same key will be removed from the partition.
+Because compacting is a periodically executed action, it does not happen immediately when the new message with the same key are sent to the partition. 
 Instead it might take some time until the older messages are removed.
+
+For more information about the message retention configuration options, see xref:ref-topic-configuration-{context}[].

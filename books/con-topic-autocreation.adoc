@@ -6,8 +6,8 @@
 
 = Topic auto-creation
 
-When a producer or consumer tries to sent to / received from a topic which does not exist, Kafka will, by default, automatically create that topic. 
-This behavior is controlled by the configuration property `auto.create.topics.enable` which is set to `true` by default.
+When a producer or consumer tries to sent to or received from from a topic which does not exist, Kafka will, by default, automatically create that topic. 
+This behavior is controlled by the `auto.create.topics.enable` configuration property which is set to `true` by default.
 
 To disable it, set `auto.create.topics.enable` to `false` in the Kafka broker configuration file:
 

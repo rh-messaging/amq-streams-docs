@@ -2,7 +2,7 @@
 //
 // assembly-topics.adoc
 
-[id='con-topic-configuration-{context}']
+[id='ref-topic-configuration-{context}']
 
 = Topic configuration
 
@@ -12,11 +12,11 @@ It is also possible to change a topic's configuration after it has been created.
 The main topic configuration options for manually created topics are:
 
 `cleanup.policy`::
-Configures the retention policy which can be `delete` or `compact`.
+Configures the retention policy to `delete` or `compact`.
 The `delete` policy will delete old records. 
 The `compact` policy will enable log compaction.
-More information about log compaction can be found on link:http://kafka.apache.org/documentation/#compaction[Kafka website^]. 
 The default value is `delete`.
+For more information about log compaction, see link:http://kafka.apache.org/documentation/#compaction[Kafka website^].
 
 `compression.type`::
 Specifies the compression which is used for stored messages.
@@ -24,7 +24,7 @@ Valid values are `gzip`, `snappy`, `lz4`, `uncompressed` (no compression) and `p
 The default value is `producer`.
 
 `max.message.bytes`::
-Maximum size of a batch of messages allowed by the Kafka broker, in bytes.
+The maximum size of a batch of messages allowed by the Kafka broker, in bytes.
 The default value is `1000012`.
 
 `min.insync.replicas`::
@@ -37,7 +37,7 @@ Log segments older than this value will be deleted.
 The default value is `604800000` (7 days).
 
 `retention.bytes`::
-Maximum number of bytes a partition will retain.
+The maximum number of bytes a partition will retain.
 Once the partition size grows over this limit, the oldest log segments will be deleted.
 Value of `-1` indicates no limit.
 The default value is `-1`.
