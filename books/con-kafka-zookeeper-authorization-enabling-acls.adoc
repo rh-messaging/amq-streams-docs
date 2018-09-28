@@ -15,10 +15,10 @@ zookeeper.set.acl=true
 ----
 
 Kafka will set the ACL rules only for newly created Zookeeper `znodes`.
-When the ACLs are only enabled after the first start of the cluster, the tool `zookeeper-security-migration.sh` can to be used to set ACLs on all existing `znodes`.
+When the ACLs are only enabled after the first start of the cluster, the tool `zookeeper-security-migration.sh` can be used to set ACLs on all existing `znodes`.
 
-Tha data stored in Zookeeper includes information such as topic names and their configuration.
-The Zookeeper dataabse also contains the salted and hashed user credentials when SASL SCRAM authentication is used.
+The data stored in Zookeeper includes information such as topic names and their configuration.
+The Zookeeper database also contains the salted and hashed user credentials when SASL SCRAM authentication is used.
 But it does not include any records sent and received using Kafka.
-Kafka in general considers the data stored in Zookeeper as non-confidential.
+Kafka, in general, considers the data stored in Zookeeper as non-confidential.
 In case these data are considered confidential (for example because topic names contain customer identification) the only way how to protect them is by isolating Zookeeper on the network level and allowing access only to Kafka brokers.

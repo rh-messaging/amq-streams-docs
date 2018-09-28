@@ -6,7 +6,7 @@
 
 = Enabling Client-to-server authentication using DIGEST-MD5
 
-This procedure will show you how to enable authentication using the SASL DIGEST-MD5 mechanism between Zookeeper clients and Zookeeper.
+This procedure describes how to enable authentication using the SASL DIGEST-MD5 mechanism between Zookeeper clients and Zookeeper.
 
 .Prerequisites
 
@@ -28,8 +28,7 @@ Server {
 ----
 +
 The `super` will have automatically administrator priviledges.
-The file can contain multiple users.
-But only one additional user is required by Kafka brokers.
+The file can contain multiple users, but only one additional user is required by the Kafka brokers.
 The recommended name for the Kafka user is `kafka`.
 +
 The following example shows the `Server` context for client-to-server authentication:
@@ -43,8 +42,7 @@ Server {
 };
 ----
 
-. On all Zookeeper nodes, edit the `/opt/kafka/config/zookeeper.properties` Zookeeper configuration file.
-Set the following options:
+. On all Zookeeper nodes, edit the `/opt/kafka/config/zookeeper.properties` Zookeeper configuration file and set the following options:
 +
 [source,ini,subs=+quotes]
 ----
@@ -55,7 +53,7 @@ authProvider._<IdOfBroker3>_=org.apache.zookeeper.server.auth.SASLAuthentication
 ----
 +
 The `authProvider._<ID>_` property has to be added for every node which is part of the Zookeeper cluster.
-For example the configuration for a three node Zookeeper cluster should look like this:
+An example three-node Zookeeper cluster configuration must look like the following:
 +
 [source,ini,subs=+quotes]
 ----

@@ -6,7 +6,7 @@
 
 = Enabling Server-to-server authentication using DIGEST-MD5
 
-This procedure will show you how to enable authentication using the SASL DIGEST-MD5 mechanism between the nodes of the Zookeeper cluster.
+This procedure describes how to enable authentication using the SASL DIGEST-MD5 mechanism between the nodes of the Zookeeper cluster.
 
 .Prerequisites
 
@@ -31,7 +31,7 @@ QuorumLearner {
 };
 ----
 +
-The username and password have to be the same in both JAAS contexts.
+The username and password must be the same in both JAAS contexts.
 For example:
 +
 [source,subs=+quotes]
@@ -48,8 +48,7 @@ QuorumLearner {
 };
 ----
 
-. On all Zookeeper nodes, edit the `/opt/kafka/config/zookeeper.properties` Zookeeper configuration file.
-Set the following options:
+. On all Zookeeper nodes, edit the `/opt/kafka/config/zookeeper.properties` Zookeeper configuration file and set the following options:
 +
 [source,ini,subs=+quotes]
 ----

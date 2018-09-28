@@ -6,7 +6,7 @@
 
 = Enabling Zookeeper authentication
 
-This procedure will show you how to enable authentication using the SASL DIGEST-MD5 mechanism when connecting to Zookeeper.
+This procedure describes how to enable authentication using the SASL DIGEST-MD5 mechanism when connecting to Zookeeper.
 
 .Prerequisites
 
