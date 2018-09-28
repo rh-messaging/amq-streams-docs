@@ -24,7 +24,7 @@ Using keys signed by certification authorities should always be the preferred me
 In order to allow clients to verify the identity of the Kafka broker they are connecting to, the certificate should always contain the advertised hostname(s) as its Common Name (CN) or in the Subject Alternative Names (SAN).
 
 It is possible to use different SSL configurations for different listeners.
-All options starting with `ssl.` can be prefixed with `listener.name.<NameOfTheListener>.`.
+All options starting with `ssl.` can be prefixed with `listener.name.<NameOfTheListener>.`, where the name of the listener has to be always in lower case.
 This will override the default SSL configuration for that specific listener.
 The following example shows how to use different SSL configurations for different listeners:
 
@@ -42,12 +42,14 @@ listener.name.replication.ssl.keystore.location=/path/to/keystore/server-1.jks
 listener.name.replication.ssl.keystore.password=123456
 ----
 
+.Additional TLS configuration options
+
 In addition to the main TLS configuration options described above, Kafka supports many options for fine-tuning the TLS configuration.
-For example, to enable of disable TLS / SSL protocols or cipher suites:
+For example, to enable or disable TLS / SSL protocols or cipher suites:
 
 `ssl.cipher.suites`::
 List of enabled cipher suites.
-Each cipher suite is a combination of authentication, encryption, MAC and key exchange algorithms used for the TLC connection.
+Each cipher suite is a combination of authentication, encryption, MAC and key exchange algorithms used for the TLS connection.
 By default, all available cipher suites are enabled.
 
 `ssl.enabled.protocols`::

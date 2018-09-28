@@ -15,12 +15,12 @@ This procedure will show you how to enable TLS client authentication in Kafka br
 
 .Enabling TLS client authentication
 
-. Prepare a JKS truststore containing the public key of the CA used to sing the user certificates.
+. Prepare a JKS truststore containing the public key of the certification authority used to sign the user certificates.
 
 . Edit the `/opt/kafka/config/server.properties` Kafka configuration file on all cluster nodes for the following:
 +
 
-* Set the `ssl.truststore.location` option to the path to the JKS truststore with the CA of the user certificates.
+* Set the `ssl.truststore.location` option to the path to the JKS truststore with the certification authority of the user certificates.
 * Set the `ssl.truststore.password` option to the password you used to protect the truststore.
 * Set the `ssl.client.auth` option to `required`.
 +

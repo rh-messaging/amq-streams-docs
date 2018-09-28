@@ -14,7 +14,7 @@ This procedure will show you how to enable SASL PLAIN authentication in Kafka br
 
 .Enabling SASL PLAIN authentication
 
-. Edit of create the `/opt/kafka/config/jaas.conf` JAAS configuration file.
+. Edit or create the `/opt/kafka/config/jaas.conf` JAAS configuration file.
 This file should contain all your users and their passwords.
 Make sure this file is the same on all Kafka brokers.
 +

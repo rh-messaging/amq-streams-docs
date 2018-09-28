@@ -6,7 +6,7 @@
 
 = Deleting SASL SCRAM users
 
-This procedure will show you remove users when using SASL SCRAM authentication.
+This procedure will show you how to remove users when using SASL SCRAM authentication.
 
 .Prerequisites
 

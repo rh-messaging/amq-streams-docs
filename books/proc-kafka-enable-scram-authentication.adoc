@@ -14,7 +14,7 @@ This procedure will show you how to enable SASL SCRAM authentication in Kafka br
 
 .Enabling SASL SCRAM authentication
 
-. Edit of create the `/opt/kafka/config/jaas.conf` JAAS configuration file.
+. Edit or create the `/opt/kafka/config/jaas.conf` JAAS configuration file.
 Enable the `ScramLoginModule` for the `KafkaServer` context.
 Make sure this file is the same on all Kafka brokers.
 +
@@ -30,7 +30,7 @@ KafkaServer {
 . Edit the `/opt/kafka/config/server.properties` Kafka configuration file on all cluster nodes for the following:
 +
 * Change the `listener.security.protocol.map` field to specify the `SASL_PLAINTEXT` or `SASL_SSL` protocol for the listener where you want to use SASL SCRAM authentication.
-* Set the `sasl.enabled.mechanisms` option to `SCRAM-SHA-512`.
+* Set the `sasl.enabled.mechanisms` option to `SCRAM-SHA-256` or `SCRAM-SHA-512`.
 +
 For example:
 +
