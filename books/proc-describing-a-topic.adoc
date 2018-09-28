@@ -35,5 +35,5 @@ It will also list all topic configuration options.
 
 .Additional resources
 
-* For more information about topic configuration, see xref:con-topic-configuration-{context}[].
+* For more information about topic configuration, see xref:ref-topic-configuration-{context}[].
 * For more information about creating topics, see xref:proc-creating-a-topic-{context}[].
