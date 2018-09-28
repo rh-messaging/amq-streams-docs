@@ -6,7 +6,7 @@
 
 = Removing ACL rules
 
-This procedure will show you how to remove ACL rules when using the `SimpleACLAuthorizer` plugin in Kafka brokers.
+This procedure will show you how to remove ACL rules when using the `SimpleAclAuthorizer` plugin in Kafka brokers.
 
 .Prerequisites
 
@@ -35,5 +35,5 @@ bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2
 
 .Additional resources
 
-* For list of all `kafka-acls.sh` options, see xref:con-kafka-authorization-simple-{context}[].
+* For a list of all `kafka-acls.sh` options, see xref:con-kafka-authorization-simple-{context}[].
 * For more information about enabling authorization, see xref:proc-kafka-enable-authorization-{context}[].

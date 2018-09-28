@@ -6,7 +6,7 @@
 
 = Enabling authorization
 
-This procedure will show you how to enable authorization using the `SimpleACLAuthorizer` plugin in Kafka brokers.
+This procedure will show you how to enable authorization using the `SimpleAclAuthorizer` plugin in Kafka brokers.
 
 .Prerequisites
 

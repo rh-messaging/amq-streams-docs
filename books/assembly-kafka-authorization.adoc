@@ -1,7 +1,7 @@
 = Authorization
 
-Authorization in Kafka brokers is implemented using authorization plugins.
-It is using Access Control Lists (ACLs) - a set of rules describing what uses can and cannot do.
+Authorization in Kafka brokers is implemented using authorizer plugins.
+The default authorizer plugin uses Access Control Lists (ACLs) - a set of rules describing what uses can and cannot do.
 Users can supply their own authorization plugins or use the built in _Simple ACL authorizer_.
 
 include::con-kafka-authorization-simple.adoc[leveloffset=+1]

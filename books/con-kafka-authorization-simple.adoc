@@ -6,14 +6,16 @@
 
 = Simple ACL authorizer
 
-Kafka has built-in authorization plugin called `SimpleACLAuthorizer`.
-This plugin is using Zookeeper to store the ACLrules.
+Kafka has built-in authorizer plugin called `SimpleAclAuthorizer`.
+This plugin uses Zookeeper to store the ACL rules.
 To enable Authorization / ACLs, the property `authorizer.class.name` has to be specified.
-It has to contain a fully qualified name of the Authorizer class.
+It has to contain a fully qualified name of the authorizer class.
 For the built-in authorizer, the fully qualified name is `kafka.security.auth.SimpleAclAuthorizer`:
 
 [source]
 authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
+
+.ACL rules
 
 The structure of ACL rules is: _Principal `P` is allowed / denied operation `O` on resource `R` from host
 `H`._ 
@@ -39,9 +41,9 @@ For example `User:admin` or `User:user1`.
 client certificate, prefixed with `User:`.
 For example `User:CN=user1,O=MyCompany,L=Prague,C=CZ`.
 * Clients authenticated using Kerberos by default will have a Kafka username that is the primary part of their Kerberos principal.
-Property `sasl.kerberos.principal.to.local.rules` can be used to configure how the Kafka principal should be built from the Kerberos principal.
+The `sasl.kerberos.principal.to.local.rules` property can be used to configure how the Kafka principal should be built from the Kerberos principal.
 
-Kafka ACLs can be applied to 3 different types of resources:
+Kafka ACLs can be applied to 3 different types of resource:
 
 - Topics
 - Consumer Groups
@@ -59,7 +61,8 @@ It supports several different operations:
 - All
 
 Not every operation can be applied to every resource.
-Following table shows which resources support which operations:
+Following table shows which resources support which operations.
+Fields with `X` mark the supported operations.
 
 |===
 | |Topics | Consumer Groups |Cluster
