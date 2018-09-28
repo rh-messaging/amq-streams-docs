@@ -1,0 +1,27 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect.adoc
+
+[id='con-kafka-connect-connector-plugins-{context}']
+
+= Connector plugins
+
+AMQ Streams ships with two connetor plugins:
+
+`FileStreamSink`:: 
+Reads data from Kafka topics and writes them into a file.
+
+`FileStreamSource`::
+Reads data from a file and sends them to Kafka topic.
+
+You can add and use additional connector plugins.
+Kafka Connect will load all plugins which it finds during startup.
+The path where it will search for plugins can be defined using the `plugin.path` configuration options.
+The `plugin.path` configuration option can contain comma-separated list of paths.
+
+[source,ini]
+----
+plugin.path=/opt/kafka/connector-plugins,/opt/connectors
+----
+
+When running Kafka Connect in distributed mode, the plugins have to be available on all worker nodes.

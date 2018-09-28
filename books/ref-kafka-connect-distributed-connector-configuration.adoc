@@ -1,0 +1,89 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect-distributed.adoc
+
+[id='ref-kafka-connect-distributed-connector-configuration-{context}']
+
+= Configuring connectors in distributed Kafka Connect
+
+.HTTP REST Interface
+
+Connectors for distributed Kafka Connect are configured using HTTP REST interface.
+The REST interface is by default listening on port `8083`.
+It supports following endpoints:
+
+`GET /connectors`::
+Return list of existing connectors.
+
+`POST /connectors`::
+Create a connector.
+The request body has to be a JSON object with the connector confiration.
+
+`GET /connectors/_<name>_`::
+Get information about specific connector.
+
+`GET /connectors/_<name>_/config`::
+Get configuration of a specific connector.
+
+`PUT /connectors/_<name>_/config`::
+Update the configuration of a specific connector.
+
+`GET /connectors/_<name>_/status`::
+Get the status of a specific connector.
+
+`PUT /connectors/_<name>_/pause`::
+Pause the connector and all its tasks.
+The connector will stop processing any messages.
+
+`PUT /connectors/_<name>_/resume`::
+Resume a paused connector.
+
+`POST /connectors/_<name>_/restart`::
+Restart a connector in case it has failed.
+
+`DELETE /connectors/_<name>_`::
+Delete connector.
+
+`GET /connector-plugins`::
+Get list of all supported connector plugins.
+
+.Connector configuration
+
+Most of the configuration is connector specific.
+Only several fields are common for all connectors.
+
+`name`:: 
+Name of the connector.
+Has to be unique within given Kafka Connect instance.
+
+`connector.class`::
+Class of the connector plugin.
+For example `org.apache.kafka.connect.file.FileStreamSinkConnector`.
+
+`tasks.max`::
+The maximum number of tasks used by this connector.
+Tasks are used by the connector to parallelise its work.
+Connetors might created fewer tasks than specified.
+
+`key.converter`::
+Class used to convert message keys to and from Kafka format.
+Overrides the default value set by the Kafka Connect configuration.
+For example `org.apache.kafka.connect.json.JsonConverter`.
+
+`value.converter`::
+Class used to convert message payloads to and from Kafka format.
+Overrides the default value set by the Kafka Connect configuration.
+For example `org.apache.kafka.connect.json.JsonConverter`.
+
+Additionally, all sink connectors have to set one of the following options:
+
+`topics`:: 
+A comma-separated list of topics used as input.
+
+`topics.regex`::
+A Java regular expression of topics used as input.
+
+For any other options, see the documentation of the connector.
+
+AMQ Streams ships an example connector configuration files.
+They can be found under `config/connect-file-sink.properties` and `config/connect-file-source.properties` in the AMQ Streams installation directory.

@@ -1,0 +1,34 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect-standalone.adoc
+
+[id='ref-kafka-connect-standalone-configuration-{context}']
+
+= Configuring standalone Kafka Connect
+
+The configuration for standalone Kafka Connect is stored in `config/connect-standalone.properties` configuration file.
+Following options are the most important.
+
+`bootstrap.servers`::
+List of Kafka broker addresses used as bootstrap connections to Kafka.
+For example `kafka0.my-domain.com:9092,kafka1.my-domain.com:9092,kafka2.my-domain.com:9092`.
+
+`key.converter`::
+Class used to convert message keys to and from Kafka format.
+For example `org.apache.kafka.connect.json.JsonConverter`.
+
+`value.converter`::
+Class used to convert message payloads to and from Kafka format.
+For example `org.apache.kafka.connect.json.JsonConverter`.
+
+`offset.storage.file.filename`::
+A file where the offset data will be stored.
+
+AMQ Streams ships an example configuration file.
+It can be found under `config/connect-standalone.properties` in the AMQ Streams installation directory.
+
+For list of all supported Kafka Connect configuration options, see xref:kafka-connect-configuration-parameters-{context}[].
+
+The connector plugins are opening consumer and producer connections to the Kafka brokers using the bootstrap address.
+These connections can be configured using the Kafka producer and consumer configuration options but prefixed with `producer.` and `consumer.`.
+For more information about producer and consumer configuration, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].

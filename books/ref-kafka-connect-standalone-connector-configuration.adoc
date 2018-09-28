@@ -1,0 +1,47 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect-standalone.adoc
+
+[id='ref-kafka-connect-standalone-connector-configuration-{context}']
+
+= Configuring connectors in standalone Kafka Connect
+
+Connectors for standalone Kafka Connect are configured using properties file.
+Most of the configuration is connector specific.
+Only several fields are common for all connectors.
+
+`name`:: 
+Name of the connector.
+Has to be unique within given Kafka Connect instance.
+
+`connector.class`::
+Class of the connector plugin.
+For example `org.apache.kafka.connect.file.FileStreamSinkConnector`.
+
+`tasks.max`::
+The maximum number of tasks used by this connector.
+Tasks are used by the connector to parallelise its work.
+Connetors might created fewer tasks than specified.
+
+`key.converter`::
+Class used to convert message keys to and from Kafka format.
+Overrides the default value set by the Kafka Connect configuration.
+For example `org.apache.kafka.connect.json.JsonConverter`.
+
+`value.converter`::
+Class used to convert message payloads to and from Kafka format.
+Overrides the default value set by the Kafka Connect configuration.
+For example `org.apache.kafka.connect.json.JsonConverter`.
+
+Additionally, all sink connectors have to set one of the following options:
+
+`topics`:: 
+A comma-separated list of topics used as input.
+
+`topics.regex`::
+A Java regular expression of topics used as input.
+
+For any other options, see the documentation of the connector.
+
+AMQ Streams ships an example connector configuration files.
+They can be found under `config/connect-file-sink.properties` and `config/connect-file-source.properties` in the AMQ Streams installation directory.
