@@ -1,0 +1,70 @@
+// Module included in the following assemblies:
+//
+// ???
+
+[id='proc-scaling-up-a-kafka-cluster-{context}']
+
+= Preparing a reassignment JSON file
+
+This procedure will show you how to prepare a _reassignment JSON file_ to be used when scaling up a cluster.
+
+.Prerequisites
+
+* An existing Kafka cluster.
+* A new machine with the AMQ broker  xref:proc-installing-amq-streams-{context}[installed].
+* A plan of how partitions should be reassigned to brokers in the enlarged cluster in the form of a _reassignment JSON file_.
+
+.Procedure
+
+. Create a configuration file for the new broker using the same setting as for the other brokers in your cluster, except for `broker.id` which should be a number that is not already used by any of the other brokers.
+
+. Start the new Kafka broker pass the configuration file you created in the previous step as the argument to the `kafka-server-start.sh` script:
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+----
+
+. Verify that the Kafka broker is running.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep Kafka
+----
+
+. Repeat the above steps for each new broker.
+
+. Execute the partition reassignment using the `kafka-reassign-partitions.sh` command line tool.
++
+[source,shell,subs=+quotes]
+----
+kafka-reassign-partitions.sh --zookeeper _<ZookeeperHostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --execute
+----
++
+For example:
++
+[source,shell,subs=+quotes]
+----
+kafka-reassign-partitions.sh --zookeeper zookeeper1:2181 --reassignment-json-file reassignment.json --execute
+----
+
+. Periodically verify whether the reassignment has completed using the `kafka-reassign-partitions.sh` command line tool. This is the same command as the previous step but with the `--verify` option instead of the `--execute` option.
++
+[source,shell,subs=+quotes]
+----
+kafka-reassign-partitions.sh --zookeeper _<ZookeeperHostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --verify
+----
++
+For example:
++
+[source,shell,subs=+quotes]
+----
+kafka-reassign-partitions.sh --zookeeper zookeeper1:2181 --reassignment-json-file reassignment.json --verify
+----
+
+NOTE: It is especially important to run the last step, with the `--verify` option, when reassignment was throttled. 
+If `--verify` is not run after the reassignment has completed then the throttles will remain in force which will impair the cluster's performance.
+
+
+.Additional resources

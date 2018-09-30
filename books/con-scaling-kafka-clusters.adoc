@@ -1,0 +1,25 @@
+// Module included in the following assemblies:
+//
+// assembly-scaling-clusters.adoc
+
+[id='con-scaling-kafka-clusters-{context}']
+
+= Scaling Kafka clusters
+
+== Adding brokers to a cluster
+
+The main mechanism for scalability in AMQ Streams is the partition. 
+For example, you can increase the throughput for a given topic by increasing the number of partitions for that topic.
+Eventually, however, all of the brokers in the cluster will become limited some resource, usually disk I/O.
+At that point increasing the number of partitions will not help: You have to add brokers to the cluster instead.
+
+While it is relatively easy to add an extra broker to the cluster, AMQ Streams won't assign any partitions to it automatically. You have to decide which partitions to more from the existing brokers to the new broker.
+
+Once the partition have been redistributed between the all brokers each broker should have a lower resource utilization.
+
+== Removing brokers from the cluster
+
+Before a broker can be safely removed from a cluster you need to ensure it is not assigned any partitions. 
+You have to decide which remaining brokers will become responsible for each of the partitions on the broker being decomissioned broker.
+Once the broker has no assigned partitions it can the stopped safely.
+

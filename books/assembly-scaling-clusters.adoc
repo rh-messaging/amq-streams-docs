@@ -1,0 +1,11 @@
+= Scaling Clusters
+
+include::con-scaling-kafka-clusters.adoc[leveloffset=+1]
+
+include::con-reassignment-of-partitions.adoc[leveloffset=+1]
+
+#include::con-reassignment-throttles.adoc[leveloffset=+1]
+
+include::proc-scaling-up-a-kafka-cluster.adoc[leveloffset=+1]
+
+include::proc-scaling-down-a-kafka-cluster.adoc[leveloffset=+1]
