@@ -16,7 +16,7 @@ Kafka Connect can run in two modes: standalone and distributed.
 In the standalone mode, Kafka Connect is running in a single node mode with pre-defined configuration and stores the data locally in files.
 In the distributed mode, Kafka Connect is running distributed accross one or more worker nodes.
 The workloads are distributed between the nodes.
-The connectors and their configuration can be managed using a HTTP REST interface.
+The connectors and their configuration can be managed using the provided HTTP REST interface.
 
 include::assembly-kafka-connect-standalone.adoc[leveloffset=+1]
 
