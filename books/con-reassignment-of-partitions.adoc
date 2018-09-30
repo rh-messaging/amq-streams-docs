@@ -21,7 +21,7 @@ For a given partition, once the new broker has caught up and joined the ISR the 
 
 `--verify`::
 Using the same _reassignment JSON file_ as the `--execute` step, `--verify` checks whether all of the partitions in the file have been moved to their intended brokers.
-If the reassignment is complete it will also remove any xref:con-reassignment-throttles[throttles] which are in effect.
+If the reassignment is complete it will also remove any xref:con-reassignment-throttles-{context}[throttles] which are in effect.
 Unless removed, throttles will continue to affect the cluster even after the reassignment has finished.
 
 It is only possible to have one reassignment running in the cluster at any given time, and it is not possible to cancel a running reassignment.

@@ -2,7 +2,7 @@
 //
 // ???
 
-[id='proc-scaling-up-a-kafka-cluster-{context}']
+[id='proc-scaling-down-a-kafka-cluster-{context}']
 
 = Scaling down a Kafka cluster
 
