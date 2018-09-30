@@ -31,7 +31,7 @@ For example:
 ----
 
 . Create the connector by sending a `POST` request to the `_<KafkaConnectAddress>_:8083/connectors`.
-Following example shows how to do it using the `curl` utility:
+The following example shows how to do it using the `curl` utility:
 +
 [source,shell,subs=+quotes]
 ----
@@ -39,7 +39,7 @@ curl -X POST -H "Content-Type: application/json" --data @sink-connector.json htt
 ----
 
 . Verify that connector has been deployed by sending a `GET` request to `_<KafkaConnectAddress>_:8083/connectors`.
-Following example shows how to do it using the `curl` utility:
+The following example shows how to do it using the `curl` utility:
 +
 [source,shell,subs=+quotes]
 ----
