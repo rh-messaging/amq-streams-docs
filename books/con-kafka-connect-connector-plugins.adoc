@@ -16,8 +16,8 @@ Reads data from a file and sends them to Kafka topic.
 
 You can add and use additional connector plugins.
 Kafka Connect will load all plugins which it finds during startup.
-The path where it will search for plugins can be defined using the `plugin.path` configuration options.
-The `plugin.path` configuration option can contain comma-separated list of paths.
+The path where it will search for plugins can be defined using the `plugin.path` configuration option.
+The `plugin.path` configuration option can contain a comma-separated list of paths.
 
 [source,ini]
 ----
