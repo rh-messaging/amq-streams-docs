@@ -6,7 +6,7 @@
 
 = Deleting connectors
 
-This procedure will show you how to delete a connector on Kafka Connect running in distributed mode.
+This procedure will show you how to delete a connector on Kafka Connect running in distributed mode using the REST API.
 
 .Prerequisites
 
