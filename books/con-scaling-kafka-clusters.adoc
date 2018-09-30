@@ -15,11 +15,11 @@ At that point increasing the number of partitions will not help: You have to add
 
 While it is relatively easy to add an extra broker to the cluster, AMQ Streams won't assign any partitions to it automatically. You have to decide which partitions to more from the existing brokers to the new broker.
 
-Once the partition have been redistributed between the all brokers each broker should have a lower resource utilization.
+Once the partitions have been redistributed between the all brokers, each broker should have a lower resource utilization.
 
 == Removing brokers from the cluster
 
 Before a broker can be safely removed from a cluster you need to ensure it is not assigned any partitions. 
-You have to decide which remaining brokers will become responsible for each of the partitions on the broker being decomissioned broker.
+You have to decide which remaining brokers will become responsible for each of the partitions on the broker being decommissioned.
 Once the broker has no assigned partitions it can the stopped safely.
 

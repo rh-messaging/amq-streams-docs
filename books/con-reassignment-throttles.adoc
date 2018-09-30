@@ -6,71 +6,10 @@
 
 = Reassignment throttles
 
-Reassigning partitions can be a slow process because a it can require moving lots of data between brokers.
-To avoid this having a noticeable detrimental impact on clients it is possible to _throttle_ the reassignment.
+Reassigning partitions can be a slow process because it can require moving lots of data between brokers.
+To avoid this having a detrimental impact on clients it is possible to _throttle_ the reassignment.
 Using a throttle can mean the reassignment takes longer.
-If the throttle is too low then the newly assigned brokers won't be able to keep up with records being published.
+If the throttle is too low then the newly assigned brokers won't be able to keep up with records being published and the reassignment will never finish.
 If the throttle is too high then clients will be impacted.
 For producers this could manifest as higher than normal latency waiting for acknowledgement, for example. For consumers this could manifest as a drop in throughput causes by higher latency between polls.
 
-Throttles can be applied on the leader or on the follower side:
-
-Leader-side throttling::
-
-* The _topic_ configuration `leader.replication.throttled.replicas` lists the replicas whose replication should be throttled on the leader. This is a list of the form `_<PartitionId>_:‍_<BrokerId>_,_<PartitionId>_:‍_<BrokerId>_,...`, or `*` can be used as a wildcard to throttle all the replicas for the topic.
-
-* The _broker_ configuration `leader.replication.throttled.rate` is the desired maximum rate (in bytes per second) for replication traffic from the given broker when it is a leader for one of the partitions listed in `leader.replication.throttled.rate`.
-
-Follower-side throttling::
-
-* The _topic_ configuration `follower.replication.throttled.replicas` lists the replicas whose replication should be throttled on the follower. This is a list of the form `_<PartitionId>_:‍_<BrokerId>_,_<PartitionId>_:‍_<BrokerId>_,...`, or `*` can be used as a wildcard to throttle all the replicas for the topic.
-
-* The _broker_ configuration `follower.replication.throttled.rate` is the desired maximum rate (in bytes per second) for replication traffic from the given broker when it is a _follower_ for one of the partitions listed in `follower.replication.throttled.rate`.
-
-These configuration can be set using `kafka-configs.sh`. Both leader-side or both follower-side configurations have to be set for the throttle to take effect.
-
-For example, to apply a leader-side throttle of 10 MB/second to broker `3` when leading partition `0` of topic `my-topic`:
-
-[source,shell,subs=+quotes]
-----
-kafka-config.sh --zookeeper zookeeper1:2181 \
-    --entity-type topics --entity-name my-topic \
-    --alter --add-config \
-    leader.replication.throttled.replicas=0:3
-kafka-config.sh --zookeeper zookeeper1:2181 \
-    --entity-type brokers --entity-name 3 \
-    --alter --add-config leader.replication.throttled.rate=5000000
-----
-
-To apply a follower-side throttle of 10 MB/second to broker `5` for all replicas:
-
-[source,shell,subs=+quotes]
-----
-kafka-config.sh --zookeeper zookeeper1:2181 \
-    --entity-type topics --entity-name my-topic \
-    --alter --add-config \
-    'follower.replication.throttled.replicas=*'
-kafka-config.sh --zookeeper zookeeper1:2181 \
-    --entity-type brokers --entity-name 5 \
-    --alter --add-config follower.replication.throttled.rate=5000000
-----
-
-Since throttles are usually only used during partition reassignment they are normally removed by the final invocation of `kafka-reassign-partitions.sh --verify`. However, to remove all throttles for a topic you can also execute:
-
-[source,shell,subs=+quotes]
-----
-kafka-config.sh --zookeeper _<ZookeeperConnect>_ \
-    --entity-type topics --entity-name _<TopicName>_ \
-    --alter --delete-config \
-    'follower.replication.throttled.replicas,leader.replication.throttled.replicas'
-----
-
-And to remove the throttled rate from a broker you could use:
-
-[source,shell,subs=+quotes]
-----
-kafka-config.sh --zookeeper _<ZookeeperConnect>_ \
-    --entity-type brokers --entity-name _<BrokerId>_ \
-    --alter --delete-config \
-    'leader.replication.throttled.rate,follower.replication.throttled.rate'
-----

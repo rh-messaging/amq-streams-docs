@@ -20,7 +20,7 @@ Brokers which are gaining partitions will become followers of the partition lead
 For a given partition, once the new broker has caught up and joined the ISR the old broker will stop being a follower and will delete its replica.
 
 `--verify`::
-Using the same _reassignment JSON file_ as the `--execute` step, `--verify` checks whether all of the partitions in the file has been moved to their intended brokers.
+Using the same _reassignment JSON file_ as the `--execute` step, `--verify` checks whether all of the partitions in the file have been moved to their intended brokers.
 If the reassignment is complete it will also remove any xref:con-reassignment-throttles[throttles] which are in effect.
 Unless removed, throttles will continue to affect the cluster even after the reassignment has finished.
 

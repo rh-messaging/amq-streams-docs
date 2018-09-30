@@ -16,9 +16,9 @@ This procedure will show you how to increase the number of brokers in a Kafka cl
 
 .Procedure
 
-. Create a configuration file for the new broker using the same setting as for the other brokers in your cluster, except for `broker.id` which should be a number that is not already used by any of the other brokers.
+. Create a configuration file for the new broker using the same settings as for the other brokers in your cluster, except for `broker.id` which should be a number that is not already used by any of the other brokers.
 
-. Start the new Kafka broker pass the configuration file you created in the previous step as the argument to the `kafka-server-start.sh` script:
+. Start the new Kafka broker passing the configuration file you created in the previous step as the argument to the `kafka-server-start.sh` script:
 +
 [source,shell,subs=+quotes]
 ----
