@@ -7,7 +7,7 @@
 = Configuring distributed Kafka Connect
 
 The configuration for standalone Kafka Connect is stored in `config/connect-distributed.properties` configuration file.
-Following options are the most important.
+The following options are the most important.
 
 `bootstrap.servers`::
 List of Kafka broker addresses used as bootstrap connections to Kafka.
@@ -41,8 +41,8 @@ Default value is `connect-status`.
 AMQ Streams ships an example configuration file.
 It can be found under `config/connect-distributed.properties` in the AMQ Streams installation directory.
 
-For list of all supported Kafka Connect configuration options, see xref:kafka-connect-configuration-parameters-{context}[].
+For a list of all supported Kafka Connect configuration options, see xref:kafka-connect-configuration-parameters-{context}[].
 
-The connector plugins are opening consumer and producer connections to the Kafka brokers using the bootstrap address.
+The connector plugins open client connections to the Kafka brokers using the bootstrap address.
 These connections can be configured using the Kafka producer and consumer configuration options but prefixed with `producer.` and `consumer.`.
 For more information about producer and consumer configuration, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].
