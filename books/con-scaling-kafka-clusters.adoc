@@ -8,15 +8,12 @@
 
 == Adding brokers to a cluster
 
-The main mechanism for scalability in AMQ Streams is increasing the number of partitions. For example, you can increase the throughput for a given topic by increasing the number of partitions for that topic. Eventually, however, all of the brokers in the cluster may have limited resource like disk I/O and increasing the number of partitions does not help. Instead, you must add brokers to the cluster.
-
-The main mechanism for scalability in AMQ Streams is the partition. 
-For example, you can increase the throughput for a given topic by increasing the number of partitions for that topic.
-Eventually, however, all of the brokers in the cluster will become limited by some resource, usually disk I/O.
-At that point increasing the number of partitions will not help.
+The primary way of increasing throughput for a topic is to increase the number of partitions for that topic. 
+That works because the partitions allow the load for that topic to be shared between the brokers in the cluster.
+When the brokers are all constrained by some resource (typically I/O), then using more partitions will not yield an increase in throughput.
 Instead, you must add brokers to the cluster.
 
-Though you add an extra broker to the cluster, AMQ Streams does not assign any partitions to it automatically.
+When you add an extra broker to the cluster, AMQ Streams does not assign any partitions to it automatically.
 You have to decide which partitions to move from the existing brokers to the new broker.
 
 Once the partitions have been redistributed between all brokers, each broker should have a lower resource utilization.
