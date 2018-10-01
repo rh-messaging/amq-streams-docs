@@ -6,16 +6,16 @@
 
 = Removing ACL rules
 
-This procedure will show you how to remove ACL rules when using the `SimpleAclAuthorizer` plugin in Kafka brokers.
+This procedure describes how to remove ACL rules when using the `SimpleAclAuthorizer` plugin in Kafka brokers.
 
 .Prerequisites
 
 * AMQ Streams cluster is installed and running
 * Authorization is xref:proc-kafka-enable-authorization-{context}[enabled] in Kafka brokers.
 
-.Removing ACL rules
+.Procedure
 
-. `kafka-acls.sh` utility can be used to manage ACL rules.
+* `kafka-acls.sh` utility can be used to manage ACL rules.
 To delete existing rules, call it with option `--remove`.
 Following examples show different ACL rules being removed.
 +

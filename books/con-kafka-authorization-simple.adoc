@@ -8,7 +8,7 @@
 
 Kafka has built-in authorizer plugin called `SimpleAclAuthorizer`.
 This plugin uses Zookeeper to store the ACL rules.
-To enable Authorization / ACLs, the property `authorizer.class.name` has to be specified.
+To enable Authorization or ACLs, the property `authorizer.class.name` has to be specified.
 It has to contain a fully qualified name of the authorizer class.
 For the built-in authorizer, the fully qualified name is `kafka.security.auth.SimpleAclAuthorizer`:
 
@@ -130,7 +130,7 @@ For the default authorizer the example values are:
 |`--topic`
 |Resource
 |Specifies topic name as an ACL resource.
-`*` can be used as a wildcard which translates to "all topics".
+`*` can be used as a wildcard which translates to _all topics_.
 Multiple `--topic` options can be specified in single command.
 |
 

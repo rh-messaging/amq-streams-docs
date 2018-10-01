@@ -12,7 +12,7 @@ This procedure will show you how to enable authorization using the `SimpleAclAut
 
 * AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
 
-.Enabling authorization
+.Procedure
 
 . Edit the `/opt/kafka/config/server.properties` Kafka configuration file.
 Set the `authorizer.class.name` option to the plugin which should be used for authorization.

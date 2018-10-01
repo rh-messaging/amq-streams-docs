@@ -6,14 +6,14 @@
 
 = Adding ACL rules
 
-This procedure will show you how to add ACL rules for the `SimpleAclAuthorizer` plugin in Kafka brokers.
+This procedure describes how to add ACL rules for the `SimpleAclAuthorizer` plugin in Kafka brokers.
 
 .Prerequisites
 
 * AMQ Streams cluster is installed and running
 * Authorization is xref:proc-kafka-enable-authorization-{context}[enabled] in Kafka brokers.
 
-.Adding ACL rules
+.Procedure
 
 . `kafka-acls.sh` utility can be used to manage ACL rules.
 To add new rules, call it with option `--add`.

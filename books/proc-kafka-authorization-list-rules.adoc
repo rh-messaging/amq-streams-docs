@@ -6,16 +6,16 @@
 
 = Listing ACL rules
 
-This procedure will show you how to list existing ACL rules when using the `SimpleAclAuthorizer` plugin in Kafka brokers.
+This procedure describes how to list existing ACL rules when using the `SimpleAclAuthorizer` plugin in Kafka brokers.
 
 .Prerequisites
 
 * AMQ Streams cluster is installed and running
 * Authorization is xref:proc-kafka-enable-authorization-{context}[enabled] in Kafka brokers.
 
-.Removing ACL rules
+.Procedure
 
-. `kafka-acls.sh` utility can be used to manage ACL rules.
+* `kafka-acls.sh` utility can be used to manage ACL rules.
 To list existing rules, call it with option `--list`.
 Following examples shows list of existing ACL rules.
 +
