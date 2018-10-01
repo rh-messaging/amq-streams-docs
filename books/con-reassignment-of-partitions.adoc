@@ -25,9 +25,9 @@ If the reassignment is complete it will also remove any xref:con-reassignment-th
 Unless removed, throttles will continue to affect the cluster even after the reassignment has finished.
 
 It is only possible to have one reassignment running in the cluster at any given time, and it is not possible to cancel a running reassignment.
-If you need to cancel a reassignment you have to wait for it to complete and then perform the another reassignment to revert the effects of the first one.
+If you need to cancel a reassignment you have to wait for it to complete and then perform another reassignment to revert the effects of the first one.
 The `kafka-reassign-partitions.sh` will print the reassignment JSON for this reversion as part of its output.
-Very large reassignments should be broken down into a number of smaller reassignments in case there is a need to stop the reassignment part-way through.
+Very large reassignments should be broken down into a number of smaller reassignments in case there is a need to stop in-progress reassignment.
 
 == Reassignment JSON file
 
@@ -57,8 +57,7 @@ Where _<PartitionObjects>_ is a comma-separated list of objects like:
 
 The `"log_dirs"` property is optional and is used to move the partition to a specific log directory.
 
-For example to assign topic `topic-a`, partition `4` to brokers `2`, `4` and `7`, and topic `topic-b` partition `2` to brokers `1`, `5` and `7`, the reassignment JSON file would have contents:
-
+The following is an example reassignment JSON file that assigns topic `topic-a`, partition `4` to brokers `2`, `4` and `7`, and topic `topic-b` partition `2` to brokers `1`, `5` and `7`:
 
 [source,json]
 ----
@@ -83,14 +82,14 @@ Partitions not included in the JSON are not changed.
 
 == Generating reassignment JSON files
 
-As a shortcut, when you just need to assign _all_ the partitions for a given set of topics to a given set of brokers you can generate a _reassignment JSON file_ using `kafka-reassign-partitions.sh --generate`, using a command line like this:
+The easiest way to assign all the partitions for a given set of topics to a given set of brokers is to generate a reassignment JSON file using kafka-reassign-partitions.sh --generate, command.
 
 [source,subs=+quotes]
 ----
 bin/kafka-reassign-partitions.sh --zookeeper _<Zookeeper>_ --topics-to-move-json-file _<TopicsFile>_ --broker-list _<BrokerList>_ --generate
 ----
 
-The `_<TopicsFile>_` is a JSON files which lists the topics to move. 
+The `_<TopicsFile>_` is a JSON file which lists the topics to move. 
 It has the following structure:
 
 [source,subs=+quotes]
@@ -103,7 +102,7 @@ It has the following structure:
 }
 ----
 
-Where _<TopicObjects>_ is a comma-separated list of objects like:
+where _<TopicObjects>_ is a comma-separated list of objects like:
 
 [source,subs=+quotes]
 ----
@@ -112,14 +111,14 @@ Where _<TopicObjects>_ is a comma-separated list of objects like:
 }
 ----
 
-For example to all the partitions of `topic-a` and `topic-b` to brokers `4` and `7`
+For example to move all the partitions of `topic-a` and `topic-b` to brokers `4` and `7`
 
 [source,shell]
 ----
 bin/kafka-reassign-partitions.sh --zookeeper localhost:2181 --topics-to-move-json-file topics-to-be-moved.json --broker-list 4,7 --generate
 ----
 
-Where `topics-to-be-moved.json` has contents:
+where `topics-to-be-moved.json` has contents:
 
 [source,json]
 ----
@@ -132,6 +131,6 @@ Where `topics-to-be-moved.json` has contents:
 }
 ----
 
-== Creating reassignment JSON files by hand
+== Creating reassignment JSON files manually
 
-In other cases, where you want to move specific partitions you have to generate the reassignment JSON file by hand.
+You can manually create the reassignment JSON file if you want to move specific partitions.

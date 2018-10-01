@@ -8,18 +8,21 @@
 
 == Adding brokers to a cluster
 
+The main mechanism for scalability in AMQ Streams is increasing the number of partitions. For example, you can increase the throughput for a given topic by increasing the number of partitions for that topic. Eventually, however, all of the brokers in the cluster may have limited resource like disk I/O and increasing the number of partitions does not help. Instead, you must add brokers to the cluster.
+
 The main mechanism for scalability in AMQ Streams is the partition. 
 For example, you can increase the throughput for a given topic by increasing the number of partitions for that topic.
-Eventually, however, all of the brokers in the cluster will become limited some resource, usually disk I/O.
-At that point increasing the number of partitions will not help: You have to add brokers to the cluster instead.
+Eventually, however, all of the brokers in the cluster will become limited by some resource, usually disk I/O.
+At that point increasing the number of partitions will not help.
+Instead, you must add brokers to the cluster.
 
-While it is relatively easy to add an extra broker to the cluster, AMQ Streams won't assign any partitions to it automatically. You have to decide which partitions to more from the existing brokers to the new broker.
+Though you add an extra broker to the cluster, AMQ Streams does not assign any partitions to it automatically.
+You have to decide which partitions to move from the existing brokers to the new broker.
 
-Once the partitions have been redistributed between the all brokers, each broker should have a lower resource utilization.
+Once the partitions have been redistributed between all brokers, each broker should have a lower resource utilization.
 
 == Removing brokers from the cluster
 
-Before a broker can be safely removed from a cluster you need to ensure it is not assigned any partitions. 
-You have to decide which remaining brokers will become responsible for each of the partitions on the broker being decommissioned.
-Once the broker has no assigned partitions it can the stopped safely.
-
+Before you remove a broker from a cluster, you must ensure that it is not assigned to any partitions.
+You should decide which remaining brokers will be responsible for each of the partitions on the broker being decommissioned.
+Once the broker has no assigned partitions, you can stop it.

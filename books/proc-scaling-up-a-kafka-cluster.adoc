@@ -6,7 +6,7 @@
 
 = Scaling up a Kafka cluster
 
-This procedure will show you how to increase the number of brokers in a Kafka cluster.
+This procedure procedure describes how to increase the number of brokers in a Kafka cluster.
 
 .Prerequisites
 

@@ -7,7 +7,7 @@
 kafka-reassign-partitions.sh --zookeeper _<ZookeeperHostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --execute
 ----
 +
-If you're going to throttle replication you can also pass the `--throttle` option with an inter-broker throttled rate in bytes per second. For example:
+If you are going to throttle replication you can also pass the `--throttle` option with an inter-broker throttled rate in bytes per second. For example:
 +
 [source,shell,subs=+quotes]
 ----
@@ -40,6 +40,6 @@ For example:
 kafka-reassign-partitions.sh --zookeeper zookeeper1:2181 --reassignment-json-file reassignment.json --verify
 ----
 
-. The reassignment has finished when the `--verify` command reports each of the the partitions being moved as completed successfully. 
+. The reassignment has finished when the `--verify` command reports each of  the partitions being moved as completed successfully. 
 This final `--verify` will also have the effect of removing any reassignment throttles.
-You can now delete the revert file if you saved the JSON for reverting the assignment to their original brokers, 
+You can now delete the revert file if you saved the JSON for reverting the assignment to their original brokers.
