@@ -1,0 +1,40 @@
+// Module included in the following assemblies:
+//
+// ???
+
+[id='proc-scaling-up-a-kafka-cluster-{context}']
+
+= Scaling up a Kafka cluster
+
+This procedure procedure describes how to increase the number of brokers in a Kafka cluster.
+
+.Prerequisites
+
+* An existing Kafka cluster.
+* A new machine with the AMQ broker  xref:proc-installing-amq-streams-{context}[installed].
+* A _reassignment JSON file_ of how partitions should be reassigned to brokers in the enlarged cluster.
+
+.Procedure
+
+. Create a configuration file for the new broker using the same settings as for the other brokers in your cluster, except for `broker.id` which should be a number that is not already used by any of the other brokers.
+
+. Start the new Kafka broker passing the configuration file you created in the previous step as the argument to the `kafka-server-start.sh` script:
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+----
+
+. Verify that the Kafka broker is running.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep Kafka
+----
+
+. Repeat the above steps for each new broker.
+
+include::snip-reassign-partitions.adoc[]
+
+.Additional resources

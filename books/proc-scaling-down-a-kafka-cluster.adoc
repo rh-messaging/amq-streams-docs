@@ -1,0 +1,47 @@
+// Module included in the following assemblies:
+//
+// ???
+
+[id='proc-scaling-down-a-kafka-cluster-{context}']
+
+= Scaling down a Kafka cluster
+
+This procedure procedure describes how to decrease the number of brokers in a Kafka cluster.
+
+.Prerequisites
+
+* An existing Kafka cluster.
+* A _reassignment JSON file_ of how partitions should be reassigned to brokers in the cluster once the broker(s) have been removed.
+
+.Procedure
+
+include::snip-reassign-partitions.adoc[]
+
+. Once all the partition reassignments have finished, the broker being removed should not have responsibility for any of the partitions in the cluster.
+You can verify this by checking each of the directories given in the broker's `log.dirs` configuration parameters.
+If any of the log directories on the broker contains a directory that does not match the extended regular expression `[a-zA-Z0-9.-]+\.[a-z0-9]+-delete$` then the broker still has live partitions and it should not be stopped.
++
+You can check this by executing the command:
++
+[source,shell,subs=+quotes]
+ls -l _<LogDir_> | grep -E '^d' | grep -vE '[a-zA-Z0-9.-]+\.[a-z0-9]+-delete$'
++
+If the above command prints any output then the broker still has live partitions.
+In this case, either the reassignment has not finished, or the reassignment JSON file was incorrect.
+
+. Once you have confirmed that the broker has no live partitions you can stop it.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/kafka-server-stop.sh
+----
+
+. Confirm that the Kafka broker is stopped.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep kafka
+----
+
+.Additional resources
