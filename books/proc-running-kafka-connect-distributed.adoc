@@ -6,7 +6,7 @@
 
 = Running distributed Kafka Connect
 
-This procedure shows you how to configure and run Kafka Connect in distributed mode.
+This procedure describes how to configure and run Kafka Connect in distributed mode.
 
 .Prerequisites
 

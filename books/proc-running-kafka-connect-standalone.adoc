@@ -6,7 +6,7 @@
 
 = Running Kafka Connect in standalone mode
 
-This procedure shows you how to configure and run Kafka Connect in standalone mode.
+This procedure describes how to configure and run Kafka Connect in standalone mode.
 
 .Prerequisites
 
