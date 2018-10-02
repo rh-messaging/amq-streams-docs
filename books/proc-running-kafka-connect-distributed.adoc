@@ -6,11 +6,11 @@
 
 = Running distributed Kafka Connect
 
-This procedure will show you how to configure and run Kafka Connect in distributed mode.
+This procedure shows you how to configure and run Kafka Connect in distributed mode.
 
 .Prerequisites
 
-* AMQ Streams cluster is installed and running
+* An installed and running AMQ Streams cluster.
 
 .Running the cluster
 

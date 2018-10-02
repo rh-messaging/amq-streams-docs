@@ -4,10 +4,9 @@
 
 [id='assembly-kafka-connect-standalone-{context}']
 
-= Standalone Kafka Connect
+= Kafka Connect in standalone mode
 
-In the standalone mode, Kafka Connect is running as a single process.
-The standalone configuration is done using properties files.
+In standalone mode, Kafka Connect runs as a single process, on a single node. You manage the configuration of standalone mode using properties files.
 
 include::ref-kafka-connect-standalone-configuration.adoc[leveloffset=+1]
 

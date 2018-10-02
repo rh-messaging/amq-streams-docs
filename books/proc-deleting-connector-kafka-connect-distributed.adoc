@@ -6,34 +6,28 @@
 
 = Deleting connectors
 
-This procedure will show you how to delete a connector on Kafka Connect running in distributed mode using the REST API.
+This procedure describes how to use the Kafka Connect REST API to delete a connector plug-in from Kafka Connect in distributed mode.
 
 .Prerequisites
 
-* Kafka Connect is xref:proc-running-kafka-connect-distributed-{context}[running in distributed mode].
+* A Kafka Connect installation running in distributed mode.
 
 .Deleting connectors
 
-. Verify that connector exists by sending a `GET` request to `_<KafkaConnectAddress>_:8083/connectors/_<ConnectorName>_`.
-The following example shows how to do it using the `curl` utility:
+. Verify that the connector exists by sending a `GET` request to ``_<KafkaConnectAddress>_:8083/connectors/_<ConnectorName>_``.
+The following example uses `curl`:
 +
-[source,shell,subs=+quotes]
-----
+[source,shell]
 curl http://connect0.my-domain.com:8083/connectors
-----
 
-. DELETE the connector by sending a `DELETE` request to the `_<KafkaConnectAddress>_:8083/connectors`.
-The following example shows how to do it using the `curl` utility:
+. To delete the connector, send a `DELETE` request to ``_<KafkaConnectAddress>_:8083/connectors``.
+The following example uses `curl`:
 +
-[source,shell,subs=+quotes]
-----
+[source,shell]
 curl -X DELETE http://connect0.my-domain.com:8083/connectors/my-connector
-----
 
-. Verify that connector has been deleted by sending a `GET` request to `_<KafkaConnectAddress>_:8083/connectors`.
-The following example shows how to do it using the `curl` utility:
+. Verify that the connector was deleted by sending a GET request to ``_<KafkaConnectAddress>_:8083/connectors``.
+The following example uses `curl`:
 +
-[source,shell,subs=+quotes]
-----
+[source,shell]
 curl http://connect0.my-domain.com:8083/connectors
-----

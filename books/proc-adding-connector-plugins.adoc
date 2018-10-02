@@ -6,38 +6,40 @@
 
 = Adding connector plugins
 
-This procedure will show you how to add additional connector plugins.
+This procedure shows you how to add additional connector plug-ins.
 
 .Prerequisites
 
-* AMQ Streams cluster is installed and running
+* An installed and running AMQ Streams cluster.
 
 .Procedure
 
-. Create the directory `/opt/kafka/connector-plugins`.
+. Create the ``/opt/kafka/connector-plugins`` directory.
 +
-[source,shell,subs=+quotes]
+[source,shell]
 ----
 su - kafka
 mkdir /opt/kafka/connector-plugins
 ----
 
-. Edit the `/opt/kafka/config/connect-standalone.properties` or `/opt/kafka/config/connect-distributed.properties` Kafka Connect configuration file and set the `plugin.path` option to `/opt/kafka/connector-plugins`.
-For example:
+. Edit the ``/opt/kafka/config/connect-standalone.properties`` or ``/opt/kafka/config/connect-distributed.properties`` Kafka Connect configuration file, and set the ``plugin.path`` option to ``/opt/kafka/connector-plugins``. For example:
 +
-[source,ini]
-----
+[source,init]
 plugin.path=/opt/kafka/connector-plugins
-----
 
-. Copy your connector plugins to `/opt/kafka/connector-plugins`.
+. Copy your connector plug-ins to ``/opt/kafka/connector-plugins``.
 
-. (Re)start the Kafka Connect workers.
+. Start or restart the Kafka Connect workers.
 
 .Additional resources
 
-* For more information about installing AMQ Streams, see xref:proc-installing-amq-streams-{context}[].
-* For more information about configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].
-* For more information about running Kafka Connect in standalone mode, see xref:proc-running-kafka-connect-standalone-{context}[].
-* For more information about running Kafka Connect in distributed mode, see xref:proc-running-kafka-connect-distributed-{context}[].
+* For more information on installing AMQ Streams, see xref:proc-installing-amq-streams-{context}[].
+
+* For more information on configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].
+
+* For more information on running Kafka Connect in standalone mode, see xref:proc-running-kafka-connect-standalone-{context}[].
+
+* For more information on running Kafka Connect in distributed mode, see xref:proc-running-kafka-connect-distributed-{context}[].
+
 * For a complete list of supported Kafka Connect configuration options, see xref:kafka-connect-configuration-parameters-{context}[].
+

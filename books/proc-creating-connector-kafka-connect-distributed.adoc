@@ -6,23 +6,22 @@
 
 = Creating connectors
 
-This procedure will show you how to create a connector on Kafka Connect running in distributed mode using the REST API.
+This procedure describes how to use the Kafka Connect REST API to create a connector plug-in for use with Kafka Connect in distributed mode.
 
 .Prerequisites
 
-* Kafka Connect is xref:proc-running-kafka-connect-distributed-{context}[running in distributed mode].
+* A Kafka Connect installation running in distributed mode.
 
-.Creating connectors
+.Procedure
 
-. Prepare a JSON payload with a connector configuration.
-For example:
+. Prepare a JSON payload with the connector configuration. For example:
 +
 [source,json]
 ----
 {
   "name": "my-connector",
   "config": {
-    "connector.class": "org.apache.kafka.connect.file.FileStreamSinkConnector",
+  "connector.class": "org.apache.kafka.connect.file.FileStreamSinkConnector",
     "tasks.max": "1",
     "topics": "my-topic-1,my-topic-2",
     "file": "/tmp/output-file.txt"
@@ -30,18 +29,13 @@ For example:
 }
 ----
 
-. Create the connector by sending a `POST` request to the `_<KafkaConnectAddress>_:8083/connectors`.
-The following example shows how to do it using the `curl` utility:
+. Send a POST request to ``_<KafkaConnectAddress>_:8083/connectors`` to create the connector. The following example uses `curl`:
 +
-[source,shell,subs=+quotes]
-----
+[source,shell]
 curl -X POST -H "Content-Type: application/json" --data @sink-connector.json http://connect0.my-domain.com:8083/connectors
-----
 
-. Verify that connector has been deployed by sending a `GET` request to `_<KafkaConnectAddress>_:8083/connectors`.
-The following example shows how to do it using the `curl` utility:
+. Verify that the connector was deployed by sending a GET request to ``_<KafkaConnectAddress>_:8083/connectors``. The following example uses `curl`:
 +
-[source,shell,subs=+quotes]
-----
+[source,shell]
 curl http://connect0.my-domain.com:8083/connectors
-----
+

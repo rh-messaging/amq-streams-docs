@@ -4,45 +4,44 @@
 
 [id='ref-kafka-connect-distributed-configuration-{context}']
 
-= Configuring distributed Kafka Connect
+= Configuring Kafka Connect in distributed mode
 
-The configuration for standalone Kafka Connect is stored in `config/connect-distributed.properties` configuration file.
+To configure Kafka Connect in distributed mode, edit the ``config/connect-distributed.properties`` configuration file.
 The following options are the most important.
 
-`bootstrap.servers`::
-List of Kafka broker addresses used as bootstrap connections to Kafka.
-For example `kafka0.my-domain.com:9092,kafka1.my-domain.com:9092,kafka2.my-domain.com:9092`.
+``bootstrap.servers``::
+A list of Kafka broker addresses used as bootstrap connections to Kafka. For example, ``kafka0.my-domain.com:9092,kafka1.my-domain.com:9092,kafka2.my-domain.com:9092``.
 
-`key.converter`::
-Class used to convert message keys to and from Kafka format.
-For example `org.apache.kafka.connect.json.JsonConverter`.
+``key.converter``::
+The class used to convert message keys to and from Kafka format.
+For example, ``org.apache.kafka.connect.json.JsonConverter``.
 
-`value.converter`::
-Class used to convert message payloads to and from Kafka format.
-For example `org.apache.kafka.connect.json.JsonConverter`.
+``value.converter``::
+The class used to convert message payloads to and from Kafka format.
+For example, ``org.apache.kafka.connect.json.JsonConverter``.
 
-`group.id`::
-Name of the distributed Kafka Connect cluster.
-Has to be unique and must not conflict with any other consumer group ID.
-Default value is `connect-cluster`.
+``group.id``::
+The name of the distributed Kafka Connect cluster.
+This must be unique and must not conflict with another consumer group ID.
+The default value is ``connect-cluster``.
 
-`config.storage.topic`::
-Kafka topic used to store connector configurations.
-Default value is `connect-configs`.
+``config.storage.topic``::
+The Kafka topic used to store connector configurations.
+The default value is ``connect-configs``.
 
-`offset.storage.topic`::
-Kafka topic used for storing offsets.
-Default value is `connect-offset`.
+``offset.storage.topic``::
+The Kafka topic used to store offsets.
+The default value is ``connect-offset``.
 
-`status.storage.topic`::
-Kafka topic used for worker node statuses.
-Default value is `connect-status`.
+``status.storage.topic``::
+The Kafka topic used for worker node statuses. The default value is ``connect-status``.
 
-AMQ Streams ships an example configuration file.
-It can be found under `config/connect-distributed.properties` in the AMQ Streams installation directory.
+{ProductName} includes an example configuration file for Kafka Connect in distributed mode – see ``config/connect-distributed.properties`` in the {ProductName} installation directory.
 
-For a list of all supported Kafka Connect configuration options, see xref:kafka-connect-configuration-parameters-{context}[].
+For a complete list of all supported Kafka Connect configuration options, see xref:kafka-connect-configuration-parameters-{context}[].
 
-The connector plugins open client connections to the Kafka brokers using the bootstrap address.
-These connections can be configured using the Kafka producer and consumer configuration options but prefixed with `producer.` and `consumer.`.
-For more information about producer and consumer configuration, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].
+Connector plug-ins open client connections to the Kafka brokers using the bootstrap address.
+To configure these connections, use the standard Kafka producer and consumer configuration options prefixed by ``producer.`` or ``consumer.``.
+
+For more information on configuring Kafka producers and consumers, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].
+

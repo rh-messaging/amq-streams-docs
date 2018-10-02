@@ -4,11 +4,10 @@
 
 [id='assembly-kafka-connect-distributed-{context}']
 
-= Distributed Kafka Connect
 
-In the distributed mode, Kafka Connect is running distributed accross one or more worker nodes.
-The workloads are distributed between the nodes.
-The connectors and their configuration can be managed using the provided HTTP REST interface.
+= Kafka Connect in distributed mode
+
+In distributed mode, Kafka Connect runs across one or more worker nodes and the workloads are distributed among them. You manage connector plug-ins and their configuration using the HTTP REST interface.
 
 include::ref-kafka-connect-distributed-configuration.adoc[leveloffset=+1]
 
