@@ -2,7 +2,7 @@ include::common/attributes.adoc[]
 
 :context: str
 
-= Using AMQ Streams
+= Using AMQ Streams on Red Hat Enterprise Linux (RHEL)
 
 include::assembly-overview.adoc[leveloffset=+1]
 
