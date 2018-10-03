@@ -6,13 +6,13 @@
 
 = Enabling SASL PLAIN authentication
 
-This procedure will show you how to enable SASL PLAIN authentication in Kafka brokers.
+This procedure describes how to enable SASL PLAIN authentication in Kafka brokers.
 
 .Prerequisites
 
 * AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
 
-.Enabling SASL PLAIN authentication
+.Procedure
 
 . Edit or create the `/opt/kafka/config/jaas.conf` JAAS configuration file.
 This file should contain all your users and their passwords.
@@ -44,8 +44,7 @@ listener.security.protocol.map=INSECURE:PLAINTEXT,AUTHENTICATED:SASL_PLAINTEXT,R
 sasl.enabled.mechanisms=PLAIN
 ----
 
-. (Re)start the Kafka brokers
-To pass the JAAS configuration to Kafka brokers, use the `KAFKA_OPTS` environment variable.
+. (Re)start the Kafka brokers using the KAFKA_OPTS environment variable to pass the JAAS configuration to Kafka brokers.
 +
 [source]
 ----

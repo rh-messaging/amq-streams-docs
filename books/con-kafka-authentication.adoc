@@ -7,12 +7,12 @@
 = Authentication
 
 Kafka supports two methods of authentication.
-On all conenctions, authentication using one of the supported SASL (Simple Authentication and Security Layer) mechanisms can be used.
+On all connections, authentication using one of the supported SASL (Simple Authentication and Security Layer) mechanisms can be used.
 On encrypted connections, TLS client authentication based on X.509 certificates can be used.
 
-== TLS cLient authentication
+== TLS client authentication
 
-TLS CLient authentication can be used only on connections which are already using TLS encryption.
+TLS client authentication can be used only on connections which are already using TLS encryption.
 To use TLS client authentication, a truststore with public keys can be provided to the broker.
 These keys can be used to authenticate clients connecting to the broker.
 The truststore should be provided in Java Keystore (JKS) format and should contain public keys of the certification authorities.
@@ -39,7 +39,7 @@ Clients will be asked to authenticate using TLS client certificate but they can 
 Clients are required to authenticate using TLS client certificate.
 
 When a client authenticates using TLS client authentication, the authenticated principal name is the distinguished name from the authenticated client certificate.
-For example, an user with certificate which has distinguished name `CN=someuser` will be authenticated with the following princvpal `CN=someuser,OU=Unknown,O=Unknown,L=Unknown,ST=Unknown,C=Unknown`.
+For example, a user with a certificate which has a distinguished name `CN=someuser` will be authenticated with the following principal `CN=someuser,OU=Unknown,O=Unknown,L=Unknown,ST=Unknown,C=Unknown`.
 When TLS client authentication is not used and SASL is disabled, the principal name will be `ANONYMOUS`.
 
 == SASL authentication
@@ -48,7 +48,7 @@ SASL authentication is configured using Java Authentication and Authorization Se
 JAAS is also used for authentication of connections between Kafka and Zookeeper.
 JAAS uses its own configuration file.
 The recommended location for this file is `/opt/kafka/config/jaas.conf`.
-The file has to be be readable by the `kafka` user.
+The file has to be readable by the `kafka` user.
 When running Kafka, the location of this file is specified using Java system property  `java.security.auth.login.config`.
 This property has to be passed to Kafka when starting the broker nodes:
 
@@ -66,14 +66,14 @@ Implements authentication based on username and passwords.
 Usernames and passwords are stored locally in Kafka configuration.
 
 `SCRAM-SHA-256` and `SCRAM-SHA-512`::
-Implements authentication using Salted Challenge Response Authentication Mechanism.
+Implements authentication using Salted Challenge Response Authentication Mechanism (SCRAM).
 SCRAM credentials are stored centrally in Zookeeper.
-SCRAM can be used in situations where Zookeeper cluster nodes are running isolated in private network.
+SCRAM can be used in situations where Zookeeper cluster nodes are running isolated in a private network.
 
 `GSSAPI`::
 Implements authentication against a Kerberos server.
 
-WARNING: The `PLAIN` mechanism sends the username and password over the network in unencrypted format.
+WARNING: The `PLAIN` mechanism sends the username and password over the network in an unencrypted format.
 It should be therefore only be used in combination with TLS encryption.
 
 The SASL mechanisms are configured via the JAAS configuration file.
@@ -133,7 +133,7 @@ KafkaServer {
 .SASL SCRAM
 
 SCRAM authentication in Kafka consists of two mechanisms: `SCRAM-SHA-256` and `SCRAM-SHA-512`.
-These mechanism differ only in the hashing algorithm used - SHA-256 versus stronger SHA-512.
+These mechanisms differ only in the hashing algorithm used - SHA-256 versus stronger SHA-512.
 To enable SCRAM authentication, the JAAS configuration file has to include the following configuration:
 
 [source]
@@ -142,7 +142,7 @@ KafkaServer {
 };
 
 When enabling SASL authentication in the Kafka configuration file, both SCRAM mechanisms can be listed.
-However only one of them can be chosen for the inter-broker communication.
+However, only one of them can be chosen for the inter-broker communication.
 For example:
 
 [source]
@@ -150,8 +150,8 @@ sasl.enabled.mechanisms=SCRAM-SHA-256,SCRAM-SHA-512
 sasl.mechanism.inter.broker.protocol=SCRAM-SHA-512
 
 User credentials for the SCRAM mechanism are stored in Zookeeper.
-The `kafka-configs.sh` Command line tool can be used to manage them.
-For example to add user `user1` with password `123456`, the following command can be used:
+The `kafka-configs.sh` tool can be used to manage them.
+For example, run the following command to add user user1 with password 123456:
 
 [source]
 bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --alter --add-config 'SCRAM-SHA-256=[password=123456],SCRAM-SHA-512=[password=123456]' --entity-type users --entity-name user1

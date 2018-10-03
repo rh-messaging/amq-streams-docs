@@ -19,7 +19,7 @@ ssl.keystore.password=123456
 In some cases, an additional password is used to protect the private key.
 Any such password can be set using the `ssl.key.password` property.
 
-Kafka is able use keys signed by certification authorities as well as self-signed keys.
+Kafka is able to use keys signed by certification authorities as well as self-signed keys.
 Using keys signed by certification authorities should always be the preferred method.
 In order to allow clients to verify the identity of the Kafka broker they are connecting to, the certificate should always contain the advertised hostname(s) as its Common Name (CN) or in the Subject Alternative Names (SAN).
 

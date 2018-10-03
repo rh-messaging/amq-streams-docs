@@ -6,16 +6,16 @@
 
 = Adding SASL SCRAM users
 
-This procedure will show you how to add new users for authentication using SASL SCRAM.
+This procedure describes how to add new users for authentication using SASL SCRAM.
 
 .Prerequisites
 
 * AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
 * SASL SCRAM authentication is xref:proc-kafka-enable-scram-authentication-{context}[enabled].
 
-.Adding SASL SCRAM users
+.Procedure
 
-. Use the utility `kafka-configs.sh` to add new SASL SCRAM users.
+* Use the `kafka-configs.sh` tool to add new SASL SCRAM users.
 +
 [source,subs=+quotes]
 bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --alter --add-config 'SCRAM-SHA-512=[password=_<Password>_]' --entity-type users --entity-name _<Username>_

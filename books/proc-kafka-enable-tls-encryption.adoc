@@ -6,13 +6,13 @@
 
 = Enabling TLS encryption
 
-This procedure will show you how to enable encryption in Kafka brokers.
+This procedure describes how to enable encryption in Kafka brokers.
 
 .Prerequisites
 
 * AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
 
-.Enabling TLS encryption
+.Procedure
 
 . Generate TLS certificates for all Kafka brokers in your cluster.
 The certificates should have their advertised and bootstrap addresses in their Common Name or Subject Alternative Name.

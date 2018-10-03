@@ -6,14 +6,14 @@
 
 = Enabling TLS client authentication
 
-This procedure will show you how to enable TLS client authentication in Kafka brokers.
+This procedure describes how to enable TLS client authentication in Kafka brokers.
 
 .Prerequisites
 
 * AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
 * TLS encryption is xref:proc-kafka-enable-tls-encryption-{context}[enabled].
 
-.Enabling TLS client authentication
+.Procedure
 
 . Prepare a JKS truststore containing the public key of the certification authority used to sign the user certificates.
 
