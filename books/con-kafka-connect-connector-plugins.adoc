@@ -1,0 +1,25 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect.adoc
+
+[id='con-kafka-connect-connector-plugins-{context}']
+
+= Connector plug-ins
+
+The following connector plug-ins are included with {ProductName}.
+
+``FileStreamSink``
+Reads data from Kafka topics and writes the data to a file.
+
+``FileStreamSource``
+Reads data from a file and sends the data to Kafka topics.
+
+You can add more connector plug-ins if needed. Kafka Connect searches for and runs additional connector plug-ins at startup. To define the path that kafka Connect searches for plug-ins, set the ``plugin.path configuration`` option:
+
+[source,ini]
+plugin.path=/opt/kafka/connector-plugins,/opt/connectors
+
+The ``plugin.path`` configuration option can contain a comma-separated list of paths.
+
+When running Kafka Connect in distributed mode, plug-ins must be made available on all worker nodes.
+

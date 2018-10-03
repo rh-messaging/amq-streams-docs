@@ -1,0 +1,31 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect-standalone.adoc
+
+[id='ref-kafka-connect-standalone-configuration-{context}']
+
+= Configuring Kafka Connect in standalone mode
+
+To configure Kafka Connect in standalone mode, edit the `config/connect-standalone.properties` configuration file. 
+The following options are the most important.
+
+``bootstrap.servers``::
+A list of Kafka broker addresses used as bootstrap connections to Kafka. For example, ``kafka0.my-domain.com:9092,kafka1.my-domain.com:9092,kafka2.my-domain.com:9092``.
+
+``key.converter``::
+ The class used to convert message keys to and from Kafka format. For example, ``org.apache.kafka.connect.json.JsonConverter``.
+
+``value.converter``::
+ The class used to convert message payloads to and from Kafka format. For example, ``org.apache.kafka.connect.json.JsonConverter``.
+
+``offset.storage.file.filename``::
+ Specifies the file in which the offset data is stored.
+
+An example configuration file is provided in the installation directory at ``config/connect-standalone.properties``.
+For a complete list of all supported Kafka Connect configuration options, see [kafka-connect-configuration-parameters-{context}].
+
+Connector plug-ins open client connections to the Kafka brokers using the bootstrap address.
+To configure these connections, use the standard Kafka producer and consumer configuration options prefixed by ``producer.`` or ``consumer.``.
+
+For more information on configuring Kafka producers and consumers, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].
+

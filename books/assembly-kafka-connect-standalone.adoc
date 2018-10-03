@@ -1,0 +1,15 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect.adoc
+
+[id='assembly-kafka-connect-standalone-{context}']
+
+= Kafka Connect in standalone mode
+
+In standalone mode, Kafka Connect runs as a single process, on a single node. You manage the configuration of standalone mode using properties files.
+
+include::ref-kafka-connect-standalone-configuration.adoc[leveloffset=+1]
+
+include::ref-kafka-connect-standalone-connector-configuration.adoc[leveloffset=+1]
+
+include::proc-running-kafka-connect-standalone.adoc[leveloffset=+1]

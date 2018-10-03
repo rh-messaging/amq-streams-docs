@@ -1,0 +1,47 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect-distributed.adoc
+
+[id='ref-kafka-connect-distributed-configuration-{context}']
+
+= Configuring Kafka Connect in distributed mode
+
+To configure Kafka Connect in distributed mode, edit the ``config/connect-distributed.properties`` configuration file.
+The following options are the most important.
+
+``bootstrap.servers``::
+A list of Kafka broker addresses used as bootstrap connections to Kafka. For example, ``kafka0.my-domain.com:9092,kafka1.my-domain.com:9092,kafka2.my-domain.com:9092``.
+
+``key.converter``::
+The class used to convert message keys to and from Kafka format.
+For example, ``org.apache.kafka.connect.json.JsonConverter``.
+
+``value.converter``::
+The class used to convert message payloads to and from Kafka format.
+For example, ``org.apache.kafka.connect.json.JsonConverter``.
+
+``group.id``::
+The name of the distributed Kafka Connect cluster.
+This must be unique and must not conflict with another consumer group ID.
+The default value is ``connect-cluster``.
+
+``config.storage.topic``::
+The Kafka topic used to store connector configurations.
+The default value is ``connect-configs``.
+
+``offset.storage.topic``::
+The Kafka topic used to store offsets.
+The default value is ``connect-offset``.
+
+``status.storage.topic``::
+The Kafka topic used for worker node statuses. The default value is ``connect-status``.
+
+{ProductName} includes an example configuration file for Kafka Connect in distributed mode – see ``config/connect-distributed.properties`` in the {ProductName} installation directory.
+
+For a complete list of all supported Kafka Connect configuration options, see xref:kafka-connect-configuration-parameters-{context}[].
+
+Connector plug-ins open client connections to the Kafka brokers using the bootstrap address.
+To configure these connections, use the standard Kafka producer and consumer configuration options prefixed by ``producer.`` or ``consumer.``.
+
+For more information on configuring Kafka producers and consumers, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].
+

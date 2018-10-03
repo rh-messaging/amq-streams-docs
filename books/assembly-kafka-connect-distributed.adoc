@@ -1,0 +1,20 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect.adoc
+
+[id='assembly-kafka-connect-distributed-{context}']
+
+
+= Kafka Connect in distributed mode
+
+In distributed mode, Kafka Connect runs across one or more worker nodes and the workloads are distributed among them. You manage connector plug-ins and their configuration using the HTTP REST interface.
+
+include::ref-kafka-connect-distributed-configuration.adoc[leveloffset=+1]
+
+include::ref-kafka-connect-distributed-connector-configuration.adoc[leveloffset=+1]
+
+include::proc-running-kafka-connect-distributed.adoc[leveloffset=+1]
+
+include::proc-creating-connector-kafka-connect-distributed.adoc[leveloffset=+1]
+
+include::proc-deleting-connector-kafka-connect-distributed.adoc[leveloffset=+1]
