@@ -30,7 +30,7 @@ broker.id=0
 zookeeper.connect=zoo1.my-domain.com:2181,zoo2.my-domain.com:2181,zoo3.my-domain.com:2181
 listeners=REPLICATION://:9091,PLAINTEXT://:9092
 inter.broker.listener.name=REPLICATION
-log.dirs=/var/lib/zookeeper
+log.dirs=/var/lib/kafka
 ----
 +
 In a typical installation where each Kafka broker is running on identical hardware, only the `broker.id` configuration property will differ between each broker config.
