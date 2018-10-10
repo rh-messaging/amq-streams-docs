@@ -29,11 +29,11 @@ sudo passwd kafka
 sudo mkdir /opt/kafka
 ----
 
-. Unpack the AMQ Streams ZIP into `/opt/kafka` directory
+. Extract the contents of the AMQ Streams ZIP file into `/opt/kafka` directory
 +
 [source,shell,subs=+quotes]
 ----
-sudo tar xvfz kafka_y.y-x.x.x.tar.gz -C /opt/kafka --strip-components=1
+sudo unzip _kafka_y.y-x.x.x.tar.gz_ -C /opt/kafka --strip-components=1
 ----
 
 . Change the ownership of the `/opt/kafka` directory to the `kafka` user:
