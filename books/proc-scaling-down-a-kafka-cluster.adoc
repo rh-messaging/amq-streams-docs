@@ -24,7 +24,7 @@ If any of the log directories on the broker contains a directory that does not m
 You can check this by executing the command:
 +
 [source,shell,subs=+quotes]
-ls -l _<LogDir_> | grep -E '^d' | grep -vE '[a-zA-Z0-9.-]+\.[a-z0-9]+-delete$'
+ls -l _<LogDir>_ | grep -E '^d' | grep -vE '[a-zA-Z0-9.-]+\.[a-z0-9]+-delete$'
 +
 If the above command prints any output then the broker still has live partitions.
 In this case, either the reassignment has not finished, or the reassignment JSON file was incorrect.
