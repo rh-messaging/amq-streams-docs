@@ -82,7 +82,7 @@ Partitions not included in the JSON are not changed.
 
 == Generating reassignment JSON files
 
-The easiest way to assign all the partitions for a given set of topics to a given set of brokers is to generate a reassignment JSON file using kafka-reassign-partitions.sh --generate, command.
+The easiest way to assign all the partitions for a given set of topics to a given set of brokers is to generate a reassignment JSON file using the `kafka-reassign-partitions.sh --generate`, command.
 
 [source,subs=+quotes]
 ----
