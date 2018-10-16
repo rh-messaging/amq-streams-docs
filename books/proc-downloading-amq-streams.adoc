@@ -11,4 +11,10 @@ You can download a copy of the distribution by following the steps below.
 
 .Procedure
 
-. Download AMQ Streams {ReleaseDownload}
+. Open a browser and log in to the Red Hat Customer Portal at link:https://access.redhat.com/downloads/[https://access.redhat.com/downloads/^]. The *Product Downloads* page is displayed.
+
+. Find the category titled *JBoss Integration and Automation* containing a link to *Red Hat AMQ Streams*.
+
+. Click the hyperlink *Red Hat AMQ Streams*. The *Software Downloads* page is displayed.
+
+. Click the *Download* link for the specific {ProductName} file you want to download.

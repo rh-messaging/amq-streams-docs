@@ -22,6 +22,9 @@ Kafka Broker is the central point connecting all these components.
 The broker uses Apache Zookeeper for storing configuration data and for cluster coordination. 
 Before running Apache Kafka, an Apache Zookeeper cluster has to be ready.
 
+.Example Architecture diagram of AMQ Streams
+image::AMQ_Streams_478987_0918_01.png[AMQ Streams architecture]
+
 include::ref-overview-key-features.adoc[leveloffset=+1]
 
 include::ref-overview-supported-configurations.adoc[leveloffset=+1]
