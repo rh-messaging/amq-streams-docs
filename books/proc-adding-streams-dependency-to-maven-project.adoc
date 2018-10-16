@@ -1,0 +1,63 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-clients.adoc
+
+[id='proc-adding-clients-dependency-{context}']
+
+= Adding Kafka Streams API as a dependency to your Maven project
+
+This procedure shows you how to add the {ProductName} Java clients as a dependency to your Maven project.
+
+.Prerequisites
+
+* Maven project with existing `pom.xml`.
+
+.Procedure
+
+. Add the Red Hat Maven repository to the `<repositories>` section in your `pom.xml` file.
++
+[source,subs=attributes+,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <!-- ... -->
+
+    <repositories>
+        <repository>
+            <id>redhat-maven</id>
+            <url>{MavenRepo}</url>
+        </repository>
+    </repositories>
+
+    <!-- ... -->
+
+</project>
+----
+
+. Add `kafka-streams` to the `<dependencies>` section in your `pom.xml` file.
++
+[source,subs=attributes+,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <!-- ... -->
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+            <version>{ArtifactVersion}</version>
+        </dependency>
+    </dependencies>
+
+    <!-- ... -->
+</project>
+----
+
+. Build your Maven project.

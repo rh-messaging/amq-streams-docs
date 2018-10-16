@@ -1,0 +1,12 @@
+// Module included in the following assemblies:
+//
+// master.adoc
+
+[id='assembly-kafka-streams-{context}']
+
+= Kafka Streams API
+
+The Kafka Streams API allows applications to receive data from input streams and process them into output streams.
+It is part of the `kafka-streams` JAR package which is available in the Red Hat Maven repository.
+
+include::proc-adding-streams-dependency-to-maven-project.adoc[leveloffset=+1]
