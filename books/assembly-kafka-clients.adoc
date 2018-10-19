@@ -6,9 +6,10 @@
 
 = Kafka clients
 
-Kafka Producer and Consumer APIs are together with Kafka AdminClient API part of the `kafka-clients` JAR package.
-The Producer API allows applications to send data to a Kafka broker.
-The Consumer API allows applications to consume data from a Kafka broker.
-The AdminClient API allows management of Kafka clusters (topics, brokers and so on).
+The `kafka-clients` JAR file contains the Kafka Producer and Consumer APIs together with the Kafka AdminClient API.
+
+* The Producer API allows applications to send data to a Kafka broker.
+* The Consumer API allows applications to consume data from a Kafka broker.
+* The AdminClient API provides functionality for managing Kafka clusters, including topics, brokers, and other components.
 
 include::proc-adding-clients-dependency-to-maven-project.adoc[leveloffset=+1]
