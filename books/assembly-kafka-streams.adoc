@@ -7,6 +7,6 @@
 = Kafka Streams API overview
 
 The Kafka Streams API allows applications to receive data from one or more input streams, execute complex operations like mapping, filtering or joining, and write the results into one or more output streams.
-It is part of the `kafka-streams` JAR package which is available in the Red Hat Maven repository.
+It is part of the `kafka-streams` JAR package that is available in the Red Hat Maven repository.
 
 include::proc-adding-streams-dependency-to-maven-project.adoc[leveloffset=+1]
