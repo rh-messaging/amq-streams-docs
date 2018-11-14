@@ -17,6 +17,10 @@
 :ProductName: AMQ Streams
 :ContextProduct: streams
 :ProductVersion: 1.0-Beta
+:BaseProductLongName: Red Hat AMQ
+:BaseProductName: AMQ
+:BaseProductVersion: 7.2
+:BaseProductMajorVersion: 7
 
 // Source and download links
 :ReleaseDownload: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams&productChanged=yes[Customer Portal^]

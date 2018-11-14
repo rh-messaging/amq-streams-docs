@@ -1,6 +1,6 @@
-<productname>{ProductLongName}</productname>
-<productnumber>{ProductVersion}</productnumber>
-<subtitle></subtitle>
+<productname>{BaseProductLongName}</productname>
+<productnumber>{BaseProductVersion}</productnumber>
+<subtitle>For Use with {ProductName} {ProductVersion}</subtitle>
 <abstract>
    <para>This guide describes how to install, configure, and manage
    {ProductLongName} to build a large-scale messaging network.</para>
