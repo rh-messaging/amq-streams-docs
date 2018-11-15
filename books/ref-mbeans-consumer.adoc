@@ -1,0 +1,18 @@
+// Module included in the following assemblies:
+//
+// assembly-monitoring.adoc
+
+[id='ref-mbeans-consumer-{context}']
+= Consumer MBeans
+
+The following MBeans are present in JVMs running a Kafka consumer.
+
+[id='ref-mbeans-consumer-{context}-group']
+== Consumer group metrics
+
+**TODO** https://kafka.apache.org/documentation/#new_consumer_group_monitoring
+
+[id='ref-mbeans-consumer-{context}-fetch']
+== Consumer fetch metrics
+
+include::ref-mbeans-consumer-gen.adoc[leveloffset=+1]

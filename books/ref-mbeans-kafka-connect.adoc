@@ -1,0 +1,14 @@
+// Module included in the following assemblies:
+//
+// assembly-monitoring.adoc
+
+[id='ref-mbeans-kafka-connect-{context}']
+= Kafka Connect MBeans
+
+The following MBeans are present in JVMs running Kafka Connect.
+
+**TODO** There's some more metrics than just the generated ones below...
+
+== Sender metrics
+
+include::ref-mbeans-kafka-connect-gen.adoc[leveloffset=+1]

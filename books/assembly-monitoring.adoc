@@ -8,8 +8,6 @@
 
 = Monitoring
 
-include::con-monitoring-jmx.adoc[leveloffset=+1]
-
 Zookeeper, the Kafka broker, Kafka connect and the Kafka clients all expose management information using [JMX (Java Management Extentions)](https://www.oracle.com/technetwork/articles/java/javamanagement-140525.html). 
 Much of this management information takes the form of metrics which can be used for monitoring the health of the cluster.
 
@@ -25,10 +23,10 @@ include::con-monitoring-using-jconsole.adoc[leveloffset=+1]
 
 //include::ref-mbeans-kafka-broker.adoc[leveloffset=+1]
 
-//include::ref-mbeans-producer.adoc[leveloffset=+1]
+include::ref-mbeans-producer.adoc[leveloffset=+1]
 
-//include::ref-mbeans-consumer.adoc[leveloffset=+1]
+include::ref-mbeans-consumer.adoc[leveloffset=+1]
 
-//include::ref-mbeans-kafka-connect.adoc[leveloffset=+1]
+include::ref-mbeans-kafka-connect.adoc[leveloffset=+1]
 
 //include::ref-mbeans-kafka-streams.adoc[leveloffset=+1]

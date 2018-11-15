@@ -25,11 +25,6 @@ import java.util.regex.Pattern;
 
 public class ConfigDocGenerator {
 
-    public static void main2(String[] args) throws Exception {
-        System.out.println(convertToAsciidoc("Blah blah <a href='http://google.com'>Google</a> blah\n" +
-                "<a href=http://bing.com>Bing</a> blah!"));
-    }
-
     public static void main(String[] args) throws Exception {
         HashMap<String, Supplier<ConfigDef>> c = new HashMap<>();
         c.put("consumer", ConfigDocGenerator::consumerConfigs);
