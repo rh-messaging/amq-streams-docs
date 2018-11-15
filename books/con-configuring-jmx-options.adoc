@@ -1,0 +1,38 @@
+// Module included in the following assemblies:
+//
+// assembly-monitoring.adoc
+
+[id='con-configuring-jmx-options-{context}']
+
+= Configuring JMX options
+
+JMX is configured using JVM System properties.
+The scripts provided with AMQ Streams (e.g. `bin/kafka-server-start.sh` and `bin/connect-distributed.sh`) use the `KAFKA_JMX_OPTS` environment variable to set these System properties.
+Kafka producers, consumer and streams applications will typically start the JVM in their own way, but the System properties for configuring JMX are the same.
+
+The JMX agent within the JVM can be disabled by setting the system property `com.sun.management.jmxremote=false` before the starting JVM. 
+Doing this means that even local JMX tools cannot connect.
+For example, to disable JMX in a Kafka broker you would use the `KAFKA_JMX_OPTS` to set `com.sun.management.jmxremote=false` before the starting JVM:
+
+[source,shell,subs=+quotes]
+----
+export KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote=false
+bin/kafka-server-start.sh
+----
+
+To connect from a different machine you need to configure the port that the JMX agent will listen on.
+This can be done by setting the `com.sun.management.jmxremote.port` system property.
+Doing this is insecure because it means that JMX tools can connect from anywhere, without authentication.
+For example, to configure a Kafka broker to listen for JMX connections on `_<port>_` you would use the `KAFKA_JMX_OPTS` to set `-Dcom.sun.management.jmxremote.port=_<pod>_` before the starting JVM:
+
+[source,shell,subs=+quotes]
+----
+export KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote=true
+  -Dcom.sun.management.jmxremote.port=_<pod>_
+  -Dcom.sun.management.jmxremote.authenticate=false
+  -Dcom.sun.management.jmxremote.ssl=false"
+bin/kafka-server-start.sh
+----
+
+IMPORTANT: It is recommended to configure authentication and SSL to ensure that the remote JMX connection is secure.
+See the [JMX documentation](https://docs.oracle.com/javase/6/docs/technotes/guides/management/agent.html) for documentation of the system properties needed to do this.

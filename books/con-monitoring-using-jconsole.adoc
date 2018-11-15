@@ -1,0 +1,26 @@
+// Module included in the following assemblies:
+//
+// assembly-monitoring.adoc
+
+[id='con-monitoring-using-jconsole-{context}']
+
+= Monitoring using `jconsole`
+
+The graphical tool `jconsole`, distributed with the JDK (Java Development Kit), can connect to a local or remote JVM and be used to discover and display the management information.
+When using jconsole to connect to a local JVM the name of the JVM process corresponding to the different components of AMQ Streams are as follows:
+
+Zookeeper:: 
+`org.apache.zookeeper.server.quorum.QuorumPeerMain`:: 
+Kafka broker::
+`kafka.Kafka`
+Kafka connect standalone::
+TODO
+Kafka connect distributed::
+TODO
+A Kafka producer, consumer or streams application:: 
+The name of the `main` class for the application.
+
+When using jconsole to connect to a remote JVM, use the appropriate hostname and JMX port.
+
+Many other tools and monitoring products can be used to fetch the metrics using JMX and provide monitoring and alerting based on those metrics.
+Refer to the product documentation for those tools.

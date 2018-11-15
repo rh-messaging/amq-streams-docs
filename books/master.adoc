@@ -16,6 +16,8 @@ include::assembly-topics.adoc[leveloffset=+1]
 
 include::assembly-scaling-clusters.adoc[leveloffset=+1]
 
+include::assembly-monitoring.adoc[leveloffset=+1]
+
 include::assembly-kafka-connect.adoc[leveloffset=+1]
 
 [appendix]
