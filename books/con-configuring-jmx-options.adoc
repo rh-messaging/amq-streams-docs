@@ -7,7 +7,7 @@
 = Configuring JMX options
 
 JMX is configured using JVM System properties.
-The scripts provided with AMQ Streams (e.g. `bin/kafka-server-start.sh` and `bin/connect-distributed.sh`) use the `KAFKA_JMX_OPTS` environment variable to set these System properties.
+The scripts provided with AMQ Streams (`bin/kafka-server-start.sh` and `bin/connect-distributed.sh` for example) use the `KAFKA_JMX_OPTS` environment variable to set these System properties.
 Kafka producers, consumer and streams applications will typically start the JVM in their own way, but the System properties for configuring JMX are the same.
 
 The JMX agent within the JVM can be disabled by setting the system property `com.sun.management.jmxremote=false` before the starting JVM. 
