@@ -8,10 +8,85 @@
 
 Concept introduction.
 
-.Important metrics for cluster-level monitoring
+== Important Kafka broker metrics
+
+|===
+
+|Cell in column 1, row 1 |Cell in column 2, row 1 |Cell in column 3, row 1
+
+.2+|Content in a single cell that spans columns 1, 2, and 3
+
+|Cell in column 1, row 3
+|Cell in column 2, row 3
+|Cell in column 3, row 3
+
+|===
+
+[cols="3*",options="header"]
+|===
+
+|MBean
+|MBean attribute
+|Description
+
+|MessagesInPerSec
+|Count
+|value
+
+|
+|EventType
+|value
+
+|
+|FifteenMinuteRate
+|value
+
+|
+|RateUnit
+|value
+
+|
+|MeanRate
+|value
+
+|
+|OneMinuteRate
+|value
+
+|
+|FiveMinuteRate
+|value
+
+|===
+
+
+hello
+
+
+[stripes=none]
+|===
+|MBean              |MBean Attributes       |Description
+|MessagesInPerSec   |Count                  |
+|cell               |EventType              |
+|cell               |FifteenMinuteRate      |
+|cell               |RateUnit               |
+|cell               |MeanRate               |
+|cell               |OneMinuteRate          |
+|cell               |FiveMinuteRate         |
+|===
 
 
 
+
+
+
+Description
+
+
+
+
+//he MBean itself has the orange icon.
+//The MBean attributes are directly underneath the MBean.
 
 
 
