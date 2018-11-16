@@ -2,3 +2,4 @@ generator/target
 generator/.idea
 generator/*.iml
 out
+books/master.html
