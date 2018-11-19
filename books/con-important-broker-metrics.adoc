@@ -1,0 +1,137 @@
+// Module included in the following assemblies:
+//
+// assembly-monitoring.adoc
+
+[id='con-important-broker-metrics-{context}']
+
+= Important Kafka broker metrics
+
+Concept introduction.
+
+.Kafka server metrics
+
+Intro
+
+[cols="4*",options="header", stripes="none"]
+|===
+
+|Metric
+|MBean
+|Description
+|Expected value
+
+|Messages in per second
+m|kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec
+|Description
+|Expected value
+
+|Bytes in per second
+m|kafka.server:type=BrokerTopicMetrics,name=BytesInPerSec
+|Description
+|Expected value
+
+|Replication bytes in per second
+m|kafka.server:type=BrokerTopicMetrics,name=ReplicationBytesInPerSec
+|Description
+|Expected value
+
+|Bytes out per second
+m|kafka.server:type=BrokerTopicMetrics,name=BytesOutPerSec
+|Description
+|Expected value
+
+|Replication bytes out per second
+m|kafka.server:type=BrokerTopicMetrics,name=ReplicationBytesOutPerSec
+|Description
+|Expected value
+
+|Under-replicated partitions
+m|kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions
+|Description
+|Expected value
+
+|Under minimum ISR partition count
+m|kafka.server:type=ReplicaManager,name=UnderMinIsrPartitionCount
+|Description
+|Expected value
+
+|Partition count
+m|kafka.server:type=ReplicaManager,name=PartitionCount
+|Description
+|Expected value
+
+|Leader count
+m|kafka.server:type=ReplicaManager,name=LeaderCount
+|Description
+|Expected value
+
+|ISR shrinks per second
+m|kafka.server:type=ReplicaManager,name=IsrShrinksPerSec
+|Description
+|Expected value
+
+|ISR expands per second
+m|kafka.server:type=ReplicaManager,name=IsrExpandsPerSec
+|Description
+|Expected value
+
+|Maximum lag
+m|kafka.server:type=ReplicaFetcherManager,name=MaxLag,clientId=Replica
+|Description
+|Expected value
+
+|Requests in producer purgatory
+m|kafka.server:type=DelayedOperationPurgatory,name=PurgatorySize,delayedOperation=Produce
+|Description
+|Expected value
+
+|Requests in fetch purgatory
+m|kafka.server:type=DelayedOperationPurgatory,name=PurgatorySize,delayedOperation=Fetch
+|Description
+|Expected value
+
+|Request handler average idle percent
+m|kafka.server:type=KafkaRequestHandlerPool,name=RequestHandlerAvgIdlePercent
+|Description
+|Expected value
+
+|Request
+m|kafka.server:type=Request
+|Description
+|Expected value
+
+|Zookeeper request latency (milliseconds)
+m|kafka.server:type=ZooKeeperClientMetrics,name=ZooKeeperRequestLatencyMs
+|Description
+|Expected value
+
+|Zookeeper session state
+m|kafka.server:type=SessionExpireListener,name=SessionState
+|Description
+|Expected value
+
+|===
+
+.Kafka network metrics
+
+Intro
+
+Table
+
+.Kafka log metrics
+
+Intro
+
+Table
+
+.Kafka controller metrics
+
+Intro
+
+Table
+
+.Common attributes for Yammer metrics
+
+Explanation
+
+Table of attributes

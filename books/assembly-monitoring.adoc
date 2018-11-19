@@ -19,7 +19,7 @@ include::con-configuring-jmx-options.adoc[leveloffset=+1]
 
 include::con-monitoring-using-jconsole.adoc[leveloffset=+1]
 
-include::con-important-metrics.adoc[leveloffset=+1]
+include::con-important-broker-metrics.adoc[leveloffset=+1]
 
 //include::ref-mbeans-zookeeper.adoc[leveloffset=+1]
 
