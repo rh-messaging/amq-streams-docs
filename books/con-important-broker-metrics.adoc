@@ -116,7 +116,70 @@ m|kafka.server:type=SessionExpireListener,name=SessionState
 
 Intro
 
-Table
+[cols="4*",options="header",stripes="none",separator=¦]
+|===
+
+¦Metric
+¦MBean
+¦Description
+¦Expected value
+
+¦Requests per second
+m¦kafka.network:type=RequestMetrics,name=RequestsPerSec,request={Produce|FetchConsumer|FetchFollower}
+¦Description
+¦Expected value
+
+¦Request size in bytes
+m¦kafka.network:type=RequestMetrics,name=RequestBytes,request=([-.\w]+)
+¦Description
+¦Expected value
+
+¦Temporary memory size in bytes
+m¦kafka.network:type=RequestMetrics,name=TemporaryMemoryBytes,request={Produce|Fetch}
+¦Description
+¦Expected value
+
+¦Message conversions time
+m¦kafka.network:type=RequestMetrics,name=MessageConversionsTimeMs,request={Produce|Fetch}
+¦Description
+¦Expected value
+
+¦Total request time in milliseconds
+m¦kafka.network:type=RequestMetrics,name=TotalTimeMs,request={Produce|FetchConsumer|FetchFollower}
+¦Description
+¦Expected value
+
+¦Request queue time in milliseconds
+m¦kafka.network:type=RequestMetrics,name=RequestQueueTimeMs,request={Produce|FetchConsumer|FetchFollower}
+¦Description
+¦Expected value
+
+¦Time taken for the leader to process the request
+m¦kafka.network:type=RequestMetrics,name=LocalTimeMs,request={Produce|FetchConsumer|FetchFollower}
+¦Description
+¦Expected value
+
+¦Time the request waits for the follower
+m¦kafka.network:type=RequestMetrics,name=RemoteTimeMs,request={Produce|FetchConsumer|FetchFollower}
+¦Description
+¦Expected value
+
+¦Time the request waits in the response queue
+m¦kafka.network:type=RequestMetrics,name=ResponseQueueTimeMs,request={Produce|FetchConsumer|FetchFollower}
+¦Description
+¦Expected value
+
+¦Response send time
+m¦kafka.network:type=RequestMetrics,name=ResponseSendTimeMs,request={Produce|FetchConsumer|FetchFollower}
+¦Description
+¦Expected value
+
+¦Network processor average idle percent
+m¦kafka.network:type=SocketServer,name=NetworkProcessorAvgIdlePercent
+¦Description
+¦Expected value
+
+|===
 
 .Kafka log metrics
 
