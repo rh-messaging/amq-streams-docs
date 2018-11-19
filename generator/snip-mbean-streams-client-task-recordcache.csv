@@ -1,0 +1,5 @@
+# https://kafka.apache.org/documentation/#kafka_streams_cache_monitoring
+
+hitRatio-avg 	The average cache hit ratio defined as the ratio of cache read hits over the total cache read requests. 	kafka.streams:type=stream-record-cache-metrics,client-id=([-.\w]+),task-id=([-.\w]+),record-cache-id=([-.\w]+)
+hitRatio-min 	The mininum cache hit ratio. 	kafka.streams:type=stream-record-cache-metrics,client-id=([-.\w]+),task-id=([-.\w]+),record-cache-id=([-.\w]+)
+hitRatio-max 	The maximum cache hit ratio. 	kafka.streams:type=stream-record-cache-metrics,client-id=([-.\w]+),task-id=([-.\w]+),record-cache-id=([-.\w]+)

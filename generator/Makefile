@@ -14,6 +14,4 @@ docs: jar
 	./configs.sh "Kafka Streams configuration parameters" streams > ../books/ref-streams-config.adoc
 	./configs.sh "Topic configuration parameters" topic > ../books/ref-topic-config.adoc
 
-	./metrics.sh 'MBeans in the `kafka.producer` domain' producer > ../books/ref-mbeans-producer-gen.adoc
-	./metrics.sh 'MBeans in the `kafka.consumer` domain' consumer > ../books/ref-mbeans-consumer-gen.adoc
-	./metrics.sh 'MBeans in the `kafka.connect` domain' connect > ../books/ref-mbeans-kafka-connect-gen.adoc
+	./metrics.sh

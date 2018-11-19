@@ -12,7 +12,7 @@ Kafka producers, consumer and streams applications will typically start the JVM 
 
 The JMX agent within the JVM can be disabled by setting the system property `com.sun.management.jmxremote=false` before the starting JVM. 
 Doing this means that even local JMX tools cannot connect.
-For example, to disable JMX in a Kafka broker you would use the `KAFKA_JMX_OPTS` to set `com.sun.management.jmxremote=false` before the starting JVM:
+For example, to disable JMX in a Kafka broker you would use the `KAFKA_JMX_OPTS` to set `com.sun.management.jmxremote=false` before the starting JVM.
 
 [source,shell,subs=+quotes]
 ----

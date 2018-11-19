@@ -1,0 +1,6 @@
+# https://kafka.apache.org/documentation/#kafka_streams_task_monitoring
+
+commit-latency-avg 	The average commit time in ns for this task. 	kafka.streams:type=stream-task-metrics,client-id=([-.\w]+),task-id=([-.\w]+)
+commit-latency-max 	The maximum commit time in ns for this task. 	kafka.streams:type=stream-task-metrics,client-id=([-.\w]+),task-id=([-.\w]+)
+commit-rate 	The average number of commit calls per second. 	kafka.streams:type=stream-task-metrics,client-id=([-.\w]+),task-id=([-.\w]+)
+commit-total 	The total number of commit calls. 	kafka.streams:type=stream-task-metrics,client-id=([-.\w]+),task-id=([-.\w]+)

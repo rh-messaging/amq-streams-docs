@@ -20,7 +20,7 @@ include::assembly-monitoring.adoc[leveloffset=+1]
 
 include::assembly-kafka-connect.adoc[leveloffset=+1]
 
-[appendix]
+[appendix]  
 include::ref-broker-config.adoc[leveloffset=+1]
 
 [appendix]

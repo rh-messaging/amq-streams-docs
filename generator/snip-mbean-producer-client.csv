@@ -1,0 +1,6 @@
+# https://kafka.apache.org/documentation/#producer_monitoring
+
+waiting-threads 	The number of user threads blocked waiting for buffer memory to enqueue their records. 	kafka.producer:type=producer-metrics,client-id=([-.\w]+)
+buffer-total-bytes 	The maximum amount of buffer memory the client can use (whether or not it is currently used). 	kafka.producer:type=producer-metrics,client-id=([-.\w]+)
+buffer-available-bytes 	The total amount of buffer memory that is not being used (either unallocated or in the free list). 	kafka.producer:type=producer-metrics,client-id=([-.\w]+)
+bufferpool-wait-time 	The fraction of time an appender waits for space allocation. 	kafka.producer:type=producer-metrics,client-id=([-.\w]+)
