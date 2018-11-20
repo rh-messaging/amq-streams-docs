@@ -26,7 +26,7 @@
 :ReleaseDownload: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams&productChanged=yes[Customer Portal^]
 
 // Maven dependencies
-:MavenRepo: https://maven.repository.redhat.com/earlyaccess/all/
+:MavenRepo: https://maven.repository.redhat.com/ga/
 :ArtifactVersion: 2.0.0.redhat-00003
 
 // File locations
