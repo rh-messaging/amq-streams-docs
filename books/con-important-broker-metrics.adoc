@@ -52,62 +52,62 @@ m¦kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions
 
 ¦Under minimum ISR partition count
 m¦kafka.server:type=ReplicaManager,name=UnderMinIsrPartitionCount
-¦Description
+¦The number of partitions under the minimum In-Sync Replica Count (ISR).
 ¦Expected value
 
 ¦Partition count
 m¦kafka.server:type=ReplicaManager,name=PartitionCount
-¦Description
-¦Expected value
+¦The number of partitions in the broker.
+¦A roughly even value.
 
 ¦Leader count
 m¦kafka.server:type=ReplicaManager,name=LeaderCount
-¦Description
+¦The number of leader replicas in the broker.
 ¦Expected value
 
 ¦ISR shrinks per second
 m¦kafka.server:type=ReplicaManager,name=IsrShrinksPerSec
-¦Description
-¦Expected value
+¦The rate at which the number of ISRs in the broker decreases
+¦0
 
 ¦ISR expands per second
 m¦kafka.server:type=ReplicaManager,name=IsrExpandsPerSec
-¦Description
-¦Expected value
+¦The rate at which the number of ISRs in the broker increases.
+¦0
 
 ¦Maximum lag
 m¦kafka.server:type=ReplicaFetcherManager,name=MaxLag,clientId=Replica
-¦Description
+¦The maximum lag between the time that messages are received by the leader replica and the follower replicas.
 ¦Expected value
 
 ¦Requests in producer purgatory
 m¦kafka.server:type=DelayedOperationPurgatory,name=PurgatorySize,delayedOperation=Produce
-¦Description
+¦The number of send requests in the producer purgatory.
 ¦Expected value
 
 ¦Requests in fetch purgatory
 m¦kafka.server:type=DelayedOperationPurgatory,name=PurgatorySize,delayedOperation=Fetch
-¦Description
+¦The number of fetch requests in the fetch purgatory.
 ¦Expected value
 
 ¦Request handler average idle percent
 m¦kafka.server:type=KafkaRequestHandlerPool,name=RequestHandlerAvgIdlePercent
-¦Description
+¦The average amount of time that the request handler is idle.
 ¦Expected value
 
 ¦Request
 m¦kafka.server:type=Request
-¦Description
+¦The number of requests that are exempt from throttling.
 ¦Expected value
 
 ¦Zookeeper request latency (milliseconds)
 m¦kafka.server:type=ZooKeeperClientMetrics,name=ZooKeeperRequestLatencyMs
-¦Description
+¦The latency for ZooKeeper requests from the broker, in milliseconds.
 ¦Expected value
 
 ¦Zookeeper session state
 m¦kafka.server:type=SessionExpireListener,name=SessionState
-¦Description
+¦The status of the broker's connection to Zookeeper.
 |Expected value
 
 |===
@@ -126,17 +126,17 @@ Intro
 
 ¦Requests per second
 m¦kafka.network:type=RequestMetrics,name=RequestsPerSec,request={Produce|FetchConsumer|FetchFollower}
-¦Description
+¦The total number of requests made for the request type per second.
 ¦Expected value
 
 ¦Request size in bytes
 m¦kafka.network:type=RequestMetrics,name=RequestBytes,request=([-.\w]+)
-¦Description
+¦The size of requests made for each request type.
 ¦Expected value
 
 ¦Temporary memory size in bytes
 m¦kafka.network:type=RequestMetrics,name=TemporaryMemoryBytes,request={Produce|Fetch}
-¦Description
+¦The amount of temporary memory used for converting message formats and decompressing messages.
 ¦Expected value
 
 ¦Message conversions time
