@@ -10,104 +10,104 @@ Concept introduction.
 
 .Kafka server metrics
 
-Intro
+The following table shows a selection of the metrics available for monitoring an individual Kafka broker in your Kafka cluster.
 
-[cols="4*",options="header", stripes="none"]
+[cols="4*",options="header",stripes="none",separator=¦]
 |===
 
-|Metric
-|MBean
-|Description
-|Expected value
+¦Metric
+¦MBean
+¦Description
+¦Expected value
 
-|Messages in per second
-m|kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec
-|Description
-|Expected value
+¦Messages in per second
+m¦kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec
+¦The rate at which individual messages are consumed by the broker.
+¦Expected value
 
-|Bytes in per second
-m|kafka.server:type=BrokerTopicMetrics,name=BytesInPerSec
-|Description
-|Expected value
+¦Bytes in per second
+m¦kafka.server:type=BrokerTopicMetrics,name=BytesInPerSec
+¦The rate at which data sent from producers is consumed by the broker.
+¦Expected value
 
-|Replication bytes in per second
-m|kafka.server:type=BrokerTopicMetrics,name=ReplicationBytesInPerSec
-|Description
-|Expected value
+¦Replication bytes in per second
+m¦kafka.server:type=BrokerTopicMetrics,name=ReplicationBytesInPerSec
+¦The rate at which data from other brokers is consumed by the broker.
+¦Expected value
 
-|Bytes out per second
-m|kafka.server:type=BrokerTopicMetrics,name=BytesOutPerSec
-|Description
-|Expected value
+¦Bytes out per second
+m¦kafka.server:type=BrokerTopicMetrics,name=BytesOutPerSec
+¦The rate at which data is fetched and read from the broker by consumers.
+¦Expected value
 
-|Replication bytes out per second
-m|kafka.server:type=BrokerTopicMetrics,name=ReplicationBytesOutPerSec
-|Description
-|Expected value
+¦Replication bytes out per second
+m¦kafka.server:type=BrokerTopicMetrics,name=ReplicationBytesOutPerSec
+¦The rate at which data is sent from the broker to other brokers.
+¦Expected value
 
-|Under-replicated partitions
-m|kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions
-|Description
-|Expected value
+¦Under-replicated partitions
+m¦kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions
+¦The number of partitions that have not been fully replicated in the follower replicas. 
+¦Zero
 
-|Under minimum ISR partition count
-m|kafka.server:type=ReplicaManager,name=UnderMinIsrPartitionCount
-|Description
-|Expected value
+¦Under minimum ISR partition count
+m¦kafka.server:type=ReplicaManager,name=UnderMinIsrPartitionCount
+¦Description
+¦Expected value
 
-|Partition count
-m|kafka.server:type=ReplicaManager,name=PartitionCount
-|Description
-|Expected value
+¦Partition count
+m¦kafka.server:type=ReplicaManager,name=PartitionCount
+¦Description
+¦Expected value
 
-|Leader count
-m|kafka.server:type=ReplicaManager,name=LeaderCount
-|Description
-|Expected value
+¦Leader count
+m¦kafka.server:type=ReplicaManager,name=LeaderCount
+¦Description
+¦Expected value
 
-|ISR shrinks per second
-m|kafka.server:type=ReplicaManager,name=IsrShrinksPerSec
-|Description
-|Expected value
+¦ISR shrinks per second
+m¦kafka.server:type=ReplicaManager,name=IsrShrinksPerSec
+¦Description
+¦Expected value
 
-|ISR expands per second
-m|kafka.server:type=ReplicaManager,name=IsrExpandsPerSec
-|Description
-|Expected value
+¦ISR expands per second
+m¦kafka.server:type=ReplicaManager,name=IsrExpandsPerSec
+¦Description
+¦Expected value
 
-|Maximum lag
-m|kafka.server:type=ReplicaFetcherManager,name=MaxLag,clientId=Replica
-|Description
-|Expected value
+¦Maximum lag
+m¦kafka.server:type=ReplicaFetcherManager,name=MaxLag,clientId=Replica
+¦Description
+¦Expected value
 
-|Requests in producer purgatory
-m|kafka.server:type=DelayedOperationPurgatory,name=PurgatorySize,delayedOperation=Produce
-|Description
-|Expected value
+¦Requests in producer purgatory
+m¦kafka.server:type=DelayedOperationPurgatory,name=PurgatorySize,delayedOperation=Produce
+¦Description
+¦Expected value
 
-|Requests in fetch purgatory
-m|kafka.server:type=DelayedOperationPurgatory,name=PurgatorySize,delayedOperation=Fetch
-|Description
-|Expected value
+¦Requests in fetch purgatory
+m¦kafka.server:type=DelayedOperationPurgatory,name=PurgatorySize,delayedOperation=Fetch
+¦Description
+¦Expected value
 
-|Request handler average idle percent
-m|kafka.server:type=KafkaRequestHandlerPool,name=RequestHandlerAvgIdlePercent
-|Description
-|Expected value
+¦Request handler average idle percent
+m¦kafka.server:type=KafkaRequestHandlerPool,name=RequestHandlerAvgIdlePercent
+¦Description
+¦Expected value
 
-|Request
-m|kafka.server:type=Request
-|Description
-|Expected value
+¦Request
+m¦kafka.server:type=Request
+¦Description
+¦Expected value
 
-|Zookeeper request latency (milliseconds)
-m|kafka.server:type=ZooKeeperClientMetrics,name=ZooKeeperRequestLatencyMs
-|Description
-|Expected value
+¦Zookeeper request latency (milliseconds)
+m¦kafka.server:type=ZooKeeperClientMetrics,name=ZooKeeperRequestLatencyMs
+¦Description
+¦Expected value
 
-|Zookeeper session state
-m|kafka.server:type=SessionExpireListener,name=SessionState
-|Description
+¦Zookeeper session state
+m¦kafka.server:type=SessionExpireListener,name=SessionState
+¦Description
 |Expected value
 
 |===
@@ -185,13 +185,49 @@ m¦kafka.network:type=SocketServer,name=NetworkProcessorAvgIdlePercent
 
 Intro
 
-Table
+[cols="4*",options="header",stripes="none",separator=¦]
+|===
+
+¦Metric
+m¦MBean
+¦Description
+¦Expected Value
+
+¦Log flush rate and time in milliseconds
+m¦kafka.log:type=LogFlushStats,name=LogFlushRateAndTimeMs
+¦Description
+¦Expected Value
+
+¦Offline log directory count
+m¦kafka.log:type=LogManager,name=OfflineLogDirectoryCount
+¦Description
+¦Expected Value
+
+|===
 
 .Kafka controller metrics
 
 Intro
 
-Table
+[cols="4*",options="header",stripes="none",separator=¦]
+|===
+
+¦Active controller count
+m¦kafka.controller:type=KafkaController,name=ActiveControllerCount
+¦Description
+¦Expected Value
+
+¦Leader election rate and time in milliseconds
+m¦kafka.controller:type=ControllerStats,name=LeaderElectionRateAndTimeMs
+¦Description
+¦Expected Value
+
+¦Unclean leader elections per second
+m¦kafka.controller:type=ControllerStats,name=UncleanLeaderElectionsPerSec
+¦Description
+¦Expected Value
+
+|===
 
 .Common attributes for Yammer metrics
 
