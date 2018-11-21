@@ -6,11 +6,11 @@
 
 = Important Kafka broker metrics
 
-Concept introduction.
+Apache Kafka provides multiple MBeans for monitoring the individual Kafka brokers in your Kafka cluster. The following tables show a selection of important broker-level MBeans organized into server, network, logging, and controller categories.
 
-.Kafka server metrics
+*Kafka server metrics*
 
-The following table shows a selection of the metrics available for monitoring an individual Kafka broker in your Kafka cluster.
+The following table shows a selection of metrics for monitoring a Kafka broker at the server level.
 
 [cols="4*",options="header",stripes="none",separator=¦]
 |===
@@ -112,7 +112,7 @@ m¦kafka.server:type=SessionExpireListener,name=SessionState
 
 |===
 
-.Kafka network metrics
+*Kafka network metrics*
 
 Intro
 
@@ -141,47 +141,47 @@ m¦kafka.network:type=RequestMetrics,name=TemporaryMemoryBytes,request={Produce|
 
 ¦Message conversions time
 m¦kafka.network:type=RequestMetrics,name=MessageConversionsTimeMs,request={Produce|Fetch}
-¦Description
+¦Time in milliseconds spent on converting message formats.
 ¦Expected value
 
 ¦Total request time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=TotalTimeMs,request={Produce|FetchConsumer|FetchFollower}
-¦Description
+¦Description ???
 ¦Expected value
 
 ¦Request queue time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=RequestQueueTimeMs,request={Produce|FetchConsumer|FetchFollower}
-¦Description
+¦The length of time the request spends waiting in the request queue.
 ¦Expected value
 
-¦Time taken for the leader to process the request
+¦Local time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=LocalTimeMs,request={Produce|FetchConsumer|FetchFollower}
-¦Description
+¦The time taken for the leader to process the request.
 ¦Expected value
 
-¦Time the request waits for the follower
+¦Remote time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=RemoteTimeMs,request={Produce|FetchConsumer|FetchFollower}
-¦Description
+¦The length of time the request waits for the follower.
 ¦Expected value
 
-¦Time the request waits in the response queue
+¦Response queue time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=ResponseQueueTimeMs,request={Produce|FetchConsumer|FetchFollower}
-¦Description
+¦The length of time the request waits in the response queue.
 ¦Expected value
 
 ¦Response send time
 m¦kafka.network:type=RequestMetrics,name=ResponseSendTimeMs,request={Produce|FetchConsumer|FetchFollower}
-¦Description
+¦The time taken to send the response.
 ¦Expected value
 
 ¦Network processor average idle percent
 m¦kafka.network:type=SocketServer,name=NetworkProcessorAvgIdlePercent
-¦Description
+¦The average percentage of time that the network processors are idle.
 ¦Expected value
 
 |===
 
-.Kafka log metrics
+*Kafka log metrics*
 
 Intro
 
@@ -195,37 +195,37 @@ m¦MBean
 
 ¦Log flush rate and time in milliseconds
 m¦kafka.log:type=LogFlushStats,name=LogFlushRateAndTimeMs
-¦Description
+¦Log flush rate and time
 ¦Expected Value
 
 ¦Offline log directory count
 m¦kafka.log:type=LogManager,name=OfflineLogDirectoryCount
-¦Description
+¦The number of offline log directories (for example, after a hardware failure).
 ¦Expected Value
 
 |===
 
-.Kafka controller metrics
+*Kafka controller metrics*
 
 Intro
 
 [cols="4*",options="header",stripes="none",separator=¦]
 |===
 
-¦Active controller count
-m¦kafka.controller:type=KafkaController,name=ActiveControllerCount
+¦Metric
+m¦MBean
 ¦Description
 ¦Expected Value
+
+¦Active controller count
+m¦kafka.controller:type=KafkaController,name=ActiveControllerCount
+¦The number of brokers designated as controllers.
+¦If 1, the broker is the controller for the Kafka cluster.
 
 ¦Leader election rate and time in milliseconds
 m¦kafka.controller:type=ControllerStats,name=LeaderElectionRateAndTimeMs
-¦Description
-¦Expected Value
-
-¦Unclean leader elections per second
-m¦kafka.controller:type=ControllerStats,name=UncleanLeaderElectionsPerSec
-¦Description
-¦Expected Value
+¦The rate at which new leader replicas are elected.
+¦0
 
 |===
 
