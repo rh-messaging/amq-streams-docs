@@ -14,11 +14,11 @@ Zookeeper::
 Kafka broker::
 `kafka.Kafka`
 Kafka connect standalone::
-TODO
+`org.apache.kafka.connect.cli.ConnectStandalone`
 Kafka connect distributed::
-TODO
+`org.apache.kafka.connect.cli.ConnectDistributed`
 A Kafka producer, consumer or streams application:: 
-The name of the `main` class for the application.
+The name of the class containing the `main` method for the application.
 
 When using jconsole to connect to a remote JVM, use the appropriate hostname and JMX port.
 
