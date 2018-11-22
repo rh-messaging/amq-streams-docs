@@ -6,11 +6,11 @@
 
 = Important Kafka broker metrics
 
-Apache Kafka provides multiple MBeans for monitoring the individual Kafka brokers in your Kafka cluster. The following tables show a selection of important broker-level MBeans organized into server, network, logging, and controller categories.
+Kafka provides multiple MBeans for monitoring the performance of the brokers in your Kafka cluster. In the following tables, these broker-level MBeans are organized into server, network, logging, and controller metrics. The metrics apply to an individual broker rather than the entire cluster.
 
 *Kafka server metrics*
 
-The following table shows a selection of metrics for monitoring a Kafka broker at the server level.
+The following table shows a selection of metrics that report information about the Kafka server.
 
 [cols="4*",options="header",stripes="none",separator=¦]
 |===
@@ -23,27 +23,27 @@ The following table shows a selection of metrics for monitoring a Kafka broker a
 ¦Messages in per second
 m¦kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec
 ¦The rate at which individual messages are consumed by the broker.
-¦Expected value
+¦Approximately even when compared with the other brokers.
 
 ¦Bytes in per second
 m¦kafka.server:type=BrokerTopicMetrics,name=BytesInPerSec
 ¦The rate at which data sent from producers is consumed by the broker.
-¦Expected value
+¦Approximately even when compared with the other brokers.
 
 ¦Replication bytes in per second
 m¦kafka.server:type=BrokerTopicMetrics,name=ReplicationBytesInPerSec
-¦The rate at which data from other brokers is consumed by the broker.
-¦Expected value
+¦The rate at which data sent from other brokers is consumed by the broker.
+¦N/A
 
 ¦Bytes out per second
 m¦kafka.server:type=BrokerTopicMetrics,name=BytesOutPerSec
 ¦The rate at which data is fetched and read from the broker by consumers.
-¦Expected value
+¦N/A
 
 ¦Replication bytes out per second
 m¦kafka.server:type=BrokerTopicMetrics,name=ReplicationBytesOutPerSec
 ¦The rate at which data is sent from the broker to other brokers.
-¦Expected value
+¦N/A
 
 ¦Under-replicated partitions
 m¦kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions
@@ -52,69 +52,69 @@ m¦kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions
 
 ¦Under minimum ISR partition count
 m¦kafka.server:type=ReplicaManager,name=UnderMinIsrPartitionCount
-¦The number of partitions under the minimum In-Sync Replica Count (ISR).
-¦Expected value
+¦The number of partitions under the minimum In-Sync Replica (ISR) count.
+¦Zero
 
 ¦Partition count
 m¦kafka.server:type=ReplicaManager,name=PartitionCount
 ¦The number of partitions in the broker.
-¦A roughly even value.
+¦Approximately even when compared with the other brokers.
 
 ¦Leader count
 m¦kafka.server:type=ReplicaManager,name=LeaderCount
 ¦The number of leader replicas in the broker.
-¦Expected value
+¦Approximately even when compared with the other brokers.
 
 ¦ISR shrinks per second
 m¦kafka.server:type=ReplicaManager,name=IsrShrinksPerSec
 ¦The rate at which the number of ISRs in the broker decreases
-¦0
+¦Zero
 
 ¦ISR expands per second
 m¦kafka.server:type=ReplicaManager,name=IsrExpandsPerSec
 ¦The rate at which the number of ISRs in the broker increases.
-¦0
+¦Zero
 
 ¦Maximum lag
 m¦kafka.server:type=ReplicaFetcherManager,name=MaxLag,clientId=Replica
-¦The maximum lag between the time that messages are received by the leader replica and the follower replicas.
-¦Expected value
+¦The maximum lag between the time that messages are received by the leader replica and by the follower replicas.
+¦Proportional to the maximum batch size of a produce request.
 
 ¦Requests in producer purgatory
 m¦kafka.server:type=DelayedOperationPurgatory,name=PurgatorySize,delayedOperation=Produce
 ¦The number of send requests in the producer purgatory.
-¦Expected value
+¦N/A
 
 ¦Requests in fetch purgatory
 m¦kafka.server:type=DelayedOperationPurgatory,name=PurgatorySize,delayedOperation=Fetch
 ¦The number of fetch requests in the fetch purgatory.
-¦Expected value
+¦N/A
 
 ¦Request handler average idle percent
 m¦kafka.server:type=KafkaRequestHandlerPool,name=RequestHandlerAvgIdlePercent
 ¦The average amount of time that the request handler is idle.
-¦Expected value
+¦A lower value indicates that the workload of the broker is high. 
 
 ¦Request
 m¦kafka.server:type=Request
 ¦The number of requests that are exempt from throttling.
-¦Expected value
+¦N/A
 
 ¦Zookeeper request latency (milliseconds)
 m¦kafka.server:type=ZooKeeperClientMetrics,name=ZooKeeperRequestLatencyMs
 ¦The latency for ZooKeeper requests from the broker, in milliseconds.
-¦Expected value
+¦N/A
 
 ¦Zookeeper session state
 m¦kafka.server:type=SessionExpireListener,name=SessionState
 ¦The status of the broker's connection to Zookeeper.
-|Expected value
+¦CONNECTED
 
 |===
 
 *Kafka network metrics*
 
-Intro
+The following table shows a selection of metrics that report information about requests.
 
 [cols="4*",options="header",stripes="none",separator=¦]
 |===
@@ -127,110 +127,126 @@ Intro
 ¦Requests per second
 m¦kafka.network:type=RequestMetrics,name=RequestsPerSec,request={Produce|FetchConsumer|FetchFollower}
 ¦The total number of requests made for the request type per second.
-¦Expected value
+¦N/A
 
 ¦Request size in bytes
 m¦kafka.network:type=RequestMetrics,name=RequestBytes,request=([-.\w]+)
 ¦The size of requests made for each request type.
-¦Expected value
+¦N/A
 
 ¦Temporary memory size in bytes
 m¦kafka.network:type=RequestMetrics,name=TemporaryMemoryBytes,request={Produce|Fetch}
 ¦The amount of temporary memory used for converting message formats and decompressing messages.
-¦Expected value
+¦N/A
 
 ¦Message conversions time
 m¦kafka.network:type=RequestMetrics,name=MessageConversionsTimeMs,request={Produce|Fetch}
 ¦Time in milliseconds spent on converting message formats.
-¦Expected value
+¦N/A
 
 ¦Total request time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=TotalTimeMs,request={Produce|FetchConsumer|FetchFollower}
-¦Description ???
-¦Expected value
+¦Total time in milliseconds spent processing requests.
+¦N/A
 
 ¦Request queue time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=RequestQueueTimeMs,request={Produce|FetchConsumer|FetchFollower}
 ¦The length of time the request spends waiting in the request queue.
-¦Expected value
+¦N/A
 
 ¦Local time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=LocalTimeMs,request={Produce|FetchConsumer|FetchFollower}
 ¦The time taken for the leader to process the request.
-¦Expected value
+¦N/A
 
 ¦Remote time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=RemoteTimeMs,request={Produce|FetchConsumer|FetchFollower}
 ¦The length of time the request waits for the follower.
-¦Expected value
+¦N/A
 
 ¦Response queue time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=ResponseQueueTimeMs,request={Produce|FetchConsumer|FetchFollower}
 ¦The length of time the request waits in the response queue.
-¦Expected value
+¦N/A
 
 ¦Response send time
 m¦kafka.network:type=RequestMetrics,name=ResponseSendTimeMs,request={Produce|FetchConsumer|FetchFollower}
 ¦The time taken to send the response.
-¦Expected value
+¦N/A
 
 ¦Network processor average idle percent
 m¦kafka.network:type=SocketServer,name=NetworkProcessorAvgIdlePercent
 ¦The average percentage of time that the network processors are idle.
-¦Expected value
+¦Between zero and one.
 
 |===
 
 *Kafka log metrics*
 
-Intro
+The following table shows a selection of metrics that report information about logging.
 
 [cols="4*",options="header",stripes="none",separator=¦]
 |===
 
 ¦Metric
-m¦MBean
+¦MBean
 ¦Description
 ¦Expected Value
 
 ¦Log flush rate and time in milliseconds
 m¦kafka.log:type=LogFlushStats,name=LogFlushRateAndTimeMs
-¦Log flush rate and time
-¦Expected Value
+¦Log flush rate and time.
+¦N/A
 
 ¦Offline log directory count
 m¦kafka.log:type=LogManager,name=OfflineLogDirectoryCount
 ¦The number of offline log directories (for example, after a hardware failure).
-¦Expected Value
+¦Zero
 
 |===
 
 *Kafka controller metrics*
 
-Intro
+The following table shows a selection of metrics that report information about the controller of the cluster.
 
 [cols="4*",options="header",stripes="none",separator=¦]
 |===
 
 ¦Metric
-m¦MBean
+¦MBean
 ¦Description
 ¦Expected Value
 
 ¦Active controller count
 m¦kafka.controller:type=KafkaController,name=ActiveControllerCount
 ¦The number of brokers designated as controllers.
-¦If 1, the broker is the controller for the Kafka cluster.
+¦One indicates that the broker is the controller for the cluster.
 
 ¦Leader election rate and time in milliseconds
 m¦kafka.controller:type=ControllerStats,name=LeaderElectionRateAndTimeMs
 ¦The rate at which new leader replicas are elected.
-¦0
+¦Zero
 
 |===
 
-.Common attributes for Yammer metrics
+.Yammer metrics
 
-Explanation
+Metrics that express a rate or unit of time are provided as Yammer metrics. The class name of an MBean that uses Yammer metrics is prefixed with `com.yammer.metrics`. 
 
-Table of attributes
+Yammer rate metrics have the following attributes for monitoring requests:
+
+* Count
+* EventType (Bytes)
+* FifteenMinuteRate
+* RateUnit (Seconds)
+* MeanRate
+* OneMinuteRate
+* FiveMinuteRate
+
+Yammer time metrics have the following attributes for monitoring requests:
+
+* Max
+* Min
+* Mean
+* StdDev
+* 75/95/98/99/999^th^ Percentile
