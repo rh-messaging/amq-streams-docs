@@ -7,12 +7,12 @@
 = Configuring JMX options
 
 JMX is configured using JVM System properties.
-The scripts provided with AMQ Streams (`bin/kafka-server-start.sh` and `bin/connect-distributed.sh` for example) use the `KAFKA_JMX_OPTS` environment variable to set these System properties.
-Kafka producers, consumer and streams applications will typically start the JVM in their own way, but the System properties for configuring JMX are the same.
+The scripts provided with AMQ Streams (`bin/kafka-server-start.sh` and `bin/connect-distributed.sh`, for example) use the `KAFKA_JMX_OPTS` environment variable to set these System properties.
+Although Kafka producer, consumer, and streams applications typically start the JVM in their own way, the System properties for configuring JMX are the same.
 
-The JMX agent within the JVM can be disabled by setting the system property `com.sun.management.jmxremote=false` before the starting JVM. 
-Doing this means that even local JMX tools cannot connect.
-For example, to disable JMX in a Kafka broker you would use the `KAFKA_JMX_OPTS` to set `com.sun.management.jmxremote=false` before the starting JVM.
+You can disable the JMX agent within the JVM by setting the system property `com.sun.management.jmxremote=false` before starting the JVM. 
+Doing this means that even local JMX tools cannot connect to the JVM.
+For example, to disable JMX in a Kafka broker, use the `KAFKA_JMX_OPTS` environment variable to set `com.sun.management.jmxremote=false` before starting the JVM.
 
 [source,shell,subs=+quotes]
 ----
@@ -20,10 +20,11 @@ export KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote=false
 bin/kafka-server-start.sh
 ----
 
-To connect from a different machine you need to configure the port that the JMX agent will listen on.
-This can be done by setting the `com.sun.management.jmxremote.port` system property.
-Doing this is insecure because it means that JMX tools can connect from anywhere, without authentication.
-For example, to configure a Kafka broker to listen for JMX connections on `_<port>_` you would use the `KAFKA_JMX_OPTS` to set `-Dcom.sun.management.jmxremote.port=_<pod>_` before the starting JVM:
+To connect to the JVM from a different machine, configure the port that the JMX agent will listen on by setting the `com.sun.management.jmxremote.port` system property. 
+
+CAUTION: Connecting to the JVM from a different machine is insecure because it allows JMX tools to connect from anywhere, with no authentication.
+
+For example, to configure a Kafka broker to listen for JMX connections on `_<port>_`, use the `KAFKA_JMX_OPTS` environment variable to set `-Dcom.sun.management.jmxremote.port=_<pod>_` before starting the JVM:
 
 [source,shell,subs=+quotes]
 ----
@@ -34,5 +35,5 @@ export KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote=true
 bin/kafka-server-start.sh
 ----
 
-IMPORTANT: It is recommended to configure authentication and SSL to ensure that the remote JMX connection is secure.
-See the [JMX documentation](https://docs.oracle.com/javase/6/docs/technotes/guides/management/agent.html) for documentation of the system properties needed to do this.
+IMPORTANT: Red Hat recommends that you configure authentication and SSL to ensure that the remote JMX connection is secure.
+For more information about the system properties needed to do this, see the link:https://docs.oracle.com/javase/6/docs/technotes/guides/management/agent.html[JMX documentation].
