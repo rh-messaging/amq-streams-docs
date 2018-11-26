@@ -22,7 +22,7 @@ bin/kafka-server-start.sh
 
 To connect to the JVM from a different machine, configure the port that the JMX agent will listen on by setting the `com.sun.management.jmxremote.port` system property. 
 
-CAUTION: Connecting to the JVM from a different machine is insecure because it allows JMX tools to connect from anywhere, with no authentication.
+Connecting to the JVM from a different machine is insecure because it allows JMX tools to connect from anywhere, with no authentication.
 
 For example, to configure a Kafka broker to listen for JMX connections on `_<port>_`, use the `KAFKA_JMX_OPTS` environment variable to set `-Dcom.sun.management.jmxremote.port=_<pod>_` before starting the JVM:
 
