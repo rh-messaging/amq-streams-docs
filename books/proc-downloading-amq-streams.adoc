@@ -11,4 +11,4 @@ You can download a copy of the distribution by following the steps below.
 
 .Procedure
 
-. Download AMQ Streams {ReleaseDownload}
+- Download the AMQ Streams archive from the {ReleaseDownload}.

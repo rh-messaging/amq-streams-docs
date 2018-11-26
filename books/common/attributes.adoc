@@ -17,9 +17,17 @@
 :ProductName: AMQ Streams
 :ContextProduct: streams
 :ProductVersion: 1.0-Beta
+:BaseProductLongName: Red Hat AMQ
+:BaseProductName: AMQ
+:BaseProductVersion: 7.2
+:BaseProductMajorVersion: 7
 
 // Source and download links
-:ReleaseDownload: https://github.com/strimzi/strimzi-kafka-operator/releases[GitHub^]
+:ReleaseDownload: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams&productChanged=yes[Customer Portal^]
+
+// Maven dependencies
+:MavenRepo: https://maven.repository.redhat.com/ga/
+:ArtifactVersion: 2.0.0.redhat-00003
 
 // File locations
 :UpstreamDir: upstream/documentation/book

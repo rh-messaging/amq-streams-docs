@@ -13,7 +13,7 @@
 
 .Procedure
 
-. Add new `kafka` user and group:
+. Add new `kafka` user and group.
 +
 [source,shell,subs=+quotes]
 ----
@@ -22,22 +22,22 @@ sudo useradd -g kafka kafka
 sudo passwd kafka
 ----
 
-. Create directory `/opt/kafka`:
+. Create directory `/opt/kafka`.
 +
 [source,shell,subs=+quotes]
 ----
 sudo mkdir /opt/kafka
 ----
 
-. Create a temporary directory and extract the contents of the AMQ Streams ZIP file
+. Create a temporary directory and extract the contents of the AMQ Streams ZIP file.
 +
 [source,shell,subs=+quotes]
 ----
 mkdir /tmp/kafka
-unzip _kafka_y.y-x.x.x.tar.gz_ -d /tmp/kafka
+unzip _kafka_y.y-x.x.x.zip_ -d /tmp/kafka
 ----
 
-. Move the extracted contents into `/opt/kafka` directory and delete the temporary directory
+. Move the extracted contents into `/opt/kafka` directory and delete the temporary directory.
 +
 [source,shell,subs=+quotes]
 ----
@@ -45,14 +45,14 @@ sudo mv /tmp/kafka/_kafka_y.y-x.x.x_/* /opt/kafka/
 rm -r /tmp/kafka
 ----
 
-. Change the ownership of the `/opt/kafka` directory to the `kafka` user:
+. Change the ownership of the `/opt/kafka` directory to the `kafka` user.
 +
 [source,shell,subs=+quotes]
 ----
 sudo chown -R kafka:kafka /opt/kafka
 ----
 
-. Create directory `/var/lib/zookeeper` for storing Zookeeper data and set its ownership to the `kafka` user:
+. Create directory `/var/lib/zookeeper` for storing Zookeeper data and set its ownership to the `kafka` user.
 +
 [source,shell,subs=+quotes]
 ----
@@ -60,7 +60,7 @@ sudo mkdir /var/lib/zookeeper
 sudo chown -R kafka:kafka /var/lib/zookeeper
 ----
 
-. Create directory `/var/lib/kafka` for storing Kafka data and set its ownership to the `kafka` user:
+. Create directory `/var/lib/kafka` for storing Kafka data and set its ownership to the `kafka` user.
 +
 [source,shell,subs=+quotes]
 ----
