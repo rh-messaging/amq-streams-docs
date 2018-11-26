@@ -19,6 +19,10 @@ NOTE: The management information available for Zookeeper is not covered here. Yo
 
 include::con-jmx-configuration-options.adoc[leveloffset=+1]
 
+include::proc-disabling-jmx-agent.adoc[leveloffset=+1]
+
+include::proc-connecting-to-jvm-from-different-machine.adoc[leveloffset=+1]
+
 include::con-monitoring-using-jconsole.adoc[leveloffset=+1]
 
 include::con-important-broker-metrics.adoc[leveloffset=+1]
