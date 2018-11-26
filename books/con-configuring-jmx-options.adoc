@@ -29,7 +29,7 @@ For example, to configure a Kafka broker to listen for JMX connections on `_<por
 [source,shell,subs=+quotes]
 ----
 export KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote=true
-  -Dcom.sun.management.jmxremote.port=_<pod>_
+  -Dcom.sun.management.jmxremote.port=_<port>_
   -Dcom.sun.management.jmxremote.authenticate=false
   -Dcom.sun.management.jmxremote.ssl=false"
 bin/kafka-server-start.sh

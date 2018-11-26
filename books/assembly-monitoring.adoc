@@ -15,15 +15,13 @@ JMX works at the level of the JVM (Java Virtual Machine).
 To obtain management information, external tools can connect to the JVM that is running Zookeeper, the Kafka broker, and so on.
 By default, only tools on the same machine and running as the same user as the JVM are able to connect.
 
+NOTE: The management information available for Zookeeper is not covered here. You can view Zookeeper metrics using JConsole. For more information, see xref:con-monitoring-using-jconsole-str[Monitoring using JConsole]. 
+
 include::con-configuring-jmx-options.adoc[leveloffset=+1]
 
 include::con-monitoring-using-jconsole.adoc[leveloffset=+1]
 
 include::con-important-broker-metrics.adoc[leveloffset=+1]
-
-//include::ref-mbeans-zookeeper.adoc[leveloffset=+1]
-
-//include::ref-mbeans-kafka-broker.adoc[leveloffset=+1]
 
 include::ref-mbeans-producer-gen.adoc[leveloffset=+1]
 
