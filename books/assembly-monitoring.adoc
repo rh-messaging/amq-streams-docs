@@ -17,7 +17,7 @@ By default, only tools on the same machine and running as the same user as the J
 
 NOTE: The management information available for Zookeeper is not covered here. You can view Zookeeper metrics using JConsole. For more information, see xref:con-monitoring-using-jconsole-str[Monitoring using JConsole]. 
 
-include::con-configuring-jmx-options.adoc[leveloffset=+1]
+include::con-jmx-configuration-options.adoc[leveloffset=+1]
 
 include::con-monitoring-using-jconsole.adoc[leveloffset=+1]
 

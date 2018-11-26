@@ -141,7 +141,7 @@ m¦kafka.network:type=RequestMetrics,name=TemporaryMemoryBytes,request={Produce|
 
 ¦Message conversions time
 m¦kafka.network:type=RequestMetrics,name=MessageConversionsTimeMs,request={Produce|Fetch}
-¦Time in milliseconds spent on converting message formats.
+¦Time, in milliseconds, spent on converting message formats.
 ¦N/A
 
 ¦Total request time in milliseconds
@@ -171,9 +171,9 @@ m¦kafka.network:type=RequestMetrics,name=ResponseQueueTimeMs,request={Produce|F
 ¦The length of time, in milliseconds, that the request waits in the response queue.
 ¦N/A
 
-¦Response send time
+¦Response send time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=ResponseSendTimeMs,request={Produce|FetchConsumer|FetchFollower}
-¦The time taken to send the response.
+¦The time taken, in milliseconds, to send the response.
 ¦N/A
 
 ¦Network processor average idle percent
