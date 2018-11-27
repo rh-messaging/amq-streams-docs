@@ -108,7 +108,7 @@ EOF
 
 function connect {
     cat <<EOF
-NOTE: Kafka Connect will contain the xref:producer-mbeans-{context}[producer] MBeans for source connectors and xref:consumer-mbeans-{context}[consumer] MBeans for sink connectors in addition to those documented here.
+NOTE: Kafka Connect will contain the xref:producer-mbeans-str[producer] MBeans for source connectors and xref:consumer-mbeans-str[consumer] MBeans for sink connectors in addition to those documented here.
 
 [id='connect-mbeans-connect-metrics-client-id-{context}']
 == MBeans matching \`kafka.connect:type=connect-metrics,client-id=*\`
@@ -165,7 +165,7 @@ EOF
 
 function streams {
     cat <<EOF
-NOTE: A Streams application will contain the xref:producer-mbeans-{context}[producer] and xref:consumer-mbeans-{context}[consumer] MBeans in addition to those documented here.
+NOTE: A Streams application will contain the xref:producer-mbeans-str[producer] and xref:consumer-mbeans-str[consumer] MBeans in addition to those documented here.
 
 == MBeans matching \`kafka.streams:type=stream-metrics,client-id=*\`
 
