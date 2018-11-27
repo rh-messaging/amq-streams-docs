@@ -9,7 +9,7 @@
 [id='monitoring-{context}']
 = Monitoring your cluster using JMX
 
-Zookeeper, the Kafka broker, Kafka Connect, and the Kafka clients all expose management information using link:https://www.oracle.com/technetwork/articles/java/javamanagement-140525.html[Java Management Extensions (JMX)]. Most of this management information is in the form of metrics that you can use for monitoring the health of your Kafka cluster.
+Zookeeper, the Kafka broker, Kafka Connect, and the Kafka clients all expose management information using link:https://www.oracle.com/technetwork/articles/java/javamanagement-140525.html[Java Management Extensions (JMX)]. Most of this management information is in the form of metrics that you can use for monitoring the health of your Kafka cluster. Like other Java applications, Kafka provides this management information through managed beans, or MBeans.
 
 JMX works at the level of the JVM (Java Virtual Machine).
 To obtain management information, external tools can connect to the JVM that is running Zookeeper, the Kafka broker, and so on.

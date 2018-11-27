@@ -7,7 +7,7 @@
 [id='kafka-streams-mbeans-{context}']
 = Kafka Streams MBeans
 
-NOTE: A Streams application will contain the xref:producer-mbeans-{context}[producer] and xref:consumer-mbeans-{context}[consumer] MBeans in addition to those documented here.
+NOTE: A Streams application will contain the xref:producer-mbeans-str[producer] and xref:consumer-mbeans-str[consumer] MBeans in addition to those documented here.
 
 == MBeans matching `kafka.streams:type=stream-metrics,client-id=*`
 

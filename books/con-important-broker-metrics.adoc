@@ -8,7 +8,7 @@
 
 Kafka provides many MBeans for monitoring the performance of the brokers in your Kafka cluster. In the following tables, these broker-level MBeans are organized into server, network, logging, and controller metrics. The metrics apply to an individual broker rather than the entire cluster.
 
-*Kafka server metrics*
+.Kafka server metrics
 
 The following table shows a selection of metrics that report information about the Kafka server.
 
@@ -112,7 +112,7 @@ m¦kafka.server:type=SessionExpireListener,name=SessionState
 
 |===
 
-*Kafka network metrics*
+.Kafka network metrics
 
 The following table shows a selection of metrics that report information about requests.
 
@@ -146,7 +146,7 @@ m¦kafka.network:type=RequestMetrics,name=MessageConversionsTimeMs,request={Prod
 
 ¦Total request time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=TotalTimeMs,request={Produce|FetchConsumer|FetchFollower}
-¦Total time in milliseconds spent processing requests.
+¦Total time, in milliseconds, spent processing requests.
 ¦N/A
 
 ¦Request queue time in milliseconds
@@ -163,8 +163,6 @@ m¦kafka.network:type=RequestMetrics,name=LocalTimeMs,request={Produce|FetchCons
 m¦kafka.network:type=RequestMetrics,name=RemoteTimeMs,request={Produce|FetchConsumer|FetchFollower}
 ¦The length of time, in milliseconds, that the request waits for the follower. Separate MBeans for all available request types are listed under the `RemoteTimeMs` node.
 ¦N/A
-
-//Is this an average across all the partitions that this broker is leader for?
 
 ¦Response queue time in milliseconds
 m¦kafka.network:type=RequestMetrics,name=ResponseQueueTimeMs,request={Produce|FetchConsumer|FetchFollower}
@@ -183,7 +181,7 @@ m¦kafka.network:type=SocketServer,name=NetworkProcessorAvgIdlePercent
 
 |===
 
-*Kafka log metrics*
+.Kafka log metrics
 
 The following table shows a selection of metrics that report information about logging.
 
@@ -207,7 +205,7 @@ m¦kafka.log:type=LogManager,name=OfflineLogDirectoryCount
 
 |===
 
-*Kafka controller metrics*
+.Kafka controller metrics
 
 The following table shows a selection of metrics that report information about the controller of the cluster.
 
@@ -231,7 +229,7 @@ m¦kafka.controller:type=ControllerStats,name=LeaderElectionRateAndTimeMs
 
 |===
 
-.Yammer metrics
+== Yammer metrics
 
 Metrics that express a rate or unit of time are provided as Yammer metrics. The class name of an MBean that uses Yammer metrics is prefixed with `com.yammer.metrics`. 
 
