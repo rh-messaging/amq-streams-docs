@@ -8,7 +8,7 @@
 
 Kafka provides many MBeans for monitoring the performance of the brokers in your Kafka cluster. In the following tables, these broker-level MBeans are organized into server, network, logging, and controller metrics. The metrics apply to an individual broker rather than the entire cluster.
 
-.Kafka server metrics
+== Kafka server metrics
 
 The following table shows a selection of metrics that report information about the Kafka server.
 
@@ -112,7 +112,7 @@ m¦kafka.server:type=SessionExpireListener,name=SessionState
 
 |===
 
-.Kafka network metrics
+== Kafka network metrics
 
 The following table shows a selection of metrics that report information about requests.
 
@@ -181,7 +181,7 @@ m¦kafka.network:type=SocketServer,name=NetworkProcessorAvgIdlePercent
 
 |===
 
-.Kafka log metrics
+== Kafka log metrics
 
 The following table shows a selection of metrics that report information about logging.
 
@@ -205,7 +205,7 @@ m¦kafka.log:type=LogManager,name=OfflineLogDirectoryCount
 
 |===
 
-.Kafka controller metrics
+== Kafka controller metrics
 
 The following table shows a selection of metrics that report information about the controller of the cluster.
 
