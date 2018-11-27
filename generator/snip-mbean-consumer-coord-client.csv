@@ -1,0 +1,15 @@
+# https://kafka.apache.org/documentation/#new_consumer_group_monitoring
+
+commit-latency-avg 	The average time taken for a commit request 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+commit-latency-max 	The max time taken for a commit request 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+commit-rate 	The number of commit calls per second 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+assigned-partitions 	The number of partitions currently assigned to this consumer 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+heartbeat-response-time-max 	The max time taken to receive a response to a heartbeat request 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+heartbeat-rate 	The average number of heartbeats per second 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+join-time-avg 	The average time taken for a group rejoin 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+join-time-max 	The max time taken for a group rejoin 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+join-rate 	The number of group joins per second 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+sync-time-avg 	The average time taken for a group sync 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+sync-time-max 	The max time taken for a group sync 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+sync-rate 	The number of group syncs per second 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)
+last-heartbeat-seconds-ago 	The number of seconds since the last controller heartbeat 	kafka.consumer:type=consumer-coordinator-metrics,client-id=([-.\w]+)

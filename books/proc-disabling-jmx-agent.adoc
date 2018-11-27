@@ -1,0 +1,19 @@
+// Module included in the following assemblies:
+//
+// assembly-monitoring.adoc
+
+[id='proc-disabling-jmx-agent-{context}']
+
+= Disabling the JMX agent
+
+You can prevent local JMX tools from connecting to the JVM (for example, for compliance reasons) by disabling the JMX agent for an {ProductName} component. The following procedure explains how to disable the JMX agent for a Kafka broker.
+
+.Procedure
+
+* Before you start the JVM, use the `KAFKA_JMX_OPTS` environment variable to set `com.sun.management.jmxremote` to `false`.
++
+[source,shell,subs=+quotes]
+----
+export KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote=false
+bin/kafka-server-start.sh
+----
