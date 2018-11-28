@@ -204,7 +204,17 @@ $(metrics           'kafka.streams:type=stream-record-cache-metrics,client-id=*,
 EOF
 }
 
-adoc ../books/ref-mbeans-producer-gen.adoc "Producer MBeans" "$(producer)"
-adoc ../books/ref-mbeans-consumer-gen.adoc "Consumer MBeans" "$(consumer)"
-adoc ../books/ref-mbeans-kafka-connect-gen.adoc "Kafka Connect MBeans" "$(connect)"
-adoc ../books/ref-mbeans-kafka-streams-gen.adoc "Kafka Streams MBeans" "$(streams)"
+case $1 in
+    producer)
+    adoc $2 "Producer MBeans" "$(producer)"
+    ;;
+    consumer)
+    adoc $2 "Consumer MBeans" "$(consumer)"
+    ;;
+    connect)
+    adoc $2 "Kafka Connect MBeans" "$(connect)"
+    ;;
+    streams)
+    adoc $2 "Kafka Streams MBeans" "$(streams)"
+    ;;
+esac

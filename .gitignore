@@ -1,5 +1,9 @@
 generator/target
 generator/.idea
 generator/*.iml
+generator/*.adoc
 out
 books/master.html
+Makefile.publish
+html/
+
