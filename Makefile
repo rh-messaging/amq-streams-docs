@@ -6,7 +6,8 @@ include ./Makefile.os
 -include ./Makefile.publish
 
 clean: 
-	rm -r html
+	rm -r html || true
+	$(MAKE) -C generator $(MAKECMDGOALS)
 
 check:
 	./.travis/check_docs.sh books
@@ -15,20 +16,23 @@ $(CONFIG_DOCS):
 	$(MAKE) -C generator $@
 	cp generator/$@ books/$@
 
-$(METRICS_DOCS): 
+$(METRICS_DOCS):
 	$(MAKE) -C generator $@
 	cp generator/$@ books/$@
 
-books/master.html: $(CONFIG_DOCS) $(METRICS_DOCS)
+generated: $(METRICS_DOCS) $(CONFIG_DOCS)
+
+html/index.html: books/*.adoc
 # Convert the asciidoc to html
 	mkdir -p html
 	$(CP) -vrL books/images html/images
 	asciidoctor -v --failure-level WARN -t -dbook -a ProductVersion=$(RELEASE_VERSION) -a GithubVersion=$(GITHUB_VERSION) books/master.adoc -o html/index.html
 
-build: books/master.html
+build: html/index.html
+
+buildall: generated build
 
 publish: build
 	rsync -av html/ $(PUBLISH_DEST)
 
-
-.PHONY: clean check generator build
+.PHONY: clean check generated $(CONFIG_DOCS) $(METRICS_DOCS) build buildall publish

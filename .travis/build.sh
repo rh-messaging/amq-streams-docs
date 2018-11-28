@@ -1,3 +1,3 @@
 #!/bin/sh
 
-make build check
+make buildall check
