@@ -1,6 +1,6 @@
 TOOL=target/amq-streams-docs-0.1.0-SNAPSHOT.jar
-CONFIG_DOCS=$(wildcard ref-*-config.adoc)
-METRICS_DOCS=$(wildcard ref-mbeans-*-gen.adoc)
+CONFIG_DOCS=ref-broker-config.adoc ref-consumer-config.adoc ref-producer-config.adoc ref-admin-client-config.adoc ref-connect-config.adoc ref-streams-config.adoc ref-topic-config.adoc
+METRICS_DOCS=ref-mbeans-producer-gen.adoc ref-mbeans-consumer-gen.adoc ref-mbeans-kafka-connect-gen.adoc ref-mbeans-kafka-streams-gen.adoc
 JAVA_FILES:=$(shell find src/main/java/ -type f -name '*.java')
 
 docs: configs metrics
@@ -50,4 +50,4 @@ ref-mbeans-kafka-streams-gen.adoc: metrics.sh $(TOOL)
 
 metrics: $(METRICS_DOCS)
 
-.PHONY: clean configs metrics docs
+.PHONY: docs clean configs metrics 
