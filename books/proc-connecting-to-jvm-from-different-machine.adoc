@@ -10,7 +10,7 @@ You can connect to the JVM from a different machine by configuring the port that
 
 .Procedure
 
-. Before you start the JVM, use the `KAFKA_JMX_OPTS` environment variable to set `-Dcom.sun.management.jmxremote.port=_<port>_`. For `_<port>_`, enter the name of the port on which you want the Kafka broker to listen for JMX connections.
+. Use the `KAFKA_JMX_OPTS` environment variable to set `-Dcom.sun.management.jmxremote.port=_<port>_`. For `_<port>_`, enter the name of the port on which you want the Kafka broker to listen for JMX connections.
 +
 [source,shell,subs=+quotes]
 ----
@@ -21,5 +21,7 @@ export KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote=true
 bin/kafka-server-start.sh
 ----
 
+. Start the JVM.
+
 IMPORTANT: It is recommended that you configure authentication and SSL to ensure that the remote JMX connection is secure.
-For more information about the system properties needed to do this, see the link:https://docs.oracle.com/javase/6/docs/technotes/guides/management/agent.html[JMX documentation].
+For more information about the system properties needed to do this, see the link:https://docs.oracle.com/javase/6/docs/technotes/guides/management/agent.html[JMX documentation, window="_blank"].
