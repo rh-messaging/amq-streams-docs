@@ -6,7 +6,7 @@
 
 = Monitoring using JConsole
 
-The JConsole tool is distributed with the JDK (Java Development Kit). You can use JConsole to connect to a local or remote JVM and discover and display management information from Java applications.
+The JConsole tool is distributed with the Java Development Kit (JDK). You can use JConsole to connect to a local or remote JVM and discover and display management information from Java applications.
 If using JConsole to connect to a local JVM, the names of the JVM processes corresponding to the different components of AMQ Streams are as follows:
 
 [cols="2*",options="header",stripes="none",separator=¦]

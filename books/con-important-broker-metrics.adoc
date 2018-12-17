@@ -6,7 +6,9 @@
 
 = Important Kafka broker metrics
 
-Kafka provides many MBeans for monitoring the performance of the brokers in your Kafka cluster. In the following tables, these broker-level MBeans are organized into server, network, logging, and controller metrics. These metrics apply to an individual broker rather than the entire cluster.
+Kafka provides many MBeans for monitoring the performance of the brokers in your Kafka cluster. These apply to an individual broker rather than the entire cluster.
+
+The following tables present a selection of these broker-level MBeans organized into server, network, logging, and controller metrics.
 
 == Kafka server metrics
 

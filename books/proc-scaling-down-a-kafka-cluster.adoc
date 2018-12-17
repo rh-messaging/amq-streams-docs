@@ -43,5 +43,3 @@ su - kafka
 ----
 jcmd | grep kafka
 ----
-
-.Additional resources
