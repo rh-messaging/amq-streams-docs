@@ -13,11 +13,11 @@ These are not the application log files which record what the broker is doing.
 .Log directories
 
 You can configure log directories using the `log.dirs` property filed to store commit logs in one or multiple log directories.
-It should be set to `/var/lib/zookeeper` directory created during installation:
+It should be set to `/var/lib/kafka` directory created during installation:
 
 [source]
 ----
-log.dirs=/var/lib/zookeeper
+log.dirs=/var/lib/kafka
 ----
 
 For performance reasons, you can configure log.dirs to multiple directories and place each of them on a different physical device to improve disk I/O performance.
@@ -25,5 +25,5 @@ For example:
 
 [source]
 ----
-log.dirs=/var/lib/zookeeper1,/var/lib/zookeeper2,/var/lib/zookeeper3
+log.dirs=/var/lib/kafka1,/var/lib/kafka2,/var/lib/kafka3
 ----
