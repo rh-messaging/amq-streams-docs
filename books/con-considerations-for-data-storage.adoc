@@ -22,9 +22,3 @@ Although the use of solid-state drives (SSDs) is not required, they can provide 
 If possible, use separate disks for data storage by Kafka and Zookeeper.
 
 It is recommended that you configure your storage system to use the XFS file system. AMQ Streams is also compatible with the ext4 file system, but this might require additional configuration.
-
-
-
-
-
-
