@@ -1,0 +1,24 @@
+// Module included in the following assemblies:
+//
+// assembly-overview.adoc
+
+[id='considerations-for-data-storage-{context}']
+
+= Considerations for data storage
+
+Consider the following information when choosing a data storage system for {ProductName} on Red Hat Enterprise Linux.
+
+{ProductName} and Zookeeper both require the use of block storage.
+The use of file storage is not recommended.
+
+You do not need to provision replicated storage because Kafka and Zookeeper both have built-in data replication.
+
+Choose local storage for optimal performance. If local storage is not available, you can use a Storage Area Network (SAN) accessed by a protocol such as Fibre Channel or iSCSI.
+
+NOTE: {ProductName} is known to work well with cloud-based block storage solutions, including Amazon Elastic Block Store (EBS).
+
+Although the use of solid-state drives (SSDs) is not required for Apache Kafka, they can provide improved performance in large clusters where data will be sent to and received from multiple topics asynchronously. SSDs are particularly effective for use with Zookeeper, which requires fast, low latency data access.
+
+If possible, use separate disks for data storage by Kafka and Zookeeper.
+
+It is recommended that you configure your storage system to use the XFS file system. {ProductName} is also compatible with the ext4 file system, but this might require additional configuration to achieve optimal performance.

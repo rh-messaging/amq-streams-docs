@@ -29,4 +29,6 @@ include::ref-overview-key-features.adoc[leveloffset=+1]
 
 include::ref-overview-supported-configurations.adoc[leveloffset=+1]
 
+include::con-considerations-for-data-storage.adoc[leveloffset=+1]
+
 include::ref-overview-document-conventions.adoc[leveloffset=+1]
