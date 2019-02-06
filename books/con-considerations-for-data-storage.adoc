@@ -17,7 +17,7 @@ Choose local storage for optimal performance. If local storage is not available,
 
 NOTE: {ProductName} is known to work well with cloud-based block storage solutions, including Amazon Elastic Block Store (EBS).
 
-Although the use of solid-state drives (SSDs) is not required, they can provide improved performance in large clusters where data will be sent to and received from multiple topics asynchronously. SSDs are particularly effective for use with Zookeeper, which requires fast, low latency data access.
+Although the use of solid-state drives (SSDs) is not required for Apache Kafka, they can provide improved performance in large clusters where data will be sent to and received from multiple topics asynchronously. SSDs are particularly effective for use with Zookeeper, which requires fast, low latency data access.
 
 If possible, use separate disks for data storage by Kafka and Zookeeper.
 
