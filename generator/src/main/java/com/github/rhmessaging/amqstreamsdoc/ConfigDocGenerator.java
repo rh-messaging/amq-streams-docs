@@ -17,13 +17,18 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ConfigDocGenerator {
+
+    private static final Pattern SENTENCE_TERMINATION = Pattern.compile("^.*[.!?]\\s*$", Pattern.MULTILINE|Pattern.DOTALL);
 
     public static void main(String[] args) throws Exception {
         HashMap<String, Supplier<ConfigDef>> c = new HashMap<>();
@@ -52,8 +57,9 @@ public class ConfigDocGenerator {
         Appendable out = System.out;
         Method headersMethod = def.getClass().getDeclaredMethod("headers");
         headersMethod.setAccessible(true);
-        List<String> headers = (List<String>) headersMethod.invoke(def);
-        out.append("[cols=\"" + headers.size() + "\",options=\"header\",separator=¦]\n");
+        List<String> headers = new ArrayList<>((List<String>) headersMethod.invoke(def));
+        headers.remove("Importance");
+        out.append("[cols=\"30,40,10,10,10\"" + "\",options=\"header\",separator=¦]\n");
         out.append("|=====\n");
         for (String header : headers) {
             out.append("¦").append(header).append(" ");
@@ -67,35 +73,61 @@ public class ConfigDocGenerator {
         sortedConfigs.setAccessible(true);
 
         List<ConfigDef.ConfigKey> keys = (List) sortedConfigs.invoke(def);
-        for (ConfigDef.ConfigKey key : keys) {
-            if (key.internalConfig) {
-                continue;
-            }
-            for (String header : headers) {
-                String cellContent = String.valueOf(getConfigValueMethod.invoke(def, key, header));
-
-                // In Kafka 2.0 NonNullValidator didn't override toString()
-                if ("Valid Values".equals(header) &&
-                        cellContent.matches("org\\.apache\\.kafka\\.common\\.config\\.ConfigDef\\$NonNullValidator@[0-9a-f]+")) {
-                    cellContent = "non-null value";
+        Map<String, List<ConfigDef.ConfigKey>> grouped = groupByImportance(getConfigValueMethod, def, keys);
+        for (Map.Entry<String, List<ConfigDef.ConfigKey>> entry : grouped.entrySet()) {
+            String importance = entry.getKey();
+            out.append("5+h¦").append(importance).append(" importance\n");
+            for (ConfigDef.ConfigKey key : entry.getValue()) {
+                if (key.internalConfig) {
+                    continue;
                 }
+                out.append("\n\n");
+                for (String header : headers) {
+                    if ("Importance".equals(header)) {
+                        continue;
+                    }
+                    String cellContent = String.valueOf(getConfigValueMethod.invoke(def, key, header));
 
-                String cellFmt;
-                if ("Name".equals(header)) {
-                    cellContent = '`' + cellContent + '`';
-                    cellFmt = "";
-                } else if ("Description".equals(header)) {
-                    cellContent = convertToAsciidoc(cellContent);
-                    cellFmt = "a";
-                } else {
-                    cellFmt = "";
+                    // In Kafka 2.0 NonNullValidator didn't override toString()
+                    if ("Valid Values".equals(header) &&
+                            cellContent.matches("org\\.apache\\.kafka\\.common\\.config\\.ConfigDef\\$NonNullValidator@[0-9a-f]+")) {
+                        cellContent = "non-null value";
+                    }
+
+                    String cellFmt;
+                    if ("Name".equals(header)) {
+                        cellContent = '`' + cellContent + '`';
+                        cellFmt = "";
+                    } else if ("Description".equals(header)) {
+                        cellContent = convertToAsciidoc(cellContent);
+                        if (!SENTENCE_TERMINATION.matcher(cellContent).matches()) {
+                            cellContent = cellContent + ".";
+                        }
+                        cellFmt = "a";
+                    } else {
+                        cellFmt = "";
+                    }
+                    out.append(cellFmt).append("¦").append(cellContent).append('\n');
+                    // TODO Dynamic broker configs
                 }
-                out.append(cellFmt).append("¦").append(cellContent).append('\n');
-                // TODO Dynamic broker configs
+                out.append('\n');
             }
-            out.append('\n');
         }
         out.append("|=====\n");
+    }
+
+    private static Map<String, List<ConfigDef.ConfigKey>> groupByImportance(Method getConfigValueMethod, ConfigDef def, List<ConfigDef.ConfigKey> keys) throws InvocationTargetException, IllegalAccessException {
+        Map<String, List<ConfigDef.ConfigKey>> result = new LinkedHashMap<>();
+        for (ConfigDef.ConfigKey key : keys) {
+            String cellContent = String.valueOf(getConfigValueMethod.invoke(def, key, "Importance"));
+            List<ConfigDef.ConfigKey> group = result.get(cellContent);
+            if (group == null) {
+                group = new ArrayList<>();
+                result.put(cellContent, group);
+            }
+            group.add(key);
+        }
+        return result;
     }
 
     private static String convertToAsciidoc(String html) {
