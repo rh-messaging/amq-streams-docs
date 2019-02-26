@@ -3,6 +3,8 @@ CONFIG_DOCS=ref-broker-config.adoc ref-consumer-config.adoc ref-producer-config.
 METRICS_DOCS=ref-mbeans-producer-gen.adoc ref-mbeans-consumer-gen.adoc ref-mbeans-kafka-connect-gen.adoc ref-mbeans-kafka-streams-gen.adoc
 JAVA_FILES:=$(shell find src/main/java/ -type f -name '*.java')
 
+buildall: docs
+
 docs: configs metrics
 
 clean:
@@ -50,4 +52,4 @@ ref-mbeans-kafka-streams-gen.adoc: metrics.sh $(TOOL)
 
 metrics: $(METRICS_DOCS)
 
-.PHONY: docs clean configs metrics 
+.PHONY: buildall docs clean configs metrics 
