@@ -12,6 +12,9 @@ cat <<EOF
 // Module included in the following assemblies:
 //
 // assembly-overview.adoc
+//
+// THIS FILE IS AUTO-GENERATED. DO NOT EDIT BY HAND
+// Run "make clean buildall" to regenerate.
 
 [id='$DOC_ID-{context}']
 = ${TITLE}

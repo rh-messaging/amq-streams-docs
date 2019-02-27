@@ -5,6 +5,8 @@
 package com.github.rhmessaging.amqstreamsdoc;
 
 import kafka.log.LogConfig$;
+import kafka.server.DynamicBrokerConfig;
+import kafka.server.DynamicBrokerConfig$;
 import kafka.server.KafkaConfig$;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -17,13 +19,20 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.Collections.emptyMap;
+
 public class ConfigDocGenerator {
+
+    private static final Pattern SENTENCE_TERMINATION = Pattern.compile("^.*[.!?]\\s*$", Pattern.MULTILINE|Pattern.DOTALL);
 
     public static void main(String[] args) throws Exception {
         HashMap<String, Supplier<ConfigDef>> c = new HashMap<>();
@@ -43,22 +52,21 @@ public class ConfigDocGenerator {
             if (def == null) {
                 throw new IllegalArgumentException("Unknown config " + arg);
             }
-            generateTable(def.get());
+
+            generateTable(def.get(), "broker".equals(arg) ? DynamicBrokerConfig$.MODULE$.dynamicConfigUpdateModes() : null);
         }
     }
 
-    private static void generateTable(ConfigDef def) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, IOException {
+    private static void generateTable(ConfigDef def, Map<String, String> dynamicUpdates) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, IOException {
 
         Appendable out = System.out;
         Method headersMethod = def.getClass().getDeclaredMethod("headers");
         headersMethod.setAccessible(true);
-        List<String> headers = (List<String>) headersMethod.invoke(def);
-        out.append("[cols=\"" + headers.size() + "\",options=\"header\",separator=¦]\n");
-        out.append("|=====\n");
-        for (String header : headers) {
-            out.append("¦").append(header).append(" ");
-        }
-        out.append("\n\n");
+        List<String> headers = new ArrayList<>((List<String>) headersMethod.invoke(def));
+        headers.remove("Name");
+        headers.remove("Description");
+        headers.add("Description");
+        headers.add(0, "Name");
 
         Method getConfigValueMethod = def.getClass().getDeclaredMethod("getConfigValue", ConfigDef.ConfigKey.class, String.class);
         getConfigValueMethod.setAccessible(true);
@@ -80,27 +88,37 @@ public class ConfigDocGenerator {
                     cellContent = "non-null value";
                 }
 
-                String cellFmt;
+
                 if ("Name".equals(header)) {
-                    cellContent = '`' + cellContent + '`';
-                    cellFmt = "";
+                    cellContent = '`' + cellContent + "`::";
                 } else if ("Description".equals(header)) {
-                    cellContent = convertToAsciidoc(cellContent);
-                    cellFmt = "a";
+                    if (dynamicUpdates != null) {
+                        String dynamicUpdate = dynamicUpdates.getOrDefault(key.name, "read-only");
+                        out.append("*Dynamic update:* ").append(dynamicUpdate).append(" +\n");
+                    }
+
+                    cellContent = convertToAsciidoc(cellContent.trim());
+                    if (!SENTENCE_TERMINATION.matcher(cellContent).matches()) {
+                        cellContent = cellContent + ".";
+                    }
+                    out.append("+\n");
                 } else {
-                    cellFmt = "";
+                    if (cellContent.isEmpty()) {
+                        continue;
+                    }
+                    cellContent = "*" + header + ":* " + cellContent + " +";
                 }
-                out.append(cellFmt).append("¦").append(cellContent).append('\n');
+                out.append(cellContent).append('\n');
                 // TODO Dynamic broker configs
             }
             out.append('\n');
         }
-        out.append("|=====\n");
     }
 
     private static String convertToAsciidoc(String html) {
         String adoc = html.replaceAll("</?code>", "`").replace("¦", "\\¦");
-        adoc = adoc.replace("<ul>", "\n")
+        adoc = adoc.replaceAll("(</p>\\s*)?<p>", "\n+\n")
+            .replace("<ul>", "\n")
             .replace("<li>", "\n* ")
             .replace("</li>", "")
             .replace("</ul>", "")
