@@ -2,7 +2,7 @@ include::common/attributes.adoc[]
 
 :context: str
 
-= Release Notes for {ProductName} {ProductVersion} on OpenShift Container Platform
+= {ProductName} {ProductVersion} on OpenShift Container Platform Release Notes
 
 // Features
 
