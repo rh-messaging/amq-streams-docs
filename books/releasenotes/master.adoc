@@ -2,7 +2,7 @@ include::common/attributes.adoc[]
 
 :context: str
 
-= {ProductName} {ProductVersion} on OpenShift Container Platform Release Notes
+= {ProductName} {ProductVersion} on Red Hat Enterprise Linux (RHEL)
 
 // Features
 
