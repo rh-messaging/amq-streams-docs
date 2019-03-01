@@ -1,0 +1,32 @@
+include::common/attributes.adoc[]
+
+:context: str
+
+= Release Notes for {ProductName} {ProductVersion} on OpenShift Container Platform
+
+// Features
+
+include::ref_features.adoc[leveloffset=+1]
+
+// Enhancements
+
+include::ref_enhancements.adoc[leveloffset=+1]
+
+//Technology Previews
+
+include::ref_technology_preview.adoc[leveloffset=+1]
+
+//Resolved Issues
+
+include::ref_resolved_issues.adoc[leveloffset=+1]
+
+//Known Issues
+
+include::ref_known_issues.adoc[leveloffset=+1]
+
+//Important Links
+
+include::ref_links.adoc[leveloffset=+1]
+
+// Revision information
+include::common/revision-info.adoc[]

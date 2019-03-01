@@ -1,0 +1,10 @@
+// Module included in the following assemblies:
+//
+// master.adoc
+
+[id='important-links-{context}']
+= Important links
+
+* link:https://access.redhat.com/articles/2791941[Red Hat AMQ 7 Supported Configurations^]
+
+* link:https://access.redhat.com/articles/3188232[Red Hat AMQ 7 Component Details^]
