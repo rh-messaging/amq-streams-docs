@@ -2,7 +2,7 @@ include::common/attributes.adoc[]
 
 :context: str
 
-= {ProductName} {ProductVersion} on Red Hat Enterprise Linux (RHEL)
+= {ProductName} {ProductVersion} on Red Hat Enterprise Linux (RHEL) Release Notes
 
 // Features
 
