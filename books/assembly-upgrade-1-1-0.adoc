@@ -1,0 +1,173 @@
+// Module included in the following assemblies:
+//
+// master.adoc
+
+[id='assembly-upgrade-1-1-0-{context}']
+
+= Upgrading an AMQ Streams cluster from 1.0.0 to 1.1.0
+
+This section describes how to upgrade AMQ Streams on Red Hat Enterprise Linux to version 1.1.0, which is based on Apache Kafka 2.1.1, without causing downtime. You must upgrade to AMQ Streams 1.1.0 before you can upgrade to Kafka 2.1.1. 
+
+Although AMQ Streams 1.1.0 and Kafka 2.1.1 are both minor releases, the Kafka protocol has changed since Kafka 2.0.0, with changes to the message format version and inter-broker protocol version (both are version 2.1). Therefore, the upgrade process requires both configuration changes and code changes to client applications (producers and consumers). 
+
+The upgrade process is divided into the following six procedures, which must be completed in order:
+
+Upgrading to AMQ Streams 1.1.0
+Upgrading Kafka brokers and client applications to Kafka 2.1.1
+Updating Kafka brokers to the previous inter-broker protocol and message format versions
+Updating Kafka brokers to use the new inter-broker protocol version
+Upgrading client applications to the new Kafka version
+Updating Kafka brokers to use the new message format version
+
+Prerequisites
+You have read the AMQ Streams 1.1.0 on Red Hat Enterprise Linux Release Notes
+You must be logged in as the `kafka` user.
+
+Upgrading to AMQ Streams 1.1.0
+
+Before you upgrade your cluster to use the new version, you must download and extract the archived distribution of AMQ Streams 1.1.0.
+ 
+To install AMQ Streams 1.1.0, complete the following steps.
+
+Prerequisites
+AMQ Streams 1.0 is installed on the host machine. For instructions, see Installing AMQ Streams.
+
+Procedure
+
+Download the Red Hat AMQ Streams 1.1.0 archive from the Software Downloads area of the Red Hat Customer Portal.
+
+NOTE: If prompted, log in to your Red Hat account. Make sure that 1.1.0 is selected in the Version drop-down list.
+
+
+On the command line, make sure that the System Security Services Daemon (SSSD) is running.
+
+sudo sssd
+
+If SSSD is not running, see Starting and Stopping SSSD in the Red Hat Enterprise Linux documentation.
+
+
+Change the owner of the archive to the `kafka` user. In this example, the archive was downloaded to the Downloads directory.
+
+cd Downloads 
+sudo chown kafka:kafka amq-streams-1.1.0-bin.zip
+
+
+Move the archive to the `/opt/kafka` directory that you created during the installation of AMQ Streams 1.0.
+
+sudo mv amq-streams-1.1.0-bin.zip /opt/kafka
+
+
+Change the current user ID to the `kafka` user and then enter the password. The `kafka` user and password were created during the installation of AMQ Streams 1.0.
+
+su - kafka
+Password: ********
+
+
+As the `kafka` user, extract the contents of the AMQ Streams 1.1.0 `.zip` file. This example uses the `unzip` command.
+
+su - kafka
+cd /opt/kafka
+unzip amq-streams-1.1.0-bin.zip
+
+# Upgrading Kafka brokers and client applications to Kafka 2.1.1
+
+Assembly intro - Kafka versions table
+ 	
+## Updating Kafka brokers to the previous inter-broker protocol and message format versions
+
+Manually configure and restart all the Kafka brokers in your cluster to use the previous inter-broker protocol and message format versions (2.0), and then test performance. 
+
+NOTE: To avoid downtime, update and restart the Kafka brokers one-by-one. 
+
+Prerequisites
+You have upgraded to AMQ Streams 1.1.0.
+
+Procedure
+
+In a text editor, open the broker properties file (commonly stored in the `/opt/kafka/config/` directory) for the Kafka broker that you want to update.
+Override the default inter-broker protocol and message format versions by adding the following new properties to the file:
+
+inter.broker.protocol.version=2.0
+log.message.format.version=2.0
+
+This temporarily configures the broker to process data using the previous inter-broker protocol and log message format versions. These are the versions used in Kafka version 2.0.0, on which AMQ Streams 1.0 is based.
+
+
+Restart the Kafka broker by entering the following command:
+
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+
+NOTE: The broker will start using the 1.1.0 JAR files at this point.
+
+
+Repeat steps 1 through 3 for all Kafka brokers in your cluster.
+When all Kafka brokers are updated, test the performance of the cluster.
+
+## Updating Kafka brokers to use the new inter-broker protocol version
+
+Warning: Downgrading to 1.0.0 is not possible after this point.
+
+If cluster performance testing was successful, manually configure all the Kafka brokers to use the new inter-broker protocol version (2.1). After performing these steps, data is transmitted between the Kafka brokers using inter-broker protocol version 2.1, but messages received are still appended to the message logs in message format version 2.0. 
+
+NOTE: To avoid downtime, update and restart the Kafka brokers one-by-one.
+
+Prerequisites
+You have upgraded to AMQ Streams 1.1.0 and updated Kafka brokers to use the previous inter-broker protocol and message format versions.
+
+Procedure
+
+In a text editor, open the broker properties file (commonly stored in the `/opt/kafka/config/` directory) for a Kafka broker.
+Set the `inter.broker.protocol.version` to 2.1.
+Restart the Kafka broker by entering the following command:
+
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+
+
+Repeat steps 1 and 2 for all Kafka brokers in your cluster.
+
+
+
+## Upgrading client applications to the new Kafka version
+
+Upgrade consumers and producers to use AMQ Streams 2.1.1. Red Hat recommends that you upgrade consumers first, as described in the following procedure.
+
+Prerequisites
+You have upgraded to AMQ Streams 1.1.0, updated Kafka brokers to use the previous inter-broker protocol and message format versions, and updated Kafka brokers to use the new inter-broker protocol version.
+
+Upgrade all consumers to use version 2.1.1 of the AMQ Streams client libraries.
+Optional: If a temporary loss of performance is not acceptable, perform the following steps. Otherwise, go to step 3.
+Set the message format version on a topic-by-topic basis for each producer. This avoids messages received by Kafka brokers from being converted down to message format version 2.0, which is likely to increase CPU usage and affect cluster performance.
+
+Set the `message.format.version` configuration option to 2.1 for the topic that you want to update first.
+
+bin/kafka-configs.sh --zookeeper <ZookeeperAddress> --entity-type topics --entity-name <TopicName> --alter --add-config message.format.version=2.1
+
+
+Identify the producer or producers that write data to the topic you modified in step a, and then upgrade them to use message format version 2.1.
+Repeat steps a and b for all topics in your cluster, and for all producers.
+
+
+Optional: Upgrade all producers to use message format version 2.1.1.
+
+NOTE: Unless you performed step 2, messages sent by producers to topics will now be converted down to message format version 2.0 before being appended to the message logs. This is likely to cause performance loss. Update all kafka brokers to use the new message format version as soon as possible -- see Update Kafka brokers to use the new log message format version
+
+## Updating Kafka brokers to use the new message format version
+
+When client applications have been upgraded, you can update the Kafka brokers to use the new message format version (2.1). 
+
+NOTE: To avoid downtime, update and restart the Kafka brokers one-by-one.
+
+Prerequisites: 
+You have upgraded to AMQ Streams 1.1.0, updated Kafka brokers to use the previous inter-broker protocol and message format versions, updated Kafka brokers to use the new inter-broker protocol version, and Upgraded client applications to the new Kafka version.
+
+In a text editor, open the broker properties file (commonly stored in the `/opt/kafka/config/` directory) for a Kafka broker.
+Set the `log.message.format.version` to 2.1.
+Restart the Kafka broker by entering the following command:
+
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+
+
+Repeat steps 1 through 3 for all Kafka brokers in your cluster.
+
+
+
