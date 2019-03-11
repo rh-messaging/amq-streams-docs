@@ -2,7 +2,7 @@
 //
 // master.adoc
 
-[id='my-id-{context}']
+[id='assembly-upgrade-1-1-0-{context}']
 
 = Upgrading an {ProductName} cluster from 1.0.0 to 1.1.0
 
