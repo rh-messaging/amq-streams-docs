@@ -25,7 +25,7 @@
 // Source and download links
 :ReleaseDownload: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams&productChanged=yes[Customer Portal^]
 
-:ReleaseDownload110: https://www.redhat.com/en[Customer Portal^]
+:ReleaseDownload110: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams&version=1.1.0[Software Downloads^]
 
 // Maven dependencies
 :MavenRepo: https://maven.repository.redhat.com/ga/
