@@ -1,0 +1,36 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+= Upgrading client applications to the new Kafka version
+
+Upgrade consumers and producers to use {ProductName} 1.1.0. Red Hat recommends that you upgrade consumers first, as described in the following procedure.
+
+.Prerequisites
+
+* You have upgraded to {ProductName} 1.1.0.
+* You have downgraded Kafka brokers to use the previous inter-broker protocol and message format versions (2.0) and tested performance.
+* You have updated Kafka brokers to use the new inter-broker protocol version (2.1).
+
+.Procedure
+
+. Upgrade all consumers to use version 1.1.0 of the {ProductName} client libraries.
+
+. Optional: To avoid a temporary potential loss of performance in the cluster, perform the following steps. Otherwise, go to step three.
+
+.. Set the message format version on a topic-by-topic basis for each producer. This avoids messages received by the Kafka brokers from being converted down to message format version 2.0, which is likely to increase CPU usage and affect cluster performance.
++
+On the command line, set the `message.format.version` configuration option to `2.1` for the topic that you want to update first.
++
+[source,shell,subs=+quotes]
+----
+bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name <TopicName> --alter --add-config message.format.version=2.1
+----
+
+.. Identify the producer or producers that write data to the topic you modified in step 2a, and then upgrade them to use message format version 2.1.
+
+.. Repeat steps a and b for all topics in your cluster, and for all producers.
+
+. Optional: If you did not complete step two, upgrade all producers to use message format version 2.1.
++
+NOTE: Unless you performed step two, messages sent by producers to topics are now converted down to message format version 2.0 before being appended to the message logs. This is likely to cause performance loss in the cluster. To restore normal performance, update all Kafka brokers to use message format version 2.0 as soon as possible. For details, see XREF Updating Kafka brokers to use the new log message format version.

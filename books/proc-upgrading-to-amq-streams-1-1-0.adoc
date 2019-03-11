@@ -1,0 +1,54 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+= Upgrading to {ProductName} 1.1.0
+
+To upgrade your cluster to {ProductName} 1.1.0, download and extract the *Red Hat AMQ Streams 1.1.0* archive from the Red Hat Customer Portal. 
+
+.Prerequisites
+* {ProductName} 1.0 is installed. For instructions, see xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
+
+.Procedure
+
+. Download the *Red Hat AMQ Streams 1.1.0* archive from the {ReleaseDownload110} area of the Customer Portal.
++
+NOTE: If prompted, log in to your Red Hat account. Make sure that *1.1.0* is selected in the *Version* drop-down list.
++
+. On the command line, make sure that the System Security Services Daemon (SSSD) is running.
++
+[source,shell,subs=+quotes]
+----
+sudo sssd
+----
+
+. Change the owner of the archive to the `kafka` user. In this example, the archive was downloaded to the Downloads directory.
++
+[source,shell,subs=+quotes]
+----
+cd Downloads 
+sudo chown kafka:kafka amq-streams-1.1.0-bin.zip
+----
+
+. Move the archive to the `/opt/kafka` directory that was created during the installation of {ProductName} 1.0.
++
+[source,shell,subs=+quotes]
+----
+sudo mv amq-streams-1.1.0-bin.zip /opt/kafka
+----
+
+. Change the current user ID to the `kafka` user and enter the password.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+Password: ********
+----
+
+. As the `kafka` user, extract the contents of the {ProductName} 1.1.0 archive. This example uses the `unzip` command.
++
+[source,shell,subs=+quotes]
+----
+[kafka@RHEL ~]$ cd /opt/kafka
+[kafka@RHEL ~]$ unzip amq-streams-1.1.0-bin.zip
+----

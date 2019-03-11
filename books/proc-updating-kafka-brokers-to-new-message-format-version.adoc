@@ -1,0 +1,30 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+= Updating Kafka brokers to the new message format version
+
+When client applications have been upgraded, you can update the Kafka brokers to use the new message format version (2.1). 
+
+NOTE: To avoid downtime, update and restart the Kafka brokers one-by-one.
+
+.Prerequisites
+* You have upgraded to {ProductName} 1.1.0
+* You have downgraded Kafka brokers to use the previous inter-broker protocol and message format versions and tested performance.
+* You have updated Kafka brokers to use the new inter-broker protocol version.
+* You have upgraded client applications to the new Kafka version.
+
+.Procedure
+
+. In a text editor, open the broker properties file for the Kafka broker you want to update first. These files are commonly stored in the `/opt/kafka/config/` directory.
+
+. Set the `log.message.format.version` to 2.1.
+
+. On the command line, restart the Kafka broker:
++
+[source,shell,subs=+quotes]
+----
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+----
+
+. Repeat steps 1 through 3 for all Kafka brokers in your cluster.
