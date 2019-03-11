@@ -2,6 +2,8 @@
 //
 // assembly-upgrade-1-1-0.adoc
 
+[id='proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}']
+
 = Updating Kafka brokers to the new inter-broker protocol version
 
 If cluster performance testing was successful, manually configure and restart all the Kafka brokers to use the new inter-broker protocol version (2.1). After performing these steps, data will be transmitted between the Kafka brokers using inter-broker protocol version 2.1. Messages received are still appended to the message logs in message format version 2.0. 

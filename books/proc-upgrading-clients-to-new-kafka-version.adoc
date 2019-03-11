@@ -2,6 +2,8 @@
 //
 // assembly-upgrade-1-1-0.adoc
 
+[id='proc-upgrading-clients-to-new-kafka-version-{context}']
+
 = Upgrading client applications to the new Kafka version
 
 Upgrade consumers and producers to use {ProductName} 1.1.0. Red Hat recommends that you upgrade consumers first, as described in the following procedure.

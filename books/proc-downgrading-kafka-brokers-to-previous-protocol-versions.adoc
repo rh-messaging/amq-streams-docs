@@ -2,6 +2,8 @@
 //
 // assembly-upgrade-1-1-0.adoc
 
+[id='proc-downgrading-kafka-brokers-to-previous-protocol-versions-{context}']
+
 = Downgrading Kafka brokers to the previous protocol versions
 
 Manually configure and restart all the Kafka brokers in your cluster to use the previous inter-broker protocol and message format versions (2.0), and then test performance. 

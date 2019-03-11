@@ -2,7 +2,7 @@
 //
 // master.adoc
 
-[id='assembly-upgrade-1-1-0-{context}']
+[id='my-id-{context}']
 
 = Upgrading an {ProductName} cluster from 1.0.0 to 1.1.0
 
@@ -17,13 +17,11 @@ Upgrading to {ProductName} 1.1.0 is a two-stage process:
 
 The remainder of this chapter is divided into six separate procedures; Red Hat recommends that you complete them in the order shown.
 
-//ADD CROSS REFERENCES TO THE OUTLINE TOC//
-
-. Upgrading to {ProductName} 1.1.0
-. Downgrading Kafka brokers to the previous protocol versions
-. Updating Kafka brokers to the new inter-broker protocol version
-. Upgrading client applications to the new Kafka version
-. Updating Kafka brokers to the new message format version
+. xref:proc-upgrading-to-amq-streams-1-1-0-{context}[Upgrading to {ProductName} 1.1.0]
+. xref:proc-downgrading-kafka-brokers-to-previous-protocol-versions-{context}[Downgrading Kafka brokers to the previous protocol versions]
+. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Updating Kafka brokers to the new inter-broker protocol version]
+. xref:proc-upgrading-clients-to-new-kafka-version-{context}[Upgrading client applications to the new Kafka version]
+. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version]
 
 .Prerequisites
 * You have read the link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html-single/amq_streams_1.1.0_on_red_hat_enterprise_linux_rhel_release_notes[{ProductName} 1.1.0 on Red Hat Enterprise Linux Release Notes].

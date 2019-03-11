@@ -1,3 +1,9 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+[id='con-kafka-versions-overview-{context}']
+
 = Kafka versions overview
 
 After you have upgraded to {ProductName} 1.1.0, you can upgrade all Kafka brokers and client applications (consumers and producers) to Kafka 2.1.1. As shown in the following table, Kafka 2.1.1 uses a higher inter-broker protocol version and log message format version than Kafka 2.0.0.

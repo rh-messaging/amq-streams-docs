@@ -2,6 +2,8 @@
 //
 // assembly-upgrade-1-1-0.adoc
 
+[id='proc-updating-kafka-brokers-to-new-message-format-version-{context}']
+
 = Updating Kafka brokers to the new message format version
 
 When client applications have been upgraded, you can update the Kafka brokers to use the new message format version (2.1). 

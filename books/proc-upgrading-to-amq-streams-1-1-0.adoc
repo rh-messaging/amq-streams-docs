@@ -2,6 +2,8 @@
 //
 // assembly-upgrade-1-1-0.adoc
 
+[id='proc-upgrading-to-amq-streams-1-1-0-{context}']
+
 = Upgrading to {ProductName} 1.1.0
 
 To upgrade your cluster to {ProductName} 1.1.0, download and extract the *Red Hat AMQ Streams 1.1.0* archive from the Red Hat Customer Portal. 
