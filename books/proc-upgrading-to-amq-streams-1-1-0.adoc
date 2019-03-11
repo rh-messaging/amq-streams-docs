@@ -47,7 +47,7 @@ su - kafka
 Password: ********
 ----
 
-. As the `kafka` user, extract the contents of the {ProductName} 1.1.0 archive. This example uses the `unzip` command.
+. Extract the contents of the {ProductName} 1.1.0 archive. This example uses the `unzip` command.
 +
 [source,shell,subs=+quotes]
 ----
