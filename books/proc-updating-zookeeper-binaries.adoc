@@ -1,0 +1,17 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+[id='proc-updating-zookeeper-binaries-{context}']
+
+= Updating the ZooKeeper binaries
+
+Before upgrading to {ProductName} 1.1.0, update your ZooKeeper cluster with the latest binaries.
+
+. Download the latest stable release of ZooKeeper from the  link:http://zookeeper.apache.org/releases.html[Apache ZooKeeper Releases] page.
+
+. Extract the tar file and install it on your ZooKeeper server.
+
+. Install the new ZIP file
+. Restart the Zookeeper server
+. Repeat on all hosts
