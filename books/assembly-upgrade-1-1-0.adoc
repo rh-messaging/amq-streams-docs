@@ -35,7 +35,7 @@ In summary, upgrading to {ProductName} 1.1.0 is a four-stage process:
 .. xref:proc-updating-zookeeper-binaries-{context}[Updating the Zookeeper binaries]
 
 . Second, you update all Kafka brokers to use the previous protocol versions.
-.. xref:proc-downgrading-kafka-brokers-to-previous-protocol-versions-{context}[Downgrading Kafka brokers to the previous protocol versions] (version 2.0)
+.. xref:proc-updating-kafka-brokers-to-previous-protocol-versions-{context}[Updating Kafka brokers to the previous protocol versions] (version 2.0)
 
 . Third, you upgrade all Kafka brokers to {ProductName} 1.1.0. 
 .. xref:proc-upgrading-to-amq-streams-1-1-0-{context}[Upgrading Kafka brokers to {ProductName} 1.1.0]
@@ -52,13 +52,15 @@ Red Hat recommends that you complete the upgrade procedures in the order shown.
 
 .Prerequisites
 
+Before you begin these procedures, make sure that:
+
 * {ProductName} 1.0 is installed. For instructions, see xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
 
-* Before you begin these procedures, read the link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html-single/amq_streams_1.1.0_on_red_hat_enterprise_linux_rhel_release_notes[{ProductName} 1.1.0 on Red Hat Enterprise Linux Release Notes].
+* You have read the link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html-single/amq_streams_1.1.0_on_red_hat_enterprise_linux_rhel_release_notes[{ProductName} 1.1.0 on Red Hat Enterprise Linux Release Notes].
 
 include::proc-updating-zookeeper-binaries.adoc[leveloffset=+1]
 
-include::proc-downgrading-kafka-brokers-to-previous-protocol-versions.adoc[leveloffset=+1]
+include::proc-updating-kafka-brokers-to-previous-protocol-versions.adoc[leveloffset=+1]
 
 include::proc-upgrading-to-amq-streams-1-1-0.adoc[leveloffset=+1]
 
