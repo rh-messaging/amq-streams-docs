@@ -1,13 +1,14 @@
 // Module included in the following assemblies:
 //
 // assembly-upgrade-1-1-0.adoc
+
 [id='proc-updating-kafka-brokers-to-previous-protocol-versions-{context}']
 
 = Updating Kafka brokers to the previous protocol versions
 
-Manually configure and restart all the Kafka brokers in your cluster to use the previous inter-broker protocol and message format versions (2.0). 
+Manually configure and restart all the Kafka brokers in your cluster to use the previous inter-broker protocol and message format versions (2.0). These are the versions that were used in {ProductName} 1.0 and Kafka 2.0.
 
-NOTE: To avoid cluster downtime, update and restart the Kafka brokers one-by-one. 
+NOTE: To avoid cluster downtime, update and restart the Kafka brokers one-by-one. Before you restart a modified broker, stop the broker you configured and restarted previously.
 
 .Prerequisites
 
@@ -16,7 +17,7 @@ NOTE: To avoid cluster downtime, update and restart the Kafka brokers one-by-one
 
 .Procedure
 
-. In a text editor, open the broker properties file for the Kafka broker you want to update first. These files are commonly stored in the `/opt/kafka/config/` directory.
+. In a text editor, open the broker properties file for the Kafka broker you want to update. These files are commonly stored in the `/opt/kafka/config/` directory.
 
 . Temporarily override the default inter-broker protocol and message format versions for Kafka 2.1.1 by adding the following new properties to the file:
 +
@@ -28,13 +29,23 @@ log.message.format.version=2.0
 +
 This configures the Kafka broker to process data using the previous inter-broker protocol and message format versions.
 
-. On the command line, restart the Kafka broker:
+. Optional: On the command line, stop the Kafka broker that you most recently modified and restarted as part of this procedure. If you are modifying the first Kafka broker of this procedure, go to step four.
++
+[source,shell,subs=+quotes]
+----
+/opt/kafka/bin/kafka-server-stop.sh
+jcmd | grep kafka
+----
+
+. Restart the Kafka broker whose configuration you modified in step two:
 +
 [source,shell,subs=+quotes]
 ----
 /opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
 ----
 +
-NOTE: The broker will start using the version 1.1.0 JAR files.
+NOTE: The Kafka broker will start using the version 1.1.0 binaries.
 
-. Repeat steps 1 through 3 for all Kafka brokers in your cluster.
+. Verify that the restarted Kafka broker has caught up with the partition replicas it is following. Use the `kafka-topics.sh` tool to ensure that all replicas contained in the broker are back in sync. For instructions, see xref:proc-describing-a-topic-{context}[Listing and describing topics].
+
+. Repeat steps one through five for the remaining Kafka brokers in your cluster.

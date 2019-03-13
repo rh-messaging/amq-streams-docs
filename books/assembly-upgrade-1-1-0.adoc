@@ -60,8 +60,8 @@ Before you begin these procedures, make sure that:
 
 include::proc-updating-zookeeper-binaries.adoc[leveloffset=+1]
 
-include::proc-updating-kafka-brokers-to-previous-protocol-versions.adoc[leveloffset=+1]
-
+`include::proc-updating-kafka-brokers-to-previous-protocol-versions.adoc[leveloffset=+1]
+`
 include::proc-upgrading-to-amq-streams-1-1-0.adoc[leveloffset=+1]
 
 include::con-kafka-versions-overview.adoc[leveloffset=+1]
