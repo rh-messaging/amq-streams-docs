@@ -36,7 +36,7 @@ sudo mkdir /opt/kafka
 [source,shell,subs=+quotes]
 ----
 mkdir /tmp/kafka
-unzip _kafka_y.y-x.x.x.zip_ -d /tmp/kafka
+unzip _amq-streams_y.y-x.x.x.zip_ -d /tmp/kafka
 ----
 
 . Move the extracted contents into `/opt/kafka` directory and delete the temporary directory.

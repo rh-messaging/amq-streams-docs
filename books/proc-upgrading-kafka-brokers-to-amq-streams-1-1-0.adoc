@@ -6,7 +6,9 @@
 
 = Upgrading Kafka brokers to {ProductName} 1.1.0
 
-To upgrade your cluster to {ProductName} 1.1.0, download and extract the *Red Hat AMQ Streams 1.1.0* archive from the Red Hat Customer Portal. 
+To upgrade to {ProductName} 1.1.0 on the host machine, download and extract the *Red Hat AMQ Streams 1.1.0* archive from the Red Hat Customer Portal. 
+
+NOTE: This procedure is part of the xref:assembly-upgrade-1-1-0-{context}[Upgrading an {ProductName} cluster from 1.0.0 to 1.1.0] chapter. For initial installation instructions, see xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
 
 .Prerequisites
 * You have updated all Kafka brokers to the previous protocol versions (2.0)
@@ -17,41 +19,25 @@ To upgrade your cluster to {ProductName} 1.1.0, download and extract the *Red Ha
 . Download the *Red Hat AMQ Streams 1.1.0* archive from the {ReleaseDownload110} area of the Customer Portal.
 +
 NOTE: If prompted, log in to your Red Hat account. Make sure that *1.1.0* is selected in the *Version* drop-down list.
-+
-. On the command line, make sure that the System Security Services Daemon (SSSD) is running.
+
+. On the command line, create a temporary directory and extract the contents of the `amq-streams-1.1.0-bin.zip` file.
 +
 [source,shell,subs=+quotes]
 ----
-sudo sssd
+mkdir /tmp/kafka-1-1-0
+unzip amq-streams-1.1.0-bin.zip -d /tmp/kafka-1-1-0
 ----
 
-. Change the owner of the archive to the `kafka` user. In this example, the archive was downloaded to the Downloads directory.
+. Move the extracted contents to the `/opt/kafka` directory that was created when {ProductName} 1.0 was installed.
 +
 [source,shell,subs=+quotes]
 ----
-cd Downloads 
-sudo chown kafka:kafka amq-streams-1.1.0-bin.zip
+sudo mv /tmp/kafka-1-1-0/kafka_y.y-x.x.x/* /opt/kafka/
 ----
 
-. Move the archive to the `/opt/kafka` directory that was created during the installation of {ProductName} 1.0.
+. Delete the temporary directory.
 +
 [source,shell,subs=+quotes]
 ----
-sudo mv amq-streams-1.1.0-bin.zip /opt/kafka
-----
-
-. Change the current user ID to the `kafka` user and enter the password.
-+
-[source,shell,subs=+quotes]
-----
-su - kafka
-Password: ********
-----
-
-. Extract the contents of the {ProductName} 1.1.0 archive. This example uses the `unzip` command.
-+
-[source,shell,subs=+quotes]
-----
-[kafka@RHEL ~]$ cd /opt/kafka
-[kafka@RHEL ~]$ unzip amq-streams-1.1.0-bin.zip
+rm -r /tmp/kafka-1-1-0
 ----
