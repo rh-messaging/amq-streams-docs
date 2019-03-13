@@ -6,13 +6,14 @@
 
 = Downgrading Kafka brokers to the previous protocol versions
 
-Manually configure and restart all the Kafka brokers in your cluster to use the previous inter-broker protocol and message format versions (2.0), and then test performance. 
+Manually configure and restart all the Kafka brokers in your cluster to use the previous inter-broker protocol and message format versions (2.0). 
 
 NOTE: To avoid cluster downtime, update and restart the Kafka brokers one-by-one. 
 
 .Prerequisites
 
-* You have upgraded to {ProductName} 1.1.0.
+* You have updated the Zookeeper binaries
+* You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
 
@@ -38,5 +39,3 @@ This configures the Kafka broker to process data using the previous inter-broker
 NOTE: The broker will start using the version 1.1.0 JAR files.
 
 . Repeat steps 1 through 3 for all Kafka brokers in your cluster.
-
-. When all Kafka brokers are updated, test the performance of the cluster.

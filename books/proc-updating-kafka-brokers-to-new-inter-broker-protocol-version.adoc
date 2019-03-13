@@ -6,15 +6,17 @@
 
 = Updating Kafka brokers to the new inter-broker protocol version
 
-If cluster performance testing was successful, manually configure and restart all the Kafka brokers to use the new inter-broker protocol version (2.1). After performing these steps, data will be transmitted between the Kafka brokers using inter-broker protocol version 2.1. Messages received are still appended to the message logs in message format version 2.0. 
+Manually configure and restart all the Kafka brokers to use the new inter-broker protocol version (2.1). After performing these steps, data will be transmitted between the Kafka brokers using inter-broker protocol version 2.1. Messages received are still appended to the message logs in message format version 2.0. 
 
 WARNING: Downgrading to {ProductName} 1.0.0 is not possible after completing this procedure.
 
 NOTE: To avoid downtime, update and restart the Kafka brokers one-by-one.
 
 .Prerequisites
-* You have upgraded to {ProductName} 1.1.0.
-* You have downgraded Kafka brokers to use the previous inter-broker protocol and message format versions (2.0) and tested performance.
+
+* You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
+* You have upgraded all Kafka brokers to {ProductName} 1.1.0.
+* You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
 

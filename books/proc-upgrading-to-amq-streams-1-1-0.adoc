@@ -4,12 +4,13 @@
 
 [id='proc-upgrading-to-amq-streams-1-1-0-{context}']
 
-= Upgrading to {ProductName} 1.1.0
+= Upgrading Kafka brokers to {ProductName} 1.1.0
 
 To upgrade your cluster to {ProductName} 1.1.0, download and extract the *Red Hat AMQ Streams 1.1.0* archive from the Red Hat Customer Portal. 
 
 .Prerequisites
-* {ProductName} 1.0 is installed. For instructions, see xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
+* You have updated all Kafka brokers to the previous protocol versions (2.0)
+* You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
 

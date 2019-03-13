@@ -11,10 +11,12 @@ When client applications have been upgraded, you can update the Kafka brokers to
 NOTE: To avoid downtime, update and restart the Kafka brokers one-by-one.
 
 .Prerequisites
-* You have upgraded to {ProductName} 1.1.0
-* You have downgraded Kafka brokers to use the previous inter-broker protocol and message format versions and tested performance.
-* You have updated Kafka brokers to use the new inter-broker protocol version.
+
+* You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
+* You have upgraded all Kafka brokers to {ProductName} 1.1.0
+* You have updated Kafka brokers to use the new inter-broker protocol version (2.1).
 * You have upgraded client applications to the new Kafka version.
+* You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
 

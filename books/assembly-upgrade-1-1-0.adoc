@@ -17,41 +17,52 @@ This chapter describes how to upgrade {ProductName} on Red Hat Enterprise Linux 
 |1.1.0                 |2.1.1         
 |=======================
 
-Although {ProductName} 1.1.0 and Kafka 2.1.1 are both minor releases, the Kafka protocol has changed since Kafka 2.0.0 was released (in particular, the message format version and inter-broker protocol version are both now at version 2.1). This is summarized in the following table:
+Although {ProductName} 1.1.0 and Kafka 2.1.1 are both minor releases, the Kafka protocol has changed since Kafka 2.0.0 was released. In particular, the message format version and inter-broker protocol version are both now at version 2.1. As a result, the upgrade process involves making both configuration changes to existing Kafka brokers and code changes to client applications (consumers and producers). The following table shows the differences between the two Kafka versions:
 
 [options="header"]
 |=======================
-|Kafka version |Inter-broker protocol version |Log message format version |ZooKeeper version
+|Kafka version |Inter-broker protocol version |Log message format version |Zookeeper version
 |2.0.0         |2.0                           |2.0                        |3.4.13
 |2.1.1         |2.1                           |2.1                        |3.4.13
 |=======================
 
-As a result of these differences, the upgrade process involves both configuration changes to existing Kafka brokers and code changes to client applications (consumers and producers). Although the version of ZooKeeper has not changed between these Kafka releases, Red Hat recommends that you update your ZooKeeper cluster to use the newest Zookeeper binaries.
+Although Kafka 2.0.0 and 2.1.1 use the same version of Zookeeper, Red Hat recommends that you update your Zookeeper cluster to use the newest Zookeeper binaries before proceeding with the main {ProductName} 1.1.0 upgrade.
 
-In summary, upgrading to {ProductName} 1.1.0 is a three-stage process:
+In summary, upgrading to {ProductName} 1.1.0 is a four-stage process:
 
-. First, you update your ZooKeeper cluster to use the newest Zookeeper binaries.
-. Second, you upgrade your {ProductName} installation to version 1.1.0.
-. Third, you upgrade all Kafka brokers and clients to Kafka 2.1.1. To avoid cluster downtime, this stage involves multiple procedures.
+. First, you update your Zookeeper cluster to use the newest Zookeeper binaries.
 
-The remainder of this chapter is divided into six separate procedures; Red Hat recommends that you complete them in the order shown.
+.. xref:proc-updating-zookeeper-binaries-{context}[Updating the Zookeeper binaries]
 
-// CROSS REF TO THE ZOOKEEPER PROCEDURE //
-. xref:proc-upgrading-to-amq-streams-1-1-0-{context}[Upgrading to {ProductName} 1.1.0]
-. xref:proc-downgrading-kafka-brokers-to-previous-protocol-versions-{context}[Downgrading Kafka brokers to the previous protocol versions]
-. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Updating Kafka brokers to the new inter-broker protocol version]
-. xref:proc-upgrading-clients-to-new-kafka-version-{context}[Upgrading client applications to the new Kafka version]
-. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version]
+. Second, you update all Kafka brokers to use the previous protocol versions.
+.. xref:proc-downgrading-kafka-brokers-to-previous-protocol-versions-{context}[Downgrading Kafka brokers to the previous protocol versions] (version 2.0)
+
+. Third, you upgrade all Kafka brokers to {ProductName} 1.1.0. 
+.. xref:proc-upgrading-to-amq-streams-1-1-0-{context}[Upgrading Kafka brokers to {ProductName} 1.1.0]
+
+. Finally, you upgrade all Kafka brokers and client applications to Kafka 2.1.1. To avoid cluster downtime, this stage involves three related procedures:
+
+.. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Updating Kafka brokers to the new inter-broker protocol version] (version 2.1)
+
+.. xref:proc-upgrading-clients-to-new-kafka-version-{context}[Upgrading client applications to the new Kafka version]
+
+.. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version] (version 2.1)
+
+Red Hat recommends that you complete the upgrade procedures in the order shown.
 
 .Prerequisites
-* You have read the link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html-single/amq_streams_1.1.0_on_red_hat_enterprise_linux_rhel_release_notes[{ProductName} 1.1.0 on Red Hat Enterprise Linux Release Notes].
-* You are logged in to Red Hat Enterprise Linux as the `kafka` user that was created during the initial installation of {ProductName}.
+
+* {ProductName} 1.0 is installed. For instructions, see xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
+
+* Before you begin these procedures, read the link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html-single/amq_streams_1.1.0_on_red_hat_enterprise_linux_rhel_release_notes[{ProductName} 1.1.0 on Red Hat Enterprise Linux Release Notes].
+
+include::proc-updating-zookeeper-binaries.adoc[leveloffset=+1]
+
+include::proc-downgrading-kafka-brokers-to-previous-protocol-versions.adoc[leveloffset=+1]
 
 include::proc-upgrading-to-amq-streams-1-1-0.adoc[leveloffset=+1]
 
 include::con-kafka-versions-overview.adoc[leveloffset=+1]
-
-include::proc-downgrading-kafka-brokers-to-previous-protocol-versions.adoc[leveloffset=+1]
 
 include::proc-updating-kafka-brokers-to-new-inter-broker-protocol-version.adoc[leveloffset=+1]
 
