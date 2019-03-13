@@ -2,7 +2,7 @@
 //
 // assembly-upgrade-1-1-0.adoc
 
-[id='proc-upgrading-to-amq-streams-1-1-0-{context}']
+[id='proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}']
 
 = Upgrading Kafka brokers to {ProductName} 1.1.0
 

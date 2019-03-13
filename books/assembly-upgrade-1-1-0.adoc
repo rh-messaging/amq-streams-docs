@@ -38,7 +38,7 @@ In summary, upgrading to {ProductName} 1.1.0 is a four-stage process:
 .. xref:proc-updating-kafka-brokers-to-previous-protocol-versions-{context}[Updating Kafka brokers to the previous protocol versions] (version 2.0)
 
 . Third, you upgrade all Kafka brokers to {ProductName} 1.1.0. 
-.. xref:proc-upgrading-to-amq-streams-1-1-0-{context}[Upgrading Kafka brokers to {ProductName} 1.1.0]
+.. xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[Upgrading Kafka brokers to {ProductName} 1.1.0]
 
 . Finally, you upgrade all Kafka brokers and client applications to Kafka 2.1.1. To avoid cluster downtime, this stage involves three related procedures:
 
@@ -60,9 +60,9 @@ Before you begin these procedures, make sure that:
 
 include::proc-updating-zookeeper-binaries.adoc[leveloffset=+1]
 
-`include::proc-updating-kafka-brokers-to-previous-protocol-versions.adoc[leveloffset=+1]
-`
-include::proc-upgrading-to-amq-streams-1-1-0.adoc[leveloffset=+1]
+include::proc-updating-kafka-brokers-to-previous-protocol-versions.adoc[leveloffset=+1]
+
+include::proc-upgrading-kafka-brokers-to-amq-streams-1-1-0.adoc[leveloffset=+1]
 
 include::con-kafka-versions-overview.adoc[leveloffset=+1]
 
