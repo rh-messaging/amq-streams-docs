@@ -8,16 +8,16 @@
 
 Manually configure and restart all the Kafka brokers in your cluster to use the previous inter-broker protocol and message format versions (2.0). These are the versions that were used in {ProductName} 1.0 and Kafka 2.0.
 
-NOTE: To avoid cluster downtime, update and restart the Kafka brokers one-by-one. Before you restart a modified broker, stop the broker you configured and restarted previously.
+NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modified broker, stop the broker you configured and restarted previously.
 
 .Prerequisites
 
-* You have updated the Zookeeper binaries
+* You have updated the Zookeeper binaries.
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
 
-. In a text editor, open the broker properties file for the Kafka broker you want to update. These files are commonly stored in the `/opt/kafka/config/` directory.
+. In a text editor, open the broker properties file for the Kafka broker you want to update. Broker properties files are commonly stored in the `/opt/kafka/config/` directory.
 
 . Temporarily override the default inter-broker protocol and message format versions for Kafka 2.1.1 by adding the following new properties to the file:
 +
@@ -29,7 +29,7 @@ log.message.format.version=2.0
 +
 This configures the Kafka broker to process data using the previous inter-broker protocol and message format versions.
 
-. Optional: On the command line, stop the Kafka broker that you most recently modified and restarted as part of this procedure. If you are modifying the first Kafka broker of this procedure, go to step four.
+. On the command line, stop the Kafka broker that you most recently modified and restarted as part of this procedure. If you are modifying the first Kafka broker of this procedure, go to step four.
 +
 [source,shell,subs=+quotes]
 ----

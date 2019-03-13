@@ -64,8 +64,6 @@ include::proc-updating-kafka-brokers-to-previous-protocol-versions.adoc[leveloff
 
 include::proc-upgrading-kafka-brokers-to-amq-streams-1-1-0.adoc[leveloffset=+1]
 
-include::con-kafka-versions-overview.adoc[leveloffset=+1]
-
 include::proc-updating-kafka-brokers-to-new-inter-broker-protocol-version.adoc[leveloffset=+1]
 
 include::proc-upgrading-clients-to-new-kafka-version.adoc[leveloffset=+1]
