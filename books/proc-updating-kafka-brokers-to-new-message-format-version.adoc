@@ -18,7 +18,7 @@ NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modi
 * You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
 * You have upgraded all Kafka brokers to {ProductName} 1.1.0
 * You have updated Kafka brokers to use the new inter-broker protocol version (2.1).
-* You have upgraded supported client applications that consume messages from topics for which the `message.format.version` property is _not_ manually configured.
+* You have upgraded supported client applications that consume messages from topics for which the `message.format.version` property is _not_ explicitly configured at the topic level
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
