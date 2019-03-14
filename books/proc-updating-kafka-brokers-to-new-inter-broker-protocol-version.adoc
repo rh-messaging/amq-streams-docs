@@ -15,8 +15,8 @@ NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modi
 .Prerequisites
 
 * You have updated the Zookeeper binaries.
-* You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
 * You have upgraded all Kafka brokers to {ProductName} 1.1.0.
+* You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
