@@ -42,19 +42,16 @@ The default value of `message.format.version` for a  topic is defined by the `lo
 
 Procedure outline::
 
-In summary, upgrading to {ProductName} 1.1.0 is a four-stage process:
+In summary, upgrading to {ProductName} 1.1.0 is a three-stage process:
 
 . First, you update your Zookeeper cluster to use the newest Zookeeper binaries.
 
 .. xref:proc-updating-zookeeper-binaries-{context}[Updating the Zookeeper binaries]
 
-. Second, you configure all Kafka brokers to use the previous protocol versions.
-.. xref:proc-updating-kafka-brokers-to-previous-protocol-versions-{context}[Updating Kafka brokers to the previous protocol versions]
-
-. Third, you upgrade all Kafka brokers to {ProductName} 1.1.0. 
+. Second, you upgrade all Kafka brokers to {ProductName} 1.1.0 and configure them to use the previous protocol versions.
 .. xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[Upgrading Kafka brokers to {ProductName} 1.1.0]
 
-. Finally, you upgrade all Kafka brokers and client applications to Kafka 2.1.1. To avoid cluster downtime, this stage involves three related procedures:
+. Third, you upgrade all Kafka brokers and client applications to Kafka 2.1.1. To avoid cluster downtime, this stage involves three related procedures:
 
 .. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Updating Kafka brokers to the new inter-broker protocol version] 
 
@@ -64,7 +61,7 @@ In summary, upgrading to {ProductName} 1.1.0 is a four-stage process:
 
 .. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version]
 
-In order to upgrade brokers and clients without downtime you need to complete the upgrade procedures in the order given above.
+To upgrade brokers and clients without downtime, you *must* complete the upgrade procedures in the order shown above.
 
 .Prerequisites
 
@@ -75,8 +72,6 @@ Before you begin these procedures, make sure that:
 * You have read the link:https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html-single/amq_streams_1.1.0_on_red_hat_enterprise_linux_rhel_release_notes[{ProductName} 1.1.0 on Red Hat Enterprise Linux Release Notes].
 
 include::proc-updating-zookeeper-binaries.adoc[leveloffset=+1]
-
-include::proc-updating-kafka-brokers-to-previous-protocol-versions.adoc[leveloffset=+1]
 
 include::proc-upgrading-kafka-brokers-to-amq-streams-1-1-0.adoc[leveloffset=+1]
 
