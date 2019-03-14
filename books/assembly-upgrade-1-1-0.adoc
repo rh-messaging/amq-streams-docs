@@ -30,7 +30,9 @@ Although Kafka 2.0.0 and 2.1.1 use the same version of Zookeeper, Red Hat recomm
 
 Message format version::
 
-In Kafka, there are two different methods for setting the message format version. 
+When a producer sends a message to a Kafka broker, the message is encoded using a specific format. This is referred to as the message format version. You can configure a Kafka broker to convert messages from newer format versions to a given older format version, before the broker appends the message to the log.
+
+In Kafka, there are two different methods for setting the message format version:
 
 * The `log.message.format.version` property is set on Kafka brokers.
 
