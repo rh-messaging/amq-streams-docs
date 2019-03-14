@@ -6,10 +6,17 @@
 
 = Upgrading client applications to the new Kafka version
 
-Upgrade consumers and producers to use {ProductName} 1.1.0. Red Hat recommends that you upgrade consumers first, as described in the following procedure.
+Upgrade your consumers and producers to use {ProductName} 1.1.0. Red Hat recommends that you upgrade consumers first, as described in the following procedure.
+
+Because the message format version of the Kafka brokers is still set to version 2.0, upgrading client applications can cause a reduction in the performance of the cluster. This is because any version 2.1 messages received by the brokers are converted down to message format version 2.0 before they are appended to the message logs. This process increases CPU usage. 
+
+To mitigate any reduction in performance, consider upgrading clients on a topic-by-topic basis, starting with topics that have a low throughput, so that the process of converting down to message format version 2.0 only happens on a few topics at a time. You can then upgrade the producers of those topics.
+
+To restore normal performance, you must update all Kafka brokers to use message format version 2.1 as soon as possible after upgrading client applications. For details, see xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version].
 
 .Prerequisites
 
+* You have updated the Zookeeper binaries.
 * You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
 * You have upgraded all Kafka brokers to {ProductName} 1.1.0.
 * You have updated Kafka brokers to use the new inter-broker protocol version (2.1).
@@ -17,11 +24,11 @@ Upgrade consumers and producers to use {ProductName} 1.1.0. Red Hat recommends t
 
 .Procedure
 
-. Upgrade all consumers to use version 1.1.0 of the {ProductName} client libraries.
+. Upgrade all consumers to use version 2.1.1 of the Kafka client libraries.
 
-. Optional: To avoid a temporary reduction in the performance of the cluster, perform the following steps. Otherwise, go to step three.
+. Optional: To mitigate any reduction in the performance of the cluster, perform the following steps. Otherwise, go to step three.
 
-.. Set the message format version on a topic-by-topic basis for each producer. This avoids messages received by the Kafka brokers from being converted down to message format version 2.0, which is likely to increase CPU usage and reduce cluster performance.
+.. Set the message format version on a topic-by-topic basis for each producer.
 +
 On the command line, set the `message.format.version` configuration option to `2.1` for the topic that you want to update first.
 +
@@ -32,8 +39,8 @@ bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --ent
 
 .. Identify the producer or producers that write data to the topic you modified in step 2a, and then upgrade them to use message format version 2.1.
 
-.. Repeat steps a and b for all topics in your cluster, and for all producers.
+.. Repeat steps 2a and 2b for all topics in your cluster, and for all producers.
 
-. Optional: If you did not complete step two, upgrade all producers to use message format version 2.1.
+. As long as all consumers are now updated to use version 2.1.1 of the Kafka client libraries, you can update the producers to use message format version 2.1.
 +
-NOTE: Unless you performed step two, messages sent by producers to topics are now converted down to message format version 2.0 before being appended to the message logs. This is likely to cause a reduction in the performance of the cluster. To restore normal performance, update all Kafka brokers to use message format version 2.0 as soon as possible. For details, see xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version].
+NOTE: To restore normal performance, update all Kafka brokers to use message format version 2.0 as soon as possible. For details, see xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version].

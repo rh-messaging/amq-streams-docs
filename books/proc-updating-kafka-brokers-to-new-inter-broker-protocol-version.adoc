@@ -30,7 +30,7 @@ NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modi
 inter.broker.protocol.version=2.1
 ----
 
-. On the command line, stop the Kafka broker that you most recently modified and restarted as part of this procedure. If you are modifying the first Kafka broker of this procedure, go to step four.
+. On the command line, stop the Kafka broker that you most recently modified and restarted as part of this procedure. If you are modifying the first Kafka broker in this procedure, go to step four.
 +
 [source,shell,subs=+quotes]
 ----

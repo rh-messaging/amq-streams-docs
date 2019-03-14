@@ -28,6 +28,18 @@ Although {ProductName} 1.1.0 and Kafka 2.1.1 are both minor releases, the Kafka 
 
 Although Kafka 2.0.0 and 2.1.1 use the same version of Zookeeper, Red Hat recommends that you update your Zookeeper cluster to use the newest Zookeeper binaries before proceeding with the main {ProductName} 1.1.0 upgrade.
 
+== Message format version
+
+In Kafka, there are two different methods for setting the message format version. 
+
+* The `log.message.format.version` property is set on Kafka brokers.
+
+* The `message.format.version` property is set on topics. 
+
+The default value of `message.format.version` for a  topic is defined by the `log.message.format.version` that is set on the Kafka broker. You can manually set the `message.format.version` of a topic by modifying its topic configuration. This chapter refers to the "message format version" throughout when discussing both Kafka brokers and topics.
+
+== Procedure outline
+
 In summary, upgrading to {ProductName} 1.1.0 is a four-stage process:
 
 . First, you update your Zookeeper cluster to use the newest Zookeeper binaries.
