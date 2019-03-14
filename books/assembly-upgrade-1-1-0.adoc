@@ -62,7 +62,7 @@ In summary, upgrading to {ProductName} 1.1.0 is a four-stage process:
 
 .. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version]
 
-Red Hat recommends that you complete the upgrade procedures in the order shown.
+In order to upgrade brokers and clients without downtime you need to complete the upgrade procedures in the order given above.
 
 .Prerequisites
 
