@@ -6,13 +6,7 @@
 
 = Upgrading client applications to the new Kafka version
 
-Upgrade your consumers and producers to use {ProductName} 1.1.0. Red Hat recommends that you upgrade consumers first, as described in the following procedure.
-
-Because the message format version of the Kafka brokers is still set to version 2.0, upgrading client applications can cause a reduction in the performance of the cluster. This is because any version 2.1 messages received by the brokers are converted down to message format version 2.0 before they are appended to the message logs. This process increases CPU usage. 
-
-To mitigate any reduction in performance, consider upgrading clients on a topic-by-topic basis, starting with topics that have a low throughput, so that the process of converting down to message format version 2.0 only happens on a few topics at a time. You can then upgrade the producers of those topics.
-
-To restore normal performance, you must update all Kafka brokers to use message format version 2.1 as soon as possible after upgrading client applications. For details, see xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version].
+This procedure describes one possible approach to upgrading your client applications to Kafka 2.1.1, the version used in {ProductName} 1.1.0. It is based on the "Per-topic consumers first, with down conversion" approach outlined in xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
 
 .Prerequisites
 
@@ -24,23 +18,26 @@ To restore normal performance, you must update all Kafka brokers to use message 
 
 .Procedure
 
-. Upgrade all consumers to use version 2.1.1 of the Kafka client libraries.
+Perform the following steps for each topic:
 
-. Optional: To mitigate any reduction in the performance of the cluster, perform the following steps. Otherwise, go to step three.
-
-.. Set the message format version on a topic-by-topic basis for each producer.
+. On the command line, for the topic that you want to update first, set the `message.format.version` configuration option to `2.0`.
 +
-On the command line, set the `message.format.version` configuration option to `2.1` for the topic that you want to update first.
+[source,shell,subs=+quotes]
+----
+bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name <TopicName> --alter --add-config message.format.version=2.0
+----
+
+. Upgrade all the consuming and producing applications for the topic you modified in step one.
+
+. Verify that the upgraded applications function correctly.
+
+. Change the topic's `message.format.version` configuration option to `2.1`.
 +
 [source,shell,subs=+quotes]
 ----
 bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name <TopicName> --alter --add-config message.format.version=2.1
 ----
 
-.. Identify the producer or producers that write data to the topic you modified in step 2a, and then upgrade them to use message format version 2.1.
+.Additional resources
 
-.. Repeat steps 2a and 2b for all topics in your cluster, and for all producers.
-
-. As long as all consumers are now updated to use version 2.1.1 of the Kafka client libraries, you can update the producers to use message format version 2.1.
-+
-NOTE: To restore normal performance, update all Kafka brokers to use message format version 2.0 as soon as possible. For details, see xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version].
+* xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients]

@@ -28,7 +28,7 @@ Although {ProductName} 1.1.0 and Kafka 2.1.1 are both minor releases, the Kafka 
 
 Although Kafka 2.0.0 and 2.1.1 use the same version of Zookeeper, Red Hat recommends that you update your Zookeeper cluster to use the newest Zookeeper binaries before proceeding with the main {ProductName} 1.1.0 upgrade.
 
-== Message format version
+Message format version::
 
 In Kafka, there are two different methods for setting the message format version. 
 
@@ -36,9 +36,9 @@ In Kafka, there are two different methods for setting the message format version
 
 * The `message.format.version` property is set on topics. 
 
-The default value of `message.format.version` for a  topic is defined by the `log.message.format.version` that is set on the Kafka broker. You can manually set the `message.format.version` of a topic by modifying its topic configuration. This chapter refers to the "message format version" throughout when discussing both Kafka brokers and topics.
+The default value of `message.format.version` for a  topic is defined by the `log.message.format.version` that is set on the Kafka broker. You can manually set the `message.format.version` of a topic by modifying its topic configuration. This chapter refers to the _message format version_ throughout when discussing both Kafka brokers and topics.
 
-== Procedure outline
+Procedure outline::
 
 In summary, upgrading to {ProductName} 1.1.0 is a four-stage process:
 
@@ -47,18 +47,20 @@ In summary, upgrading to {ProductName} 1.1.0 is a four-stage process:
 .. xref:proc-updating-zookeeper-binaries-{context}[Updating the Zookeeper binaries]
 
 . Second, you update all Kafka brokers to use the previous protocol versions.
-.. xref:proc-updating-kafka-brokers-to-previous-protocol-versions-{context}[Updating Kafka brokers to the previous protocol versions] (version 2.0)
+.. xref:proc-updating-kafka-brokers-to-previous-protocol-versions-{context}[Updating Kafka brokers to the previous protocol versions]
 
 . Third, you upgrade all Kafka brokers to {ProductName} 1.1.0. 
 .. xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[Upgrading Kafka brokers to {ProductName} 1.1.0]
 
 . Finally, you upgrade all Kafka brokers and client applications to Kafka 2.1.1. To avoid cluster downtime, this stage involves three related procedures:
 
-.. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Updating Kafka brokers to the new inter-broker protocol version] (version 2.1)
+.. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Updating Kafka brokers to the new inter-broker protocol version] 
 
-.. xref:proc-upgrading-clients-to-new-kafka-version-{context}[Upgrading client applications to the new Kafka version]
+.. Decide on an appropriate strategy for upgrading your client applications based on xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
 
-.. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version] (version 2.1)
+.. xref:proc-upgrading-clients-to-new-kafka-version-{context}[Upgrading client applications to the new Kafka version] (describes one upgrade strategy in more detail).
+
+.. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version]
 
 Red Hat recommends that you complete the upgrade procedures in the order shown.
 
@@ -77,6 +79,8 @@ include::proc-updating-kafka-brokers-to-previous-protocol-versions.adoc[leveloff
 include::proc-upgrading-kafka-brokers-to-amq-streams-1-1-0.adoc[leveloffset=+1]
 
 include::proc-updating-kafka-brokers-to-new-inter-broker-protocol-version.adoc[leveloffset=+1]
+
+include::con-strategies-for-upgrading-clients.adoc[leveloffset=+1]
 
 include::proc-upgrading-clients-to-new-kafka-version.adoc[leveloffset=+1]
 
