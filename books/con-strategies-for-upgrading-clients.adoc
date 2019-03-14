@@ -33,7 +33,7 @@ Consumers first::
 . Upgrade all the producing applications.
 +
 This strategy is straightforward, and avoids any broker down-conversion.
-However, it assumes that all consumers in your organization can be upgraded in a coordinated way, and it doesn't work for applications that are both consumers and producers.
+However, it assumes that all consumers in your organization can be upgraded in a coordinated way, and it does not work for applications that are both consumers and producers.
 There is also a risk that, if there is a problem with the upgraded clients, new-format messages might get added to the message log so that you cannot revert to the previous consumer version.
 
 Per-topic consumers first::
