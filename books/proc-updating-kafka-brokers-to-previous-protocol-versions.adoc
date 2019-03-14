@@ -19,7 +19,7 @@ NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modi
 
 . In a text editor, open the broker properties file for the Kafka broker you want to update. Broker properties files are commonly stored in the `/opt/kafka/config/` directory.
 
-. Temporarily override the default inter-broker protocol and message format versions for Kafka 2.1.1 by adding the following new properties to the file:
+. Temporarily override the default inter-broker protocol and message format versions for Kafka 2.1.1 by adding or updating the following properties to the file:
 +
 [source,shell,subs=+quotes]
 ----
