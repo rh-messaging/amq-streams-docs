@@ -46,7 +46,7 @@ In summary, upgrading to {ProductName} 1.1.0 is a four-stage process:
 
 .. xref:proc-updating-zookeeper-binaries-{context}[Updating the Zookeeper binaries]
 
-. Second, you update all Kafka brokers to use the previous protocol versions.
+. Second, you configure all Kafka brokers to use the previous protocol versions.
 .. xref:proc-updating-kafka-brokers-to-previous-protocol-versions-{context}[Updating Kafka brokers to the previous protocol versions]
 
 . Third, you upgrade all Kafka brokers to {ProductName} 1.1.0. 
