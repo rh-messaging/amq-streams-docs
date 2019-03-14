@@ -1,0 +1,78 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+[id='proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}']
+
+= Upgrading Kafka brokers to {ProductName} 1.1.0
+
+To upgrade to {ProductName} 1.1.0 on the host machine, download and extract the *Red Hat AMQ Streams 1.1.0* archive from the Red Hat Customer Portal. 
+
+NOTE: This procedure is part of the xref:assembly-upgrade-1-1-0-{context}[Upgrading an {ProductName} cluster from 1.0.0 to 1.1.0] chapter. For initial installation instructions, see xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
+
+.Prerequisites
+* You have updated all Kafka brokers to the previous protocol versions (2.0)
+* You are logged in to Red Hat Enterprise Linux as the `kafka` user.
+
+.Procedure
+
+Perform the following steps for all Kafka brokers in your {ProductName} cluster:
+
+. Download the *Red Hat AMQ Streams 1.1.0* archive from the {ReleaseDownload110} area of the Customer Portal.
++
+NOTE: If prompted, log in to your Red Hat account. Make sure that *1.1.0* is selected in the *Version* drop-down list.
+
+. On the command line, create a temporary directory and extract the contents of the `amq-streams-1.1.0-bin.zip` file.
++
+[source,shell,subs=+quotes]
+----
+mkdir /tmp/kafka-1-1-0
+unzip amq-streams-1.1.0-bin.zip -d /tmp/kafka-1-1-0
+----
+
+. Move the extracted contents to the `/opt/kafka` directory that was created when {ProductName} 1.0 was installed.
++
+[source,shell,subs=+quotes]
+----
+sudo mv /tmp/kafka-1-1-0/kafka_y.y-x.x.x/* /opt/kafka/
+----
+
+. Delete the temporary directory.
++
+[source,shell,subs=+quotes]
+----
+rm -r /tmp/kafka-1-1-0
+----
+
+. In a text editor, open the broker properties file, commonly stored in the `/opt/kafka/config/` directory.
+
+. Temporarily override the default inter-broker protocol and message format versions for Kafka 2.1.1 by adding or updating the following properties in the file:
++
+[source,shell,subs=+quotes]
+----
+inter.broker.protocol.version=2.0
+log.message.format.version=2.0
+----
++
+This configures the Kafka broker to process data using the previous inter-broker protocol and message format versions.
+
+. On the command line, stop the Kafka broker that you modified:
++
+[source,shell,subs=+quotes]
+----
+/opt/kafka/bin/kafka-server-stop.sh
+jcmd | grep kafka
+----
+
+. Restart the Kafka broker that you modified:
++
+[source,shell,subs=+quotes]
+----
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+----
++
+NOTE: The Kafka broker will start using the version 1.1.0 binaries.
+
+. Verify that the restarted Kafka broker has caught up with the partition replicas it is following. Use the `kafka-topics.sh` tool to ensure that all replicas contained in the broker are back in sync. For instructions, see xref:proc-describing-a-topic-{context}[Listing and describing topics].
+
+. Repeat steps one through nine for the remaining Kafka brokers in your cluster.

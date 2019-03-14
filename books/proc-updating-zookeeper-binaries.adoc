@@ -1,0 +1,25 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+[id='proc-updating-zookeeper-binaries-{context}']
+
+= Updating the Zookeeper binaries
+
+Before upgrading to {ProductName} 1.1.0, update your Zookeeper cluster with the latest binaries.
+
+. Download the latest stable release of Zookeeper from the link:http://zookeeper.apache.org/releases.html[Apache Zookeeper Releases] page.
+
+. Extract the tar file and install it on your Zookeeper server.
++
+NOTE: For instructions, see the link:https://zookeeper.apache.org/doc/r3.5.4-beta/zookeeperStarted.html[ZooKeeper Getting Started Guide].
+
+. Restart the Zookeeper server.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+----
+
+. Repeat this procedure on all the nodes of the ZooKeeper cluster.

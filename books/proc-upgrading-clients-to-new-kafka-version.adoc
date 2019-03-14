@@ -1,0 +1,43 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+[id='proc-upgrading-clients-to-new-kafka-version-{context}']
+
+= Upgrading client applications to the new Kafka version
+
+This procedure describes one possible approach to upgrading your client applications to Kafka 2.1.1, the version used in {ProductName} 1.1.0. It is based on the "Per-topic consumers first, with down conversion" approach outlined in xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
+
+.Prerequisites
+
+* You have updated the Zookeeper binaries.
+* You have upgraded all Kafka brokers to {ProductName} 1.1.0.
+* You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
+* You have updated Kafka brokers to use the new inter-broker protocol version (2.1).
+* You are logged in to Red Hat Enterprise Linux as the `kafka` user.
+
+.Procedure
+
+Perform the following steps for each topic:
+
+. On the command line, for the topic that you want to update first, set the `message.format.version` configuration option to `2.0`.
++
+[source,shell,subs=+quotes]
+----
+bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name <TopicName> --alter --add-config message.format.version=2.0
+----
+
+. Upgrade all the consuming and producing applications for the topic you modified in step one.
+
+. Verify that the upgraded applications function correctly.
+
+. Change the topic's `message.format.version` configuration option to `2.1`.
++
+[source,shell,subs=+quotes]
+----
+bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name <TopicName> --alter --add-config message.format.version=2.1
+----
+
+.Additional resources
+
+* xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients]
