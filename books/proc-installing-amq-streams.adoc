@@ -6,6 +6,8 @@
 
 = Installing AMQ Streams
 
+Follow this procedure to install the latest version of {ProductName} on Red Hat Enterprise Linux. For instructions on upgrading an existing cluster to {ProductName} version 1.1.0, see xref:assembly-upgrade-1-1-0-{context}[Upgrading an {ProductName} cluster from 1.0.0 to 1.1.0].
+
 .Prerequisites
 
 * Download the xref:proc-downloading-amq-streams-{context}[installation archive].
@@ -34,7 +36,7 @@ sudo mkdir /opt/kafka
 [source,shell,subs=+quotes]
 ----
 mkdir /tmp/kafka
-unzip _kafka_y.y-x.x.x.zip_ -d /tmp/kafka
+unzip _amq-streams_y.y-x.x.x.zip_ -d /tmp/kafka
 ----
 
 . Move the extracted contents into `/opt/kafka` directory and delete the temporary directory.

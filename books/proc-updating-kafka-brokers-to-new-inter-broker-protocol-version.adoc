@@ -1,0 +1,50 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+[id='proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}']
+
+= Updating Kafka brokers to the new inter-broker protocol version
+
+Manually configure and restart all the Kafka brokers to use the new inter-broker protocol version (2.1). After performing these steps, data will be transmitted between the Kafka brokers using inter-broker protocol version 2.1. Messages received are still appended to the message logs in message format version 2.0. 
+
+WARNING: Downgrading to {ProductName} 1.0.0 is not possible after completing this procedure.
+
+NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modified broker, stop the broker you configured and restarted previously.
+
+.Prerequisites
+
+* You have updated the Zookeeper binaries.
+* You have upgraded all Kafka brokers to {ProductName} 1.1.0.
+* You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
+* You are logged in to Red Hat Enterprise Linux as the `kafka` user.
+
+.Procedure
+
+. In a text editor, open the broker properties file for the Kafka broker you want to update. Broker properties files are commonly stored in the `/opt/kafka/config/` directory.
+
+. Set the `inter.broker.protocol.version` to `2.1`.
++
+[source,shell,subs=+quotes]
+----
+inter.broker.protocol.version=2.1
+----
+
+. On the command line, stop the Kafka broker that you most recently modified and restarted as part of this procedure. If you are modifying the first Kafka broker in this procedure, go to step four.
++
+[source,shell,subs=+quotes]
+----
+/opt/kafka/bin/kafka-server-stop.sh
+jcmd | grep kafka
+----
+
+. Restart the Kafka broker whose configuration you modified in step two:
++
+[source,shell,subs=+quotes]
+----
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+----
+
+. Verify that the restarted Kafka broker has caught up with the partition replicas it is following. Use the `kafka-topics.sh` tool to ensure that all replicas contained in the broker are back in sync. For instructions, see xref:proc-describing-a-topic-{context}[Listing and describing topics].
+
+. Repeat steps one through five for the remaining Kafka brokers in your cluster.

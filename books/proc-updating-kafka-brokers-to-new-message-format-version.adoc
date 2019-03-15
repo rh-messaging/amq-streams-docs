@@ -1,0 +1,52 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+[id='proc-updating-kafka-brokers-to-new-message-format-version-{context}']
+
+= Updating Kafka brokers to the new message format version
+
+When client applications have been upgraded, you can update the Kafka brokers to use the new message format version (2.1).
+
+If you did _not_ modify topic configurations when you upgraded your client applications to Kafka 2.1.1, the Kafka brokers are now converting messages down to message format version 2.0, which can cause a reduction in performance. Therefore, it is important that you update all Kafka brokers to use the new message format version as soon as possible.
+
+NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modified broker, stop the broker you configured and restarted previously.
+
+.Prerequisites
+
+* You have updated the Zookeeper binaries.
+* You have upgraded all Kafka brokers to {ProductName} 1.1.0.
+* You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
+* You have updated Kafka brokers to use the new inter-broker protocol version (2.1).
+* You have upgraded supported client applications that consume messages from topics for which the `message.format.version` property is _not_ explicitly configured at the topic level
+* You are logged in to Red Hat Enterprise Linux as the `kafka` user.
+
+.Procedure
+
+. In a text editor, open the broker properties file for the Kafka broker you want to update. Broker properties files are commonly stored in the `/opt/kafka/config/` directory.
+
+. Set the `log.message.format.version` to `2.1`.
++
+[source,shell,subs=+quotes]
+----
+log.message.format.version=2.1
+----
+
+. On the command line, stop the Kafka broker that you most recently modified and restarted as part of this procedure. If you are modifying the first Kafka broker in this procedure, go to step four.
++
+[source,shell,subs=+quotes]
+----
+/opt/kafka/bin/kafka-server-stop.sh
+jcmd | grep kafka
+----
+
+. Restart the Kafka broker whose configuration you modified in step two:
++
+[source,shell,subs=+quotes]
+----
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+----
+
+. Verify that the restarted Kafka broker has caught up with the partition replicas it is following. Use the `kafka-topics.sh` tool to ensure that all replicas contained in the broker are back in sync. For instructions, see xref:proc-describing-a-topic-{context}[Listing and describing topics].
+
+. Repeat steps one through five for all Kafka brokers in your cluster.
