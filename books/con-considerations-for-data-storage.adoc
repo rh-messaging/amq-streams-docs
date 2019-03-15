@@ -1,6 +1,6 @@
 // Module included in the following assemblies:
 //
-// assembly-overview.adoc
+// assembly-getting-started.adoc
 
 [id='considerations-for-data-storage-{context}']
 
@@ -12,7 +12,7 @@ An efficient data storage infrastructure is essential to the optimal performance
 
 Choose local storage when possible. If local storage is not available, you can use a Storage Area Network (SAN) accessed by a protocol such as Fibre Channel or iSCSI.
 
-== Apache Kafka and Zookeeper storage
+== Apache Kafka and Zookeeper storage support
 Use separate disks for Apache Kafka and Zookeeper.
 
 Kafka supports JBOD (Just a Bunch of Disks) storage, a data storage configuration of multiple disks or volumes. JBOD provides increased data storage for Kafka brokers. It can also improve performance.
