@@ -23,6 +23,8 @@ NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modi
 
 .Procedure
 
+For all Kafka brokers in your {ProductName} cluster:
+
 . In a text editor, open the broker properties file for the Kafka broker you want to update. Broker properties files are commonly stored in the `/opt/kafka/config/` directory.
 
 . Set the `log.message.format.version` to `2.1`.
@@ -48,5 +50,3 @@ jcmd | grep kafka
 ----
 
 . Verify that the restarted Kafka broker has caught up with the partition replicas it is following. Use the `kafka-topics.sh` tool to ensure that all replicas contained in the broker are back in sync. For instructions, see xref:proc-describing-a-topic-{context}[Listing and describing topics].
-
-. Repeat steps one through five for all Kafka brokers in your cluster.

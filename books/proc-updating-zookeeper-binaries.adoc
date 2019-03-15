@@ -6,20 +6,45 @@
 
 = Updating the Zookeeper binaries
 
-Before upgrading to {ProductName} 1.1.0, update your Zookeeper cluster with the latest binaries.
+For all Kafka brokers in your {ProductName} cluster:
 
-. Download the latest stable release of Zookeeper from the link:http://zookeeper.apache.org/releases.html[Apache Zookeeper Releases] page.
-
-. Extract the tar file and install it on your Zookeeper server.
+. Download the *Red Hat AMQ Streams 1.1.0* archive from the {ReleaseDownload110} area of the software portal.
 +
-NOTE: For instructions, see the link:https://zookeeper.apache.org/doc/r3.5.4-beta/zookeeperStarted.html[ZooKeeper Getting Started Guide].
+NOTE: If prompted, log in to your Red Hat account.
 
-. Restart the Zookeeper server.
+. On the command line, create a temporary directory and extract the contents of the `amq-streams-1.1.0-bin.zip` file:
 +
 [source,shell,subs=+quotes]
 ----
-su - kafka
-/opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+mkdir /tmp/kafka-1-1-0
+unzip amq-streams-1.1.0-bin.zip -d /tmp/kafka-1-1-0
 ----
 
-. Repeat this procedure on all the nodes of the ZooKeeper cluster.
+. Delete the `libs` `bin` and `docs` directories from your existing installation:
++
+[source,shell,subs=+quotes]
+----
+rm -rf /opt/kafka/libs /opt/kafka/bin /opt/kafka/docs
+----
+
+. Copy the `libs` `bin` and `docs` directories from the temporary directory:
++
+[source,shell,subs=+quotes]
+----
+cp -r /tmp/kafka-1-1-0/libs /opt/kafka/
+cp -r /tmp/kafka-1-1-0/bin /opt/kafka/
+cp -r /tmp/kafka-1-1-0/docs /opt/kafka/
+----
+
+. Delete the temporary directory:
++
+[source,shell,subs=+quotes]
+----
+rrm -rf /tmp/kafka-1-1-0
+
+. Restart the Kafka brokers:
++
+[source,shell,subs=+quotes]
+----
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+----
