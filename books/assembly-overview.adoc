@@ -18,8 +18,8 @@ Kafka Connect:: A toolkit for streaming data between Kafka brokers and other sys
 Kafka Consumer and Producer APIs:: Java based APIs for producing and consuming messages to / from Kafka brokers.
 Kafka Streams API:: API for writing _stream processor_ applications.
 
-Kafka Broker is the central point connecting all these components. 
-The broker uses Apache Zookeeper for storing configuration data and for cluster coordination. 
+Kafka Broker is the central point connecting all these components.
+The broker uses Apache Zookeeper for storing configuration data and for cluster coordination.
 Before running Apache Kafka, an Apache Zookeeper cluster has to be ready.
 
 .Example Architecture diagram of AMQ Streams
@@ -28,7 +28,5 @@ image::AMQ_Streams_478987_0918_01.png[AMQ Streams architecture]
 include::ref-overview-key-features.adoc[leveloffset=+1]
 
 include::ref-overview-supported-configurations.adoc[leveloffset=+1]
-
-include::con-considerations-for-data-storage.adoc[leveloffset=+1]
 
 include::ref-overview-document-conventions.adoc[leveloffset=+1]
