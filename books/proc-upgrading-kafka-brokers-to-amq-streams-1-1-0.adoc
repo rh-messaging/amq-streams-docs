@@ -42,7 +42,7 @@ rm -rf /opt/kafka/libs /opt/kafka/bin /opt/kafka/docs
 [source,shell,subs=+quotes]
 ----
 cp -r /tmp/kafka-1-1-0/libs /opt/kafka/
-cp -r /tmp/kafka-1-1-0/bin /opt/kafka/
+cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/bin /opt/kafka/
 cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/docs /opt/kafka/
 ----
 
