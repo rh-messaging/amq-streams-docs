@@ -18,16 +18,16 @@ This procedure describes one possible approach to upgrading your client applicat
 
 .Procedure
 
-Perform the following steps for each topic:
+For each topic:
 
-. On the command line, for the topic that you want to update first, set the `message.format.version` configuration option to `2.0`.
+. On the command line, set the `message.format.version` configuration option to `2.0`.
 +
 [source,shell,subs=+quotes]
 ----
 bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name <TopicName> --alter --add-config message.format.version=2.0
 ----
 
-. Upgrade all the consuming and producing applications for the topic you modified in step one.
+. Upgrade all the consuming and producing applications for the topic.
 
 . Verify that the upgraded applications function correctly.
 

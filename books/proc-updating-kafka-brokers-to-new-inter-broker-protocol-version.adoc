@@ -6,11 +6,9 @@
 
 = Updating Kafka brokers to the new inter-broker protocol version
 
-Manually configure and restart all the Kafka brokers to use the new inter-broker protocol version (2.1). After performing these steps, data will be transmitted between the Kafka brokers using inter-broker protocol version 2.1. Messages received are still appended to the message logs in message format version 2.0. 
+Manually configure and restart all Kafka brokers to use the new inter-broker protocol version (2.1). After performing these steps, data is transmitted between the Kafka brokers using inter-broker protocol version 2.1. Messages received are still appended to the message logs in message format version 2.0.
 
 WARNING: Downgrading to {ProductName} 1.0.0 is not possible after completing this procedure.
-
-NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modified broker, stop the broker you configured and restarted previously.
 
 .Prerequisites
 
@@ -20,6 +18,8 @@ NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modi
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
+
+For each Kafka broker in your {ProductName} cluster and one at a time:
 
 . In a text editor, open the broker properties file for the Kafka broker you want to update. Broker properties files are commonly stored in the `/opt/kafka/config/` directory.
 
@@ -46,5 +46,3 @@ jcmd | grep kafka
 ----
 
 . Verify that the restarted Kafka broker has caught up with the partition replicas it is following. Use the `kafka-topics.sh` tool to ensure that all replicas contained in the broker are back in sync. For instructions, see xref:proc-describing-a-topic-{context}[Listing and describing topics].
-
-. Repeat steps one through five for the remaining Kafka brokers in your cluster.

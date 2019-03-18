@@ -6,7 +6,7 @@
 
 = Upgrading Kafka brokers to {ProductName} 1.1.0
 
-To upgrade to {ProductName} 1.1.0 on the host machine, download and extract the *Red Hat AMQ Streams 1.1.0* archive from the Red Hat Customer Portal. 
+To upgrade to {ProductName} 1.1.0 on the host machine, download and extract the *{ProductName} 1.1.0* archive from the Red Hat Customer Portal.
 
 NOTE: This procedure is part of the xref:assembly-upgrade-1-1-0-{context}[Upgrading an {ProductName} cluster from 1.0.0 to 1.1.0] chapter. For initial installation instructions, see xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
 
@@ -16,11 +16,11 @@ NOTE: This procedure is part of the xref:assembly-upgrade-1-1-0-{context}[Upgrad
 
 .Procedure
 
-Perform the following steps for all Kafka brokers in your {ProductName} cluster:
+For each Kafka broker in your {ProductName} cluster and one at a time:
 
 . Download the *Red Hat AMQ Streams 1.1.0* archive from the {ReleaseDownload110} area of the Customer Portal.
 +
-NOTE: If prompted, log in to your Red Hat account. Make sure that *1.1.0* is selected in the *Version* drop-down list.
+NOTE: If prompted, log in to your Red Hat account.
 
 . On the command line, create a temporary directory and extract the contents of the `amq-streams-1.1.0-bin.zip` file.
 +
@@ -30,11 +30,20 @@ mkdir /tmp/kafka-1-1-0
 unzip amq-streams-1.1.0-bin.zip -d /tmp/kafka-1-1-0
 ----
 
-. Move the extracted contents to the `/opt/kafka` directory that was created when {ProductName} 1.0 was installed.
+. Delete the `libs` `bin` and `docs` directories from your existing installation:
 +
 [source,shell,subs=+quotes]
 ----
-sudo mv /tmp/kafka-1-1-0/kafka_y.y-x.x.x/* /opt/kafka/
+rm -rf /opt/kafka/libs /opt/kafka/bin /opt/kafka/docs
+----
+
+. Copy the `libs` `bin` and `docs` directories from the temporary directory:
++
+[source,shell,subs=+quotes]
+----
+cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/libs /opt/kafka/
+cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/bin /opt/kafka/
+cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/docs /opt/kafka/
 ----
 
 . Delete the temporary directory.
