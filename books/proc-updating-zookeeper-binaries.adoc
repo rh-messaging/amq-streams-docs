@@ -6,7 +6,7 @@
 
 = Updating the Zookeeper binaries
 
-For all Kafka brokers in your {ProductName} cluster:
+For each Kafka broker in your {ProductName} cluster and one at a time:
 
 . Download the *Red Hat AMQ Streams 1.1.0* archive from the {ReleaseDownload110} area of the software portal.
 +
@@ -31,19 +31,18 @@ rm -rf /opt/kafka/libs /opt/kafka/bin /opt/kafka/docs
 +
 [source,shell,subs=+quotes]
 ----
-cp -r /tmp/kafka-1-1-0/libs /opt/kafka/
-cp -r /tmp/kafka-1-1-0/bin /opt/kafka/
-cp -r /tmp/kafka-1-1-0/docs /opt/kafka/
+cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/libs /opt/kafka/
+cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/bin /opt/kafka/
+cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/docs /opt/kafka/
 ----
 
 . Delete the temporary directory:
 +
 [source,shell,subs=+quotes]
 ----
-rrm -rf /tmp/kafka-1-1-0
-----
+rm -rf /tmp/kafka-1-1-0
 
-. Restart the Kafka brokers:
+. Restart the Kafka broker:
 +
 [source,shell,subs=+quotes]
 ----
