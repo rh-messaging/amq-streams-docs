@@ -51,11 +51,11 @@ In summary, upgrading to {ProductName} 1.1.0 is a three-stage process:
 . Second, upgrade all Kafka brokers to {ProductName} 1.1.0 and configure them to use the previous protocol versions.
 .. xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[Upgrading Kafka brokers to {ProductName} 1.1.0]
 
-. Third, upgrade all Kafka brokers and client applications to Kafka 2.1.1. To avoid cluster downtime, this stage involves three related procedures:
+. Third, upgrade all Kafka brokers and client applications to Kafka 2.1.1. To avoid cluster downtime, this stage involves:
 
 .. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Updating Kafka brokers to the new inter-broker protocol version]
 
-.. Decide on an appropriate strategy for upgrading your client applications based on xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
+.. Deciding on an appropriate strategy for upgrading your client applications based on xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
 
 .. xref:proc-upgrading-clients-to-new-kafka-version-{context}[Upgrading client applications to the new Kafka version] (describes one upgrade strategy in more detail).
 
@@ -65,7 +65,7 @@ To upgrade brokers and clients without downtime, you *must* complete the upgrade
 
 == Upgrade prerequisites
 
-Before you begin these procedures, make sure that:
+Before you begin the upgrade process, make sure that:
 
 * {ProductName} 1.0.0 is installed. For instructions, see xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
 
