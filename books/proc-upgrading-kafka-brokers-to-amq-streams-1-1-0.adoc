@@ -17,7 +17,7 @@ NOTE: This procedure is part of the xref:assembly-upgrade-1-1-0-{context}[Upgrad
 
 For each Kafka broker in your {ProductName} cluster and one at a time:
 
-. Download the *Red Hat AMQ Streams 1.1.0* archive from the {ReleaseDownload110} area of the Customer Portal.
+. Download the *Red Hat AMQ Streams 1.1.0* archive from the {ReleaseDownload}.
 +
 NOTE: If prompted, log in to your Red Hat account.
 
