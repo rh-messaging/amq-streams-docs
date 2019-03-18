@@ -41,10 +41,11 @@ cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/docs /opt/kafka/
 [source,shell,subs=+quotes]
 ----
 rm -rf /tmp/kafka-1-1-0
+----
 
-. Restart the Kafka broker:
+. Restart Zookeeper:
 +
 [source,shell,subs=+quotes]
 ----
-/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+/opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
 ----

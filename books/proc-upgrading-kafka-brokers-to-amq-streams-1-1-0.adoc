@@ -6,12 +6,11 @@
 
 = Upgrading Kafka brokers to {ProductName} 1.1.0
 
-To upgrade to {ProductName} 1.1.0 on the host machine, download and extract the *{ProductName} 1.1.0* archive from the Red Hat Customer Portal.
+To upgrade to {ProductName} 1.1.0 on the host machine, download and extract the *{ProductName} 1.1.0* archive from the Red Hat Customer Portal. 
 
 NOTE: This procedure is part of the xref:assembly-upgrade-1-1-0-{context}[Upgrading an {ProductName} cluster from 1.0.0 to 1.1.0] chapter. For initial installation instructions, see xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
 
 .Prerequisites
-* You have updated all Kafka brokers to the previous protocol versions (2.0)
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
@@ -63,7 +62,7 @@ inter.broker.protocol.version=2.0
 log.message.format.version=2.0
 ----
 +
-This configures the Kafka broker to process data using the previous inter-broker protocol and message format versions.
+This configures the Kafka broker to process data using the previous inter-broker protocol (2.0) and message format versions.
 
 . On the command line, stop the Kafka broker that you modified:
 +
@@ -83,5 +82,3 @@ jcmd | grep kafka
 NOTE: The Kafka broker will start using the version 1.1.0 binaries.
 
 . Verify that the restarted Kafka broker has caught up with the partition replicas it is following. Use the `kafka-topics.sh` tool to ensure that all replicas contained in the broker are back in sync. For instructions, see xref:proc-describing-a-topic-{context}[Listing and describing topics].
-
-. Repeat steps one through nine for the remaining Kafka brokers in your cluster.

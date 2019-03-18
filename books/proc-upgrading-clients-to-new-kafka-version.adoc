@@ -10,10 +10,9 @@ This procedure describes one possible approach to upgrading your client applicat
 
 .Prerequisites
 
-* You have updated the Zookeeper binaries.
-* You have upgraded all Kafka brokers to {ProductName} 1.1.0.
-* You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
-* You have updated Kafka brokers to use the new inter-broker protocol version (2.1).
+* xref:proc-updating-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
+* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.0.]
+* xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[You have configured Kafka brokers to use the new inter-broker protocol version.]
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
