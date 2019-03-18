@@ -40,7 +40,7 @@ cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/docs /opt/kafka/
 +
 [source,shell,subs=+quotes]
 ----
-rrm -rf /tmp/kafka-1-1-0
+rm -rf /tmp/kafka-1-1-0
 
 . Restart the Kafka brokers:
 +
