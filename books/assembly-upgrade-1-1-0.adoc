@@ -42,7 +42,7 @@ The default value of `message.format.version` for a  topic is defined by the `lo
 
 Procedure outline::
 
-In summary, upgrading to {ProductName} 1.1.0 is a three-stage process:
+In summary, upgrading to {ProductName} 1.1.0 is a three-stage process. To upgrade brokers and clients without downtime, you *must* complete the upgrade procedures in the order shown here.
 
 . First, update your Zookeeper cluster to use the newest Zookeeper binaries.
 
@@ -53,15 +53,13 @@ In summary, upgrading to {ProductName} 1.1.0 is a three-stage process:
 
 . Third, upgrade all Kafka brokers and client applications to Kafka 2.1.1. To avoid cluster downtime, this stage involves:
 
-.. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Updating Kafka brokers to the new inter-broker protocol version]
+.. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Configuring Kafka brokers to use the new inter-broker protocol version]
 
-.. Deciding on an appropriate strategy for upgrading your client applications based on xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
+.. xref:con-strategies-for-upgrading-clients-{context}[Introducing strategies for upgrading clients]
 
-.. xref:proc-upgrading-clients-to-new-kafka-version-{context}[Upgrading client applications to the new Kafka version] (describes one upgrade strategy in more detail).
+.. xref:proc-upgrading-clients-to-new-kafka-version-{context}[Upgrading client applications to the new Kafka version] (based on an adopted strategy)
 
-.. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Updating Kafka brokers to the new message format version]
-
-To upgrade brokers and clients without downtime, you *must* complete the upgrade procedures in the order shown above.
+.. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Configuring Kafka brokers to the new message format version]
 
 == Upgrade prerequisites
 

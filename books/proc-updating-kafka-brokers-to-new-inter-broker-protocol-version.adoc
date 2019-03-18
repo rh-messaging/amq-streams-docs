@@ -4,7 +4,7 @@
 
 [id='proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}']
 
-= Updating Kafka brokers to the new inter-broker protocol version
+= Configuring Kafka brokers to use the new inter-broker protocol version
 
 Manually configure and restart all Kafka brokers to use the new inter-broker protocol version (2.1). After performing these steps, data is transmitted between the Kafka brokers using inter-broker protocol version 2.1. Messages received are still appended to the message logs in message format version 2.0.
 
@@ -12,9 +12,8 @@ WARNING: Downgrading to {ProductName} 1.0.0 is not possible after completing thi
 
 .Prerequisites
 
-* You have updated the Zookeeper binaries.
-* You have upgraded all Kafka brokers to {ProductName} 1.1.0.
-* You have updated all Kafka brokers to use the previous inter-broker protocol and message format versions (2.0).
+* xref:proc-updating-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
+* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.0.]
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
