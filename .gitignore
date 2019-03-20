@@ -6,4 +6,4 @@ out
 books/master.html
 Makefile.publish
 html/
-
+books/build/**
