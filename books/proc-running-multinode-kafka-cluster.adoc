@@ -6,23 +6,25 @@
 
 = Running a multi-node Kafka cluster
 
-This procedure will show you how to configure and run Kafka as a multi-node cluster.
+This procedure describes how to configure and run Kafka as a multi-node cluster.
 
 .Prerequisites
 
 * AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
-* Zookeeper cluster is xref:proc-running-multinode-zookeeper-cluster-{context}[configured and running].
+* A Zookeeper cluster is xref:proc-running-multinode-zookeeper-cluster-{context}[configured and running].
 
 .Running the cluster
 
-. Edit the `/opt/kafka/config/server.properties` Kafka configuration file for the following:
+For each Kafka broker in your {ProductName} cluster:
+
+. Edit the `/opt/kafka/config/server.properties` Kafka configuration file as follows:
 +
 * Set the `broker.id` field to `0` for the first broker, `1` for the second broker, and so on.
-+ Configure the details for connecting to Zookeeper in the `zookeeper.connect` option.
-+ Configure the Kafka listeners.
-+ Set the directories where the commit logs should be stored in the `logs.dir` directory.
+* Configure the details for connecting to Zookeeper in the `zookeeper.connect` option.
+* Configure the Kafka listeners.
+* Set the directories where the commit logs should be stored in the `logs.dir` directory.
 +
-The following example shows the configuration for a Kafka broker:
+Here we see an example configuration for a Kafka broker:
 +
 [source,ini]
 ----
@@ -50,12 +52,13 @@ su - kafka
 jcmd | grep Kafka
 ----
 
-. Repeat this procedure on all the nodes of the Kafka cluster.
+.Verifying the brokers
 
-. Once all nodes of the clusters are up and running, verify that all nodes are members of the Kafka cluster by sending a `dump` command to one of the Zookeeper nodes using the `ncat` utility.
-The command will print all Kafka brokers registered in Zookeeper.
+Once all nodes of the clusters are up and running, verify that all nodes are members of the Kafka cluster by sending a `dump` command to one of the Zookeeper nodes using the `ncat` utility.
+The command prints all Kafka brokers registered in Zookeeper.
+
+. Use ncat stat to check the node status.
 +
-.Use ncat stat to check the node status
 [source,shell,subs=+quotes]
 ----
 echo dump | ncat zoo1.my-domain.com 2181
@@ -63,7 +66,8 @@ echo dump | ncat zoo1.my-domain.com 2181
 +
 The output should contain all Kafka brokers you just configured and started.
 +
-.Example output from the `ncat` command for Kafka cluster with 3 nodes
+Example output from the `ncat` command for Kafka cluster with 3 nodes:
++
 [source,plain,subs=+quotes]
 ----
 SessionTracker dump:
