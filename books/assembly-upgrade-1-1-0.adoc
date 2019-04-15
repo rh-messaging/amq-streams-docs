@@ -17,7 +17,7 @@ This chapter describes how to upgrade {ProductName} on Red Hat Enterprise Linux 
 |1.1.0                 |2.1.1
 |=======================
 
-Although {ProductName} 1.1.0 and Kafka 2.1.1 are both minor releases, the Kafka protocol has changed since Kafka 2.0.0 was released. In particular, the message format version and inter-broker protocol version are both now at version 2.1. As a result, the upgrade process involves making both configuration changes to existing Kafka brokers and code changes to client applications (consumers and producers). The following table shows the differences between the two Kafka versions:
+Although {ProductName} 1.1.0 and Kafka 2.1.1 are both minor releases, the Kafka protocol has changed since Kafka 2.0.0 was released. In particular, the message format version and inter-broker protocol version are both now at version 2.1. As a result, the upgrade process involves making configuration changes to existing Kafka brokers and code changes to client applications (producers, consumers, Kafka Connect, and MirrorMaker). The following table shows the differences between the two Kafka versions:
 
 [options="header"]
 |=======================
@@ -49,9 +49,10 @@ In summary, upgrading to {ProductName} 1.1.0 is a three-stage process. To upgrad
 .. xref:proc-updating-zookeeper-binaries-{context}[Updating the Zookeeper binaries]
 
 . Second, upgrade all Kafka brokers to {ProductName} 1.1.0 and configure them to use the previous protocol versions.
+
 .. xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[Upgrading Kafka brokers to {ProductName} 1.1.0]
 
-. Third, upgrade all Kafka brokers and client applications to Kafka 2.1.1. To avoid cluster downtime, this stage involves:
+. Third, upgrade all Kafka brokers and client applications (producers, consumers, Kafka Connect, and MirrorMaker) to Kafka 2.1.1. To avoid cluster downtime, this stage involves:
 
 .. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Configuring Kafka brokers to use the new inter-broker protocol version]
 
