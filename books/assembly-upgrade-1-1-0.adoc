@@ -28,7 +28,7 @@ Although {ProductName} 1.1.0 and Kafka 2.1.1 are both minor releases, the Kafka 
 
 Although Kafka 2.0.0 and 2.1.1 use the same version of Zookeeper, Red Hat recommends that you update your Zookeeper cluster to use the newest Zookeeper binaries before proceeding with the main {ProductName} 1.1.0 upgrade.
 
-Message format version::
+== Message format version
 
 When a producer sends a message to a Kafka broker, the message is encoded using a specific format. This is referred to as the message format version. You can configure a Kafka broker to convert messages from newer format versions to a given older format version, before the broker appends the message to the log.
 
@@ -40,7 +40,7 @@ In Kafka, there are two different methods for setting the message format version
 
 The default value of `message.format.version` for a  topic is defined by the `log.message.format.version` that is set on the Kafka broker. You can manually set the `message.format.version` of a topic by modifying its topic configuration. This chapter refers to the _message format version_ throughout when discussing both Kafka brokers and topics.
 
-Procedure outline::
+== Procedure outline
 
 In summary, upgrading to {ProductName} 1.1.0 is a three-stage process. To upgrade brokers and clients without downtime, you *must* complete the upgrade procedures in the order shown here.
 
