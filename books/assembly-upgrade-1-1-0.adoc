@@ -17,7 +17,7 @@ This chapter describes how to upgrade {ProductName} on Red Hat Enterprise Linux 
 |1.1.0                 |2.1.1
 |=======================
 
-Although {ProductName} 1.1.0 and Kafka 2.1.1 are both minor releases, the Kafka protocol has changed since Kafka 2.0.0 was released. In particular, the message format version and inter-broker protocol version are both now at version 2.1. As a result, the upgrade process involves making configuration changes to existing Kafka brokers and code changes to client applications (producers, consumers, Kafka Connect, and MirrorMaker). The following table shows the differences between the two Kafka versions:
+Although {ProductName} 1.1.0 and Kafka 2.1.1 are both minor releases, the Kafka protocol has changed since Kafka 2.0.0 was released. In particular, the message format version and inter-broker protocol version are both now at version 2.1. As a result, the upgrade process involves making configuration changes to existing Kafka brokers and code changes to client applications. The following table shows the differences between the two Kafka versions:
 
 [options="header"]
 |=======================

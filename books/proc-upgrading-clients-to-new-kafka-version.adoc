@@ -6,7 +6,7 @@
 
 = Upgrading client applications to the new Kafka version
 
-This procedure describes one possible approach to upgrading your client applications (producers, consumers, Kafka Connect, and MirrorMaker) to Kafka 2.1.1, the version used in {ProductName} 1.1.0. It is based on the "Per-topic consumers first, with down conversion" approach outlined in xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
+This procedure describes one possible approach to upgrading your client applications to Kafka 2.1.1, the version used in {ProductName} 1.1.0. It is based on the "Per-topic consumers first, with down conversion" approach outlined in xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
 
 .Prerequisites
 
