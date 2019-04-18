@@ -6,7 +6,7 @@
 
 = Configuring Kafka brokers to use the new message format version
 
-When client applications (producers, consumers, Kafka Connect, and MirrorMaker) have been upgraded, you can update the Kafka brokers to use the new message format version (2.1).
+When client applications have been upgraded, you can update the Kafka brokers to use the new message format version (2.1).
 
 If you did _not_ modify topic configurations when you upgraded your client applications to Kafka 2.1.1, the Kafka brokers are now converting messages down to message format version 2.0, which can cause a reduction in performance. Therefore, it is important that you update all Kafka brokers to use the new message format version as soon as possible.
 
