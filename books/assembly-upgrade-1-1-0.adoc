@@ -52,13 +52,15 @@ In summary, upgrading to {ProductName} 1.1.0 is a three-stage process. To upgrad
 
 .. xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[Upgrading Kafka brokers to {ProductName} 1.1.0]
 
-. Third, upgrade all Kafka brokers and client applications (producers, consumers, Kafka Connect, and MirrorMaker) to Kafka 2.1.1. To avoid cluster downtime, this stage involves:
+. Third, upgrade all Kafka brokers and client applications to Kafka 2.1.1. To avoid cluster downtime, this stage involves:
 
 .. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[Configuring Kafka brokers to use the new inter-broker protocol version]
 
-.. xref:con-strategies-for-upgrading-clients-{context}[Introducing strategies for upgrading clients]
+.. xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients]
 
 .. xref:proc-upgrading-clients-to-new-kafka-version-{context}[Upgrading client applications to the new Kafka version] (based on an adopted strategy)
+
+.. xref:proc-upgrading-kafka-connect-to-amq-streams-1-1-0-{context}[Upgrading Kafka Connect to {ProductName} 1.1.0]
 
 .. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[Configuring Kafka brokers to the new message format version]
 
@@ -79,5 +81,7 @@ include::proc-updating-kafka-brokers-to-new-inter-broker-protocol-version.adoc[l
 include::con-strategies-for-upgrading-clients.adoc[leveloffset=+1]
 
 include::proc-upgrading-clients-to-new-kafka-version.adoc[leveloffset=+1]
+
+include::proc-upgrading-kafka-connect-to-amq-streams-1-1-0.adoc[leveloffset=+1]
 
 include::proc-updating-kafka-brokers-to-new-message-format-version.adoc[leveloffset=+1]
