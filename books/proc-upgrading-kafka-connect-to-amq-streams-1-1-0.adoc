@@ -78,7 +78,7 @@ su - kafka
 jcmd | grep ConnectStandalone
 ----
 
-** In distributed mode
+** In distributed mode:
 +
 [source,shell,subs=+quotes]
 ----
