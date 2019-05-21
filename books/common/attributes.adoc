@@ -16,7 +16,7 @@
 :ProductLongName: Red Hat AMQ Streams
 :ProductName: AMQ Streams
 :ContextProduct: streams
-:ProductVersion: 1.1.0
+:ProductVersion: 1.1
 :BaseProductLongName: Red Hat AMQ
 :BaseProductName: AMQ
 :BaseProductVersion: 7.2
