@@ -6,7 +6,7 @@
 
 = Strategies for upgrading clients
 
-The best approach to upgrading your client applications (including Kafka Connect connectors) depends on your particular circumstances.
+The best approach to upgrading your client applications depends on your particular circumstances. Client applications might include producers, consumers, Kafka Connect, and Kafka MirrorMaker.
 
 Consuming applications need to receive messages in a message format that they understand. You can ensure that this is the case in one of two ways:
 

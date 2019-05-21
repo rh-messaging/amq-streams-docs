@@ -1,0 +1,94 @@
+// Module included in the following assemblies:
+//
+// assembly-upgrade-1-1-0.adoc
+
+[id='proc-upgrading-kafka-connect-to-amq-streams-1-1-0-{context}']
+
+= Upgrading Kafka Connect to {ProductName} 1.1.0
+
+This procedure describes how to upgrade your Kafka Connect cluster to use the {ProductName} 1.1.0 binaries. Kafka Connect is a client application and should be included in your chosen strategy for upgrading clients. For more information, see xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
+
+.Prerequisites
+* You are logged in to Red Hat Enterprise Linux as the `kafka` user.
+
+.Procedure
+
+For each Kafka broker in your {ProductName} cluster and one at a time:
+
+. Download the *Red Hat AMQ Streams 1.1.0* archive from the {ReleaseDownload}.
++
+NOTE: If prompted, log in to your Red Hat account.
+
+. On the command line, create a temporary directory and extract the contents of the `amq-streams-1.1.0-bin.zip` file.
++
+[source,shell,subs=+quotes]
+----
+mkdir /tmp/kafka-1-1-0
+unzip amq-streams-1.1.0-bin.zip -d /tmp/kafka-1-1-0
+----
+
+. Delete the `libs`, `bin`, and `docs` directories from your existing installation:
++
+[source,shell,subs=+quotes]
+----
+rm -rf /opt/kafka/libs /opt/kafka/bin /opt/kafka/docs
+----
+
+. Copy the `libs`, `bin`, and `docs` directories from the temporary directory:
++
+[source,shell,subs=+quotes]
+----
+cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/libs /opt/kafka/
+cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/bin /opt/kafka/
+cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/docs /opt/kafka/
+----
+
+. Delete the temporary directory.
++
+[source,shell,subs=+quotes]
+----
+rm -r /tmp/kafka-1-1-0
+----
+
+. Start Kafka Connect in either standalone or distributed mode.
+
+** To start in standalone mode, run the `connect-standalone.sh` script. Specify the Kafka Connect standalone configuration file and the configuration files of your Kafka Connect connectors.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/connect-standalone.sh /opt/kafka/config/connect-standalone.properties connector1.properties
+[connector2.properties ...]
+----
+
+** To start in distributed mode, start the Kafka Connect workers with the `/opt/kafka/config/connect-distributed.properties` configuration file on all Kafka Connect nodes:
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/connect-distributed.sh /opt/kafka/config/connect-distributed.properties
+----
+
+. Verify that Kafka Connect is running:
+
+** In standalone mode:
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep ConnectStandalone
+----
+
+** In distributed mode:
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep ConnectDistributed
+----
+
+. Verify that Kafka Connect is producing and consuming data as expected.
+
+.Additional resources
+
+* xref:proc-running-kafka-connect-standalone-{context}[Running Kafka Connect in standalone mode]
+* xref:proc-running-kafka-connect-distributed-{context}[Running distributed Kafka Connect]
+* xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients]

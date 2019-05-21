@@ -20,14 +20,14 @@ mkdir /tmp/kafka-1-1-0
 unzip amq-streams-1.1.0-bin.zip -d /tmp/kafka-1-1-0
 ----
 
-. Delete the `libs` `bin` and `docs` directories from your existing installation:
+. Delete the `libs`, `bin`, and `docs` directories from your existing installation:
 +
 [source,shell,subs=+quotes]
 ----
 rm -rf /opt/kafka/libs /opt/kafka/bin /opt/kafka/docs
 ----
 
-. Copy the `libs` `bin` and `docs` directories from the temporary directory:
+. Copy the `libs`, `bin`, and `docs` directories from the temporary directory:
 +
 [source,shell,subs=+quotes]
 ----
