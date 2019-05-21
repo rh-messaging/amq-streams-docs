@@ -6,12 +6,12 @@
 
 = Upgrading client applications to the new Kafka version
 
-This procedure describes one possible approach to upgrading your client applications to Kafka 2.1.1, the version used in {ProductName} 1.1.0. It is based on the "Per-topic consumers first, with down conversion" approach outlined in xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients]. Client applications might include producers, consumers, Kafka Connect, and MirrorMaker.
+This procedure describes one possible approach to upgrading your client applications to Kafka 2.1.1, the version used in {ProductName} 1.1.x. It is based on the "Per-topic consumers first, with down conversion" approach outlined in xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients]. Client applications might include producers, consumers, Kafka Connect, and MirrorMaker.
 
 .Prerequisites
 
 * xref:proc-updating-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
-* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.0.]
+* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.x.]
 * xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[You have configured Kafka brokers to use the new inter-broker protocol version.]
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
