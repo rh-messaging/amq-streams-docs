@@ -15,7 +15,7 @@ NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modi
 .Prerequisites
 
 * xref:proc-updating-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
-* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.0.]
+* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.x.]
 * xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[You have configured Kafka brokers to use the new inter-broker protocol version.]
 * xref:proc-upgrading-clients-to-new-kafka-version-{context}[You have upgraded supported client applications that consume messages from topics for which the `message.format.version` property is _not_ explicitly configured at the topic level.]
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.

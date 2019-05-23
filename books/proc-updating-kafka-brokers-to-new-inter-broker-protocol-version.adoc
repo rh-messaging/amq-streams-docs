@@ -13,7 +13,7 @@ WARNING: Downgrading to {ProductName} 1.0.0 is not possible after completing thi
 .Prerequisites
 
 * xref:proc-updating-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
-* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.0.]
+* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.x.]
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
