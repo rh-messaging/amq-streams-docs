@@ -1,3 +1,9 @@
+// Module included in the following assemblies:
+//
+// master.adoc
+
+[id='assembly-getting-started-{context}']
+
 = Getting started
 
 == AMQ Streams distribution

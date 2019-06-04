@@ -1,0 +1,21 @@
+// This assembly is included in the following assemblies:
+//
+// assembly-upgrade.adoc
+
+[id='assembly-upgrading-kafka-versions-{context}']
+
+= Upgrading Kafka
+
+After you have upgraded your binaries to use the latest version of {ProductName}, you can upgrade your brokers and clients to use a higher supported version of Kafka.
+
+.Additional resources
+
+* xref:assembly-upgrading-brokers-{context}[]
+
+include::proc-updating-kafka-brokers-to-new-inter-broker-protocol-version.adoc[leveloffset=+1]
+
+include::con-strategies-for-upgrading-clients.adoc[leveloffset=+1]
+
+include::proc-upgrading-clients-to-new-kafka-version.adoc[leveloffset=+1]
+
+include::proc-updating-kafka-brokers-to-new-message-format-version.adoc[leveloffset=+1]

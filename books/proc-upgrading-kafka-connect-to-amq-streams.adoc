@@ -1,12 +1,14 @@
 // Module included in the following assemblies:
 //
-// assembly-upgrade-1-1-0.adoc
+// assembly-upgrading-brokers.adoc
 
-[id='proc-upgrading-kafka-connect-to-amq-streams-1-1-0-{context}']
+[id='proc-upgrading-kafka-connect-to-amq-streams-{context}']
 
-= Upgrading Kafka Connect to {ProductName} 1.1.0
+= Upgrading Kafka Connect
 
-This procedure describes how to upgrade your Kafka Connect cluster to use the {ProductName} 1.1.0 binaries. Kafka Connect is a client application and should be included in your chosen strategy for upgrading clients. For more information, see xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
+This procedure describes how to upgrade a Kafka Connect cluster on a host machine.
+
+Kafka Connect is a client application and should be included in your chosen strategy for upgrading clients. For more information, see xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients]. 
 
 .Prerequisites
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
@@ -15,16 +17,16 @@ This procedure describes how to upgrade your Kafka Connect cluster to use the {P
 
 For each Kafka broker in your {ProductName} cluster and one at a time:
 
-. Download the *Red Hat AMQ Streams 1.1.0* archive from the {ReleaseDownload}.
+. Download the {ProductName} archive from the {ReleaseDownload}.
 +
 NOTE: If prompted, log in to your Red Hat account.
 
-. On the command line, create a temporary directory and extract the contents of the `amq-streams-1.1.0-bin.zip` file.
+. On the command line, create a temporary directory and extract the contents of the `amq-streams-x.y.z-bin.zip` file.
 +
 [source,shell,subs=+quotes]
 ----
-mkdir /tmp/kafka-1-1-0
-unzip amq-streams-1.1.0-bin.zip -d /tmp/kafka-1-1-0
+mkdir /tmp/kafka-x-y-z
+unzip amq-streams-x.y.z-bin.zip -d /tmp/kafka-x-y-z
 ----
 
 . Delete the `libs`, `bin`, and `docs` directories from your existing installation:
@@ -38,16 +40,16 @@ rm -rf /opt/kafka/libs /opt/kafka/bin /opt/kafka/docs
 +
 [source,shell,subs=+quotes]
 ----
-cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/libs /opt/kafka/
-cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/bin /opt/kafka/
-cp -r /tmp/kafka-1-1-0/kafka_y.y-x.x.x/docs /opt/kafka/
+cp -r /tmp/kafka-x-y-z/kafka_y.y-x.x.x/libs /opt/kafka/
+cp -r /tmp/kafka-x-y-z/kafka_y.y-x.x.x/bin /opt/kafka/
+cp -r /tmp/kafka-x-y-z/kafka_y.y-x.x.x/docs /opt/kafka/
 ----
 
 . Delete the temporary directory.
 +
 [source,shell,subs=+quotes]
 ----
-rm -r /tmp/kafka-1-1-0
+rm -r /tmp/kafka-x-y-z
 ----
 
 . Start Kafka Connect in either standalone or distributed mode.

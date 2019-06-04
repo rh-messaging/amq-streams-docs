@@ -12,15 +12,27 @@
 :linkattrs:
 :toclevels: 4
 
-// Name placeholders
+// Name and version placeholders
 :ProductLongName: Red Hat AMQ Streams
 :ProductName: AMQ Streams
 :ContextProduct: streams
-:ProductVersion: 1.1.0
+:ProductVersion: 1.2
 :BaseProductLongName: Red Hat AMQ
 :BaseProductName: AMQ
 :BaseProductVersion: 7.2
 :BaseProductMajorVersion: 7
+
+
+//Kafka upgrade attributes used in upgrades section
+:DefaultKafkaVersion: 2.2.0
+:LogMsgVersLower: 2.1
+:LogMsgVersHigher: 2.2
+
+//Release Notes links
+//To
+:RelNotes: https://access.redhat.com/documentation/en-us/red_hat_amq/{BaseProductVersion}/html-single/amq_streams_1.2_on_openshift_container_platform_release_notes
+//From
+:ContentRef: https://access.redhat.com/documentation/en-us/red_hat_amq/{BaseProductVersion}/html-single/using_amq_streams_on_openshift_container_platform
 
 // Source and download links
 :ReleaseDownload: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams&productChanged=yes[Customer Portal^]
