@@ -61,7 +61,7 @@ inter.broker.protocol.version={LogMsgVersLower}
 log.message.format.version={LogMsgVersLower}
 ----
 +
-Configure the Kafka broker to process data using the previous inter-broker protocol (`{LogMsgVersLower}`) and message format versions.
+This configures the Kafka broker to process data using the previous inter-broker protocol (`{LogMsgVersLower}`) and message format versions.
 
 . On the command line, stop the Kafka broker that you modified:
 +
