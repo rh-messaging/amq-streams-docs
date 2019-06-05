@@ -6,7 +6,7 @@
 
 = Upgrading Kafka brokers to use the new inter-broker protocol version
 
-Manually configure and restart all Kafka brokers to use the a inter-broker protocol version. After performing these steps, data is transmitted between the Kafka brokers using the new inter-broker protocol version.
+Manually configure and restart all Kafka brokers to use the new inter-broker protocol version. After performing these steps, data is transmitted between the Kafka brokers using the new inter-broker protocol version.
 
 Messages received are still appended to the message logs in the earlier message format version.
 
