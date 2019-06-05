@@ -9,7 +9,7 @@ The steps to upgrade your deployment to use {ProductName} {ProductVersion} are o
 
 The availability of Kafka clusters managed by {ProductName} is not affected by the upgrade operation.
 
-NOTE: Refer to previous {ProductName} documentation for information on upgrading from earlier versions.
+NOTE: Refer to the documentation supporting a specific version of {ProductName} for information on how to upgrade to that version.
 
 include::proc-upgrading-zookeeper-binaries.adoc[leveloffset=+1]
 

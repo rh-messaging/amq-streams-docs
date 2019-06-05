@@ -3,6 +3,7 @@
 // assembly-upgrade.adoc
 
 [id='con-upgrade-intro-{context}']
+
 = Upgrade process
 Upgrading {ProductName} is a two-stage process. To upgrade brokers and clients without downtime, you _must_ complete the upgrade procedures in the following order:
 

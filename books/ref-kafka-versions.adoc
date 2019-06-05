@@ -29,9 +29,8 @@ The format can change between Kafka releases, so messages include a version iden
 
 In Kafka, there are two different methods for setting the message format version:
 
-* The `log.message.format.version` property is set on Kafka brokers.
-
 * The `message.format.version` property is set on topics.
+* The `log.message.format.version` property is set on Kafka brokers.
 
 The default value of `message.format.version` for a  topic is defined by the `log.message.format.version` that is set on the Kafka broker. You can manually set the `message.format.version` of a topic by modifying its topic configuration.
 

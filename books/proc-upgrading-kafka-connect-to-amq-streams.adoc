@@ -8,7 +8,7 @@
 
 This procedure describes how to upgrade a Kafka Connect cluster on a host machine.
 
-Kafka Connect is a client application and should be included in your chosen strategy for upgrading clients. For more information, see xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients]. 
+Kafka Connect is a client application and should be included in your chosen strategy for upgrading clients. For more information, see xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
 
 .Prerequisites
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.

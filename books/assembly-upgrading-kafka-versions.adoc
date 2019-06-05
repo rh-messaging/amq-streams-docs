@@ -8,6 +8,12 @@
 
 After you have upgraded your binaries to use the latest version of {ProductName}, you can upgrade your brokers and clients to use a higher supported version of Kafka.
 
+Take care to follow the steps in the correct order:
+
+. xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[]
+. xref:proc-upgrading-clients-to-new-kafka-version-{context}[]
+. xref:proc-updating-kafka-brokers-to-new-message-format-version-{context}[]
+
 .Additional resources
 
 * xref:assembly-upgrading-brokers-{context}[]
