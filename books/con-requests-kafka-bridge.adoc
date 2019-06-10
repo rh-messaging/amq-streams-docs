@@ -15,7 +15,13 @@ Authentication and encryption between HTTP clients and the Kafka Bridge is not y
 
 You can configure xref:assembly-kafka-encryption-and-authentication-{context}[TLS or SASL-based authentication] between the Kafka Bridge and your Kafka cluster.
 
+<<<<<<< HEAD
 You configure the Kafka Bridge for authentication through its xref:proc-configuring-kafka-bridge-{context}[properties file].
+=======
+You configure the Kafka Bridge as any other Kafka client, prefixing the Kafka consumer/producer options with `kafka`.
+
+For more information, see xref:assembly-kafka-encryption-and-authentication-{context}[].
+>>>>>>> review edits js
 
 == Data formats and headers
 
