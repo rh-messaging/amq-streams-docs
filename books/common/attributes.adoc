@@ -19,18 +19,18 @@
 :ProductVersion: 1.2
 :BaseProductLongName: Red Hat AMQ
 :BaseProductName: AMQ
-:BaseProductVersion: 7.2
+:BaseProductVersion: 7.3
 :BaseProductMajorVersion: 7
 
 
 //Kafka upgrade attributes used in upgrades section
-:DefaultKafkaVersion: 2.2.0
+:DefaultKafkaVersion: 2.2.1
 :LogMsgVersLower: 2.1
 :LogMsgVersHigher: 2.2
 
 //Release Notes links
 //To
-:RelNotes: https://access.redhat.com/documentation/en-us/red_hat_amq/{BaseProductVersion}/html-single/amq_streams_1.2_on_openshift_container_platform_release_notes
+:RelNotes: https://access.redhat.com/documentation/en-us/red_hat_amq/{BaseProductVersion}/html-single/amq_streams_{ProductVersion}_on_openshift_container_platform_release_notes
 //From
 :ContentRef: https://access.redhat.com/documentation/en-us/red_hat_amq/{BaseProductVersion}/html-single/using_amq_streams_on_openshift_container_platform
 
