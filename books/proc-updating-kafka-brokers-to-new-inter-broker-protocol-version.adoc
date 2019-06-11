@@ -1,19 +1,21 @@
 // Module included in the following assemblies:
 //
-// assembly-upgrade-1-1-0.adoc
+// assembly-upgrade.adoc
 
 [id='proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}']
 
-= Configuring Kafka brokers to use the new inter-broker protocol version
+= Upgrading Kafka brokers to use the new inter-broker protocol version
 
-Manually configure and restart all Kafka brokers to use the new inter-broker protocol version (2.1). After performing these steps, data is transmitted between the Kafka brokers using inter-broker protocol version 2.1. Messages received are still appended to the message logs in message format version 2.0.
+Manually configure and restart all Kafka brokers to use the new inter-broker protocol version. After performing these steps, data is transmitted between the Kafka brokers using the new inter-broker protocol version.
 
-WARNING: Downgrading to {ProductName} 1.0.0 is not possible after completing this procedure.
+Messages received are still appended to the message logs in the earlier message format version.
+
+WARNING: Downgrading {ProductName} is not possible after completing this procedure.
 
 .Prerequisites
 
-* xref:proc-updating-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
-* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.0.]
+* xref:proc-upgrading-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
+* xref:proc-upgrading-kafka-brokers-to-amq-streams-{context}[You have upgraded all Kafka brokers to {ProductName} {ProductVersion}]
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
 .Procedure
@@ -22,11 +24,11 @@ For each Kafka broker in your {ProductName} cluster and one at a time:
 
 . In a text editor, open the broker properties file for the Kafka broker you want to update. Broker properties files are commonly stored in the `/opt/kafka/config/` directory.
 
-. Set the `inter.broker.protocol.version` to `2.1`.
+. Set the `inter.broker.protocol.version` to `{LogMsgVersHigher}`.
 +
-[source,shell,subs=+quotes]
+[source,shell,subs="+quotes,attributes"]
 ----
-inter.broker.protocol.version=2.1
+inter.broker.protocol.version={LogMsgVersHigher}
 ----
 
 . On the command line, stop the Kafka broker that you modified:

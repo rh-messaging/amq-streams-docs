@@ -1,21 +1,21 @@
 // Module included in the following assemblies:
 //
-// assembly-upgrade-1-1-0.adoc
+// assembly-upgrade.adoc
 
 [id='proc-updating-kafka-brokers-to-new-message-format-version-{context}']
 
-= Configuring Kafka brokers to use the new message format version
+= Upgrading Kafka brokers to use the new message format version
 
-When client applications have been upgraded, you can update the Kafka brokers to use the new message format version (2.1).
+When client applications have been upgraded, you can update the Kafka brokers to use the new message format version.
 
-If you did _not_ modify topic configurations when you upgraded your client applications to Kafka 2.1.1, the Kafka brokers are now converting messages down to message format version 2.0, which can cause a reduction in performance. Therefore, it is important that you update all Kafka brokers to use the new message format version as soon as possible.
+If you did _not_ modify topic configurations when you upgraded your client applications to use the Kafka version required for {ProductName} {ProductVersion}, the Kafka brokers are now converting messages down to the previous message format version, which can cause a reduction in performance. Therefore, it is important that you update all Kafka brokers to use the new message format version as soon as possible.
 
-NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modified broker, stop the broker you configured and restarted previously.
+NOTE: Update and restart the Kafka brokers one-by-one. Before you restart a modified broker, stop the broker you configured and restarted previously. 
 
 .Prerequisites
 
-* xref:proc-updating-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
-* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.0.]
+* xref:proc-upgrading-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
+* xref:proc-upgrading-kafka-brokers-to-amq-streams-{context}[You have upgraded all Kafka brokers to {ProductName} {ProductVersion}.]
 * xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[You have configured Kafka brokers to use the new inter-broker protocol version.]
 * xref:proc-upgrading-clients-to-new-kafka-version-{context}[You have upgraded supported client applications that consume messages from topics for which the `message.format.version` property is _not_ explicitly configured at the topic level.]
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
@@ -26,11 +26,11 @@ For each Kafka broker in your {ProductName} cluster and one at a time:
 
 . In a text editor, open the broker properties file for the Kafka broker you want to update. Broker properties files are commonly stored in the `/opt/kafka/config/` directory.
 
-. Set the `log.message.format.version` to `2.1`.
+. Set the `log.message.format.version` to `{LogMsgVersHigher}`.
 +
-[source,shell,subs=+quotes]
+[source,shell,subs="+quotes,attributes"]
 ----
-log.message.format.version=2.1
+log.message.format.version={LogMsgVersHigher}
 ----
 
 . On the command line, stop the Kafka broker that you most recently modified and restarted as part of this procedure. If you are modifying the first Kafka broker in this procedure, go to step four.

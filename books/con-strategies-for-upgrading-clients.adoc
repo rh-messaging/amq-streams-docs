@@ -1,6 +1,6 @@
 // Module included in the following assemblies:
 //
-// assembly-upgrade-1-1-0.adoc
+// assembly-upgrading-kafka-versions.adoc
 
 [id='con-strategies-for-upgrading-clients-{context}']
 

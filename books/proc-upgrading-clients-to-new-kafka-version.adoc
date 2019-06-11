@@ -1,17 +1,21 @@
 // Module included in the following assemblies:
 //
-// assembly-upgrade-1-1-0.adoc
+// assembly-upgrading-brokers.adoc
 
 [id='proc-upgrading-clients-to-new-kafka-version-{context}']
 
 = Upgrading client applications to the new Kafka version
 
-This procedure describes one possible approach to upgrading your client applications to Kafka 2.1.1, the version used in {ProductName} 1.1.0. It is based on the "Per-topic consumers first, with down conversion" approach outlined in xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients]. Client applications might include producers, consumers, Kafka Connect, and MirrorMaker.
+This procedure describes one possible approach to upgrading your client applications to the Kafka version used for {ProductName} {ProductVersion}.
+
+The procedure is based on the "per-topic consumers first, with down conversion" approach outlined in xref:con-strategies-for-upgrading-clients-{context}[Strategies for upgrading clients].
+
+Client applications might include producers, consumers, Kafka Connect, and MirrorMaker.
 
 .Prerequisites
 
-* xref:proc-updating-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
-* xref:proc-upgrading-kafka-brokers-to-amq-streams-1-1-0-{context}[You have upgraded all Kafka brokers to {ProductName} 1.1.0.]
+* xref:proc-upgrading-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
+* xref:proc-upgrading-kafka-brokers-to-amq-streams-{context}[You have upgraded all Kafka brokers to {ProductName} {ProductVersion}.]
 * xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[You have configured Kafka brokers to use the new inter-broker protocol version.]
 * You are logged in to Red Hat Enterprise Linux as the `kafka` user.
 
@@ -19,22 +23,22 @@ This procedure describes one possible approach to upgrading your client applicat
 
 For each topic:
 
-. On the command line, set the `message.format.version` configuration option to `2.0`.
+. On the command line, set the `message.format.version` configuration option to `{LogMsgVersLower}`.
 +
-[source,shell,subs=+quotes]
+[source,shell,subs="+quotes,attributes"]
 ----
-bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name <TopicName> --alter --add-config message.format.version=2.0
+bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name _<TopicName>_ --alter --add-config message.format.version={LogMsgVersLower}
 ----
 
 . Upgrade all the consuming and producing applications for the topic.
 
 . Verify that the upgraded applications function correctly.
 
-. Change the topic's `message.format.version` configuration option to `2.1`.
+. Change the topic's `message.format.version` configuration option to `{LogMsgVersHigher}`.
 +
-[source,shell,subs=+quotes]
+[source,shell,subs="+quotes,attributes"]
 ----
-bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name <TopicName> --alter --add-config message.format.version=2.1
+bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name _<TopicName>_ --alter --add-config message.format.version={LogMsgVersHigher}
 ----
 
 .Additional resources
