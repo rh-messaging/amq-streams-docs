@@ -11,7 +11,7 @@ In order to be running in a supported configuration, AMQ Streams must be running
 [width="80%",cols="3,^2",options="header"]
 |=========================================================
 |Java Virtual Machine |Version
-|OpenJDK |1.8
+|OpenJDK |1.8, 11 footnote:[For RHEL 8.x]
 |OracleJDK |1.8
 |IBM JDK |1.8
 |=========================================================
@@ -20,5 +20,5 @@ In order to be running in a supported configuration, AMQ Streams must be running
 [width="80%",cols="3,^2,^2",options="header"]
 |=========================================================
 |Operating System |Architecture |Version
-|Red Hat Enterprise Linux |x86_64 |7.x
+|{ProductPlatformName} |x86_64 |7.x, 8.x
 |=========================================================

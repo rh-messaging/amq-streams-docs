@@ -17,7 +17,7 @@ Client applications might include producers, consumers, Kafka Connect, and Mirro
 * xref:proc-upgrading-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
 * xref:proc-upgrading-kafka-brokers-to-amq-streams-{context}[You have upgraded all Kafka brokers to {ProductName} {ProductVersion}.]
 * xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[You have configured Kafka brokers to use the new inter-broker protocol version.]
-* You are logged in to Red Hat Enterprise Linux as the `kafka` user.
+* You are logged in to {ProductPlatformName} as the `kafka` user.
 
 .Procedure
 

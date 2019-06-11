@@ -21,6 +21,7 @@
 :BaseProductName: AMQ
 :BaseProductVersion: 7.3
 :BaseProductMajorVersion: 7
+:ProductPlatformName: Red Hat Enterprise Linux
 
 
 //Kafka upgrade attributes used in upgrades section

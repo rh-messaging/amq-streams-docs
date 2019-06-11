@@ -21,7 +21,7 @@ Zookeeper host string.
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead. 
+DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead.
 Hostname to publish to ZooKeeper for clients to use. In IaaS environments, this may need to be different from the interface to which the broker binds. If this is not set, it will use the value for `host.name` if configured. Otherwise it will use the value returned from java.net.InetAddress.getCanonicalHostName().
 
 `advertised.listeners`::
@@ -38,7 +38,7 @@ Listeners to publish to ZooKeeper for clients to use, if different than the `lis
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead. 
+DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead.
 The port to publish to ZooKeeper for clients to use. In IaaS environments, this may need to be different from the port to which the broker binds. If this is not set, it will publish the same port that the broker binds to.
 
 `auto.create.topics.enable`::
@@ -96,7 +96,7 @@ Enables delete topic. Delete topic through the admin tool will have no effect if
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `listeners` is not set. Use `listeners` instead. 
+DEPRECATED: only used when `listeners` is not set. Use `listeners` instead.
 hostname of broker. If this is set, it will only bind to this address. If this is not set, it will bind to all interfaces.
 
 `leader.imbalance.check.interval.seconds`::
@@ -280,7 +280,7 @@ The amount of time to wait before deleting a file from the filesystem.
 +
 
 +
-The largest record batch size allowed by Kafka. If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that the they can fetch record batches this large.
+The largest record batch size allowed by Kafka. If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that they can fetch record batches this large.
 +
 In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.
 +
@@ -433,7 +433,7 @@ The offsets topic segment bytes should be kept relatively small in order to faci
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `listeners` is not set. Use `listeners` instead. 
+DEPRECATED: only used when `listeners` is not set. Use `listeners` instead.
 the port to listen and accept connections on.
 
 `queued.max.requests`::
@@ -1218,10 +1218,10 @@ A list of cipher suites. This is a named combination of authentication, encrypti
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-Configures kafka broker to request client authentication. The following settings are common:  
- 
-* `ssl.client.auth=required` If set to required client authentication is required. 
-* `ssl.client.auth=requested` This means client authentication is optional. unlike requested , if this option is set client can choose not to provide authentication information about itself 
+Configures kafka broker to request client authentication. The following settings are common:
+
+* `ssl.client.auth=required` If set to required client authentication is required.
+* `ssl.client.auth=requested` This means client authentication is optional. unlike requested , if this option is set client can choose not to provide authentication information about itself
 * `ssl.client.auth=none` This means client authentication is not needed.
 
 `ssl.enabled.protocols`::

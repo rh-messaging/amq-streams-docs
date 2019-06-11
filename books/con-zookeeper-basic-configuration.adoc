@@ -6,7 +6,7 @@
 
 = Basic configuration
 
-The most important Zookeepr configuration options are:
+The most important Zookeeper configuration options are:
 
 `tickTime`:: Zookeeper’s basic time unit in milliseconds.
 It is used for heartbeats and session timeouts.
@@ -17,8 +17,8 @@ For example, minimum session timeout will be two ticks.
 An example zookeeper configuration file `config/zookeeper.properties` is located in the AMQ Streams installation directory.
 It is recommended to place the `dataDir` directory on a separate disk device to minimize the latency in Zookeeper.
 
-Zookeeper configuration file should be located in `/opt/kafka/config/zookeeper.properties`. 
-A basic example of the configuration file can be found below. 
+Zookeeper configuration file should be located in `/opt/kafka/config/zookeeper.properties`.
+A basic example of the configuration file can be found below.
 The configuration file has to be readable by the `kafka` user.
 
 [source,ini]
