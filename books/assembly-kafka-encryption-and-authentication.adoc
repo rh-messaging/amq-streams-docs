@@ -1,3 +1,9 @@
+// This assembly is included in the following assemblies:
+//
+// master.adoc
+
+[id='assembly-kafka-encryption-and-authentication-{context}']
+
 = Encryption and authentication
 
 Kafka supports TLS for encrypting the communication with Kafka clients.

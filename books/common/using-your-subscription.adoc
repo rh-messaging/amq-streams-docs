@@ -42,7 +42,7 @@ is not required.
 [discrete]
 == Registering Your System for Packages
 
-To install RPM packages on Red Hat Enterprise Linux, your system must
+To install RPM packages on {ProductPlatformName}, your system must
 be registered. If you are using zip or tar files, this step is not
 required.
 

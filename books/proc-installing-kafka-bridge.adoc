@@ -1,0 +1,35 @@
+// Module included in the following assemblies:
+//
+// assembly-using-the-kafka-bridge.adoc
+
+[id='proc-installing-kafka-bridge{context}']
+= Installing the {ProductName} Kafka Bridge on {ProductPlatformName}
+
+Follow this procedure to install the {ProductName} Kafka Bridge on {ProductPlatformName}.
+
+.Prerequisites
+
+* xref:proc-installing-amq-streams-{context}[{ProductName} is installed on the host]
+* xref:proc-downloading-kafka-bridge-{context}[The Kafka Bridge installation archive is downloaded]
+* xref:proc-configuring-kafka-bridge-{context}[The Kafka Bridge configuration properties are set]
+
+.Procedure
+
+. If you haven't already done so, unzip the {ProductName} Kafka Bridge installation archive to any directory.
+
+. Run the Kafka Bridge script using the configuration properties as a parameter:
++
+For example:
++
+[source,shell]
+----
+./bin/kafka_bridge_run.sh --config-file=_path_/configfile.properties
+----
+
+. Check to see that the installation was successful in the log.
++
+[source,shell]
+----
+HTTP-Kafka Bridge started and listening on port 8080
+HTTP-Kafka Bridge bootstrap servers localhost:9092
+----
