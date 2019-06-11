@@ -39,7 +39,7 @@
 
 // Maven dependencies
 :MavenRepo: https://maven.repository.redhat.com/ga/
-:ArtifactVersion: 2.1.1.redhat-00002
+:ArtifactVersion: 2.2.1.redhat-00002
 
 // File locations
 :UpstreamDir: upstream/documentation/book
