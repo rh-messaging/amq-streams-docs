@@ -15,7 +15,7 @@ Follow this procedure to install the {ProductName} Kafka Bridge on {ProductPlatf
 
 .Procedure
 
-. If you haven't already done so, unzip the {ProductName} Kafka Bridge installation archive to any directory.
+. If you have not already done so, unzip the {ProductName} Kafka Bridge installation archive to any directory.
 
 . Run the Kafka Bridge script using the configuration properties as a parameter:
 +

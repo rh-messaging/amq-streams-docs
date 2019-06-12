@@ -7,4 +7,4 @@
 
 Content goes here.
 
-Include information on port-forwarding in this section because it's part of a Quickstart setup. Have a single procedure that includes setting up port-forwarding for local testing and development purposes only.
+Include information on port-forwarding in this section because it is part of a Quickstart setup. Have a single procedure that includes setting up port-forwarding for local testing and development purposes only.

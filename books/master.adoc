@@ -24,6 +24,8 @@ include::assembly-kafka-clients.adoc[leveloffset=+1]
 
 include::assembly-kafka-streams.adoc[leveloffset=+1]
 
+include::assembly-using-the-kafka-bridge.adoc[leveloffset=+1]
+
 include::assembly-upgrade.adoc[leveloffset=+1]
 
 [appendix]
