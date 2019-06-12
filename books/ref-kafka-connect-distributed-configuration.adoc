@@ -43,5 +43,7 @@ For a complete list of all supported Kafka Connect configuration options, see xr
 Connector plug-ins open client connections to the Kafka brokers using the bootstrap address.
 To configure these connections, use the standard Kafka producer and consumer configuration options prefixed by ``producer.`` or ``consumer.``.
 
-For more information on configuring Kafka producers and consumers, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].
+For more information on configuring Kafka producers and consumers, see:
 
+* xref:producer-configuration-parameters-{context}[]
+* xref:consumer-configuration-parameters-{context}[]

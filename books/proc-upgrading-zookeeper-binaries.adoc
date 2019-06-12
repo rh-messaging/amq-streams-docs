@@ -24,8 +24,8 @@ NOTE: If prompted, log in to your Red Hat account.
 +
 [source,shell,subs=+quotes]
 ----
-mkdir /tmp/kafka-x-y-z
-unzip amq-streams-x.y.z-bin.zip -d /tmp/kafka-x-y-z
+mkdir /tmp/kafka
+unzip amq-streams-x.y.z-bin.zip -d /tmp/kafka
 ----
 
 . Delete the `libs`, `bin`, and `docs` directories from your existing installation:
@@ -39,16 +39,16 @@ rm -rf /opt/kafka/libs /opt/kafka/bin /opt/kafka/docs
 +
 [source,shell,subs=+quotes]
 ----
-cp -r /tmp/kafka-x-y-z/kafka_y.y-x.x.x/libs /opt/kafka/
-cp -r /tmp/kafka-x-y-z/kafka_y.y-x.x.x/bin /opt/kafka/
-cp -r /tmp/kafka-x-y-z/kafka_y.y-x.x.x/docs /opt/kafka/
+cp -r /tmp/kafka/kafka_y.y-x.x.x/libs /opt/kafka/
+cp -r /tmp/kafka/kafka_y.y-x.x.x/bin /opt/kafka/
+cp -r /tmp/kafka/kafka_y.y-x.x.x/docs /opt/kafka/
 ----
 
 . Delete the temporary directory:
 +
 [source,shell,subs=+quotes]
 ----
-rm -rf /tmp/kafka-x-y-z
+rm -rf /tmp/kafka
 ----
 
 . Restart Zookeeper:
