@@ -27,4 +27,6 @@ bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --alter --add-config 'S
 
 .Additional resources
 
-* For more information about configuring SASL SCRAM authentication in clients, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].
+* For more information about configuring SASL SCRAM authentication in clients, see:
+** xref:producer-configuration-parameters-{context}[]
+** xref:consumer-configuration-parameters-{context}[]

@@ -39,4 +39,6 @@ ssl.client.auth=required
 
 * For more information about configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].
 * For more information about running a Kafka cluster, see xref:proc-running-multinode-kafka-cluster-{context}[].
-* For more information about configuring TLS client authentication in clients, see xref:producer-configuration-parameters-{context}[] and xref:consumer-configuration-parameters-{context}[].
+* For more information about configuring TLS encryption in clients, see:
+** xref:producer-configuration-parameters-{context}[]
+** xref:consumer-configuration-parameters-{context}[]
