@@ -27,7 +27,7 @@ Server {
 };
 ----
 +
-The `super` will have automatically administrator priviledges.
+The `super` automatically has administrator priviledges.
 The file can contain multiple users, but only one additional user is required by the Kafka brokers.
 The recommended name for the Kafka user is `kafka`.
 +
