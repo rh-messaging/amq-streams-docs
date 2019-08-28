@@ -78,8 +78,7 @@ You can apply Kafka ACLs to three types of resource:
 
 - Topics
 - Consumer groups
-- Cluster
-
+- Clusters
 
 .Supported operations
 
