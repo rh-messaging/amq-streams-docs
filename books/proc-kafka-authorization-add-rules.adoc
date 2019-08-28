@@ -6,34 +6,48 @@
 
 = Adding ACL rules
 
-This procedure describes how to add ACL rules for the `SimpleAclAuthorizer` plugin in Kafka brokers.
+`SimpleAclAuthorizer` uses Access Control Lists (ACLs), which define a set of rules describing what users can and cannot do.
+
+This procedure describes how to add ACL rules when using the `SimpleAclAuthorizer` plugin in Kafka brokers.
+
+Rules are added using the `kafka-acls.sh` utility and stored in Zookeeper.
 
 .Prerequisites
 
-* AMQ Streams cluster is installed and running
+* xref:proc-installing-amq-streams-{context}[AMQ Streams is installed] on all hosts used as Kafka brokers.
 * Authorization is xref:proc-kafka-enable-authorization-{context}[enabled] in Kafka brokers.
 
 .Procedure
 
-. `kafka-acls.sh` utility can be used to manage ACL rules.
-To add new rules, call it with option `--add`.
-Following examples show different ACL rules being added.
+. Run `kafka-acls.sh` with the `--add` option.
++
+Examples:
++
+* Allow `user1` and `user2` access to read from `myTopic` using the `MyConsumerGroup` consumer group.
 +
 [source,shell]
 ----
-# Allow user1 and user2 read from topic myTopic using consumer group MyConsumerGroup
 bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Read --topic myTopic --allow-principal User:user1 --allow-principal User:user2
+
 bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Describe --topic myTopic --allow-principal User:user1 --allow-principal User:user2
+
 bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Read --operation Describe --group MyConsumerGroup --allow-principal User:user1 --allow-principal User:user2
+----
 
-# Deny user1 to read the topic from IP address 127.0.0.1
+* Deny `user1` access to read `myTopic` from IP address host `127.0.0.1`.
++
+[source,shell]
+----
 bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --operation Describe --operation Read --topic myTopic --group MyConsumerGroup --deny-principal User:user1 --deny-host 127.0.0.1
+----
 
-# Add principal as consumer
+* Add `user1` as the consumer of `myTopic` with `MyConsumerGroup`.
++
+[source,shell]
+----
 bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --add --consumer --topic myTopic --group MyConsumerGroup --allow-principal User:user1
 ----
 
 .Additional resources
 
 * For a list of all `kafka-acls.sh` options, see xref:con-kafka-authorization-simple-{context}[].
-* For more information about enabling authorization, see xref:proc-kafka-enable-authorization-{context}[].

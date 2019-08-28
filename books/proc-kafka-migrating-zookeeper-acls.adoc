@@ -6,8 +6,9 @@
 
 = Enabling Zookeeper ACLs in an existing Kafka cluster
 
-The `zookeeper-security-migration.sh` tool can to be used to set Zookeeper ACLs on all existing `znodes`.
-The `zookeeper-security-migration.sh` is available as part of AMQ Streams and can be found in the `bin` directory.
+This procedure describes how to enable Zookeeper ACLs in Kafka configuration for a Kafka cluster that is running.
+Use the `zookeeper-security-migration.sh` tool to set Zookeeper ACLs on all existing `znodes`.
+The `zookeeper-security-migration.sh` is available as part of AMQ Streams, and can be found in the `bin` directory.
 
 .Prerequisites
 
@@ -22,7 +23,7 @@ The `zookeeper-security-migration.sh` is available as part of AMQ Streams and ca
 zookeeper.set.acl=true
 ----
 
-. Restart all Kafka brokers one by one
+. Restart all Kafka brokers one by one.
 
 . Set the ACLs on all existing Zookeeper `znodes` using the `zookeeper-security-migration.sh` tool.
 +

@@ -8,30 +8,34 @@
 
 This procedure describes how to list existing ACL rules when using the `SimpleAclAuthorizer` plugin in Kafka brokers.
 
+Rules are listed using the `kafka-acls.sh` utility.
+
 .Prerequisites
 
-* AMQ Streams cluster is installed and running
-* Authorization is xref:proc-kafka-enable-authorization-{context}[enabled] in Kafka brokers.
+* xref:proc-installing-amq-streams-{context}[AMQ Streams is installed] on all hosts used as Kafka brokers.
+* Authorization is xref:proc-kafka-enable-authorization-{context}[enabled] in Kafka brokers
+* ACLs have been xref:proc-kafka-authorization-add-rules-{context}[added].
 
 .Procedure
 
-* `kafka-acls.sh` utility can be used to manage ACL rules.
-To list existing rules, call it with option `--list`.
-Following examples shows list of existing ACL rules.
+* Run `kafka-acls.sh` with the `--list` option.
 +
-[source]
+For example:
++
+[source, shell]
 ----
 $ bin/kafka-acls.sh --authorizer-properties zookeeper.connect=zoo1.my-domain.com:2181 --list --topic myTopic
+
 Current ACLs for resource `Topic:myTopic`:
-        User:user1 has Allow permission for operations: Read from hosts: *
-        User:user2 has Allow permission for operations: Read from hosts: *
-        User:user2 has Deny permission for operations: Read from hosts: 127.0.0.1
-        User:user1 has Allow permission for operations: Describe from hosts: *
-        User:user2 has Allow permission for operations: Describe from hosts: *
-        User:user2 has Deny permission for operations: Describe from hosts: 127.0.0.1
+
+User:user1 has Allow permission for operations: Read from hosts: *
+User:user2 has Allow permission for operations: Read from hosts: *
+User:user2 has Deny permission for operations: Read from hosts: 127.0.0.1
+User:user1 has Allow permission for operations: Describe from hosts: *
+User:user2 has Allow permission for operations: Describe from hosts: *
+User:user2 has Deny permission for operations: Describe from hosts: 127.0.0.1
 ----
 
 .Additional resources
 
 * For a list of all `kafka-acls.sh` options, see xref:con-kafka-authorization-simple-{context}[].
-* For more information about enabling authorization, see xref:proc-kafka-enable-authorization-{context}[].
