@@ -6,7 +6,7 @@
 
 = Zookeeper authorization
 
-When authentication is enabled between Kafka and Zookeeper, you can use Access Control List (ACL) rules to automatically control access to Kafka records.
+When authentication is enabled between Kafka and Zookeeper, you can use Zookeeper Access Control List (ACL) rules to automatically control access to Kafka's metadata stored in Zookeeper.
 
 include::con-kafka-zookeeper-authorization-enabling-acls.adoc[leveloffset=+1]
 
