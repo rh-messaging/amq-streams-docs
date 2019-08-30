@@ -20,9 +20,9 @@ include::con-kafka-broker-id-configuration.adoc[leveloffset=+1]
 
 include::proc-running-multinode-kafka-cluster.adoc[leveloffset=+1]
 
-include::assembly-kafka-authorization.adoc[leveloffset=+1]
-
 include::assembly-kafka-zookeeper-authentication.adoc[leveloffset=+1]
+
+include::assembly-kafka-authorization.adoc[leveloffset=+1]
 
 include::assembly-kafka-zookeeper-authorization.adoc[leveloffset=+1]
 

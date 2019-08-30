@@ -22,20 +22,26 @@ For `SimpleAclAuthorizer`, the fully-qualified name is `kafka.security.auth.Simp
 
 ACL rules are defined in the format:
 
-[source, subs="+quotes"]
-----
-_Principal `P` is allowed / denied operation `O` on Kafka resource `R` from host
-`H`._
-----
+[example]
+====
+Principal *P* is allowed / denied operation *O* on Kafka resource *R* from host *H*
+====
 
 For example, a rule might be set so that user:
 
-[source, subs="+quotes"]
-----
-_John can view the topic `comments` from host 127.0.0.1_
-----
+[example]
+====
+*John* can *view* the topic *comments* from host *127.0.0.1*
+====
 
-Host is the IP address of the Kafka broker.
+Host is the IP address of the machine that John is connecting from.
+
+In most cases, the user is a producer or consumer application:
+
+[example]
+====
+*Consumer01* can *write* to the consumer group *accounts* from host *127.0.0.1*
+====
 
 *If ACL rules are not present*
 
@@ -51,12 +57,12 @@ The format of the ID depends on the authentication mechanism used by clients to 
 * `User:<username>` when connected using simple authentication mechanisms, such as PLAIN or SCRAM.
 +
 For example `User:admin` or `User:user1`.
-* `User:<DN>` when connected using TLS client authentication.
+* `User:<DistinguishedName>` when connected using TLS client authentication.
 +
 For example `User:CN=user1,O=MyCompany,L=Prague,C=CZ`.
 * `User:<Kerberos username>` when connected using Kerberos.
 
-The _DN_ is the distinguished name from the client certificate.
+The _DistinguishedName_ is the distinguished name from the client certificate.
 
 The _Kerberos username_ is the primary part of the Kerberos principal, which is used by default when connecting using Kerberos.
 You can use the `sasl.kerberos.principal.to.local.rules` property to configure how the Kafka principal is built from the Kerberos principal.
@@ -74,11 +80,13 @@ super.users=User:admin,User:operator
 
 .Supported resources
 
-You can apply Kafka ACLs to three types of resource:
+You can apply Kafka ACLs to these types of resource:
 
 - Topics
 - Consumer groups
-- Clusters
+- The cluster
+- TransactionId
+- DelegationToken
 
 .Supported operations
 
@@ -121,6 +129,8 @@ ACL rules are managed using the `bin/kafka-acls.sh` utility, which is provided a
 
 Use `kafka-acls.sh` parameter options to add, list and remove ACL rules, and perform other functions.
 
+The parameters require a double-hyphen convention, such as `--add`.
+
 |===
 |Option |Type | Description |Default
 
@@ -139,6 +149,11 @@ Use `kafka-acls.sh` parameter options to add, list and remove ACL rules, and per
 |List ACL rules.
 |
 
+|`authorizer`
+|Action
+|Fully-qualified class name of the authorizer.
+|`kafka.security.auth.SimpleAclAuthorizer`
+
 |`authorizer-properties`
 |Configuration
 |Key/value pairs passed to the authorizer for initialization.
@@ -147,14 +162,24 @@ For `SimpleAclAuthorizer`, the example values are:
 `zookeeper.connect=zoo1.my-domain.com:2181`.
 |
 
+|`bootstrap-server`
+|Resource
+|Host/port pairs to connect to the Kafka cluster.
+|Use this option or the `authorizer` option, not both.
+
+|`command-config`
+|Resource
+|Configuration property file to pass to the Admin Client, which is used in conjunction with the `bootstrap-server` parameter.
+|
+
 |`cluster`
 |Resource
-|Specifies cluster as an ACL resource.
+|Specifies a cluster as an ACL resource.
 |
 
 |`topic`
 |Resource
-|Specifies topic name as an ACL resource.
+|Specifies a topic name as an ACL resource.
 +
 An asterisk (`*`) used as a wildcard translates to _all topics_.
 +
@@ -163,10 +188,35 @@ A single command can specify multiple `--topic` options.
 
 |`group`
 |Resource
-|Specifies consumer group name as an ACL resource.
+|Specifies a consumer group name as an ACL resource.
 +
 A single command can specify multiple `--group` options.
 |
+
+|`transactional-id`
+|Resource
+|Specifies a transactional ID as an ACL resource.
++
+Transactional delivery means that all messages sent by a producer to multiple partitions must be successfully delivered or none of them.
++
+An asterisk (`*`) used as a wildcard translates to _all IDs_.
+|
+
+|`delegation-token`
+|Resource
+|Specifies a delegation token as an ACL resource.
++
+An asterisk (`*`) used as a wildcard translates to _all tokens_.
+|
+
+|`resource-pattern-type`
+|Configuration
+|Specifies a type of resource pattern for the `add` parameter or a resource pattern filter value for the `list` or `remove` parameters.
++
+Use `literal` or `prefixed` as the resource pattern type for a resource name.
++
+Use `any` or `match` as resource pattern filter values, or a specific pattern type filter.
+|`literal`
 
 |`allow-principal`
 |Principal
@@ -180,6 +230,13 @@ A single command can specify multiple `--allow-principal` options.
 | Principal added to a deny ACL rule.
 +
 A single command can specify multiple `--deny-principal` options.
+|
+
+|`principal`
+|Principal
+| Principal name used with the `list` parameter to return a list of ACLs for the principal.
++
+A single command can specify multiple `--principal` options.
 |
 
 |`allow-host`
@@ -211,6 +268,13 @@ A single command can specify multipleMultiple `--operation` options can be speci
 |`consumer`
 |Shortcut
 |A shortcut to allow or deny all operations needed by a message consumer (READ and DESCRIBE on topic, READ on consumer group).
+|
+
+|`idempotent`
+|Shortcut
+|A shortcut to enable idempotence when used with the `--producer` parameter, so that messages are delivered exactly once to a partition.
++
+Idepmotence is enabled automatically if the producer is authorized to send messages based on a specific transactional ID.
 |
 
 |`force`
