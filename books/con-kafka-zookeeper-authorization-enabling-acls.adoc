@@ -6,7 +6,7 @@
 
 = ACL Configuration
 
-Enforcement of ACL rules is controlled by the `zookeeper.set.acl` property in the `config/server.properties` Kafka configuration file.
+Enforcement of Zookeeper ACL rules is controlled by the `zookeeper.set.acl` property in the `config/server.properties` Kafka configuration file.
 
 The property is disabled by default and enabled by setting to `true`:
 
