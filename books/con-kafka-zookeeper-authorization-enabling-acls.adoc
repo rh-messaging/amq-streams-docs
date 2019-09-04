@@ -6,19 +6,29 @@
 
 = ACL Configuration
 
-Enforcement of ACL rules is controlled by the `zookeeper.set.acl` property in the `config/server.properties` Kafka configuration file and is disabled by default.
-To enabled the ACL protection set `zookeeper.set.acl` to `true`:
+Enforcement of Zookeeper ACL rules is controlled by the `zookeeper.set.acl` property in the `config/server.properties` Kafka configuration file.
+
+The property is disabled by default and enabled by setting to `true`:
 
 [source]
 ----
 zookeeper.set.acl=true
 ----
 
-Kafka will set the ACL rules only for newly created Zookeeper `znodes`.
-When the ACLs are only enabled after the first start of the cluster, the tool `zookeeper-security-migration.sh` can be used to set ACLs on all existing `znodes`.
+If ACL rules are enabled, when a `znode` is created in Zookeeper only the Kafka user who created it can modify or delete it.
+All other users have read-only access.
 
-The data stored in Zookeeper includes information such as topic names and their configuration.
-The Zookeeper database also contains the salted and hashed user credentials when SASL SCRAM authentication is used.
-But it does not include any records sent and received using Kafka.
-Kafka, in general, considers the data stored in Zookeeper as non-confidential.
-In case these data are considered confidential (for example because topic names contain customer identification) the only way how to protect them is by isolating Zookeeper on the network level and allowing access only to Kafka brokers.
+Kafka sets ACL rules only for newly created Zookeeper `znodes`.
+If the ACLs are only enabled after the first start of the cluster, the `zookeeper-security-migration.sh` tool can set ACLs on all existing `znodes`.
+
+.Confidentiality of data in Zookeeper
+
+Data stored in Zookeeper includes:
+
+* Topic names and their configuration
+* Salted and hashed user credentials when SASL SCRAM authentication is used.
+
+But Zookeeper does not store any records sent and received using Kafka.
+The data stored in Zookeeper is assumed to be non-confidential.
+
+If the data is to be regarded as confidential (for example because topic names contain customer IDs), the only option available for protection is isolating Zookeeper on the network level and allowing access only to Kafka brokers.
