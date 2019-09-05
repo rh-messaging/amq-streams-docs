@@ -157,7 +157,7 @@ The parameters require a double-hyphen convention, such as `--add`.
 |`authorizer-properties`
 |Configuration
 |Key/value pairs passed to the authorizer for initialization.
-+
+
 For `SimpleAclAuthorizer`, the example values are:
 `zookeeper.connect=zoo1.my-domain.com:2181`.
 |
@@ -180,83 +180,83 @@ For `SimpleAclAuthorizer`, the example values are:
 |`topic`
 |Resource
 |Specifies a topic name as an ACL resource.
-+
+
 An asterisk (`*`) used as a wildcard translates to _all topics_.
-+
+
 A single command can specify multiple `--topic` options.
 |
 
 |`group`
 |Resource
 |Specifies a consumer group name as an ACL resource.
-+
+
 A single command can specify multiple `--group` options.
 |
 
 |`transactional-id`
 |Resource
 |Specifies a transactional ID as an ACL resource.
-+
+
 Transactional delivery means that all messages sent by a producer to multiple partitions must be successfully delivered or none of them.
-+
+
 An asterisk (`*`) used as a wildcard translates to _all IDs_.
 |
 
 |`delegation-token`
 |Resource
 |Specifies a delegation token as an ACL resource.
-+
+
 An asterisk (`*`) used as a wildcard translates to _all tokens_.
 |
 
 |`resource-pattern-type`
 |Configuration
 |Specifies a type of resource pattern for the `add` parameter or a resource pattern filter value for the `list` or `remove` parameters.
-+
+
 Use `literal` or `prefixed` as the resource pattern type for a resource name.
-+
+
 Use `any` or `match` as resource pattern filter values, or a specific pattern type filter.
 |`literal`
 
 |`allow-principal`
 |Principal
 |Principal added to an allow ACL rule.
-+
+
 A single command can specify multiple `--allow-principal` options.
 |
 
 |`deny-principal`
 |Principal
 | Principal added to a deny ACL rule.
-+
+
 A single command can specify multiple `--deny-principal` options.
 |
 
 |`principal`
 |Principal
 | Principal name used with the `list` parameter to return a list of ACLs for the principal.
-+
+
 A single command can specify multiple `--principal` options.
 |
 
 |`allow-host`
 |Host
 |IP address that allows access to the principals listed in `--allow-principal`.
-+
+
 Hostnames or CIDR ranges are not supported.
 |If `--allow-principal` is specified, defaults to `*` meaning "all hosts".
 
 |`deny-host`
 |Host
 |IP address that denies access to the principals listed in `--deny-principal`.
-+
+
 Hostnames or CIDR ranges are not supported.
 |if `--deny-principal` is specified, defaults to `*` meaning "all hosts".
 
 |`operation`
 |Operation
 |Allows or denies an operation.
-+
+
 A single command can specify multipleMultiple `--operation` options can be specified in single command.
 |All
 
@@ -273,7 +273,7 @@ A single command can specify multipleMultiple `--operation` options can be speci
 |`idempotent`
 |Shortcut
 |A shortcut to enable idempotence when used with the `--producer` parameter, so that messages are delivered exactly once to a partition.
-+
+
 Idepmotence is enabled automatically if the producer is authorized to send messages based on a specific transactional ID.
 |
 
