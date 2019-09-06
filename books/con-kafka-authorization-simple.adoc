@@ -16,7 +16,7 @@ authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
 A fully-qualified name is required for the chosen authorizer.
 For `SimpleAclAuthorizer`, the fully-qualified name is `kafka.security.auth.SimpleAclAuthorizer`.
 
-.ACL rules
+== ACL rules
 
 `SimpleAclAuthorizer` uses ACL rules to manage access to Kafka brokers.
 
@@ -48,7 +48,7 @@ In most cases, the user is a producer or consumer application:
 If ACL rules are not present for a given resource, all actions are denied.
 This behavior can be changed by setting the property `allow.everyone.if.no.acl.found` to `true` in the Kafka configuration file `/opt/kafka/config/server.properties`.
 
-.Principals
+== Principals
 
 A _principal_ represents the identity of a user.
 The format of the ID depends on the authentication mechanism used by clients to connect to Kafka:
@@ -67,6 +67,12 @@ The _DistinguishedName_ is the distinguished name from the client certificate.
 The _Kerberos username_ is the primary part of the Kerberos principal, which is used by default when connecting using Kerberos.
 You can use the `sasl.kerberos.principal.to.local.rules` property to configure how the Kafka principal is built from the Kerberos principal.
 
+== Authentication of users
+
+If you wish to use authenticated users in your rules (not `User.ANONYMOUS` principals), set your authentication before you define your authorization rules.
+
+For more information on methods of authentication, see xref:assembly-kafka-encryption-and-authentication-{context}[Encryption and authentication].
+
 .Super users
 
 Super users are allowed to take all actions regardless of the ACL rules.
@@ -78,7 +84,13 @@ For example:
 [source]
 super.users=User:admin,User:operator
 
-.Supported resources
+.Replica broker authentication
+
+Replica nodes are subject to the same authorization, so ensure that they have appropriate authentication.
+Replication between brokers requires super user access rights.
+For example, if authentication between brokers uses the `kafka-broker` user, then super user configuration must include the username `super.users=User:kafka-broker`.
+
+== Supported resources
 
 You can apply Kafka ACLs to these types of resource:
 
@@ -88,7 +100,7 @@ You can apply Kafka ACLs to these types of resource:
 - TransactionId
 - DelegationToken
 
-.Supported operations
+== Supported operations
 
 `SimpleAclAuthorizer` authorizes operations on resources.
 
@@ -123,7 +135,7 @@ Fields with `X` in the following table mark the supported operations for each re
 
 |===
 
-.ACL management options
+== ACL management options
 
 ACL rules are managed using the `bin/kafka-acls.sh` utility, which is provided as part of the Kafka distribution package.
 
