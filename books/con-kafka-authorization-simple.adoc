@@ -69,7 +69,7 @@ You can use the `sasl.kerberos.principal.to.local.rules` property to configure h
 
 == Authentication of users
 
-If you wish to use authenticated users in your rules (not `User.ANONYMOUS` principals), set your authentication before you define your authorization rules.
+If you wish to use authenticated users in your rules (not `User:ANONYMOUS` principals), set your authentication before you define your authorization rules.
 
 For more information on methods of authentication, see xref:assembly-kafka-encryption-and-authentication-{context}[Encryption and authentication].
 
