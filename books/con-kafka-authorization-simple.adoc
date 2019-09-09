@@ -69,7 +69,8 @@ You can use the `sasl.kerberos.principal.to.local.rules` property to configure h
 
 == Authentication of users
 
-If you wish to use authenticated users in your rules (not `User:ANONYMOUS` principals), set your authentication before you define your authorization rules.
+To use authorization, you need to have authentication enabled and used by your clients.
+Otherwise, all connections will have the principal `User:ANONYMOUS`.
 
 For more information on methods of authentication, see xref:assembly-kafka-encryption-and-authentication-{context}[Encryption and authentication].
 
@@ -86,8 +87,9 @@ super.users=User:admin,User:operator
 
 .Replica broker authentication
 
-Replica nodes are subject to the same authorization, so ensure that they have appropriate authentication.
-Replication between brokers requires super user access rights.
+When authorization is enabled, it is applied to all listeners and all connections.
+This includes the inter-broker connections used for replication of data between brokers.
+If enabling authorization, therefore, ensure that you use authentication for inter-broker connections and give the users used by the brokers sufficient rights.
 For example, if authentication between brokers uses the `kafka-broker` user, then super user configuration must include the username `super.users=User:kafka-broker`.
 
 == Supported resources
