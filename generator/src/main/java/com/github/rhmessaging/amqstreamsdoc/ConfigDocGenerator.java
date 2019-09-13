@@ -4,8 +4,14 @@
  */
 package com.github.rhmessaging.amqstreamsdoc;
 
+import com.github.rhmessaging.amqstreamsdoc.model.BooleanParameter;
+import com.github.rhmessaging.amqstreamsdoc.model.ClassParameter;
+import com.github.rhmessaging.amqstreamsdoc.model.DoubleParameter;
+import com.github.rhmessaging.amqstreamsdoc.model.IntParameter;
+import com.github.rhmessaging.amqstreamsdoc.model.Parameter;
+import com.github.rhmessaging.amqstreamsdoc.model.StringParameter;
+import kafka.Kafka;
 import kafka.log.LogConfig$;
-import kafka.server.DynamicBrokerConfig;
 import kafka.server.DynamicBrokerConfig$;
 import kafka.server.KafkaConfig$;
 import org.apache.kafka.clients.admin.AdminClientConfig;
@@ -16,19 +22,18 @@ import org.apache.kafka.connect.runtime.distributed.DistributedConfig;
 import org.apache.kafka.streams.StreamsConfig;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.util.Collections.emptyMap;
 
 public class ConfigDocGenerator {
 
@@ -53,8 +58,12 @@ public class ConfigDocGenerator {
                 throw new IllegalArgumentException("Unknown config " + arg);
             }
 
-            generateTable(def.get(), "broker".equals(arg) ? DynamicBrokerConfig$.MODULE$.dynamicConfigUpdateModes() : null);
+            generateTable(def.get(), "broker".equals(arg) ? brokerDynamicUpdates() : null);
         }
+    }
+
+    static Map<String, String> brokerDynamicUpdates() {
+        return DynamicBrokerConfig$.MODULE$.dynamicConfigUpdateModes();
     }
 
     private static void generateTable(ConfigDef def, Map<String, String> dynamicUpdates) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, IOException {
@@ -79,6 +88,8 @@ public class ConfigDocGenerator {
             if (key.internalConfig) {
                 continue;
             }
+            //parameter(key);
+
             for (String header : headers) {
                 String cellContent = String.valueOf(getConfigValueMethod.invoke(def, key, header));
 
@@ -115,6 +126,65 @@ public class ConfigDocGenerator {
         }
     }
 
+    private static String kafkaVersion() {
+        Properties p = new Properties();
+        try (InputStream resourceAsStream = Kafka.class.getClassLoader().getResourceAsStream("kafka/kafka-version.properties")) {
+            p.load(resourceAsStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't find Kafka version from kafka/kafka-version.properties classpath resource in clients jar", e);
+        }
+        return p.getProperty("version");
+    }
+
+    private static String docsUrlForVersion() {
+        String kafkaVersion = kafkaVersion();
+        String docsVersion = kafkaVersion.replaceAll("([0-9]+)\\.([0-9]+).*", "\1\2");
+        return "https://kafka.apache.org/" + docsVersion + "/documentation.html";
+    }
+
+    private static Parameter parameter(ConfigDef.ConfigKey key) {
+        if (key.validator != null) {
+            if (key.validator instanceof ConfigDef.NonNullValidator) {
+
+            } else if (key.validator instanceof ConfigDef.Range) {
+                String s = key.validator.toString();
+                Pattern p = Pattern.compile("\\[([^,]*,)?...(,[^,]*)?\\]");
+                Matcher matcher = p.matcher(s);
+                if (matcher.matches()) {
+                    matcher.group(1);
+                    matcher.group(2);
+                }
+            } else if (key.validator instanceof ConfigDef.ValidList) {
+
+            } else if (key.validator instanceof ConfigDef.ValidString) {
+
+            } else {
+                throw new RuntimeException("Unsupported validator " + key.validator.getClass());
+            }
+        }
+
+        switch (key.type) {
+            case INT:
+            case LONG:
+            case SHORT:
+                return new IntParameter(key.name, key.type.name(), key.documentation, String.valueOf(key.defaultValue), null, null, null);
+            case STRING:
+            case PASSWORD:// TODO??
+                return new StringParameter(key.name, key.type.name(), key.documentation, String.valueOf(key.defaultValue), null, null);
+            case BOOLEAN:
+                return new BooleanParameter(key.name, key.type.name(), key.documentation, String.valueOf(key.defaultValue), null);
+            case DOUBLE:
+                return new DoubleParameter(key.name, key.type.name(), key.documentation, String.valueOf(key.defaultValue), null, null, null);
+            case LIST:
+                return null;// TODO
+            case CLASS:
+                return new ClassParameter(key.name, key.type.name(), key.documentation, String.valueOf(key.defaultValue), null);
+            default:
+                throw new RuntimeException("Unsupported type " + key.type);
+
+        }
+    }
+
     private static String convertToAsciidoc(String html) {
         String adoc = html.replaceAll("</?code>", "`").replace("¦", "\\¦");
         adoc = adoc.replaceAll("(</p>\\s*)?<p>", "\n+\n")
@@ -131,7 +201,15 @@ public class ConfigDocGenerator {
         int ii = 0;
         while (m.find()) {
             sb.append(adoc, ii, m.start());
-            sb.append(m.group(1));
+            String url = m.group(1);
+            if (url.startsWith("#")) {
+                // fragment, so resolve it against the relevant version
+                url = "https://kafka.apache.org/23/documentation.html" + url;
+            } else if (url.startsWith("/")) {
+                // absolute path
+                url = "https://kafka.apache.org" + url;
+            }
+            sb.append(url);
             Matcher m2 = aClose.matcher(adoc);
             if (m2.find(m.end())) {
                 sb.append('[');
@@ -203,7 +281,7 @@ public class ConfigDocGenerator {
         }
     }
 
-    private static ConfigDef brokerConfigs() {
+    static ConfigDef brokerConfigs() {
         try {
             Field instance = KafkaConfig$.class.getDeclaredField("MODULE$");
             instance.setAccessible(true);

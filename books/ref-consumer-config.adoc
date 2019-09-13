@@ -23,7 +23,7 @@ Deserializer class for value that implements the `org.apache.kafka.common.serial
 `bootstrap.servers`::
 *Type:* list +
 *Default:* "" +
-*Valid Values:* non-null value +
+*Valid Values:* non-null string +
 *Importance:* high +
 +
 A list of host/port pairs to use for establishing the initial connection to the Kafka cluster. The client will make use of all servers irrespective of which servers are specified here for bootstrapping&mdash;this list only impacts the initial hosts used to discover the full set of servers. This list should be in the form `host1:port1,host2:port2,...`. Since these servers are just used for the initial connection to discover the full cluster membership (which may change dynamically), this list need not contain the full set of servers (you may want more than one, though, in case a server is down).
@@ -38,7 +38,7 @@ The minimum amount of data the server should return for a fetch request. If insu
 
 `group.id`::
 *Type:* string +
-*Default:* "" +
+*Default:* null +
 *Importance:* high +
 +
 A unique string that identifies the consumer group this consumer belongs to. This property is required if the consumer uses either the group management functionality by using `subscribe(topic)` or the Kafka-based offset management strategy.
@@ -100,6 +100,13 @@ The location of the trust store file.
 +
 The password for the trust store file. If a password is not set access to the truststore is still available, but integrity checking is disabled.
 
+`allow.auto.create.topics`::
+*Type:* boolean +
+*Default:* true +
+*Importance:* medium +
++
+Allow automatic topic creation on the broker when subscribing to or assigning a topic. A topic being subscribed to will be automatically created only if the broker allows for it using `auto.create.topics.enable` broker configuration. This configuration must be set to `false` when using brokers older than 0.11.0.
+
 `auto.offset.reset`::
 *Type:* string +
 *Default:* latest +
@@ -112,6 +119,21 @@ What to do when there is no initial offset in Kafka or if the current offset doe
 * latest: automatically reset the offset to the latest offset
 * none: throw exception to the consumer if no previous offset is found for the consumer's group
 * anything else: throw exception to the consumer.
+
+`client.dns.lookup`::
+*Type:* string +
+*Default:* default +
+*Valid Values:* [default, use_all_dns_ips, resolve_canonical_bootstrap_servers_only] +
+*Importance:* medium +
++
+
++
+Controls how the client uses DNS lookups.
++
+If set to `use_all_dns_ips` then, when the lookup returns multiple IP addresses for a hostname, they will all be attempted to connect to before failing the connection. Applies to both bootstrap and advertised servers.
++
+If the value is `resolve_canonical_bootstrap_servers_only` each entry will be resolved and expanded into a list of canonical names.
+
 
 `connections.max.idle.ms`::
 *Type:* long +
@@ -140,7 +162,7 @@ If true the consumer's offset will be periodically committed in the background.
 *Default:* true +
 *Importance:* medium +
 +
-Whether records from internal topics (such as offsets) should be exposed to the consumer. If set to `true` the only way to receive records from an internal topic is subscribing to it.
+Whether internal topics matching a subscribed pattern should be excluded from the subscription. It is always possible to explicitly subscribe to an internal topic.
 
 `fetch.max.bytes`::
 *Type:* int +
@@ -149,6 +171,13 @@ Whether records from internal topics (such as offsets) should be exposed to the 
 *Importance:* medium +
 +
 The maximum amount of data the server should return for a fetch request. Records are fetched in batches by the consumer, and if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that the consumer can make progress. As such, this is not a absolute maximum. The maximum record batch size accepted by the broker is defined via `message.max.bytes` (broker config) or `max.message.bytes` (topic config). Note that the consumer performs multiple fetches in parallel.
+
+`group.instance.id`::
+*Type:* string +
+*Default:* null +
+*Importance:* medium +
++
+A unique identifier of the consumer instance provided by end user. Only non-empty strings are permitted. If set, the consumer is treated as a static member, which means that only one instance with this ID is allowed in the consumer group at any time. This can be used in combination with a larger session timeout to avoid group rebalances caused by transient unavailability (e.g. process restarts). If not set, the consumer will join the group as a dynamic member, which is the traditional behavior.
 
 `isolation.level`::
 *Type:* string +
@@ -162,7 +191,7 @@ Controls how to read messages written transactionally. If set to `read_committed
 +
 Messages will always be returned in offset order. Hence, in  `read_committed` mode, consumer.poll() will only return messages up to the last stable offset (LSO), which is the one less than the offset of the first open transaction. In particular any messages appearing after messages belonging to ongoing transactions will be withheld until the relevant transaction has been completed. As a result, `read_committed` consumers will not be able to read up to the high watermark when there are in flight transactions.
 +
- Further, when in `read_committed</mode> the seekToEnd method will return the LSO.
+ Further, when in `read_committed` the seekToEnd method will return the LSO.
 
 `max.poll.interval.ms`::
 *Type:* int +
@@ -183,7 +212,7 @@ The maximum number of records returned in a single call to poll().
 `partition.assignment.strategy`::
 *Type:* list +
 *Default:* class org.apache.kafka.clients.consumer.RangeAssignor +
-*Valid Values:* non-null value +
+*Valid Values:* non-null string +
 *Importance:* medium +
 +
 The class name of the partition assignment strategy that the client will use to distribute partition ownership amongst consumer instances when group management is used.
@@ -318,6 +347,13 @@ Automatically check the CRC32 of the records consumed. This ensures no on-the-wi
 +
 An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
 
+`client.rack`::
+*Type:* string +
+*Default:* "" +
+*Importance:* low +
++
+A rack identifier for this client. This can be any string value which indicates where this client is physically located. It corresponds with the broker config 'broker.rack'.
+
 `fetch.max.wait.ms`::
 *Type:* int +
 *Default:* 500 +
@@ -329,7 +365,7 @@ The maximum amount of time the server will block before answering the fetch requ
 `interceptor.classes`::
 *Type:* list +
 *Default:* "" +
-*Valid Values:* non-null value +
+*Valid Values:* non-null string +
 *Importance:* low +
 +
 A list of classes to use as interceptors. Implementing the `org.apache.kafka.clients.consumer.ConsumerInterceptor` interface allows you to intercept (and possibly mutate) records received by the consumer. By default, there are no interceptors.
@@ -345,7 +381,7 @@ The period of time in milliseconds after which we force a refresh of metadata ev
 `metric.reporters`::
 *Type:* list +
 *Default:* "" +
-*Valid Values:* non-null value +
+*Valid Values:* non-null string +
 *Importance:* low +
 +
 A list of classes to use as metrics reporters. Implementing the `org.apache.kafka.common.metrics.MetricsReporter` interface allows plugging in classes that will be notified of new metric creation. The JmxReporter is always included to register JMX statistics.

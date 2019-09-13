@@ -84,6 +84,13 @@ Default timestamp extractor class that implements the `org.apache.kafka.streams.
 +
 Default serializer / deserializer class for value that implements the `org.apache.kafka.common.serialization.Serde` interface. Note when windowed serde class is used, one needs to set the inner serde class that implements the `org.apache.kafka.common.serialization.Serde` interface via 'default.windowed.key.serde.inner' or 'default.windowed.value.serde.inner' as well.
 
+`max.task.idle.ms`::
+*Type:* long +
+*Default:* 0 +
+*Importance:* medium +
++
+Maximum amount of time a stream task will stay idle when not all of its partition buffers contain records, to avoid potential out-of-order record processing across multiple input streams.
+
 `num.standby.replicas`::
 *Type:* int +
 *Default:* 0 +
@@ -104,7 +111,7 @@ The number of threads to execute stream processing.
 *Valid Values:* [at_least_once, exactly_once] +
 *Importance:* medium +
 +
-The processing guarantee that should be used. Possible values are `at_least_once` (default) and `exactly_once`. Note that exactly-once processing requires a cluster of at least three brokers by default what is the recommended setting for production; for development you can change this, by adjusting broker setting `transaction.state.log.replication.factor`.
+The processing guarantee that should be used. Possible values are `at_least_once` (default) and `exactly_once`. Note that exactly-once processing requires a cluster of at least three brokers by default what is the recommended setting for production; for development you can change this, by adjusting broker setting `transaction.state.log.replication.factor` and `transaction.state.log.min.isr`.
 
 `security.protocol`::
 *Type:* string +
@@ -133,14 +140,15 @@ A host:port pair pointing to an embedded user defined endpoint that can be used 
 *Default:* 1000 +
 *Importance:* low +
 +
-The maximum number of records to buffer per partition.
+Maximum number of records to buffer per partition.
 
 `commit.interval.ms`::
 *Type:* long +
 *Default:* 30000 +
+*Valid Values:* [0,...] +
 *Importance:* low +
 +
-The frequency with which to save the position of the processor. (Note, if 'processing.guarantee' is set to 'exactly_once', the default value is 100, otherwise the default value is 30000.
+The frequency with which to save the position of the processor. (Note, if `processing.guarantee` is set to `exactly_once`, the default value is `100`, otherwise the default value is `30000`.
 
 `connections.max.idle.ms`::
 *Type:* long +
@@ -205,7 +213,7 @@ The amount of time in milliseconds to block waiting for input.
 `receive.buffer.bytes`::
 *Type:* int +
 *Default:* 32768 +
-*Valid Values:* [0,...] +
+*Valid Values:* [-1,...] +
 *Importance:* low +
 +
 The size of the TCP receive buffer (SO_RCVBUF) to use when reading data. If the value is -1, the OS default will be used.
@@ -260,7 +268,7 @@ A Rocks DB config setter class or class name that implements the `org.apache.kaf
 `send.buffer.bytes`::
 *Type:* int +
 *Default:* 131072 +
-*Valid Values:* [0,...] +
+*Valid Values:* [-1,...] +
 *Importance:* low +
 +
 The size of the TCP send buffer (SO_SNDBUF) to use when sending data. If the value is -1, the OS default will be used.
@@ -270,7 +278,7 @@ The size of the TCP send buffer (SO_SNDBUF) to use when sending data. If the val
 *Default:* 600000 +
 *Importance:* low +
 +
-The amount of time in milliseconds to wait before deleting state when a partition has migrated. Only state directories that have not been modified for at least state.cleanup.delay.ms will be removed.
+The amount of time in milliseconds to wait before deleting state when a partition has migrated. Only state directories that have not been modified for at least `state.cleanup.delay.ms` will be removed.
 
 `upgrade.from`::
 *Type:* string +
