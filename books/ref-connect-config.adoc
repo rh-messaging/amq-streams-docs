@@ -293,3 +293,326 @@ Comma-separated names of `ConfigProvider` classes, loaded and used in the order 
 *Importance:* low +
 +
 Replication factor used when creating the configuration storage topic.
+
+`connect.protocol`::
+*Type:* string +
+*Default:* compatible +
+*Valid Values:* [eager, compatible] +
+*Importance:* low +
++
+Compatibility mode for Kafka Connect Protocol.
+
+`header.converter`::
+*Type:* class +
+*Default:* org.apache.kafka.connect.storage.SimpleHeaderConverter +
+*Importance:* low +
++
+HeaderConverter class used to convert between Kafka Connect format and the serialized form that is written to Kafka. This controls the format of the header values in messages written to or read from Kafka, and since this is independent of connectors it allows any connector to work with any serialization format. Examples of common formats include JSON and Avro. By default, the SimpleHeaderConverter is used to serialize header values to strings and deserialize them by inferring the schemas.
+
+`internal.key.converter`::
+*Type:* class +
+*Default:* org.apache.kafka.connect.json.JsonConverter +
+*Importance:* low +
++
+Converter class used to convert between Kafka Connect format and the serialized form that is written to Kafka. This controls the format of the keys in messages written to or read from Kafka, and since this is independent of connectors it allows any connector to work with any serialization format. Examples of common formats include JSON and Avro. This setting controls the format used for internal bookkeeping data used by the framework, such as configs and offsets, so users can typically use any functioning Converter implementation. Deprecated; will be removed in an upcoming version.
+
+`internal.value.converter`::
+*Type:* class +
+*Default:* org.apache.kafka.connect.json.JsonConverter +
+*Importance:* low +
++
+Converter class used to convert between Kafka Connect format and the serialized form that is written to Kafka. This controls the format of the values in messages written to or read from Kafka, and since this is independent of connectors it allows any connector to work with any serialization format. Examples of common formats include JSON and Avro. This setting controls the format used for internal bookkeeping data used by the framework, such as configs and offsets, so users can typically use any functioning Converter implementation. Deprecated; will be removed in an upcoming version.
+
+`listeners`::
+*Type:* list +
+*Default:* null +
+*Importance:* low +
++
+List of comma-separated URIs the REST API will listen on. The supported protocols are HTTP and HTTPS.
+ Specify hostname as 0.0.0.0 to bind to all interfaces.
+ Leave hostname empty to bind to default interface.
+ Examples of legal listener lists: HTTP://myhost:8083,HTTPS://myhost:8084.
+
+`metadata.max.age.ms`::
+*Type:* long +
+*Default:* 300000 +
+*Valid Values:* [0,...] +
+*Importance:* low +
++
+The period of time in milliseconds after which we force a refresh of metadata even if we haven't seen any partition leadership changes to proactively discover any new brokers or partitions.
+
+`metric.reporters`::
+*Type:* list +
+*Default:* "" +
+*Importance:* low +
++
+A list of classes to use as metrics reporters. Implementing the `org.apache.kafka.common.metrics.MetricsReporter` interface allows plugging in classes that will be notified of new metric creation. The JmxReporter is always included to register JMX statistics.
+
+`metrics.num.samples`::
+*Type:* int +
+*Default:* 2 +
+*Valid Values:* [1,...] +
+*Importance:* low +
++
+The number of samples maintained to compute metrics.
+
+`metrics.recording.level`::
+*Type:* string +
+*Default:* INFO +
+*Valid Values:* [INFO, DEBUG] +
+*Importance:* low +
++
+The highest recording level for metrics.
+
+`metrics.sample.window.ms`::
+*Type:* long +
+*Default:* 30000 +
+*Valid Values:* [0,...] +
+*Importance:* low +
++
+The window of time a metrics sample is computed over.
+
+`offset.flush.interval.ms`::
+*Type:* long +
+*Default:* 60000 +
+*Importance:* low +
++
+Interval at which to try committing offsets for tasks.
+
+`offset.flush.timeout.ms`::
+*Type:* long +
+*Default:* 5000 +
+*Importance:* low +
++
+Maximum number of milliseconds to wait for records to flush and partition offset data to be committed to offset storage before cancelling the process and restoring the offset data to be committed in a future attempt.
+
+`offset.storage.partitions`::
+*Type:* int +
+*Default:* 25 +
+*Valid Values:* [1,...] +
+*Importance:* low +
++
+The number of partitions used when creating the offset storage topic.
+
+`offset.storage.replication.factor`::
+*Type:* short +
+*Default:* 3 +
+*Valid Values:* [1,...] +
+*Importance:* low +
++
+Replication factor used when creating the offset storage topic.
+
+`plugin.path`::
+*Type:* list +
+*Default:* null +
+*Importance:* low +
++
+List of paths separated by commas (,) that contain plugins (connectors, converters, transformations). The list should consist of top level directories that include any combination of: 
+a) directories immediately containing jars with plugins and their dependencies
+b) uber-jars with plugins and their dependencies
+c) directories immediately containing the package directory structure of classes of plugins and their dependencies
+Note: symlinks will be followed to discover dependencies or plugins.
+Examples: plugin.path=/usr/local/share/java,/usr/local/share/kafka/plugins,/opt/connectors.
+
+`reconnect.backoff.max.ms`::
+*Type:* long +
+*Default:* 1000 +
+*Valid Values:* [0,...] +
+*Importance:* low +
++
+The maximum amount of time in milliseconds to wait when reconnecting to a broker that has repeatedly failed to connect. If provided, the backoff per host will increase exponentially for each consecutive connection failure, up to this maximum. After calculating the backoff increase, 20% random jitter is added to avoid connection storms.
+
+`reconnect.backoff.ms`::
+*Type:* long +
+*Default:* 50 +
+*Valid Values:* [0,...] +
+*Importance:* low +
++
+The base amount of time to wait before attempting to reconnect to a given host. This avoids repeatedly connecting to a host in a tight loop. This backoff applies to all connection attempts by the client to a broker.
+
+`rest.advertised.host.name`::
+*Type:* string +
+*Default:* null +
+*Importance:* low +
++
+If this is set, this is the hostname that will be given out to other workers to connect to.
+
+`rest.advertised.listener`::
+*Type:* string +
+*Default:* null +
+*Importance:* low +
++
+Sets the advertised listener (HTTP or HTTPS) which will be given to other workers to use.
+
+`rest.advertised.port`::
+*Type:* int +
+*Default:* null +
+*Importance:* low +
++
+If this is set, this is the port that will be given out to other workers to connect to.
+
+`rest.extension.classes`::
+*Type:* list +
+*Default:* "" +
+*Importance:* low +
++
+Comma-separated names of `ConnectRestExtension` classes, loaded and called in the order specified. Implementing the interface  `ConnectRestExtension` allows you to inject into Connect's REST API user defined resources like filters. Typically used to add custom capability like logging, security, etc.
+
+`rest.host.name`::
+*Type:* string +
+*Default:* null +
+*Importance:* low +
++
+Hostname for the REST API. If this is set, it will only bind to this interface.
+
+`rest.port`::
+*Type:* int +
+*Default:* 8083 +
+*Importance:* low +
++
+Port for the REST API to listen on.
+
+`retry.backoff.ms`::
+*Type:* long +
+*Default:* 100 +
+*Valid Values:* [0,...] +
+*Importance:* low +
++
+The amount of time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
+
+`sasl.kerberos.kinit.cmd`::
+*Type:* string +
+*Default:* /usr/bin/kinit +
+*Importance:* low +
++
+Kerberos kinit command path.
+
+`sasl.kerberos.min.time.before.relogin`::
+*Type:* long +
+*Default:* 60000 +
+*Importance:* low +
++
+Login thread sleep time between refresh attempts.
+
+`sasl.kerberos.ticket.renew.jitter`::
+*Type:* double +
+*Default:* 0.05 +
+*Importance:* low +
++
+Percentage of random jitter added to the renewal time.
+
+`sasl.kerberos.ticket.renew.window.factor`::
+*Type:* double +
+*Default:* 0.8 +
+*Importance:* low +
++
+Login thread will sleep until the specified window factor of time from last refresh to ticket's expiry has been reached, at which time it will try to renew the ticket.
+
+`sasl.login.refresh.buffer.seconds`::
+*Type:* short +
+*Default:* 300 +
+*Valid Values:* [0,...,3600] +
+*Importance:* low +
++
+The amount of buffer time before credential expiration to maintain when refreshing a credential, in seconds. If a refresh would otherwise occur closer to expiration than the number of buffer seconds then the refresh will be moved up to maintain as much of the buffer time as possible. Legal values are between 0 and 3600 (1 hour); a default value of  300 (5 minutes) is used if no value is specified. This value and sasl.login.refresh.min.period.seconds are both ignored if their sum exceeds the remaining lifetime of a credential. Currently applies only to OAUTHBEARER.
+
+`sasl.login.refresh.min.period.seconds`::
+*Type:* short +
+*Default:* 60 +
+*Valid Values:* [0,...,900] +
+*Importance:* low +
++
+The desired minimum time for the login refresh thread to wait before refreshing a credential, in seconds. Legal values are between 0 and 900 (15 minutes); a default value of 60 (1 minute) is used if no value is specified.  This value and  sasl.login.refresh.buffer.seconds are both ignored if their sum exceeds the remaining lifetime of a credential. Currently applies only to OAUTHBEARER.
+
+`sasl.login.refresh.window.factor`::
+*Type:* double +
+*Default:* 0.8 +
+*Valid Values:* [0.5,...,1.0] +
+*Importance:* low +
++
+Login refresh thread will sleep until the specified window factor relative to the credential's lifetime has been reached, at which time it will try to refresh the credential. Legal values are between 0.5 (50%) and 1.0 (100%) inclusive; a default value of 0.8 (80%) is used if no value is specified. Currently applies only to OAUTHBEARER.
+
+`sasl.login.refresh.window.jitter`::
+*Type:* double +
+*Default:* 0.05 +
+*Valid Values:* [0.0,...,0.25] +
+*Importance:* low +
++
+The maximum amount of random jitter relative to the credential's lifetime that is added to the login refresh thread's sleep time. Legal values are between 0 and 0.25 (25%) inclusive; a default value of 0.05 (5%) is used if no value is specified. Currently applies only to OAUTHBEARER.
+
+`scheduled.rebalance.max.delay.ms`::
+*Type:* int +
+*Default:* 300000 +
+*Valid Values:* [0,...,2147483647] +
+*Importance:* low +
++
+Compatibility mode for Kafka Connect Protocol.
+
+`ssl.cipher.suites`::
+*Type:* list +
+*Default:* null +
+*Importance:* low +
++
+A list of cipher suites. This is a named combination of authentication, encryption, MAC and key exchange algorithm used to negotiate the security settings for a network connection using TLS or SSL network protocol. By default all the available cipher suites are supported.
+
+`ssl.client.auth`::
+*Type:* string +
+*Default:* none +
+*Importance:* low +
++
+Configures kafka broker to request client authentication. The following settings are common:  
+ 
+* `ssl.client.auth=required` If set to required client authentication is required. 
+* `ssl.client.auth=requested` This means client authentication is optional. unlike requested , if this option is set client can choose not to provide authentication information about itself 
+* `ssl.client.auth=none` This means client authentication is not needed.
+
+`ssl.endpoint.identification.algorithm`::
+*Type:* string +
+*Default:* https +
+*Importance:* low +
++
+The endpoint identification algorithm to validate server hostname using server certificate.
+
+`ssl.keymanager.algorithm`::
+*Type:* string +
+*Default:* SunX509 +
+*Importance:* low +
++
+The algorithm used by key manager factory for SSL connections. Default value is the key manager factory algorithm configured for the Java Virtual Machine.
+
+`ssl.secure.random.implementation`::
+*Type:* string +
+*Default:* null +
+*Importance:* low +
++
+The SecureRandom PRNG implementation to use for SSL cryptography operations.
+
+`ssl.trustmanager.algorithm`::
+*Type:* string +
+*Default:* PKIX +
+*Importance:* low +
++
+The algorithm used by trust manager factory for SSL connections. Default value is the trust manager factory algorithm configured for the Java Virtual Machine.
+
+`status.storage.partitions`::
+*Type:* int +
+*Default:* 5 +
+*Valid Values:* [1,...] +
+*Importance:* low +
++
+The number of partitions used when creating the status storage topic.
+
+`status.storage.replication.factor`::
+*Type:* short +
+*Default:* 3 +
+*Valid Values:* [1,...] +
+*Importance:* low +
++
+Replication factor used when creating the status storage topic.
+
+`task.shutdown.graceful.timeout.ms`::
+*Type:* long +
+*Default:* 5000 +
+*Importance:* low +
++
+Amount of time to wait for tasks to shutdown gracefully. This is the total amount of time, not per task. All task have shutdown triggered, then they are waited on sequentially.

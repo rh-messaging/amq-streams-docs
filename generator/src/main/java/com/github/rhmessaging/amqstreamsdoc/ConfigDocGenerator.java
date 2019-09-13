@@ -88,7 +88,7 @@ public class ConfigDocGenerator {
             if (key.internalConfig) {
                 continue;
             }
-            parameter(key);
+            //parameter(key);
 
             for (String header : headers) {
                 String cellContent = String.valueOf(getConfigValueMethod.invoke(def, key, header));
