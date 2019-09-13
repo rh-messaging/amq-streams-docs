@@ -49,6 +49,21 @@ The location of the trust store file.
 +
 The password for the trust store file. If a password is not set access to the truststore is still available, but integrity checking is disabled.
 
+`client.dns.lookup`::
+*Type:* string +
+*Default:* default +
+*Valid Values:* [default, use_all_dns_ips, resolve_canonical_bootstrap_servers_only] +
+*Importance:* medium +
++
+
++
+Controls how the client uses DNS lookups.
++
+If set to `use_all_dns_ips` then, when the lookup returns multiple IP addresses for a hostname, they will all be attempted to connect to before failing the connection. Applies to both bootstrap and advertised servers.
++
+If the value is `resolve_canonical_bootstrap_servers_only` each entry will be resolved and expanded into a list of canonical names.
+
+
 `client.id`::
 *Type:* string +
 *Default:* "" +

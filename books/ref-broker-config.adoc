@@ -13,7 +13,8 @@
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-Zookeeper host string.
+Specifies the ZooKeeper connection string in the form `hostname:port` where host and port are the host and port of a ZooKeeper server. To allow connecting through other ZooKeeper nodes when that ZooKeeper machine is down you can also specify multiple hosts in the form `hostname1:port1,hostname2:port2,hostname3:port3`.
+The server can also have a ZooKeeper chroot path as part of its ZooKeeper connection string which puts its data under some path in the global ZooKeeper namespace. For example to give a chroot path of `/chroot/path` you would give the connection string as `hostname1:port1,hostname2:port2,hostname3:port3/chroot/path`.
 
 `advertised.host.name`::
 *Type:* string +
@@ -21,7 +22,7 @@ Zookeeper host string.
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead.
+DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead. 
 Hostname to publish to ZooKeeper for clients to use. In IaaS environments, this may need to be different from the interface to which the broker binds. If this is not set, it will use the value for `host.name` if configured. Otherwise it will use the value returned from java.net.InetAddress.getCanonicalHostName().
 
 `advertised.listeners`::
@@ -38,7 +39,7 @@ Listeners to publish to ZooKeeper for clients to use, if different than the `lis
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead.
+DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead. 
 The port to publish to ZooKeeper for clients to use. In IaaS environments, this may need to be different from the port to which the broker binds. If this is not set, it will publish the same port that the broker binds to.
 
 `auto.create.topics.enable`::
@@ -80,7 +81,27 @@ The broker id for this server. If unset, a unique broker id will be generated.To
 *Importance:* high +
 *Dynamic update:* cluster-wide +
 +
-Specify the final compression type for a given topic. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4'). It additionally accepts 'uncompressed' which is equivalent to no compression; and 'producer' which means retain the original compression codec set by the producer.
+Specify the final compression type for a given topic. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'uncompressed' which is equivalent to no compression; and 'producer' which means retain the original compression codec set by the producer.
+
+`control.plane.listener.name`::
+*Type:* string +
+*Default:* null +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+Name of listener used for communication between controller and brokers. Broker will use the control.plane.listener.name to locate the endpoint in listeners list, to listen for connections from the controller. For example, if a broker's config is :
+listeners = INTERNAL://192.1.1.8:9092, EXTERNAL://10.1.1.5:9093, CONTROLLER://192.1.1.8:9094
+listener.security.protocol.map = INTERNAL:PLAINTEXT, EXTERNAL:SSL, CONTROLLER:SSL
+control.plane.listener.name = CONTROLLER
+On startup, the broker will start listening on "192.1.1.8:9094" with security protocol "SSL".
+On controller side, when it discovers a broker's published endpoints through zookeeper, it will use the control.plane.listener.name to find the endpoint, which it will use to establish connection to the broker.
+For example, if the broker's published endpoints on zookeeper are :
+"endpoints" : ["INTERNAL://broker1.example.com:9092","EXTERNAL://broker1.example.com:9093","CONTROLLER://broker1.example.com:9094"]
+ and the controller's config is :
+listener.security.protocol.map = INTERNAL:PLAINTEXT, EXTERNAL:SSL, CONTROLLER:SSL
+control.plane.listener.name = CONTROLLER
+then controller will use "broker1.example.com:9094" with security protocol "SSL" to connect to the broker.
+If not explicitly configured, the default value will be null and there will be no dedicated endpoints for controller connections.
 
 `delete.topic.enable`::
 *Type:* boolean +
@@ -96,7 +117,7 @@ Enables delete topic. Delete topic through the admin tool will have no effect if
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `listeners` is not set. Use `listeners` instead.
+DEPRECATED: only used when `listeners` is not set. Use `listeners` instead. 
 hostname of broker. If this is set, it will only bind to this address. If this is not set, it will bind to all interfaces.
 
 `leader.imbalance.check.interval.seconds`::
@@ -217,7 +238,7 @@ The number of minutes to keep a log file before deleting it (in minutes), second
 *Importance:* high +
 *Dynamic update:* cluster-wide +
 +
-The number of milliseconds to keep a log file before deleting it (in milliseconds), If not set, the value in log.retention.minutes is used.
+The number of milliseconds to keep a log file before deleting it (in milliseconds), If not set, the value in log.retention.minutes is used. If set to -1, no time limit is applied.
 
 `log.roll.hours`::
 *Type:* int +
@@ -280,7 +301,7 @@ The amount of time to wait before deleting a file from the filesystem.
 +
 
 +
-The largest record batch size allowed by Kafka. If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that they can fetch record batches this large.
+The largest record batch size allowed by Kafka. If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that the they can fetch record batches this large.
 +
 In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.
 +
@@ -372,7 +393,7 @@ Offset commit will be delayed until all replicas for the offsets topic receive t
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-Batch size for reading from the offsets segments when loading offsets into the cache.
+Batch size for reading from the offsets segments when loading offsets into the cache (soft-limit, overridden if records are too large).
 
 `offsets.retention.check.interval.ms`::
 *Type:* long +
@@ -390,7 +411,7 @@ Frequency at which to check for stale offsets.
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-Offsets older than this retention period will be discarded.
+After a consumer group loses all its consumers (i.e. becomes empty) its offsets will be kept for this retention period before getting discarded. For standalone consumers (using manual assignment), offsets will be expired after the time of last commit plus this retention period.
 
 `offsets.topic.compression.codec`::
 *Type:* int +
@@ -433,7 +454,7 @@ The offsets topic segment bytes should be kept relatively small in order to faci
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `listeners` is not set. Use `listeners` instead.
+DEPRECATED: only used when `listeners` is not set. Use `listeners` instead. 
 the port to listen and accept connections on.
 
 `queued.max.requests`::
@@ -443,7 +464,7 @@ the port to listen and accept connections on.
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-The number of queued requests allowed before blocking the network threads.
+The number of queued requests allowed for data-plane, before blocking the network threads.
 
 `quota.consumer.default`::
 *Type:* long +
@@ -525,7 +546,7 @@ The configuration controls the maximum amount of time the client will wait for t
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-The SO_RCVBUF buffer of the socket sever sockets. If the value is -1, the OS default will be used.
+The SO_RCVBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
 
 `socket.request.max.bytes`::
 *Type:* int +
@@ -542,7 +563,7 @@ The maximum number of bytes in a socket request.
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-The SO_SNDBUF buffer of the socket sever sockets. If the value is -1, the OS default will be used.
+The SO_SNDBUF buffer of the socket server sockets. If the value is -1, the OS default will be used.
 
 `transaction.max.timeout.ms`::
 *Type:* int +
@@ -560,7 +581,7 @@ The maximum allowed timeout for transactions. If a client’s requested transact
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-Batch size for reading from the transaction log segments when loading producer ids and transactions into the cache.
+Batch size for reading from the transaction log segments when loading producer ids and transactions into the cache (soft-limit, overridden if records are too large).
 
 `transaction.state.log.min.isr`::
 *Type:* int +
@@ -672,6 +693,14 @@ Rack of the broker. This will be used in rack aware replication assignment for f
 +
 Idle connections timeout: the server socket processor threads close the connections that idle more than this.
 
+`connections.max.reauth.ms`::
+*Type:* long +
+*Default:* 0 +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+When explicitly set to a positive number (the default is 0, not a positive number), a session lifetime that will not exceed the configured value will be communicated to v2.2.0 or later clients when they authenticate. The broker will disconnect any such connection that is not re-authenticated within the session lifetime and that is then subsequently used for any purpose other than re-authentication. Configuration names can optionally be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.oauthbearer.connections.max.reauth.ms=3600000.
+
 `controlled.shutdown.enable`::
 *Type:* boolean +
 *Default:* true +
@@ -719,7 +748,7 @@ default replication factors for automatically created topics.
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
-The token validity time in seconds before the token needs to be renewed. Default value 1 day.
+The token validity time in miliseconds before the token needs to be renewed. Default value 1 day.
 
 `delegation.token.master.key`::
 *Type:* password +
@@ -764,11 +793,20 @@ The amount of time the group coordinator will wait for more consumers to join a 
 
 `group.max.session.timeout.ms`::
 *Type:* int +
-*Default:* 300000 +
+*Default:* 1800000 +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
 The maximum allowed session timeout for registered consumers. Longer timeouts give consumers more time to process messages in between heartbeats at the cost of a longer time to detect failures.
+
+`group.max.size`::
+*Type:* int +
+*Default:* 2147483647 +
+*Valid Values:* [1,...] +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The maximum number of consumers that a single consumer group can accommodate.
 
 `group.min.session.timeout.ms`::
 *Type:* int +
@@ -788,7 +826,8 @@ Name of listener used for communication between brokers. If this is unset, the l
 
 `inter.broker.protocol.version`::
 *Type:* string +
-*Default:* 2.0-IV1 +
+*Default:* 2.3-IV1 +
+*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1] +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -854,13 +893,21 @@ The total memory used for log cleaner I/O buffers across all cleaner threads.
 +
 The log cleaner will be throttled so that the sum of its read and write i/o will be less than this value on average.
 
+`log.cleaner.max.compaction.lag.ms`::
+*Type:* long +
+*Default:* 9223372036854775807 +
+*Importance:* medium +
+*Dynamic update:* cluster-wide +
++
+The maximum time a message will remain ineligible for compaction in the log. Only applicable for logs that are being compacted.
+
 `log.cleaner.min.cleanable.ratio`::
 *Type:* double +
 *Default:* 0.5 +
 *Importance:* medium +
 *Dynamic update:* cluster-wide +
 +
-The minimum ratio of dirty log to total log for a log to eligible for cleaning.
+The minimum ratio of dirty log to total log for a log to eligible for cleaning. If the log.cleaner.max.compaction.lag.ms or the log.cleaner.min.compaction.lag.ms configurations are also specified, then the log compactor considers the log eligible for compaction as soon as either: (i) the dirty ratio threshold has been met and the log has had dirty (uncompacted) records for at least the log.cleaner.min.compaction.lag.ms duration, or (ii) if the log has had dirty (uncompacted) records for at most the log.cleaner.max.compaction.lag.ms period.
 
 `log.cleaner.min.compaction.lag.ms`::
 *Type:* long +
@@ -908,7 +955,8 @@ The maximum size in bytes of the offset index.
 
 `log.message.format.version`::
 *Type:* string +
-*Default:* 2.0-IV1 +
+*Default:* 2.3-IV1 +
+*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1] +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -948,20 +996,29 @@ Should pre allocate file when create new segment? If you are using Kafka on Wind
 +
 The frequency in milliseconds that the log cleaner checks whether any log is eligible for deletion.
 
+`max.connections`::
+*Type:* int +
+*Default:* 2147483647 +
+*Valid Values:* [0,...] +
+*Importance:* medium +
+*Dynamic update:* cluster-wide +
++
+The maximum number of connections we allow in the broker at any time. This limit is applied in addition to any per-ip limits configured using max.connections.per.ip. Listener-level limits may also be configured by prefixing the config name with the listener prefix, for example, `listener.name.internal.max.connections`. Broker-wide limit should be configured based on broker capacity while listener limits should be configured based on application requirements. New connections are blocked if either the listener or broker limit is reached. Connections on the inter-broker listener are permitted even if broker-wide limit is reached. The least recently used connection on another listener will be closed in this case.
+
 `max.connections.per.ip`::
 *Type:* int +
 *Default:* 2147483647 +
 *Valid Values:* [0,...] +
 *Importance:* medium +
-*Dynamic update:* read-only +
+*Dynamic update:* cluster-wide +
 +
-The maximum number of connections we allow from each ip address. This can be set to 0 if there are overrides configured using max.connections.per.ip.overrides property.
+The maximum number of connections we allow from each ip address. This can be set to 0 if there are overrides configured using max.connections.per.ip.overrides property. New connections from the ip address are dropped if the limit is reached.
 
 `max.connections.per.ip.overrides`::
 *Type:* string +
 *Default:* "" +
 *Importance:* medium +
-*Dynamic update:* read-only +
+*Dynamic update:* cluster-wide +
 +
 A comma-separated list of per-ip or hostname overrides to the default maximum number of connections. An example value is "hostName:100,127.0.0.1:200".
 
@@ -1005,7 +1062,7 @@ The secret used for encoding dynamically configured passwords for this broker.
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-The fully qualified name of a class that implements the KafkaPrincipalBuilder interface, which is used to build the KafkaPrincipal object used during authorization. This config also supports the deprecated PrincipalBuilder interface which was previously used for client authentication over SSL. If no principal builder is defined, the default behavior depends on the security protocol in use. For SSL authentication, the principal name will be the distinguished name from the client certificate if one is provided; otherwise, if client authentication is not required, the principal name will be ANONYMOUS. For SASL authentication, the principal will be derived using the rules defined by `sasl.kerberos.principal.to.local.rules` if GSSAPI is in use, and the SASL authentication ID for other mechanisms. For PLAINTEXT, the principal will be ANONYMOUS.
+The fully qualified name of a class that implements the KafkaPrincipalBuilder interface, which is used to build the KafkaPrincipal object used during authorization. This config also supports the deprecated PrincipalBuilder interface which was previously used for client authentication over SSL. If no principal builder is defined, the default behavior depends on the security protocol in use. For SSL authentication,  the principal will be derived using the rules defined by `ssl.principal.mapping.rules` applied on the distinguished name from the client certificate if one is provided; otherwise, if client authentication is not required, the principal name will be ANONYMOUS. For SASL authentication, the principal will be derived using the rules defined by `sasl.kerberos.principal.to.local.rules` if GSSAPI is in use, and the SASL authentication ID for other mechanisms. For PLAINTEXT, the principal will be ANONYMOUS.
 
 `producer.purgatory.purge.interval.requests`::
 *Type:* int +
@@ -1105,7 +1162,7 @@ Login thread sleep time between refresh attempts.
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-A list of rules for mapping from principal names to short names (typically operating system usernames). The rules are evaluated in order and the first rule that matches a principal name is used to map it to a short name. Any later rules in the list are ignored. By default, principal names of the form {username}/{hostname}@{REALM} are mapped to {username}. For more details on the format please see #security_authz[ security authorization and acls]. Note that this configuration is ignored if an extension of KafkaPrincipalBuilder is provided by the `principal.builder.class` configuration.
+A list of rules for mapping from principal names to short names (typically operating system usernames). The rules are evaluated in order and the first rule that matches a principal name is used to map it to a short name. Any later rules in the list are ignored. By default, principal names of the form {username}/{hostname}@{REALM} are mapped to {username}. For more details on the format please see https://kafka.apache.org/23/documentation.html#security_authz[ security authorization and acls]. Note that this configuration is ignored if an extension of KafkaPrincipalBuilder is provided by the `principal.builder.class` configuration.
 
 `sasl.kerberos.service.name`::
 *Type:* string +
@@ -1218,10 +1275,10 @@ A list of cipher suites. This is a named combination of authentication, encrypti
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-Configures kafka broker to request client authentication. The following settings are common:
-
-* `ssl.client.auth=required` If set to required client authentication is required.
-* `ssl.client.auth=requested` This means client authentication is optional. unlike requested , if this option is set client can choose not to provide authentication information about itself
+Configures kafka broker to request client authentication. The following settings are common:  
+ 
+* `ssl.client.auth=required` If set to required client authentication is required. 
+* `ssl.client.auth=requested` This means client authentication is optional. unlike requested , if this option is set client can choose not to provide authentication information about itself 
 * `ssl.client.auth=none` This means client authentication is not needed.
 
 `ssl.enabled.protocols`::
@@ -1362,6 +1419,15 @@ The authorizer class that should be used for authorization.
 +
 The fully qualified name of a class that implements the ClientQuotaCallback interface, which is used to determine quota limits applied to client requests. By default, <user, client-id>, <user> or <client-id> quotas stored in ZooKeeper are applied. For any given request, the most specific quota that matches the user principal of the session and the client-id of the request is applied.
 
+`connection.failed.authentication.delay.ms`::
+*Type:* int +
+*Default:* 100 +
+*Valid Values:* [0,...] +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+Connection close delay on failed authentication: this is the time (in milliseconds) by which connection close will be delayed on authentication failure. This must be configured to be less than connections.max.idle.ms to prevent connection timeout.
+
 `create.topic.policy.class.name`::
 *Type:* class +
 *Default:* null +
@@ -1378,6 +1444,23 @@ The create topic policy class that should be used for validation. The class shou
 *Dynamic update:* read-only +
 +
 Scan interval to remove expired delegation tokens.
+
+`kafka.metrics.polling.interval.secs`::
+*Type:* int +
+*Default:* 10 +
+*Valid Values:* [1,...] +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The metrics polling interval (in seconds) which can be used in kafka.metrics.reporters implementations.
+
+`kafka.metrics.reporters`::
+*Type:* list +
+*Default:* "" +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+A list of classes to use as Yammer metrics custom reporters. The reporters should implement `kafka.metrics.KafkaMetricsReporter` trait. If a client wants to expose JMX operations on a custom reporter, the custom reporter needs to additionally implement an MBean trait that extends `kafka.metrics.KafkaMetricsReporterMBean` trait so that the registered MBean is compliant with the standard MBean convention.
 
 `listener.security.protocol.map`::
 *Type:* string +
@@ -1506,6 +1589,14 @@ The time span of each sample for replication quotas.
 *Dynamic update:* per-broker +
 +
 The endpoint identification algorithm to validate server hostname using server certificate.
+
+`ssl.principal.mapping.rules`::
+*Type:* list +
+*Default:* DEFAULT +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+A list of rules for mapping from distinguished name from the client certificate to short name. The rules are evaluated in order and the first rule that matches a principal name is used to map it to a short name. Any later rules in the list are ignored. By default, distinguished name of the X.500 certificate will be the principal. For more details on the format please see https://kafka.apache.org/23/documentation.html#security_authz[ security authorization and acls]. Note that this configuration is ignored if an extension of KafkaPrincipalBuilder is provided by the `principal.builder.class` configuration.
 
 `ssl.secure.random.implementation`::
 *Type:* string +

@@ -107,12 +107,34 @@ The location of the trust store file.
 +
 The password for the trust store file. If a password is not set access to the truststore is still available, but integrity checking is disabled.
 
+`client.dns.lookup`::
+*Type:* string +
+*Default:* default +
+*Valid Values:* [default, use_all_dns_ips, resolve_canonical_bootstrap_servers_only] +
+*Importance:* medium +
++
+
++
+Controls how the client uses DNS lookups.
++
+If set to `use_all_dns_ips` then, when the lookup returns multiple IP addresses for a hostname, they will all be attempted to connect to before failing the connection. Applies to both bootstrap and advertised servers.
++
+If the value is `resolve_canonical_bootstrap_servers_only` each entry will be resolved and expanded into a list of canonical names.
+
+
 `connections.max.idle.ms`::
 *Type:* long +
 *Default:* 540000 +
 *Importance:* medium +
 +
 Close idle connections after the number of milliseconds specified by this config.
+
+`connector.client.config.override.policy`::
+*Type:* string +
+*Default:* None +
+*Importance:* medium +
++
+Class name or alias of implementation of `ConnectorClientConfigOverridePolicy`. Defines what client configurations can be overriden by the connector. The default implementation is `None`. The other possible policies in the framework include `All` and `Principal`.
 
 `receive.buffer.bytes`::
 *Type:* int +
@@ -271,6 +293,14 @@ Comma-separated names of `ConfigProvider` classes, loaded and used in the order 
 *Importance:* low +
 +
 Replication factor used when creating the configuration storage topic.
+
+`connect.protocol`::
+*Type:* string +
+*Default:* compatible +
+*Valid Values:* [eager, compatible] +
+*Importance:* low +
++
+Compatibility mode for Kafka Connect Protocol.
 
 `header.converter`::
 *Type:* class +
@@ -509,6 +539,14 @@ Login refresh thread will sleep until the specified window factor relative to th
 *Importance:* low +
 +
 The maximum amount of random jitter relative to the credential's lifetime that is added to the login refresh thread's sleep time. Legal values are between 0 and 0.25 (25%) inclusive; a default value of 0.05 (5%) is used if no value is specified. Currently applies only to OAUTHBEARER.
+
+`scheduled.rebalance.max.delay.ms`::
+*Type:* int +
+*Default:* 300000 +
+*Valid Values:* [0,...,2147483647] +
+*Importance:* low +
++
+Compatibility mode for Kafka Connect Protocol.
 
 `ssl.cipher.suites`::
 *Type:* list +

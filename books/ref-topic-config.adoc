@@ -15,16 +15,16 @@
 *Server Default Property:* log.cleanup.policy +
 *Importance:* medium +
 +
-A string that is either "delete" or "compact". This string designates the retention policy to use on old log segments. The default policy ("delete") will discard old segments when their retention time or size limit has been reached. The "compact" setting will enable #compaction[log compaction] on the topic.
+A string that is either "delete" or "compact" or both. This string designates the retention policy to use on old log segments. The default policy ("delete") will discard old segments when their retention time or size limit has been reached. The "compact" setting will enable https://kafka.apache.org/23/documentation.html#compaction[log compaction] on the topic.
 
 `compression.type`::
 *Type:* string +
 *Default:* producer +
-*Valid Values:* [uncompressed, snappy, lz4, gzip, producer] +
+*Valid Values:* [uncompressed, zstd, lz4, snappy, gzip, producer] +
 *Server Default Property:* compression.type +
 *Importance:* medium +
 +
-Specify the final compression type for a given topic. This configuration accepts the standard compression codecs ('gzip', 'snappy', lz4). It additionally accepts 'uncompressed' which is equivalent to no compression; and 'producer' which means retain the original compression codec set by the producer.
+Specify the final compression type for a given topic. This configuration accepts the standard compression codecs ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts 'uncompressed' which is equivalent to no compression; and 'producer' which means retain the original compression codec set by the producer.
 
 `delete.retention.ms`::
 *Type:* long +
@@ -33,7 +33,7 @@ Specify the final compression type for a given topic. This configuration accepts
 *Server Default Property:* log.cleaner.delete.retention.ms +
 *Importance:* medium +
 +
-The amount of time to retain delete tombstone markers for #compaction[log compacted] topics. This setting also gives a bound on the time in which a consumer must complete a read if they begin from offset 0 to ensure that they get a valid snapshot of the final stage (otherwise delete tombstones may be collected before they complete their scan).
+The amount of time to retain delete tombstone markers for https://kafka.apache.org/23/documentation.html#compaction[log compacted] topics. This setting also gives a bound on the time in which a consumer must complete a read if they begin from offset 0 to ensure that they get a valid snapshot of the final stage (otherwise delete tombstones may be collected before they complete their scan).
 
 `file.delete.delay.ms`::
 *Type:* long +
@@ -51,7 +51,7 @@ The time to wait before deleting a file from the filesystem.
 *Server Default Property:* log.flush.interval.messages +
 *Importance:* medium +
 +
-This setting allows specifying an interval at which we will force an fsync of data written to the log. For example if this was set to 1 we would fsync after every message; if it were 5 we would fsync after every five messages. In general we recommend you not set this and use replication for durability and allow the operating system's background flush capabilities as it is more efficient. This setting can be overridden on a per-topic basis (see #topicconfigs[the per-topic configuration section]).
+This setting allows specifying an interval at which we will force an fsync of data written to the log. For example if this was set to 1 we would fsync after every message; if it were 5 we would fsync after every five messages. In general we recommend you not set this and use replication for durability and allow the operating system's background flush capabilities as it is more efficient. This setting can be overridden on a per-topic basis (see https://kafka.apache.org/23/documentation.html#topicconfigs[the per-topic configuration section]).
 
 `flush.ms`::
 *Type:* long +
@@ -65,7 +65,7 @@ This setting allows specifying a time interval at which we will force an fsync o
 `follower.replication.throttled.replicas`::
 *Type:* list +
 *Default:* "" +
-*Valid Values:* [partitionId],[brokerId]:[partitionId],[brokerId]:... +
+*Valid Values:* [partitionId]:[brokerId],[partitionId]:[brokerId],... +
 *Server Default Property:* follower.replication.throttled.replicas +
 *Importance:* medium +
 +
@@ -83,11 +83,20 @@ This setting controls how frequently Kafka adds an index entry to its offset ind
 `leader.replication.throttled.replicas`::
 *Type:* list +
 *Default:* "" +
-*Valid Values:* [partitionId],[brokerId]:[partitionId],[brokerId]:... +
+*Valid Values:* [partitionId]:[brokerId],[partitionId]:[brokerId],... +
 *Server Default Property:* leader.replication.throttled.replicas +
 *Importance:* medium +
 +
 A list of replicas for which log replication should be throttled on the leader side. The list should describe a set of replicas in the form [PartitionId]:[BrokerId],[PartitionId]:[BrokerId]:... or alternatively the wildcard '*' can be used to throttle all replicas for this topic.
+
+`max.compaction.lag.ms`::
+*Type:* long +
+*Default:* 9223372036854775807 +
+*Valid Values:* [1,...] +
+*Server Default Property:* log.cleaner.max.compaction.lag.ms +
+*Importance:* medium +
++
+The maximum time a message will remain ineligible for compaction in the log. Only applicable for logs that are being compacted.
 
 `max.message.bytes`::
 *Type:* int +
@@ -98,14 +107,15 @@ A list of replicas for which log replication should be throttled on the leader s
 +
 
 +
-The largest record batch size allowed by Kafka. If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that they can fetch record batches this large.
+The largest record batch size allowed by Kafka. If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that the they can fetch record batches this large.
 +
 In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.
 
 
 `message.format.version`::
 *Type:* string +
-*Default:* 2.0-IV1 +
+*Default:* 2.3-IV1 +
+*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1] +
 *Server Default Property:* log.message.format.version +
 *Importance:* medium +
 +
@@ -136,7 +146,7 @@ Define whether the timestamp in the message is message create time or log append
 *Server Default Property:* log.cleaner.min.cleanable.ratio +
 *Importance:* medium +
 +
-This configuration controls how frequently the log compactor will attempt to clean the log (assuming #compaction[log compaction] is enabled). By default we will avoid cleaning a log where more than 50% of the log has been compacted. This ratio bounds the maximum space wasted in the log by duplicates (at 50% at most 50% of the log could be duplicates). A higher ratio will mean fewer, more efficient cleanings but will mean more wasted space in the log.
+This configuration controls how frequently the log compactor will attempt to clean the log (assuming https://kafka.apache.org/23/documentation.html#compaction[log compaction] is enabled). By default we will avoid cleaning a log where more than 50% of the log has been compacted. This ratio bounds the maximum space wasted in the log by duplicates (at 50% at most 50% of the log could be duplicates). A higher ratio will mean fewer, more efficient cleanings but will mean more wasted space in the log. If the max.compaction.lag.ms or the min.compaction.lag.ms configurations are also specified, then the log compactor considers the log eligible for compaction as soon as either: (i) the dirty ratio threshold has been met and the log has had dirty (uncompacted) records for at least the min.compaction.lag.ms duration, or (ii) if the log has had dirty (uncompacted) records for at most the max.compaction.lag.ms period.
 
 `min.compaction.lag.ms`::
 *Type:* long +
@@ -155,7 +165,7 @@ The minimum time a message will remain uncompacted in the log. Only applicable f
 *Importance:* medium +
 +
 When a producer sets acks to "all" (or "-1"), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend).
-When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of "all". This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
+When used together, `min.insync.replicas` and `acks` allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set `min.insync.replicas` to 2, and produce with `acks` of "all". This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 
 `preallocate`::
 *Type:* boolean +
@@ -176,6 +186,7 @@ This configuration controls the maximum size a partition (which consists of log 
 `retention.ms`::
 *Type:* long +
 *Default:* 604800000 +
+*Valid Values:* [-1,...] +
 *Server Default Property:* log.retention.ms +
 *Importance:* medium +
 +

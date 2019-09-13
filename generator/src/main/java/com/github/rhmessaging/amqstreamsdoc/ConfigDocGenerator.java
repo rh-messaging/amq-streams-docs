@@ -4,6 +4,7 @@
  */
 package com.github.rhmessaging.amqstreamsdoc;
 
+import kafka.Kafka;
 import kafka.log.LogConfig$;
 import kafka.server.DynamicBrokerConfig;
 import kafka.server.DynamicBrokerConfig$;
@@ -16,6 +17,7 @@ import org.apache.kafka.connect.runtime.distributed.DistributedConfig;
 import org.apache.kafka.streams.StreamsConfig;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -115,6 +118,22 @@ public class ConfigDocGenerator {
         }
     }
 
+    private static String kafkaVersion() {
+        Properties p = new Properties();
+        try (InputStream resourceAsStream = Kafka.class.getClassLoader().getResourceAsStream("kafka/kafka-version.properties")) {
+            p.load(resourceAsStream);
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't find Kafka version from kafka/kafka-version.properties classpath resource in clients jar", e);
+        }
+        return p.getProperty("version");
+    }
+
+    private static String docsUrlForVersion() {
+        String kafkaVersion = kafkaVersion();
+        String docsVersion = kafkaVersion.replaceAll("([0-9]+)\\.([0-9]+).*", "\1\2");
+        return "https://kafka.apache.org/" + docsVersion + "/documentation.html";
+    }
+
     private static String convertToAsciidoc(String html) {
         String adoc = html.replaceAll("</?code>", "`").replace("¦", "\\¦");
         adoc = adoc.replaceAll("(</p>\\s*)?<p>", "\n+\n")
@@ -131,7 +150,15 @@ public class ConfigDocGenerator {
         int ii = 0;
         while (m.find()) {
             sb.append(adoc, ii, m.start());
-            sb.append(m.group(1));
+            String url = m.group(1);
+            if (url.startsWith("#")) {
+                // fragment, so resolve it against the relevant version
+                url = "https://kafka.apache.org/23/documentation.html" + url;
+            } else if (url.startsWith("/")) {
+                // absolute path
+                url = "https://kafka.apache.org" + url;
+            }
+            sb.append(url);
             Matcher m2 = aClose.matcher(adoc);
             if (m2.find(m.end())) {
                 sb.append('[');
