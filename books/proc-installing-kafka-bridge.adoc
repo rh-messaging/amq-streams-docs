@@ -3,7 +3,7 @@
 // assembly-using-the-kafka-bridge.adoc
 
 [id='proc-installing-kafka-bridge{context}']
-= Installing the {ProductName} Kafka Bridge on {ProductPlatformName}
+= Installing the {ProductName} Kafka Bridge
 
 Follow this procedure to install the {ProductName} Kafka Bridge on {ProductPlatformName}.
 
