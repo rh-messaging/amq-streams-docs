@@ -4,11 +4,11 @@
 
 [id='proc-downloading-kafka-bridge-{context}']
 
-= Downloading an AMQ Streams Archive
+= Downloading an AMQ Streams Kafka Bridge archive
 
-A zipped distribution of AMQ Streams is available for download from the Red Hat website.
+A zipped distribution of AMQ Streams Kafka Bridge is available for download from the Red Hat website.
 You can download a copy of the distribution by following the steps below.
 
 .Procedure
 
-- Download the latest version of the Red Hat AMQ Streams archive from the {ReleaseDownload}.
+- Download the latest version of the Red Hat AMQ Streams Kafka Bridge archive from the {ReleaseDownload}.
