@@ -38,6 +38,13 @@
 // Source and download links
 :ReleaseDownload: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams&productChanged=yes[Customer Portal^]
 
+//kafka Exporter links
+:kafka-exporter-project: link:https://github.com/danielqsj/kafka_exporter[Kafka Exporter^]
+:grafana-example: link:https://grafana.com/grafana/dashboards/7589[Example dashboard for Kafka Exporter^]
+:Prometheus-Doc: link:https://prometheus.io/docs/[Prometheus documentation^]
+:PrometheusConfig: link:https://prometheus.io/docs/prometheus/latest/configuration/configuration[Configuration^]
+:Grafana-Doc: link:https://grafana.com/docs/[Grafana documentation^]
+
 // Maven dependencies
 :MavenRepo: https://maven.repository.redhat.com/ga/
 :ArtifactVersion: 2.2.1.redhat-00002

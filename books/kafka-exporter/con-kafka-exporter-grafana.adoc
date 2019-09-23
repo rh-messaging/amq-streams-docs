@@ -1,0 +1,25 @@
+// This assembly is included in the following assemblies:
+//
+// assembly-kafka-exporter.adoc
+[id='con-metrics-kafka-exporter-grafana-{context}']
+
+= Presenting Kafka Exporter metrics in Grafana
+
+Using Kafka Exporter Prometheus metrics as a data source, you can create a dashboard of Grafana charts.
+
+For example, from the metrics you can create the following Grafana charts:
+
+* Message in per second (from topics)
+* Message in per minute (from topics)
+* Lag by consumer group
+* Messages consumed per minute (by consumer groups)
+
+When metrics data has been collected for some time, the Kafka Exporter charts are populated.
+
+Use the Grafana charts to analyze lag and to check if actions to reduce lag are having an impact on an affected consumer group.
+If, for example, Kafka brokers are adjusted to reduce lag, the dashboard will show the  _Lag by consumer group_ chart going down and the _Message consume per minute_ chart going up.
+
+.Additional resources
+
+* {grafana-example}
+* {Grafana-doc}

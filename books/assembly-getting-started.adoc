@@ -9,12 +9,13 @@
 == AMQ Streams distribution
 
 AMQ Streams is distributed as single ZIP file.
-This ZIP file contains all AMQ Streams components:
+This ZIP file contains AMQ Streams components:
 
 * Apache Zookeeper
 * Apache Kafka
 * Apache Kafka Connect
 * Apache Kafka Mirror Maker
+* xref:assembly-kafka-exporter-{context}[Kafka Exporter]
 
 include::proc-downloading-amq-streams.adoc[leveloffset=+1]
 
