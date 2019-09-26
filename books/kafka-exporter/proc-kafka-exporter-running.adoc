@@ -1,13 +1,13 @@
 // This assembly is included in the following assemblies:
 //
 // assembly-kafka-exporter.adoc
-[id='proc-kafka-exporter-enabling-{context}']
+[id='proc-kafka-exporter-running-{context}']
 
-= Enabling Kafka Exporter
+= Running Kafka Exporter
 
 Kafka Exporter is provided with the download archive used for xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
 
-You can enable it to expose Prometheus metrics for presentation in a Grafana dashboard.
+You can run it to expose Prometheus metrics for presentation in a Grafana dashboard.
 
 .Prerequisites
 
@@ -21,7 +21,7 @@ This procedure assumes you already have access to a Grafana user interface and P
 +
 [source,shell,subs="+quotes,attributes"]
 ----
-./bin/kafka_exporter -- kafka.server=kafka:9092 --<_my-parameters_>
+./bin/kafka_exporter -- kafka.server=<_kafka-bootstrap-address_>:9092 --kafka.version={DefaultKafkaVersion}  --<_my-other-parameters_>
 ----
 +
 The parameters require a double-hyphen convention, such as `--kafka.server`.

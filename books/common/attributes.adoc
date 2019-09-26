@@ -16,18 +16,18 @@
 :ProductLongName: Red Hat AMQ Streams
 :ProductName: AMQ Streams
 :ContextProduct: streams
-:ProductVersion: 1.2
+:ProductVersion: 1.3
 :BaseProductLongName: Red Hat AMQ
 :BaseProductName: AMQ
-:BaseProductVersion: 7.3
+:BaseProductVersion: 7.5
 :BaseProductMajorVersion: 7
 :ProductPlatformName: Red Hat Enterprise Linux
 
 
 //Kafka upgrade attributes used in upgrades section
-:DefaultKafkaVersion: 2.2.1
-:LogMsgVersLower: 2.1
-:LogMsgVersHigher: 2.2
+:DefaultKafkaVersion: 2.3.0
+:LogMsgVersLower: 2.2
+:LogMsgVersHigher: 2.3
 
 //Release Notes links
 //To
