@@ -13,11 +13,11 @@
 
 :context: kafka-bridge-overview
 
-The {ProductName} Kafka Bridge provides an API for integrating HTTP-based clients with a Kafka cluster running on Kubernetes. The API enables such clients to produce and consume messages without the requirement to use the native Kafka protocol.
+The {ProductName} Kafka Bridge provides an API for integrating HTTP-based clients with a Kafka cluster running on {ProductPlatformName}. The API enables such clients to produce and consume messages without the requirement to use the native Kafka protocol.
 
-The API has two main resources -- `consumers` and `topics` -- that are exposed and made accessible through endpoints to interact with consumers and producers in your Kafka cluster. The resources relate only to the Kafka Bridge, not the consumers and producers connected directly to Kafka. 
+The API has two main resources -- `consumers` and `topics` -- that are exposed and made accessible through endpoints to interact with consumers and producers in your Kafka cluster. The resources relate only to the Kafka Bridge, not the consumers and producers connected directly to Kafka.
 
-You can: 
+You can:
 
 * Send messages to a topic.
 
@@ -35,20 +35,20 @@ You can:
 
 * Seek on a partition, so that a consumer starts receiving messages from the first or last offset position, or a given offset position.
 
-//You deploy the Kafka Bridge into your Kubernetes cluster by using the Cluster Operator. For deployment instructions, see xref:deploying-kafka-bridge-str[].
+Similar to an {ProductName} installation, you can download the Kafka Bridge files for installation on {ProductPlatformName}.
 
-//After the Kafka Bridge is deployed, the Cluster Operator creates a Deployment, Service, and Pod in your Kubernetes cluster, each named `strimzi-kafka-bridge` by default.
+For more information on configuring the host and port for the `KafkaBridge` resource, see xref:proc-configuring-kafka-bridge-{context}[].
 
-//include::con-supported-clients-kafka-bridge.adoc[leveloffset=+1]
+include::con-requests-kafka-bridge.adoc[leveloffset=+1]
 
-//include::con-securing-kafka-bridge.adoc[leveloffset=+1]
+include::proc-downloading-kafka-bridge.adoc[leveloffset=+1]
 
-//include::con-accessing-kafka-bridge-from-outside.adoc[leveloffset=+1]
+include::proc-configuring-kafka-bridge.adoc[leveloffset=+1]
 
-//include::con-requests-kafka-bridge.adoc[leveloffset=+1]
+include::proc-installing-kafka-bridge.adoc[leveloffset=+1]
 
-//include::con-loggers-kafka-bridge.adoc[leveloffset=+1]
+include::ref-api-resources-kafka-bridge.adoc[leveloffset=+1]
 
-//include::ref-api-resources-kafka-bridge.adoc[leveloffset=+1]
+include::con-loggers-kafka-bridge.adoc[leveloffset=+1]
 
 :context: {parent-context-kafka-bridge-overview}

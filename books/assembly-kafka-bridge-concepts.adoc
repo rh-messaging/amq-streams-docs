@@ -12,20 +12,3 @@ NOTE: For the full list of REST API endpoints and descriptions, including exampl
 include::assembly-kafka-bridge-overview.adoc[leveloffset=+1]
 
 include::assembly-kafka-bridge-quickstart.adoc[leveloffset=+1]
-
-
-// Commented out the include statements in the previous structure
-
-//include::con-overview-of-kafka-bridge.adoc[leveloffset=+1]
-
-//include::con-requests-kafka-bridge.adoc[leveloffset=+1]
-
-//include::proc-downloading-kafka-bridge.adoc[leveloffset=+1]
-
-//include::proc-configuring-kafka-bridge.adoc[leveloffset=+1]
-
-//include::proc-installing-kafka-bridge.adoc[leveloffset=+1]
-
-//include::ref-api-resources-kafka-bridge.adoc[leveloffset=+1]
-
-//include::con-loggers-kafka-bridge.adoc[leveloffset=+1]
