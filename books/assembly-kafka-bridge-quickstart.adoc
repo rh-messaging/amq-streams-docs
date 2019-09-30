@@ -38,11 +38,7 @@ In this quickstart, you will produce and consume messages in JSON format, not bi
 * A running Kafka cluster, deployed by the Cluster Operator, in a Kubernetes namespace.
 * The Entity Operator is deployed and running as part of the Kafka cluster.  
 
-//Need to create all of these modules for RHEL
-
 include::proc-deploying-kafka-bridge-quickstart.adoc[leveloffset=+1]
-
-include::proc-exposing-kafka-bridge-service-local-machine.adoc[leveloffset=+1]
 
 include::proc-producing-messages-from-bridge-topics-partitions.adoc[leveloffset=+1]
 
