@@ -9,7 +9,7 @@
 This procedure will show you how to run a basic AMQ Streams cluster consisting of single Zookeeper and single Apache Kafka node both running on the same host.
 It is using the default configuration files for both Zookeeper and Kafka.
 
-WARNING: Single node AMQ Streams cluster does not provide realibility and high availability and is suitable only for development purposes.
+WARNING: A single node AMQ Streams cluster does not provide reliability and high availability and is suitable only for development purposes.
 
 .Prerequisites
 

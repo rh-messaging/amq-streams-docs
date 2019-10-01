@@ -5,28 +5,30 @@
 [id='proc-deploying-kafka-bridge-quickstart-{context}']
 = Deploying the Kafka Bridge locally
 
-CREATE A DEPLOYMENT PROCEDURE FOR RHEL
-
-.Prerequisites
-
-* A running Kafka cluster.
-*
-*
+Deploy an instance of the {ProductName} Kafka Bridge to the host using the default configuration.
 
 .Procedure
 
-. Step
+. Edit the `application.properties` file provided with the {ProductName} Kafka Bridge installation archive.
 
-. Step
+. In the `HTTP related settings` use the default configuration:
++
+[source,shell,subs=attributes+]
+----
+http.enabled=true
+http.host=0.0.0.0
+http.port=8080
+----
++
+This will configure the Kafka Bridge to listen on port 8080.
 
-. Step
+. Run the Kafka Bridge script using the configuration properties as a parameter:
++
+[source,shell,subs=attributes+]
+----
+./bin/kafka_bridge_run.sh --config-file=_path_/application.properties
+----
 
-. Step
+.What to do next
 
-. Step
-
-. Step
-
-.Additional resources
-
-* For more information about, see .
+* Next, xref:proc-producing-messages-from-bridge-topics-partitions-{context}[produce messages to topics and partitions].

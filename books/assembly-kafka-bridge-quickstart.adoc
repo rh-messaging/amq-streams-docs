@@ -13,17 +13,14 @@
 
 :context: kafka-bridge-quickstart
 
-Use this quickstart to try out the {ProductName} Kafka Bridge in your local development environment. You will learn how to:
+Use this quickstart to try out the {ProductName} Kafka Bridge on {ProductPlatformName}. You will learn how to:
 
-//EDIT BULLETS
-* Deploy the Kafka Bridge to your Kubernetes cluster
-* Expose the Kafka Bridge service to your local machine by using port-forwarding
+* Install the Kafka Bridge
 * Produce messages to topics and partitions in your Kafka cluster
 * Create a Kafka Bridge consumer
 * Perform basic consumer operations, such as subscribing the consumer to topics and retrieving the messages that you produced
 
-//EDIT
-In this quickstart, HTTP requests are formatted as curl commands that you can copy and paste to your terminal. Access to a Kubernetes cluster is required; to run and manage a local Kubernetes cluster, use a tool such as Minikube, CodeReady Containers, or MiniShift.
+In this quickstart, HTTP requests are formatted as curl commands that you can copy and paste to your terminal.
 
 Ensure you have the prerequisites and then follow the tasks in the order provided in this chapter.
 
@@ -32,12 +29,14 @@ Ensure you have the prerequisites and then follow the tasks in the order provide
 In this quickstart, you will produce and consume messages in JSON format, not binary. For more information on the data formats and HTTP headers used in the example requests, see xref:con-requests-kafka-bridge-kafka-bridge-overview[].
 
 .Prerequisites for the quickstart
-//EDIT PRE-REQS
-* Cluster administrator access to a local or remote Kubernetes cluster. 
-* {ProductName} is installed.
-* A running Kafka cluster, deployed by the Cluster Operator, in a Kubernetes namespace.
-* The Entity Operator is deployed and running as part of the Kafka cluster.  
 
+* xref:proc-installing-amq-streams-str[{ProductName} is installed on the host]
+
+* xref:proc-running-single-node-amq-streams-cluster-str[A single node {ProductName} cluster is running]
+
+* xref:proc-downloading-kafka-bridge-kafka-bridge-overview[The Kafka Bridge installation archive is downloaded]
+
+//quickstart procedures
 include::proc-deploying-kafka-bridge-quickstart.adoc[leveloffset=+1]
 
 include::proc-producing-messages-from-bridge-topics-partitions.adoc[leveloffset=+1]

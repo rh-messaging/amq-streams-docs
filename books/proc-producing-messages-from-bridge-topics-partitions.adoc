@@ -5,39 +5,22 @@
 [id='proc-producing-messages-from-bridge-topics-partitions-{context}']
 = Producing messages to topics and partitions
 
-//MODIFY THIS PROCEDURE FOR RHEL - USE THE KAFKATOPICS.SH SCRIPT TO CREATE TOPICS, NO YAML
-
-Next, produce messages to topics in JSON format by using the link:https://strimzi.io/docs/bridge/latest/#_send[topics^] endpoint. You can specify destination partitions for messages in the request body, as shown here. The link:https://strimzi.io/docs/bridge/latest/#_sendtopartition[partitions^] endpoint provides an alternative method for specifying a single destination partition for all messages as a path parameter.
+Next, produce messages to a topic in JSON format by using the link:https://strimzi.io/docs/bridge/latest/#_send[topics^] endpoint. You can specify destination partitions for messages in the request body, as shown here. The link:https://strimzi.io/docs/bridge/latest/#_sendtopartition[partitions^] endpoint provides an alternative method for specifying a single destination partition for all messages as a path parameter.
 
 .Procedure
 
-. In a text editor, create a YAML definition for a Kafka topic with three partitions.
-+
-[source,yaml,subs=attributes+]
-----
-apiVersion: kafka.strimzi.io/v1beta1
-kind: KafkaTopic
-metadata:
-  name: bridge-quickstart-topic
-  labels:
-    strimzi.io/cluster: <kafka-cluster-name> <1>
-spec:
-  partitions: 3 <2>
-  replicas: 1
-  config:
-    retention.ms: 7200000
-    segment.bytes: 1073741824
-----
-<1> The name of the Kafka cluster in which the Kafka Bridge is deployed.
-<2> The number of partitions for the topic. 
-
-. Save the file to the `examples/topic` directory as `bridge-quickstart-topic.yaml`.
-
-. Create the topic in your Kubernetes cluster:
+. Create a Kafka topic with three partitions by using the `kafka-topics.sh` tool:
 +
 [source,shell,subs=attributes+]
 ----
-kubectl apply -f examples/topic/bridge-quickstart-topic.yaml
+bin/kafka-topics.sh --zookeeper <ZookeeperAddress>:2181 --create --topic bridge-quickstart-topic --partitions 3 --replication-factor 1 --config retention.ms=7200000 --config segment.bytes=1073741824
+----
+
+. Verify that the topic was created:
++
+[source,shell,subs=attributes+]
+----
+bin/kafka-topics.sh --zookeeper  <ZookeeperAddress>:2181 --describe --topic bridge-quickstart-topic
 ----
 
 . Using the Kafka Bridge, produce three messages to the topic you created:
