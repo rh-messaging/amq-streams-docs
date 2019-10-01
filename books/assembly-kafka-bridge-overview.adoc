@@ -35,20 +35,20 @@ You can:
 
 * Seek on a partition, so that a consumer starts receiving messages from the first or last offset position, or a given offset position.
 
-Similar to an {ProductName} installation, you can download the Kafka Bridge files for installation on {ProductPlatformName}.
+Similar to an {ProductName} installation, you can download the Kafka Bridge files for installation on {ProductPlatformName}. See xref:proc-downloading-kafka-bridge-{context}[].
 
 For more information on configuring the host and port for the `KafkaBridge` resource, see xref:proc-configuring-kafka-bridge-{context}[].
 
 include::con-requests-kafka-bridge.adoc[leveloffset=+1]
+
+include::con-loggers-kafka-bridge.adoc[leveloffset=+1]
+
+include::ref-api-resources-kafka-bridge.adoc[leveloffset=+1]
 
 include::proc-downloading-kafka-bridge.adoc[leveloffset=+1]
 
 include::proc-configuring-kafka-bridge.adoc[leveloffset=+1]
 
 include::proc-installing-kafka-bridge.adoc[leveloffset=+1]
-
-include::ref-api-resources-kafka-bridge.adoc[leveloffset=+1]
-
-include::con-loggers-kafka-bridge.adoc[leveloffset=+1]
 
 :context: {parent-context-kafka-bridge-overview}
