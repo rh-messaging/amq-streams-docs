@@ -1,4 +1,4 @@
-// This assembly is included in the following assemblies:
+// Module included in the following assemblies:
 //
 // assembly-kafka-exporter.adoc
 [id='proc-kafka-exporter-running-{context}']
@@ -21,11 +21,12 @@ This procedure assumes you already have access to a Grafana user interface and P
 +
 [source,shell,subs="+quotes,attributes"]
 ----
-./bin/kafka_exporter -- kafka.server=<_kafka-bootstrap-address_>:9092 --kafka.version={DefaultKafkaVersion}  --<_my-other-parameters_>
+./bin/kafka_exporter -- kafka.server=<__kafka-bootstrap-address__>:9092 --kafka.version={DefaultKafkaVersion}  --<__my-other-parameters__>
 ----
 +
 The parameters require a double-hyphen convention, such as `--kafka.server`.
 +
+[%autowidth]
 |===
 |Option | Description |Default
 
