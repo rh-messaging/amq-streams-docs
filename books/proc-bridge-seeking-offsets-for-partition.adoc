@@ -26,7 +26,7 @@ curl -X POST http://localhost:8080/consumers/bridge-quickstart-consumer-group/in
 }'
 ----
 +
-If the request is successful, the Kafka Bridge returns a `204` code only.
+If the request is successful, the Kafka Bridge returns a `204` (No Content) code only.
 
 . Submit a `GET` request to the `records` endpoint:
 +
@@ -54,7 +54,7 @@ curl -X POST http://localhost:8080/consumers/bridge-quickstart-consumer-group/in
 }'
 ----
 +
-If the request is successful, the Kafka Bridge returns another `204` code.
+If the request is successful, the Kafka Bridge returns another `204` (No Content) code.
 
 NOTE: You can also use the link:https://strimzi.io/docs/bridge/latest/#_seektobeginning[positions/beginning^] endpoint to seek to the first offset for one or more partitions. 
 
