@@ -11,18 +11,20 @@ You can specify destination partitions for messages in the request body, as show
 
 .Procedure
 
-. Create a Kafka topic with three partitions by using the `kafka-topics.sh` tool:
+. Create a Kafka topic using the `kafka-topics.sh` utility:
 +
 [source,shell,subs=attributes+]
 ----
-bin/kafka-topics.sh --zookeeper <ZookeeperAddress>:2181 --create --topic bridge-quickstart-topic --partitions 3 --replication-factor 1 --config retention.ms=7200000 --config segment.bytes=1073741824
+bin/kafka-topics.sh --zookeeper localhost:2181 --create --topic bridge-quickstart-topic --partitions 3 --replication-factor 1 --config retention.ms=7200000 --config segment.bytes=1073741824
 ----
++
+Specify three partitions.
 
 . Verify that the topic was created:
 +
 [source,shell,subs=attributes+]
 ----
-bin/kafka-topics.sh --zookeeper  <ZookeeperAddress>:2181 --describe --topic bridge-quickstart-topic
+bin/kafka-topics.sh --zookeeper localhost:2181 --describe --topic bridge-quickstart-topic
 ----
 
 . Using the Kafka Bridge, produce three messages to the topic you created:
