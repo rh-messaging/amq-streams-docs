@@ -20,15 +20,15 @@ http.host=0.0.0.0
 http.port=8080
 ----
 +
-This will configure the Kafka Bridge to listen on port 8080.
+This configures the Kafka Bridge to listen for requests on port 8080.
 
 . Run the Kafka Bridge script using the configuration properties as a parameter:
 +
 [source,shell,subs=attributes+]
 ----
-./bin/kafka_bridge_run.sh --config-file=_path_/application.properties
+./bin/kafka_bridge_run.sh --config-file=<path>/application.properties
 ----
 
 .What to do next
 
-* Next, xref:proc-producing-messages-from-bridge-topics-partitions-{context}[produce messages to topics and partitions].
+* xref:proc-producing-messages-from-bridge-topics-partitions-{context}[Produce messages to topics and partitions].
