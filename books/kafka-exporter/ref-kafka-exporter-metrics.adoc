@@ -1,6 +1,6 @@
 // Module included in the following assemblies:
 //
-// assembly-metrics-grafana.adoc
+// assembly-kafka-exporter.adoc
 [id='ref-metrics-kafka-exporter-{context}']
 
 = Kafka Exporter metrics
