@@ -1,0 +1,83 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-exporter.adoc
+[id='proc-kafka-exporter-running-{context}']
+
+= Running Kafka Exporter
+
+Kafka Exporter is provided with the download archive used for xref:proc-installing-amq-streams-{context}[Installing {ProductName}].
+
+You can run it to expose Prometheus metrics for presentation in a Grafana dashboard.
+
+.Prerequisites
+
+* xref:proc-installing-amq-streams-{context}[{ProductName} is installed on the host]
+
+This procedure assumes you already have access to a Grafana user interface and Prometheus is deployed and added as a data source.
+
+.Procedure
+
+. Run the Kafka Exporter script using appropriate configuration parameter values.
++
+[source,shell,subs="+quotes,attributes"]
+----
+./bin/kafka_exporter -- kafka.server=<__kafka-bootstrap-address__>:9092 --kafka.version={DefaultKafkaVersion}  --<__my-other-parameters__>
+----
++
+The parameters require a double-hyphen convention, such as `--kafka.server`.
++
+[%autowidth]
+|===
+|Option | Description |Default
+
+|`kafka.server`
+|Host/post address of the Kafka server.
+|`kafka:9092`
+
+|`kafka.version`
+|Kafka broker version.
+|`1.0.0`
+
+|`group.filter`
+| A regular expression to specify the consumer groups to include in the metrics.
+|`.*` (all)
+
+|`topic.filter`
+|A regular expression to specify the topics to include in the metrics.
+|`.*` (all)
+
+|`sasl.<__parameter__>`
+|Parameters to enable and connect to the Kafka cluster using SASL/PLAIN authentication, with user name and password.
+|`false`
+
+|`tls.<__parameter__>`
+|Parameters to enable connect to the Kafka cluster using TLS authentication, with optional certificate and key.
+|`false`
+
+|`web.listen-address`
+|Port address to expose the metrics.
+|`:9308`
+
+|`web.telemetry-path`
+|Path for the exposed metrics.
+|`/metrics`
+
+|`log.level`
+|Logging configuration, to log messages with a given severity (debug, info, warn, error, fatal) or above.
+|`info`
+
+|`log.enable-sarama`
+|Boolean to enable Sarama logging, a Go client library used by the Kafka Exporter.
+|`false`
+
+|===
++
+You can use `kafka_exporter --help` for information on the properties.
+
+. Configure Prometheus to monitor the Kafka Exporter metrics.
++
+For more information on configuring Prometheus, see the {Prometheus-doc}.
+
+. Enable Grafana to present the Kafka Exporter metrics data exposed by Prometheus.
++
+For more information, see xref:con-metrics-kafka-exporter-grafana-{context}[Presenting Kafka Exporter metrics in Grafana].
