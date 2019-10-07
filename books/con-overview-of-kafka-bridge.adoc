@@ -3,7 +3,7 @@
 // assembly-using-the-kafka-bridge.adoc
 
 [id='con-overview-of-kafka-bridge-{context}']
-= Overview of the {ProductName} Kafka Bridge
+= Kafka Bridge overview
 
 The {ProductName} Kafka Bridge provides an API for integrating HTTP-based clients with a Kafka cluster running on {ProductPlatformName}. The API enables such clients to produce and consume messages without the requirement to use the native Kafka protocol.
 
