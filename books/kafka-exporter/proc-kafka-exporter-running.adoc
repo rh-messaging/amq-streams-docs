@@ -21,7 +21,7 @@ This procedure assumes you already have access to a Grafana user interface and P
 +
 [source,shell,subs="+quotes,attributes"]
 ----
-./bin/kafka_exporter -- kafka.server=<__kafka-bootstrap-address__>:9092 --kafka.version={DefaultKafkaVersion}  --<__my-other-parameters__>
+./bin/kafka_exporter --kafka.server=<__kafka-bootstrap-address__>:9092 --kafka.version={DefaultKafkaVersion}  --<__my-other-parameters__>
 ----
 +
 The parameters require a double-hyphen convention, such as `--kafka.server`.
