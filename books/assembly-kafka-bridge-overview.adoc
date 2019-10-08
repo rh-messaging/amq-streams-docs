@@ -10,7 +10,6 @@
 
 [id='assembly-kafka-bridge-overview-{context}']
 = Kafka Bridge overview
-
 :context: kafka-bridge-overview
 
 The {ProductName} Kafka Bridge provides an API for integrating HTTP-based clients with a Kafka cluster running on {ProductPlatformName}. The API enables such clients to produce and consume messages without the requirement to use the native Kafka protocol.

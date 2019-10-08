@@ -16,18 +16,18 @@
 :ProductLongName: Red Hat AMQ Streams
 :ProductName: AMQ Streams
 :ContextProduct: streams
-:ProductVersion: 1.2
+:ProductVersion: 1.3
 :BaseProductLongName: Red Hat AMQ
 :BaseProductName: AMQ
-:BaseProductVersion: 7.3
+:BaseProductVersion: 7.5
 :BaseProductMajorVersion: 7
 :ProductPlatformName: Red Hat Enterprise Linux
 
 
 //Kafka upgrade attributes used in upgrades section
-:DefaultKafkaVersion: 2.2.1
-:LogMsgVersLower: 2.1
-:LogMsgVersHigher: 2.2
+:DefaultKafkaVersion: 2.3.0
+:LogMsgVersLower: 2.2
+:LogMsgVersHigher: 2.3
 
 //Links
 :LatestBridgeAPIDocs: link:https://strimzi.io/docs/bridge/latest/[Kafka Bridge API reference^]
@@ -40,6 +40,13 @@
 
 // Source and download links
 :ReleaseDownload: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams&productChanged=yes[Customer Portal^]
+
+//kafka Exporter links
+:kafka-exporter-project: link:https://github.com/danielqsj/kafka_exporter[Kafka Exporter^]
+:grafana-example: link:https://grafana.com/grafana/dashboards/7589[Example dashboard for Kafka Exporter^]
+:Prometheus-Doc: link:https://prometheus.io/docs/[Prometheus documentation^]
+:PrometheusConfig: link:https://prometheus.io/docs/prometheus/latest/configuration/configuration[Configuration^]
+:Grafana-Doc: link:https://grafana.com/docs/[Grafana documentation^]
 
 // Maven dependencies
 :MavenRepo: https://maven.repository.redhat.com/ga/
