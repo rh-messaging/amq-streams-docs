@@ -21,21 +21,29 @@ You configure the Kafka Bridge for authentication through its xref:proc-configur
 
 Specify data formats and HTTP headers to ensure valid requests are submitted to the Kafka Bridge.
 
-=== Content Type headers
-
 API request and response bodies are always encoded as JSON.
 
-* `POST` requests for consumer operations must provide the following `Content-Type` header if the request body contains data: 
-+
+=== Content Type headers
+
+A `Content-Type` header must be submitted for all requests (apart from the exception described below). 
+
+Consumer operations (`/consumers` endpoints) and producer operations (`/topics` endpoints) require different `Content-Type` headers.  
+
+.Content-Type headers for consumer operations
+
+Regardless of the link:#embedded-data-format[embedded data format], `POST` requests for consumer operations must provide the following `Content-Type` header if the request body contains data: 
+
 [source,http,subs=+quotes]
 ----
 Content-Type: application/vnd.kafka.v2+json
 ----
 
-Do not set the `Content-Type` header if the `POST` request body is empty.
+Do not send a `Content-Type` header if the `POST` request body is empty, or the request will fail.
 
-* When performing producer operations, `POST` requests must provide the following `Content-Type` header specifying the desired __embedded data format__, either `json` or `binary`, as shown in the following table.
-+
+.Content-Type headers for producer operations
+
+When performing producer operations, `POST` requests must provide the following `Content-Type` header specifying the desired __embedded data format__, either `json` or `binary`, as shown in the following table.
+
 [%autowidth,cols="2*",options="header",stripes="none",separator=¦]
 |===
 
@@ -54,6 +62,7 @@ You set the embedded data format when creating a consumer using the `consumers/g
 
 The `Content-Type` must not be set if the `POST` request has an empty body. An empty body can be used to create a consumer with the default values.
 
+[#embedded-data-format]
 === Embedded data format
 
 The embedded data format is the format of the Kafka messages that are transmitted, over HTTP, from a producer to a consumer using the Kafka Bridge. Two embedded data formats are supported: JSON or binary.
