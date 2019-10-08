@@ -5,13 +5,11 @@
 [id='proc-deploying-kafka-bridge-quickstart-{context}']
 = Deploying the Kafka Bridge locally
 
-Deploy an instance of the {ProductName} Kafka Bridge to the host using the default configuration.
+Deploy an instance of the {ProductName} Kafka Bridge to the host. Use the `application.properties` file provided with the installation archive to apply the default configuration settings.
 
 .Procedure
 
-. Edit the `application.properties` file provided with the {ProductName} Kafka Bridge installation archive.
-
-. In the `HTTP related settings` use the default configuration:
+. Open the `application.properties` file and check that the default  `HTTP related settings` are defined:
 +
 [source,shell,subs=attributes+]
 ----
