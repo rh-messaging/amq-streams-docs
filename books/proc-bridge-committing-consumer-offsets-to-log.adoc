@@ -18,7 +18,7 @@ curl -X POST http://localhost:8080/consumers/bridge-quickstart-consumer-group/in
 +
 Because no request body is submitted, offsets are committed for all the records that have been received by the consumer. Alternatively, the request body can contain an array (link:https://strimzi.io/docs/bridge/latest/#_offsetcommitseeklist[OffsetCommitSeekList^]) that specifies the topics and partitions that you want to commit offsets for.
 +
-If the request is successful, the Kafka Bridge returns a `204` (No Content) code only.
+If the request is successful, the Kafka Bridge returns a `204 No Content` code only.
 
 .What to do next
 
