@@ -5,7 +5,7 @@
 [id='proc-bridge-subscribing-consumer-topics-{context}']
 = Subscribing a Kafka Bridge consumer to topics
 
-Next, subscribe the Kafka Bridge consumer to one or more topics by using the link:https://strimzi.io/docs/bridge/latest/#_subscribe[subscription^] endpoint. Once subscribed, the consumer starts receiving all messages that are produced to the topic.
+Subscribe the Kafka Bridge consumer to one or more topics by using the link:https://strimzi.io/docs/bridge/latest/#_subscribe[subscription^] endpoint. Once subscribed, the consumer starts receiving all messages that are produced to the topic.
 
 .Procedure
 
