@@ -3,13 +3,13 @@
 // assembly-using-the-kafka-bridge.adoc
 
 [id='proc-installing-kafka-bridge{context}']
-= Installing the {ProductName} Kafka Bridge
+= Installing the Kafka Bridge
 
 Follow this procedure to install the {ProductName} Kafka Bridge on {ProductPlatformName}.
 
 .Prerequisites
 
-* xref:proc-installing-amq-streams-{context}[{ProductName} is installed on the host]
+* xref:proc-installing-amq-streams-str[{ProductName} is installed on the host]
 * xref:proc-downloading-kafka-bridge-{context}[The Kafka Bridge installation archive is downloaded]
 * xref:proc-configuring-kafka-bridge-{context}[The Kafka Bridge configuration properties are set]
 

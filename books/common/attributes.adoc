@@ -29,6 +29,9 @@
 :LogMsgVersLower: 2.2
 :LogMsgVersHigher: 2.3
 
+//Links
+:LatestBridgeAPIDocs: link:https://strimzi.io/docs/bridge/latest/[Kafka Bridge API reference^]
+
 //Release Notes links
 //To
 :RelNotes: https://access.redhat.com/documentation/en-us/red_hat_amq/{BaseProductVersion}/html-single/amq_streams_{ProductVersion}_on_openshift_container_platform_release_notes
