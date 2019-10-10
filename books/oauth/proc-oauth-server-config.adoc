@@ -1,0 +1,67 @@
+// Module included in the following assemblies:
+//
+// assembly-oauth-strimzi-config.adoc
+
+[id='proc-oauth-server-config-{context}']
+= Configuring Red Hat Single Sign-On as an {oauth} authorization server
+
+This procedure describes how to deploy Red Hat Single Sign-On as an authorization server and configure it for integration with {ProductName}.
+
+User credentials are managed by an authorization server using a _realm_, which describes security policies.
+The realm is the authentication provider for clients.
+
+To use {oauth} with {ProductName}, you need a deployment of an authorization server to be able to create and manage authentication realms.
+
+NOTE: If you already have Red Hat Single Sign-On deployed, you can skip the deployment step and use your current deployment.
+
+.Before you begin
+
+You will need to be familiar with using Red Hat Single Sign-On.
+
+For installation and administration instructions, see:
+
+* {sso-install-doc}
+* {sso-admin-doc}
+
+.Prerequisites
+
+* {ProductName} and Kafka are running
+
+For the Red Hat Single Sign-On deployment:
+
+* Check the {sso-config}
+
+.Procedure
+
+. Install Red Hat Single Sign-On.
++
+You can install from a ZIP file or by using an RPM.
+
+. Log in to the Red Hat Single Sign-On Admin Console to create the {oauth} policies for {ProductName}.
++
+Login details are provided when you deploy Red Hat Single Sign-On.
+
+. Create and enable a _realm_.
++
+You can use an existing _master_ realm.
+
+. Adjust the session and token timeouts for the _realm_, if required.
+
+. Create a _client_ called `kafka-broker`.
+
+. From the menu:File[Clients>Settings] tab, set:
++
+* *Access Type* to `Confidential`
+* *Standard Flow Enabled* to `OFF` to disable web login for this client
+* *Service Accounts Enabled* to `ON` to turn on client OpenID Connect (OIDC) authentication
+
+. From the menu:File[Clients>Credentials] tab, take a note of the secret for using in your {ProductName} Kafka cluster configuration.
+
+. Repeat the _client_ creation steps for any application client that will connect to your Kafka brokers.
++
+Create a definition for each new _client_.
++
+You will use the names as client IDs in your configuration.
+
+.What to do next
+After deploying and configuring the authorization server, xref:proc-oauth-broker-config-{context}[configure the Kafka brokers to use {oauth}].
