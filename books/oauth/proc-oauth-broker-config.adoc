@@ -29,7 +29,7 @@ For more information on the configuration and authentication of Kafka broker lis
 
 .Procedure
 
-. Copy the following JAR files to your Kafka `libs` directory.
+. Check you have the following JAR files in your Kafka `libs` directory.
 +
 [source,xml,subs="+attributes"]
 ----
@@ -64,9 +64,9 @@ listener.name.clients.oauthbearer.sasl.server.callback.handler.class=io.strimzi.
 
 . To further configure {oauth} support, use one of the following connection options.
 +
-OPTION 1: Add environment variables to enable local token validation using a JWKS endpoint configuration.
+* OPTION 1: Add environment variables to enable local token validation using a JWKS endpoint configuration.
 +
-[source,xml,subs="+attributes,quotes"]
+[source,env,subs="+attributes,quotes"]
 ----
 export OAUTH_JWKS_ENDPOINT_URI=https://<__authorization-server-address__>/jwks <1>
 export OAUTH_JWKS_REFRESH_SECONDS=300 <2>
@@ -76,9 +76,9 @@ export OAUTH_JWKS_EXPIRY_SECONDS=360 <3>
 <2> The period between endpoint refreshes (default 300).
 <3> The certificates expiry time (default 360). If you specify a longer time, consider the risk of allowing access to revoked certificates.
 +
-OPTION 2: Add environment variables for direct connection using an introspection endpoint configuration, delegating token validation to the authorization server.
+* OPTION 2: Add environment variables for direct connection using an introspection endpoint configuration, delegating token validation to the authorization server.
 +
-[source,xml,subs="+attributes,quotes"]
+[source,env,subs="+attributes,quotes"]
 ----
 export OAUTH_INTROSPECTION_ENDPOINT_URI=https://<__authorization-server-address__>/introspection <1>
 ----
@@ -86,28 +86,35 @@ export OAUTH_INTROSPECTION_ENDPOINT_URI=https://<__authorization-server-address_
 
 . If required, configure access to the authorization server.
 
-.. Provide a custom truststore for connecting to the authorization server. SSL is always required for access to the authorization server.
+.. Provide a custom truststore for connecting to the authorization server.
+SSL is always required for access to the authorization server.
 +
-Three environment variables to configure a truststore for connecting to secured authorization server:
+Set environment variables to configure a truststore for connecting to a secured authorization server:
 +
-[source,xml,subs="+attributes,quotes"]
+For example:
++
+[source,env,subs="+attributes,quotes"]
 ----
-//Properties to provide a custom truststore
-OAUTH_SSL_TRUSTSTORE_LOCATION: <__/path/to/truststore.p12__>
-OAUTH_SSL_TRUSTSTORE_PASSWORD: <__my-password__>
-OAUTH_SSL_TRUSTSTORE_TYPE: pkcs12
+export OAUTH_SSL_TRUSTSTORE_LOCATION: <__/path/to/truststore.p12__> <1>
+export OAUTH_SSL_TRUSTSTORE_PASSWORD: <__my-password__> <2>
+export OAUTH_SSL_TRUSTSTORE_TYPE: pkcs12 <3>
 ----
+<1> Location of the truststore file in PKCS format.
+<2> Password to access the truststore.
+<3> Truststore type in PKCS12 format.
 
-.. If it is not required, turn off the certificate hostname validation:
+.. If it is not required, turn off certificate hostname validation:
 +
-[source,xml,subs="+attributes"]
+[source,env,subs="+attributes"]
 ----
-OAUTH_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: ""
+export OAUTH_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: ""
 ----
++
+The check ensures that client connection to the authorization server is authentic.
 
 . Configure the following environment variables according to your chosen authentication flow.
 +
-[source,xml,subs="+attributes,quotes"]
+[source,env,subs="+attributes,quotes"]
 ----
 export OAUTH_TOKEN_ENDPOINT_URI=https://<__authorization-server-address__>/token <1>
 export OAUTH_VALID_ISSUER_URI=https://<__authorization-server-address__> <2>
