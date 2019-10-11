@@ -7,12 +7,6 @@
 
 This procedure describes how to configure Kafka brokers so that the broker listeners are enabled to use {oauth} authentication using an authorization server.
 
-If the authorization server is using certificates signed by the trusted CA and matching the {oauth} server hostname, TLS connection works using the default settings.
-Otherwise, you have two connection options for your external listener configuration:
-
-. TLS connection to the authorization server with trusted certificates
-. Direct connection using an introspection endpoint configuration
-
 Both options are described in this procedure.
 
 .Before you start
@@ -57,9 +51,9 @@ listener.name.clients.oauthbearer.sasl.jaas.config=org.apache.kafka.common.secur
 listener.name.clients.oauthbearer.sasl.login.callback.handler.class=io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
 listener.name.clients.oauthbearer.sasl.server.callback.handler.class=io.strimzi.kafka.oauth.server.JaasServerOauthValidatorCallbackHandler
 ----
-<1> Enables the _OAUTHBEARER as SASL_ mechanism.
+<1> Enables the _OAUTHBEARER as SASL_ mechanism for credentials exchange over SASL.
 <2> Configures a listener for client applications, replacing `kafka` with a valid hostname, resolvable by clients.
-<3> Specifies the protocol for the listener.
+<3> Specifies the channel protocol for the listener. SASL_PLAINTEXT means unencrypted connection (no TLS), so there is risk of eavesdropping and interception at the TCP connection layer.
 <4> The three listener properties enable {oauth} for {ProductName}.
 
 . To further configure {oauth} support, use one of the following connection options.
@@ -72,19 +66,21 @@ export OAUTH_JWKS_ENDPOINT_URI=https://<__authorization-server-address__>/jwks <
 export OAUTH_JWKS_REFRESH_SECONDS=300 <2>
 export OAUTH_JWKS_EXPIRY_SECONDS=360 <3>
 ----
-<1> The JWKS endpoint URL.
+<1> The JWKS endpoint URL. For example, `https://<authorization-server-address>/auth/realms/master/protocol/openid-connect/certs`.
 <2> The period between endpoint refreshes (default 300).
 <3> The certificates expiry time (default 360). If you specify a longer time, consider the risk of allowing access to revoked certificates.
 +
-* OPTION 2: Add environment variables for direct connection using an introspection endpoint configuration, delegating token validation to the authorization server.
+* OPTION 2: Add environment variables to enable delegating token validation to the authorization server through the {oauth} introspection endpoint.
 +
 [source,env,subs="+attributes,quotes"]
 ----
 export OAUTH_INTROSPECTION_ENDPOINT_URI=https://<__authorization-server-address__>/introspection <1>
 ----
-<1> The {oauth} introspection endpoint URL.
+<1> The {oauth} introspection endpoint URL. For example, `https://<authorization-server-address>/auth/realms/master/protocol/openid-connect/token/introspect`.
 
 . If required, configure access to the authorization server.
++
+This step is normally required for a production environment, unless a technology like _service mesh_ is used to configure secure channels outside containers.
 
 .. Provide a custom truststore for connecting to the authorization server.
 SSL is always required for access to the authorization server.
@@ -103,7 +99,7 @@ export OAUTH_SSL_TRUSTSTORE_TYPE=pkcs12 <3>
 <2> Password to access the truststore.
 <3> Truststore type in PKCS12 format.
 
-.. If it is not required, turn off certificate hostname validation:
+.. If the certificate hostname does not match the access URL hostname, you can turn off certificate hostname validation:
 +
 [source,env,subs="+attributes"]
 ----
@@ -111,6 +107,7 @@ export OAUTH_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM= ""
 ----
 +
 The check ensures that client connection to the authorization server is authentic.
+You may wish to turn off the validation in a non-production environment.
 
 . Configure the following environment variables according to your chosen authentication flow.
 +

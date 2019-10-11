@@ -51,13 +51,15 @@ You can use an existing _master realm_.
 
 . Create a _client_ called `kafka-broker`.
 
-. From the menu:File[Clients>Settings] tab, set:
+. From the menu:Settings[] tab, set:
 +
 * *Access Type* to `Confidential`
 * *Standard Flow Enabled* to `OFF` to disable web login for this client
-* *Service Accounts Enabled* to `ON` to turn on client OpenID Connect (OIDC) authentication
+* *Service Accounts Enabled* to `ON` to allow this client to authenticate in its own name
 
-. From the menu:File[Clients>Credentials] tab, take a note of the secret for using in your {ProductName} Kafka cluster configuration.
+. Click *Save* before continuing.
+
+. From the menu:Credentials[] tab, take a note of the secret for using in your {ProductName} Kafka cluster configuration.
 
 . Repeat the _client_ creation steps for any application client that will connect to your Kafka brokers.
 +
