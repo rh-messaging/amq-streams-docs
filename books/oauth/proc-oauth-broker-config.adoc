@@ -95,9 +95,9 @@ For example:
 +
 [source,env,subs="+attributes,quotes"]
 ----
-export OAUTH_SSL_TRUSTSTORE_LOCATION: <__/path/to/truststore.p12__> <1>
-export OAUTH_SSL_TRUSTSTORE_PASSWORD: <__my-password__> <2>
-export OAUTH_SSL_TRUSTSTORE_TYPE: pkcs12 <3>
+export OAUTH_SSL_TRUSTSTORE_LOCATION=<__/path/to/truststore.p12__> <1>
+export OAUTH_SSL_TRUSTSTORE_PASSWORD=<__my-password__> <2>
+export OAUTH_SSL_TRUSTSTORE_TYPE=pkcs12 <3>
 ----
 <1> Location of the truststore file in PKCS format.
 <2> Password to access the truststore.
@@ -107,7 +107,7 @@ export OAUTH_SSL_TRUSTSTORE_TYPE: pkcs12 <3>
 +
 [source,env,subs="+attributes"]
 ----
-export OAUTH_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: ""
+export OAUTH_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM= ""
 ----
 +
 The check ensures that client connection to the authorization server is authentic.
