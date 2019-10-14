@@ -10,7 +10,7 @@ This procedure describes how to deploy Red Hat Single Sign-On as an authorizatio
 The authorization server provides a central point for authentication and authorization, and management of users, clients, and permissions.
 Red Hat Single Sign-On has a concept of realms where a _realm_ represents a separate set of users, clients, permissions, and other configuration.
 You can use a default _master realm_, or create a new one.
-Each _realm_ exposes its own {oauth} endpoints, which means that application clients and application servers all need to use the same _realm_.
+Each realm exposes its own {oauth} endpoints, which means that application clients and application servers all need to use the same realm.
 
 To use {oauth} with {ProductName}, you need a deployment of an authorization server to be able to create and manage authentication realms.
 
@@ -43,13 +43,13 @@ You can install from a ZIP file or by using an RPM.
 +
 Login details are provided when you deploy Red Hat Single Sign-On.
 
-. Create and enable a _realm_.
+. Create and enable a realm.
 +
-You can use an existing _master realm_.
+You can use an existing master realm.
 
-. Adjust the session and token timeouts for the _realm_, if required.
+. Adjust the session and token timeouts for the realm, if required.
 
-. Create a _client_ called `kafka-broker`.
+. Create a client called `kafka-broker`.
 
 . From the menu:Settings[] tab, set:
 +
@@ -61,9 +61,9 @@ You can use an existing _master realm_.
 
 . From the menu:Credentials[] tab, take a note of the secret for using in your {ProductName} Kafka cluster configuration.
 
-. Repeat the _client_ creation steps for any application client that will connect to your Kafka brokers.
+. Repeat the client creation steps for any application client that will connect to your Kafka brokers.
 +
-Create a definition for each new _client_.
+Create a definition for each new client.
 +
 You will use the names as client IDs in your configuration.
 

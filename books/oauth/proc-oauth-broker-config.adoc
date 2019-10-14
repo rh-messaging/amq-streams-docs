@@ -7,8 +7,6 @@
 
 This procedure describes how to configure Kafka brokers so that the broker listeners are enabled to use {oauth} authentication using an authorization server.
 
-Both options are described in this procedure.
-
 .Before you start
 
 For more information on the configuration and authentication of Kafka broker listeners, see:
@@ -68,7 +66,7 @@ export OAUTH_JWKS_EXPIRY_SECONDS=360 <3>
 ----
 <1> The JWKS endpoint URL. For example, `https://<authorization-server-address>/auth/realms/master/protocol/openid-connect/certs`.
 <2> The period between endpoint refreshes (default 300).
-<3> The certificates expiry time (default 360). If you specify a longer time, consider the risk of allowing access to revoked certificates.
+<3> The certificate's expiry time (default 360). If you specify a longer time, consider the risk of allowing access to revoked certificates.
 +
 * OPTION 2: Add environment variables to enable delegating token validation to the authorization server through the {oauth} introspection endpoint.
 +
