@@ -22,7 +22,8 @@
 :BaseProductVersion: 7.5
 :BaseProductMajorVersion: 7
 :ProductPlatformName: Red Hat Enterprise Linux
-
+:oauth: OAuth 2.0
+:ssoVersion: 7.3
 
 //Kafka upgrade attributes used in upgrades section
 :DefaultKafkaVersion: 2.3.0
@@ -31,6 +32,13 @@
 
 //Links
 :LatestBridgeAPIDocs: link:https://strimzi.io/docs/bridge/latest/[Kafka Bridge API reference^]
+
+//OAuth attributes and links
+:oauth2-site: link:https://oauth.net/2/[{oauth} site^]
+:oauth-artifact-version: 0.1.0.redhat-00002
+:sso-config: link:https://access.redhat.com/articles/2342861[Red Hat Single Sign-On Supported Configurations^]
+:sso-install-doc: link:https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/{ssoVersion}/html/server_installation_and_configuration_guide/index[Server Installation and Configuration Guide^]
+:sso-admin-doc: link:https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/{ssoVersion}/html/server_administration_guide/index[Server Administration Guide]
 
 //Release Notes links
 //To
