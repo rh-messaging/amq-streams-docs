@@ -64,12 +64,12 @@ authProvider.3=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
 ----
 
 . Restart all Zookeeper nodes one by one.
-To pass the JAAS configuration to Zookeeper, use the `EXTRA_ARGS` environment variable.
+To pass the JAAS configuration to Zookeeper, use the `KAFKA_OPTS` environment variable.
 +
 [source]
 ----
 su - kafka
-export EXTRA_ARGS="-Djava.security.auth.login.config=/opt/kafka/config/zookeeper-jaas.conf"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+export KAFKA_OPTS="-Djava.security.auth.login.config=/opt/kafka/config/zookeeper-jaas.conf"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
 ----
 
 .Additional resources

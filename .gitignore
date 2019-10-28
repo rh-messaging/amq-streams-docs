@@ -10,3 +10,6 @@ books/master.html
 Makefile.publish
 html/
 books/build/**
+
+# MacOS custom attributes internal file
+.DS_Store

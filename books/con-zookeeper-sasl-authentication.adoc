@@ -64,12 +64,12 @@ quorum.auth.server.loginContext=QuorumServer
 quorum.cnxn.threads.size=20
 ----
 
-Use the `EXTRA_ARGS` environment variable to pass the JAAS configuration file to the Zookeeper server as a Java property:
+Use the `KAFKA_OPTS` environment variable to pass the JAAS configuration file to the Zookeeper server as a Java property:
 
 [source]
 ----
 su - kafka
-export EXTRA_ARGS="-Djava.security.auth.login.config=/opt/kafka/config/zookeeper-jaas.conf"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+export KAFKA_OPTS="-Djava.security.auth.login.config=/opt/kafka/config/zookeeper-jaas.conf"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
 ----
 
 For more information about server-to-server authentication, see
@@ -107,12 +107,12 @@ authProvider.3=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
 
 You must add the `authProvider._<ID>_` property for every server that is part of the Zookeeper cluster.
 
-Use the `EXTRA_ARGS` environment variable to pass the JAAS configuration file to the Zookeeper server as a Java property:
+Use the `KAFKA_OPTS` environment variable to pass the JAAS configuration file to the Zookeeper server as a Java property:
 
 [source]
 ----
 su - kafka
-export EXTRA_ARGS="-Djava.security.auth.login.config=/opt/kafka/config/zookeeper-jaas.conf"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+export KAFKA_OPTS="-Djava.security.auth.login.config=/opt/kafka/config/zookeeper-jaas.conf"; /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
 ----
 
 For more information about configuring Zookeeper authentication in Kafka brokers, see xref:assembly-kafka-zookeeper-authentication-{context}[].
