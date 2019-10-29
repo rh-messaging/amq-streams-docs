@@ -49,6 +49,13 @@
 // Source and download links
 :ReleaseDownload: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams&productChanged=yes[Customer Portal^]
 
+// Tracing links
+:OpenTracingHome: link:https://opentracing.io/[OpenTracing^]
+:OpenTelemetryHome: link:https://opentelemetry.io/[OpenTelemetry^]
+:JaegerHome: link:https://www.jaegertracing.io/[Jaeger^]
+:JaegerArch: link:https://www.jaegertracing.io/docs/1.14/architecture/[Jaeger architecure^]
+:OpenTracingDocs: link:https://opentracing.io/docs/overview/[OpenTracing documentation^]
+
 //kafka Exporter links
 :kafka-exporter-project: link:https://github.com/danielqsj/kafka_exporter[Kafka Exporter^]
 :grafana-example: link:https://grafana.com/grafana/dashboards/7589[Example dashboard for Kafka Exporter^]
