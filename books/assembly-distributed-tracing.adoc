@@ -13,7 +13,7 @@ Before you start instrumenting Kafka clients and components, you must first init
 
 NOTE: Distributed tracing is not supported for Kafka brokers.
 
-include::distributed-tracing/con-overview-distributed-tracing.adoc[leveloffset=+1]
+include::tracing/con-overview-distributed-tracing.adoc[leveloffset=+1]
 
 .Outline of procedures
 
@@ -38,10 +38,8 @@ Before you set up distributed tracing for {ProductName}, it is helpful to unders
 
 .Prerequisites
 
-* The Jaeger backend components are deployed to your host. For deployment instructions, see the https://www.jaegertracing.io/docs/1.14/deployment/[Jaeger deployment documentation^].
+* The Jaeger backend components are deployed to the host operating system. For deployment instructions, see the https://www.jaegertracing.io/docs/1.14/deployment/[Jaeger deployment documentation^].
 
 include::assembly-setting-up-tracing-kafka-clients.adoc[leveloffset=+1]
 
 include::assembly-instrumenting-kafka-clients-components-tracers.adoc[leveloffset=+1]
-
-//include::assembly-setting-up-tracing-mirror-maker-connect.adoc[leveloffset=+1]

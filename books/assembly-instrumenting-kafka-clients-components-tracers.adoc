@@ -6,8 +6,8 @@
 
 This section describes how to instrument Kafka clients and components for distributed tracing.
 
-include::distributed-tracing/proc-instrumenting-producers-consumers-opentracing.adoc[leveloffset=+1]
+include::tracing/proc-instrumenting-producers-consumers-opentracing.adoc[leveloffset=+1]
 
-include::distributed-tracing/proc-instrumenting-kafka-streams-with-tracers.adoc[leveloffset=+1]
+include::tracing/proc-instrumenting-kafka-streams-with-tracers.adoc[leveloffset=+1]
 
-include::distributed-tracing/proc-instrumenting-mirror-maker-connect-for-tracing.adoc[leveloffset=+1]
+include::tracing/proc-instrumenting-mirror-maker-connect-for-tracing.adoc[leveloffset=+1]

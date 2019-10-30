@@ -9,11 +9,11 @@ Distributed tracing allows developers and system administrators to track the pro
 
 In {ProductName}, distributed tracing facilitates the end-to-end tracking of messages: from source systems to the Kafka cluster and then to target systems and applications.
 
-As an aspect of system observability, distributed tracing complements the metrics that are available to view in xref:con-metrics-kafka-exporter-grafana-{context}[Grafana] dashboards and the available loggers for each component. 
-
-.OpenTracing overview
+As an aspect of system observability, distributed tracing complements the metrics that are available to view in xref:con-metrics-kafka-exporter-grafana-{context}[Grafana] dashboards and the available loggers for each component.
 
 Distributed tracing in {ProductName} is implemented using the open source {OpenTracingHome} and {JaegerHome} projects.
+
+.OpenTracing overview
 
 The OpenTracing specification defines APIs that developers can use to instrument applications for distributed tracing. It is independent from the tracing system.
 
@@ -33,7 +33,7 @@ image:image_con-overview-distributed-tracing.png[Simple Jaeger query]
 
 == Distributed tracing support in {ProductName}
 
-In {ProductName}, distributed tracing is supported in the following Kafka clients and components:
+In {ProductName} on {ProductPlatformName}, distributed tracing is supported in the following Kafka clients and components:
 
 * Kafka Producers
 * Kafka Consumers
