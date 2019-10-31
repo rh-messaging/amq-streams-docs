@@ -8,7 +8,8 @@ function grep_check {
   local pattern=$1
   local description=$2
   local fatalness=${3:-1}
-  x=$(grep -i -E -r -n "$pattern" "$DIR" | \
+  local excludes="--exclude-dir=images --exclude-dir=releasenotes/images"
+  x=$(grep -i -E -r -n $excludes "$pattern" "$DIR" | \
       grep -vE '^books/ref-(topic|consumer|producer|broker|streams|connect|admin-client)-config.adoc:' )
   if [ -n "$x" ]; then
     echo "$description:"
