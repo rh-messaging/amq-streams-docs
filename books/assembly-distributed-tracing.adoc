@@ -9,7 +9,7 @@ This chapter outlines the support for distributed tracing in {ProductName} on {P
 
 To configure distributed tracing, you __instrument__ Kafka clients and components using an OpenTracing client library. This involves adding instrumentation code to your clients and components, which monitors the execution of individual transactions in order to generate trace data.
 
-Before you start instrumenting Kafka clients and components, you must first initialize and configure a Jaeger tracer in the Kafka cluster. This is described in xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[].
+Before you start instrumenting Kafka clients and components, you must first initialize and configure a Jaeger tracer in each Kafka client. This is described in xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[].
 
 NOTE: Distributed tracing is not supported for Kafka brokers.
 
