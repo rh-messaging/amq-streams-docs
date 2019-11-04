@@ -4,19 +4,20 @@
 
 [id='proc-running-multinode-zookeeper-cluster-{context}']
 
-= Running multi-node Zookeeper cluster
+= Running multi-node {Zookeeper} cluster
 
-This procedure will show you how to configure and run Zookeeper as a multi-node cluster.
+This procedure will show you how to configure and run {Zookeeper} as a multi-node cluster.
 
 .Prerequisites
 
-* AMQ Streams is installed on all hosts which will be used as Zookeeper cluster nodes.
+* AMQ Streams is installed on all hosts which will be used as {Zookeeper} cluster nodes.
 
 .Running the cluster
 
 . Create the `myid` file in `/var/lib/zookeeper/`.
-Enter ID `1` for the first Zookeeper node, `2` for the second Zookeeper node, and so on.
+Enter ID `1` for the first {Zookeeper} node, `2` for the second {Zookeeper} node, and so on.
 +
+[source,subs="+quotes,attributes"]
 ----
 su - kafka
 echo "_<NodeID>_" > /var/lib/zookeeper/myid
@@ -29,14 +30,14 @@ su - kafka
 echo "1" > /var/lib/zookeeper/myid
 ----
 
-. Edit the Zookeeper `/opt/kafka/config/zookeeper.properties` configuration file for the following:
+. Edit the {Zookeeper} `/opt/kafka/config/zookeeper.properties` configuration file for the following:
 +
 * Set the option `dataDir` to `/var/lib/zookeeper/`.
 + Configure the `initLimit` and `syncLimit` options.
-* Add a list of all Zookeeper nodes.
+* Add a list of all {Zookeeper} nodes.
 The list should include also the current node.
 +
-.Example configuration for a node of Zookeeper cluster with five members
+.Example configuration for a node of {Zookeeper} cluster with five members
 [source,ini]
 ----
 timeTick=2000
@@ -52,7 +53,7 @@ server.4=172.17.0.4:2888:3888
 server.5=172.17.0.5:2888:3888
 ----
 
-. Start Zookeeper with the default configuration file.
+. Start {Zookeeper} with the default configuration file.
 +
 [source,shell,subs=+quotes]
 ----
@@ -60,7 +61,7 @@ su - kafka
 /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
 ----
 
-. Verify that the Zookeeper is running.
+. Verify that the {Zookeeper} is running.
 +
 [source,shell,subs=+quotes]
 ----
@@ -80,9 +81,9 @@ echo stat | ncat localhost 2181
 In the output you should see information that the node is either `leader` or `follower`.
 +
 .Example output from the `ncat` command
-[source,subs=+quotes]
+[source,subs="+quotes,attributes"]
 ----
-Zookeeper version: 3.4.13-2d71af4dbe22557fda74f9a9b4309b15a7487f03, built on 06/29/2018 00:39 GMT
+{Zookeeper} version: 3.4.13-2d71af4dbe22557fda74f9a9b4309b15a7487f03, built on 06/29/2018 00:39 GMT
 Clients:
  /0:0:0:0:0:0:0:1:59726[0](queued=0,recved=1,sent=0)
 

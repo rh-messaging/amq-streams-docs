@@ -18,12 +18,12 @@ The `kafka-configs.sh` tool can be used to modify topic configurations.
 
 . Use the `kafka-configs.sh` tool to get the current configuration.
 +
-* Specify the Zookeeper URL in the `--zookeeper` option.
+* Specify the {Zookeeper} URL in the `--zookeeper` option.
 * Set the `--entity-type` as `topic` and `--entity-name` to the name of your topic.
 * Use `--describe` option to get the current configuration.
 +
-[source,shell,subs=+quotes]
-bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name _<TopicName>_ --describe
+[source,shell,subs="+quotes,attributes"]
+bin/kafka-configs.sh --zookeeper _<{Zookeeper}Address>_ --entity-type topics --entity-name _<TopicName>_ --describe
 +
 .Example of the command to get configuration of a topic named `mytopic`
 [source,shell,subs=+quotes]
@@ -31,13 +31,13 @@ bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --entity-type topics --
 
 . Use the `kafka-configs.sh` tool to change the configuration.
 +
-* Specify the Zookeeper URL in the `--zookeeper` options.
+* Specify the {Zookeeper} URL in the `--zookeeper` options.
 * Set the `--entity-type` as `topic` and `--entity-name` to the name of your topic.
 * Use `--alter` option to modify the current configuration.
 * Specify the options you want to add or change in the option `--add-config`.
 +
-[source,shell,subs=+quotes]
-bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name _<TopicName>_ --alter --add-config _<Option>_=_<Value>_
+[source,shell,subs="+quotes,attributes"]
+bin/kafka-configs.sh --zookeeper _<{Zookeeper}Address>_ --entity-type topics --entity-name _<TopicName>_ --alter --add-config _<Option>_=_<Value>_
 +
 .Example of the command to change configuration of a topic named `mytopic`
 [source,shell,subs=+quotes]
@@ -45,13 +45,13 @@ bin/kafka-configs.sh --zookeeper zoo1.my-domain.com:2181 --entity-type topics --
 
 . Use the `kafka-configs.sh` tool to delete an existing configuration option.
 +
-* Specify the Zookeeper URL in the `--zookeeper` options.
+* Specify the {Zookeeper} URL in the `--zookeeper` options.
 * Set the `--entity-type` as `topic` and `--entity-name` to the name of your topic.
 * Use `--delete-config` option to remove existing configuration option.
 * Specify the options you want to remove in the option `--remove-config`.
 +
-[source,shell,subs=+quotes]
-bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name _<TopicName>_ --alter --delete-config _<Option>_
+[source,shell,subs="+quotes,attributes"]
+bin/kafka-configs.sh --zookeeper _<{Zookeeper}Address>_ --entity-type topics --entity-name _<TopicName>_ --alter --delete-config _<Option>_
 +
 .Example of the command to change configuration of a topic named `mytopic`
 [source,shell,subs=+quotes]

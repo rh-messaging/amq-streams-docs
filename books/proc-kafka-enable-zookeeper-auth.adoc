@@ -4,13 +4,13 @@
 
 [id='proc-kafka-enable-zookeeper-auth-{context}']
 
-= Enabling Zookeeper authentication
+= Enabling {Zookeeper} authentication
 
-This procedure describes how to enable authentication using the SASL DIGEST-MD5 mechanism when connecting to Zookeeper.
+This procedure describes how to enable authentication using the SASL DIGEST-MD5 mechanism when connecting to {Zookeeper}.
 
 .Prerequisites
 
-* Client-to-server authentication is xref:assembly-kafka-zookeeper-authentication-{context}[enabled] in Zookeeper
+* Client-to-server authentication is xref:assembly-kafka-zookeeper-authentication-{context}[enabled] in {Zookeeper}
 
 .Enabling SASL DIGEST-MD5 authentication
 
@@ -25,7 +25,7 @@ Client {
 };
 ----
 +
-The username and password should be the same as configured in Zookeeper.
+The username and password should be the same as configured in {Zookeeper}.
 +
 Following example shows the `Client` context:
 +
@@ -49,4 +49,4 @@ export KAFKA_OPTS="-Djava.security.auth.login.config=/opt/kafka/config/jaas.conf
 
 .Additional resources
 
-* For more information about configuring client-to-server authentication in Zookeeper, see xref:assembly-configuring-zookeeper-authentication-{context}[].
+* For more information about configuring client-to-server authentication in {Zookeeper}, see xref:assembly-configuring-zookeeper-authentication-{context}[].

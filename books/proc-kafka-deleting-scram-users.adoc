@@ -17,8 +17,8 @@ This procedure describes how to remove users when using SASL SCRAM authenticatio
 
 * Use the `kafka-configs.sh` tool to delete SASL SCRAM users.
 +
-[source,subs=+quotes]
-bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --alter --delete-config 'SCRAM-SHA-512' --entity-type users --entity-name _<Username>_
+[source,shell,subs="+quotes,attributes"]
+bin/kafka-configs.sh --zookeeper _<{Zookeeper}Address>_ --alter --delete-config 'SCRAM-SHA-512' --entity-type users --entity-name _<Username>_
 +
 For example:
 +

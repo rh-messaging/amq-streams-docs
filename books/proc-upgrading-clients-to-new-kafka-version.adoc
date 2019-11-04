@@ -14,7 +14,7 @@ Client applications might include producers, consumers, Kafka Connect, and Mirro
 
 .Prerequisites
 
-* xref:proc-upgrading-zookeeper-binaries-{context}[You have updated the Zookeeper binaries.]
+* xref:proc-upgrading-zookeeper-binaries-{context}[You have updated the {Zookeeper} binaries.]
 * xref:proc-upgrading-kafka-brokers-to-amq-streams-{context}[You have upgraded all Kafka brokers to {ProductName} {ProductVersion}.]
 * xref:proc-updating-kafka-brokers-to-new-inter-broker-protocol-version-{context}[You have configured Kafka brokers to use the new inter-broker protocol version.]
 * You are logged in to {ProductPlatformName} as the `kafka` user.
@@ -27,7 +27,7 @@ For each topic:
 +
 [source,shell,subs="+quotes,attributes"]
 ----
-bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name _<TopicName>_ --alter --add-config message.format.version={LogMsgVersLower}
+bin/kafka-configs.sh --zookeeper _<{Zookeeper}Address>_ --entity-type topics --entity-name _<TopicName>_ --alter --add-config message.format.version={LogMsgVersLower}
 ----
 
 . Upgrade all the consuming and producing applications for the topic.
@@ -38,7 +38,7 @@ bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --ent
 +
 [source,shell,subs="+quotes,attributes"]
 ----
-bin/kafka-configs.sh --zookeeper _<ZookeeperAddress>_ --entity-type topics --entity-name _<TopicName>_ --alter --add-config message.format.version={LogMsgVersHigher}
+bin/kafka-configs.sh --zookeeper _<{Zookeeper}Address>_ --entity-type topics --entity-name _<TopicName>_ --alter --add-config message.format.version={LogMsgVersHigher}
 ----
 
 .Additional resources

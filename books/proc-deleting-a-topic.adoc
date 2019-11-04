@@ -18,12 +18,12 @@ The `kafka-topics.sh` tool can be used to manage topics.
 
 . Delete a topic using the `kafka-topics.sh` utility.
 +
-* Specify the Zookeeper URL in the `--zookeeper` option.
+* Specify the {Zookeeper} URL in the `--zookeeper` option.
 * Use `--delete` option to specify that an existing topic should be deleted.
 * Topic name has to be specified in the `--topic` option.
 +
-[source,shell,subs=+quotes]
-bin/kafka-topics.sh --zookeeper  _<ZookeeperAddress>_ --delete --topic _<TopicName>_
+[source,shell,subs="+quotes,attributes"]
+bin/kafka-topics.sh --zookeeper  _<{Zookeeper}Address>_ --delete --topic _<TopicName>_
 +
 .Example of the command to create a topic named `mytopic`
 [source,shell,subs=+quotes]
@@ -31,8 +31,8 @@ bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --delete --topic mytopic
 
 . Verify that the topic was deleted using `kafka-topics.sh`.
 +
-[source,shell,subs=+quotes]
-bin/kafka-topics.sh --zookeeper  _<ZookeeperAddress>_ --list
+[source,shell,subs="+quotes,attributes"]
+bin/kafka-topics.sh --zookeeper  _<{Zookeeper}Address>_ --list
 +
 .Example of the command to list all topics
 [source,shell,subs=+quotes]

@@ -15,7 +15,7 @@ If using JConsole to connect to a local JVM, the names of the JVM processes corr
 ¦AMQ Streams component
 ¦JVM process
 
-¦Zookeeper
+¦{Zookeeper}
 ¦`org.apache.zookeeper.server.quorum.QuorumPeerMain`
 
 ¦Kafka broker

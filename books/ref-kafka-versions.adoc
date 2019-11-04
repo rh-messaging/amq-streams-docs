@@ -20,7 +20,7 @@ The following table shows the differences between Kafka versions:
 
 include::snip-kafka-versions.adoc[]
 
-Although Kafka versions may use the same version of Zookeeper, it is recommended that you update your Zookeeper cluster to use the newest Zookeeper binaries before proceeding with the main {ProductName} upgrade.
+Although Kafka versions may use the same version of {Zookeeper}, it is recommended that you update your {Zookeeper} cluster to use the newest {Zookeeper} binaries before proceeding with the main {ProductName} upgrade.
 
 .Message format version
 

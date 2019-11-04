@@ -4,17 +4,17 @@
 
 [id='proc-kafka-migrating-zookeeper-acls-{context}']
 
-= Enabling Zookeeper ACLs in an existing Kafka cluster
+= Enabling {Zookeeper} ACLs in an existing Kafka cluster
 
-This procedure describes how to enable Zookeeper ACLs in Kafka configuration for a Kafka cluster that is running.
-Use the `zookeeper-security-migration.sh` tool to set Zookeeper ACLs on all existing `znodes`.
+This procedure describes how to enable {Zookeeper} ACLs in Kafka configuration for a Kafka cluster that is running.
+Use the `zookeeper-security-migration.sh` tool to set {Zookeeper} ACLs on all existing `znodes`.
 The `zookeeper-security-migration.sh` is available as part of AMQ Streams, and can be found in the `bin` directory.
 
 .Prerequisites
 
 * Kafka cluster is xref:proc-running-multinode-kafka-cluster-{context}[configured and running].
 
-.Enabling the Zookeeper ACLs
+.Enabling the {Zookeeper} ACLs
 
 . Edit the `/opt/kafka/config/server.properties` Kafka configuration file to set the `zookeeper.set.acl` field to `true` on all cluster nodes.
 +
@@ -25,13 +25,13 @@ zookeeper.set.acl=true
 
 . Restart all Kafka brokers one by one.
 
-. Set the ACLs on all existing Zookeeper `znodes` using the `zookeeper-security-migration.sh` tool.
+. Set the ACLs on all existing {Zookeeper} `znodes` using the `zookeeper-security-migration.sh` tool.
 +
-[source]
+[source,subs="+quotes,attributes"]
 ----
 su - kafka
 cd /opt/kafka
-KAFKA_OPTS="-Djava.security.auth.login.config=./config/jaas.conf"; ./bin/zookeeper-security-migration.sh --zookeeper.acl=secure --zookeeper.connect=_<ZookeeperURL>_
+KAFKA_OPTS="-Djava.security.auth.login.config=./config/jaas.conf"; ./bin/zookeeper-security-migration.sh --zookeeper.acl=secure --zookeeper.connect=_<{Zookeeper}URL>_
 exit
 ----
 +

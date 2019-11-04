@@ -22,6 +22,7 @@
 :BaseProductVersion: 7.5
 :BaseProductMajorVersion: 7
 :ProductPlatformName: Red Hat Enterprise Linux
+:Zookeeper: ZooKeeper
 :oauth: OAuth 2.0
 :ssoVersion: 7.3
 
@@ -69,6 +70,9 @@
 
 // File locations
 :UpstreamDir: upstream/documentation/book
+
+//Format attributes
+:underscore: _
 
 // Section enablers
 //:Kubernetes:

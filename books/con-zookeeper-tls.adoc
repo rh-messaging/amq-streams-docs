@@ -6,4 +6,4 @@
 
 = TLS
 
-The version of Zookeeper which is part of AMQ Streams currently does not support TLS for encryption or authentication.
+The version of {Zookeeper} which is part of AMQ Streams currently does not support TLS for encryption or authentication.
