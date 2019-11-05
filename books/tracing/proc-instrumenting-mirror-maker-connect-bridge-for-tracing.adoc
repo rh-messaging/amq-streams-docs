@@ -1,0 +1,14 @@
+// Module included in the following assemblies:
+//
+// assembly-instrumenting-kafka-clients-components-tracers.adoc
+
+[id='proc-instrumenting-mirror-maker-connect-bridge-for-tracing-{context}']
+= Instrumenting Mirror Maker, Kafka Connect, and the Kafka Bridge for tracing
+
+You can instrument the Mirror Maker, Kafka Connect, and Kafka Bridge components for distributed tracing using an Interceptor pattern.
+
+.Procedure
+
+. Initialize and configure a Jaeger tracer for use by Kafka Connect, Mirror Maker, and the Kafka Bridge. For instructions, see xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[].
+
+. Configure the integrated consumers and producers for Kafka Connect, Mirror Maker, and the Kafka Bridge. For instructions, see xref:proc-instrumenting-producers-consumers-for-opentracing-{context}[] (use the Interceptors example code).

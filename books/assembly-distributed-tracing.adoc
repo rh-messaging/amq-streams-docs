@@ -25,7 +25,7 @@ To set up distributed tracing for {ProductName}, follow these procedures:
 
 * xref:proc-instrumenting-kafka-streams-with-tracers-{context}[Instrument Kafka Streams applications for tracing]
 
-* xref:proc-instrumenting-mirror-maker-connect-for-tracing-{context}[Instrument Mirror Maker and Kafka Connect for tracing]
+* xref:proc-instrumenting-mirror-maker-connect-bridge-for-tracing-{context}[Instrument Mirror Maker, Kafka Connect, and the Kafka Bridge for tracing]
 
 This chapter covers setting up distributed tracing for {ProductName} clients and components only. Setting up distributed tracing for applications and systems beyond {ProductName} is outside the scope of this chapter. To learn more about this subject, see the {OpenTracingDocs} and search for "inject and extract".
 
