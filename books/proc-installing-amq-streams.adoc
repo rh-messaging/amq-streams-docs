@@ -56,7 +56,7 @@ rm -r /tmp/kafka
 sudo chown -R kafka:kafka /opt/kafka
 ----
 
-. Create directory `/var/lib/zookeeper` for storing {Zookeeper} data and set its ownership to the `kafka` user.
+. Create directory `/var/lib/zookeeper` for storing ZooKeeper data and set its ownership to the `kafka` user.
 +
 [source,shell,subs=+quotes]
 ----

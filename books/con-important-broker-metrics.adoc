@@ -102,14 +102,14 @@ m¦kafka.server:type=Request
 ¦The number of requests that are exempt from throttling.
 ¦N/A
 
-¦{Zookeeper} request latency in milliseconds
+¦ZooKeeper request latency in milliseconds
 m¦kafka.server:type=ZooKeeperClientMetrics,name=ZooKeeperRequestLatencyMs
-¦The latency for {Zookeeper} requests from the broker, in milliseconds.
+¦The latency for ZooKeeper requests from the broker, in milliseconds.
 ¦N/A
 
-¦{Zookeeper} session state
+¦ZooKeeper session state
 m¦kafka.server:type=SessionExpireListener,name=SessionState
-¦The status of the broker's connection to {Zookeeper}.
+¦The status of the broker's connection to ZooKeeper.
 ¦CONNECTED
 
 |===

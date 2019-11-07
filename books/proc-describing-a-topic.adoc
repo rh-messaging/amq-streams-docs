@@ -18,13 +18,13 @@ The `kafka-topics.sh` tool can be used to list and describe topics.
 
 . Describe a topic using the `kafka-topics.sh` utility.
 +
-* Specify the {Zookeeper} URL in the `--zookeeper` option.
+* Specify the ZooKeeper URL in the `--zookeeper` option.
 * Use `--describe` option to specify that you want to describe a topic.
 * Topic name has to be specified in the `--topic` option.
 * When the `--topic` option is omitted, it will describe all available topics.
 +
 [source,shell,subs="+quotes,attributes"]
-bin/kafka-topics.sh --zookeeper  _<{Zookeeper}Address>_ --describe --topic _<TopicName>_
+bin/kafka-topics.sh --zookeeper  _<ZooKeeperAddress>_ --describe --topic _<TopicName>_
 +
 .Example of the command to describe a topic named `mytopic`
 [source,shell,subs=+quotes]

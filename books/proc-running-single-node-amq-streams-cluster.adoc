@@ -6,8 +6,8 @@
 
 = Running single node AMQ Streams cluster
 
-This procedure will show you how to run a basic AMQ Streams cluster consisting of single {Zookeeper} and single Apache Kafka node both running on the same host.
-It is using the default configuration files for both {Zookeeper} and Kafka.
+This procedure will show you how to run a basic AMQ Streams cluster consisting of single ZooKeeper and single Apache Kafka node both running on the same host.
+It is using the default configuration files for both ZooKeeper and Kafka.
 
 WARNING: A single node AMQ Streams cluster does not provide reliability and high availability and is suitable only for development purposes.
 
@@ -17,7 +17,7 @@ WARNING: A single node AMQ Streams cluster does not provide reliability and high
 
 .Running the cluster
 
-. Edit the {Zookeeper} configuration file `/opt/kafka/config/zookeeper.properties`.
+. Edit the ZooKeeper configuration file `/opt/kafka/config/zookeeper.properties`.
 Set the `dataDir` option to `/var/lib/zookeeper/`.
 +
 [source,properties,subs=+quotes]
@@ -25,7 +25,7 @@ Set the `dataDir` option to `/var/lib/zookeeper/`.
 dataDir=/var/lib/zookeeper/
 ----
 
-. Start {Zookeeper}.
+. Start ZooKeeper.
 +
 [source,shell,subs=+quotes]
 ----
@@ -33,7 +33,7 @@ su - kafka
 /opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
 ----
 
-. Make sure that Apache {Zookeeper} is running.
+. Make sure that Apache ZooKeeper is running.
 +
 [source,shell,subs=+quotes]
 ----

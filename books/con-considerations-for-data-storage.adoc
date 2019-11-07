@@ -12,14 +12,14 @@ An efficient data storage infrastructure is essential to the optimal performance
 
 Choose local storage when possible. If local storage is not available, you can use a Storage Area Network (SAN) accessed by a protocol such as Fibre Channel or iSCSI.
 
-== Apache Kafka and {Zookeeper} storage support
-Use separate disks for Apache Kafka and {Zookeeper}.
+== Apache Kafka and ZooKeeper storage support
+Use separate disks for Apache Kafka and ZooKeeper.
 
 Kafka supports JBOD (Just a Bunch of Disks) storage, a data storage configuration of multiple disks or volumes. JBOD provides increased data storage for Kafka brokers. It can also improve performance.
 
-Solid-state drives (SSDs), though not essential, can improve the performance of Kafka in large clusters where data is sent to and received from multiple topics asynchronously. SSDs are particularly effective with {Zookeeper}, which requires fast, low latency data access.
+Solid-state drives (SSDs), though not essential, can improve the performance of Kafka in large clusters where data is sent to and received from multiple topics asynchronously. SSDs are particularly effective with ZooKeeper, which requires fast, low latency data access.
 
-NOTE: You do not need to provision replicated storage because Kafka and {Zookeeper} both have built-in data replication.
+NOTE: You do not need to provision replicated storage because Kafka and ZooKeeper both have built-in data replication.
 
 == File systems
 It is recommended that you configure your storage system to use the XFS file system. AMQ Streams is also compatible with the ext4 file system, but this might require additional configuration for best results.

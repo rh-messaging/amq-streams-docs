@@ -18,7 +18,7 @@ This procedure describes how to add new users for authentication using SASL SCRA
 * Use the `kafka-configs.sh` tool to add new SASL SCRAM users.
 +
 [source,shell,subs="+quotes,attributes"]
-bin/kafka-configs.sh --zookeeper _<{Zookeeper}Address>_ --alter --add-config 'SCRAM-SHA-512=[password=_<Password>_]' --entity-type users --entity-name _<Username>_
+bin/kafka-configs.sh --zookeeper _<ZooKeeperAddress>_ --alter --add-config 'SCRAM-SHA-512=[password=_<Password>_]' --entity-type users --entity-name _<Username>_
 +
 For example:
 +

@@ -10,7 +10,7 @@
 
 This procedure describes how to add ACL rules when using the `SimpleAclAuthorizer` plugin in Kafka brokers.
 
-Rules are added using the `kafka-acls.sh` utility and stored in {Zookeeper}.
+Rules are added using the `kafka-acls.sh` utility and stored in ZooKeeper.
 
 .Prerequisites
 

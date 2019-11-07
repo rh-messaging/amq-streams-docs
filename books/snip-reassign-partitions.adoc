@@ -4,7 +4,7 @@
 +
 [source,shell,subs="+quotes,attributes"]
 ----
-kafka-reassign-partitions.sh --zookeeper _<{Zookeeper}HostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --execute
+kafka-reassign-partitions.sh --zookeeper _<ZooKeeperHostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --execute
 ----
 +
 If you are going to throttle replication you can also pass the `--throttle` option with an inter-broker throttled rate in bytes per second. For example:
@@ -30,7 +30,7 @@ kafka-reassign-partitions.sh --zookeeper zookeeper1:2181 --reassignment-json-fil
 +
 [source,shell,subs="+quotes,attributes"]
 ----
-kafka-reassign-partitions.sh --zookeeper _<{Zookeeper}HostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --verify
+kafka-reassign-partitions.sh --zookeeper _<ZooKeeperHostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --verify
 ----
 +
 For example:

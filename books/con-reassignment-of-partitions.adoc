@@ -86,7 +86,7 @@ The easiest way to assign all the partitions for a given set of topics to a give
 
 [source,shell,subs="+quotes,attributes"]
 ----
-bin/kafka-reassign-partitions.sh --zookeeper _<{Zookeeper}>_ --topics-to-move-json-file _<TopicsFile>_ --broker-list _<BrokerList>_ --generate
+bin/kafka-reassign-partitions.sh --zookeeper _<ZooKeeper>_ --topics-to-move-json-file _<TopicsFile>_ --broker-list _<BrokerList>_ --generate
 ----
 
 The `_<TopicsFile>_` is a JSON file which lists the topics to move.

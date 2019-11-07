@@ -4,9 +4,9 @@
 
 [id='assembly-kafka-zookeeper-authorization-{context}']
 
-= {Zookeeper} authorization
+= ZooKeeper authorization
 
-When authentication is enabled between Kafka and {Zookeeper}, you can use {Zookeeper} Access Control List (ACL) rules to automatically control access to Kafka's metadata stored in {Zookeeper}.
+When authentication is enabled between Kafka and ZooKeeper, you can use ZooKeeper Access Control List (ACL) rules to automatically control access to Kafka's metadata stored in ZooKeeper.
 
 include::con-kafka-zookeeper-authorization-enabling-acls.adoc[leveloffset=+1]
 
