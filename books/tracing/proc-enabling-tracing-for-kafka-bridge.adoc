@@ -30,4 +30,4 @@ cd kafka-bridge-0.xy.x.redhat-0000x
 
 .Additional resources
 
-* xref:proc-configuring-kafka-bridge-{context}[]
+* xref:proc-configuring-kafka-bridge-kafka-bridge-overview[]

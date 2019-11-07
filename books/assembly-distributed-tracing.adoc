@@ -7,9 +7,9 @@
 
 This chapter outlines the support for distributed tracing in {ProductName} on {ProductPlatformName}, using Jaeger.
 
-To configure distributed tracing, you __instrument__ Kafka clients and components using an OpenTracing client library. This involves adding instrumentation code to your clients and components, which monitors the execution of individual transactions in order to generate trace data.
+To configure distributed tracing, you __instrument__ Kafka clients and components using an OpenTracing client library. This involves adding instrumentation code that monitors the execution of individual transactions in order to generate trace data.
 
-Before you start instrumenting Kafka clients and components, you must first initialize and configure a Jaeger tracer in each Kafka client. This is described in xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[].
+Before you start instrumenting Kafka clients and components, you must first initialize and configure a Jaeger tracer in each client and component. This is described in xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[].
 
 NOTE: Distributed tracing is not supported for Kafka brokers.
 
@@ -19,13 +19,15 @@ include::tracing/con-overview-distributed-tracing.adoc[leveloffset=+1]
 
 To set up distributed tracing for {ProductName}, follow these procedures:
 
-* xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[Initialize a Jaeger tracer for Kafka clients]
+* xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[Initialize a Jaeger tracer for Kafka clients and components]
 
 * xref:proc-instrumenting-producers-consumers-for-opentracing-{context}[Instrument Kafka Producers and Consumers for tracing]
 
 * xref:proc-instrumenting-kafka-streams-with-tracers-{context}[Instrument Kafka Streams applications for tracing]
 
 * xref:proc-instrumenting-mirror-maker-connect-bridge-for-tracing-{context}[Instrument Mirror Maker, Kafka Connect, and the Kafka Bridge for tracing]
+
+* xref:proc-enabling-tracing-for-kafka-bridge-{context}[Enable tracing for the Kafka Bridge] 
 
 This chapter covers setting up distributed tracing for {ProductName} clients and components only. Setting up distributed tracing for applications and systems beyond {ProductName} is outside the scope of this chapter. To learn more about this subject, see the {OpenTracingDocs} and search for "inject and extract".
 

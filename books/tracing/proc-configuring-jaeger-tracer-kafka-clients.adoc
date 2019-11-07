@@ -3,7 +3,7 @@
 // assembly-setting-up-tracing-kafka-clients.adoc
 
 [id='proc-configuring-jaeger-tracer-kafka-clients-{context}']
-= Initializing a Jaeger tracer for Kafka clients
+= Initializing a Jaeger tracer for Kafka clients and components
 
 Configure and initialize a Jaeger tracer using a set of xref:ref-tracing-environment-variables-{context}[tracing environment variables].
 
