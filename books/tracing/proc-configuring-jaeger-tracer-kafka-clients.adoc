@@ -9,9 +9,9 @@ Configure and initialize a Jaeger tracer using a set of xref:ref-tracing-environ
 
 .Procedure
 
-Perform the following steps for each client application.
+Perform the following steps for each client application and component.
 
-. Add Maven dependencies for Jaeger to the `pom.xml` file for the client application:
+. Add Maven dependencies for Jaeger to the `pom.xml` file for the client application or component:
 +
 [source,xml,subs="attributes+"]
 ----
@@ -40,4 +40,4 @@ NOTE: For alternative ways to initialize a Jaeger tracer, see the https://github
 GlobalTracer.register(tracer);
 ----
 
-A Jaeger tracer is now initialized for the client application to use.
+A Jaeger tracer is now initialized for the client application or component to use.

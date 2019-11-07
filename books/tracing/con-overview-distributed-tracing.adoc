@@ -40,7 +40,7 @@ In {ProductName} on {ProductPlatformName}, distributed tracing is supported in:
 * Kafka Streams API applications
 * Kafka Connect
 * Mirror Maker 
-* The {ProductName} Kafka Bridge
+* Kafka Bridge
 
 To enable distributed tracing in these clients and components, you instrument application code using the OpenTracing Apache Kafka Client Instrumentation library.
 When instrumented, these clients generate traces for messages (for example, when producing messages or writing offsets to the log).

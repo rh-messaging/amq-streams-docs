@@ -11,3 +11,5 @@ include::tracing/proc-instrumenting-producers-consumers-opentracing.adoc[levelof
 include::tracing/proc-instrumenting-kafka-streams-with-tracers.adoc[leveloffset=+1]
 
 include::tracing/proc-instrumenting-mirror-maker-connect-bridge-for-tracing.adoc[leveloffset=+1]
+
+include::tracing/proc-enabling-tracing-for-kafka-bridge.adoc[leveloffset=+1]
