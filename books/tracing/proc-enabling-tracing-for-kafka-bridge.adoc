@@ -5,26 +5,27 @@
 [id='proc-enabling-tracing-for-kafka-bridge-{context}']
 = Enabling tracing for the Kafka Bridge
 
-Once you have instrumented the Kafka Bridge for distributed tracing (using Interceptors), you need to enable tracing in the Kafka Bridge properties file. This enables the new Interceptor classes in the integrated consumers and producers in the Kafka Bridge.   
+Once you have instrumented the Kafka Bridge for distributed tracing (using Interceptors), you need to enable tracing in the Kafka Bridge properties file. This activates the Interceptor classes that you added to the integrated consumers and producers.   
 
-You can then deploy a Kafka Bridge instance with the new configuration to the host operating system.
+You can then deploy a Kafka Bridge instance that is configured for distributed tracing to the host operating system.
 
 .Procedure
 
 . Enable distributed tracing in the `application.properties` file provided with the {ProductName} Kafka Bridge installation archive.
 +
-Remove the comments from the `bridge.tracing` property:
+Remove the code comments from the following line:
 +
 [source,properties,subs="attributes+"]
 ----
 bridge.tracing=jaeger
 ----
 
-. To deploy an instance of the Kafka Bridge to the host, run the Kafka Bridge script using the configuration properties as a parameter:
+. Run the `kafka_bridge_run.sh` script using the configuration properties as a parameter:
 +
-[source,shell,subs="attributes+"]
+[source,shell,%hardbreaks,subs="attributes+"]
 ----
-./bin/kafka_bridge_run.sh --config-file=<path>/application.properties
+cd kafka-bridge-0.xy.x.redhat-0000x
+./bin/kafka_bridge_run.sh --config-file=config/application.properties
 ----
 
 .Additional resources
