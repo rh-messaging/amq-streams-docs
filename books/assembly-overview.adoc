@@ -10,20 +10,23 @@
 = Overview of AMQ Streams
 
 Red Hat AMQ Streams is a massively-scalable, distributed, and high-performance data streaming platform based on the Apache ZooKeeper and Apache Kafka projects.
-It consists of the following main components:
 
-ZooKeeper:: Service for highly reliable distributed coordination.
-Kafka Broker:: Messaging broker responsible for delivering records from producing clients to consuming clients.
-Kafka Connect:: A toolkit for streaming data between Kafka brokers and other systems using _Connector_ plugins.
-Kafka Consumer and Producer APIs:: Java based APIs for producing and consuming messages to and from Kafka brokers.
+The main components comprise:
+
 Kafka Streams API:: API for writing _stream processor_ applications.
+Kafka Bridge:: A RESTful interface to AMQ Streams.
+Kafka Connect:: A toolkit for streaming data between Kafka brokers and other systems using _Connector_ plugins.
+Kafka MirrorMaker:: Replicates data between two Kafka clusters, within or across data centers.
+Kafka ZooKeeper:: Service for highly reliable distributed coordination.
+Kafka Broker:: Messaging broker responsible for delivering records from producing clients to consuming clients.
+Producer and Consumer APIs:: Java-based APIs for producing and consuming messages to and from Kafka brokers.
 
-A cluster of Kafka brokers is the hub connecting all these components. 
-The broker uses Apache ZooKeeper for storing configuration data and for cluster coordination. 
+A cluster of Kafka brokers is the hub connecting all these components.
+The broker uses Apache ZooKeeper for storing configuration data and for cluster coordination.
 Before running Apache Kafka, an Apache ZooKeeper cluster has to be ready.
 
-.Example Architecture diagram of AMQ Streams
-image::AMQ_Streams_478987_0918_01.png[AMQ Streams architecture]
+.AMQ Streams architecture
+image::amq-streams-architecture.png[AMQ Streams architecture]
 
 include::ref-overview-key-features.adoc[leveloffset=+1]
 
