@@ -11,7 +11,7 @@ This procedure describes how to configure and run Kafka as a multi-node cluster.
 .Prerequisites
 
 * AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
-* A Zookeeper cluster is xref:proc-running-multinode-zookeeper-cluster-{context}[configured and running].
+* A ZooKeeper cluster is xref:proc-running-multinode-zookeeper-cluster-{context}[configured and running].
 
 .Running the cluster
 
@@ -20,7 +20,7 @@ For each Kafka broker in your {ProductName} cluster:
 . Edit the `/opt/kafka/config/server.properties` Kafka configuration file as follows:
 +
 * Set the `broker.id` field to `0` for the first broker, `1` for the second broker, and so on.
-* Configure the details for connecting to Zookeeper in the `zookeeper.connect` option.
+* Configure the details for connecting to ZooKeeper in the `zookeeper.connect` option.
 * Configure the Kafka listeners.
 * Set the directories where the commit logs should be stored in the `logs.dir` directory.
 +
@@ -54,8 +54,8 @@ jcmd | grep Kafka
 
 .Verifying the brokers
 
-Once all nodes of the clusters are up and running, verify that all nodes are members of the Kafka cluster by sending a `dump` command to one of the Zookeeper nodes using the `ncat` utility.
-The command prints all Kafka brokers registered in Zookeeper.
+Once all nodes of the clusters are up and running, verify that all nodes are members of the Kafka cluster by sending a `dump` command to one of the ZooKeeper nodes using the `ncat` utility.
+The command prints all Kafka brokers registered in ZooKeeper.
 
 . Use ncat stat to check the node status.
 +
@@ -68,7 +68,7 @@ The output should contain all Kafka brokers you just configured and started.
 +
 Example output from the `ncat` command for Kafka cluster with 3 nodes:
 +
-[source,plain,subs=+quotes]
+[source,plain,subs="+quotes,attributes"]
 ----
 SessionTracker dump:
 org.apache.zookeeper.server.quorum.LearnerSessionTracker@28848ab9
@@ -87,5 +87,5 @@ Sessions with Ephemerals (3):
 
 * For more information about installing AMQ Streams, see xref:proc-installing-amq-streams-{context}[].
 * For more information about configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].
-* For more information about running a Zookeeper cluster, see xref:proc-running-multinode-zookeeper-cluster-{context}[].
+* For more information about running a ZooKeeper cluster, see xref:proc-running-multinode-zookeeper-cluster-{context}[].
 * For a complete list of supported Kafka broker configuration options, see xref:broker-configuration-parameters-{context}[].

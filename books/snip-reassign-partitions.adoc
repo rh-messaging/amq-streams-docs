@@ -2,9 +2,9 @@
 
 . Execute the partition reassignment using the `kafka-reassign-partitions.sh` command line tool.
 +
-[source,shell,subs=+quotes]
+[source,shell,subs="+quotes,attributes"]
 ----
-kafka-reassign-partitions.sh --zookeeper _<ZookeeperHostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --execute
+kafka-reassign-partitions.sh --zookeeper _<ZooKeeperHostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --execute
 ----
 +
 If you are going to throttle replication you can also pass the `--throttle` option with an inter-broker throttled rate in bytes per second. For example:
@@ -14,9 +14,9 @@ If you are going to throttle replication you can also pass the `--throttle` opti
 kafka-reassign-partitions.sh --zookeeper zookeeper1:2181 --reassignment-json-file reassignment.json --throttle 5000000 --execute
 ----
 +
-This command will print out two reassignment JSON objects. 
-The first records the current assignment for the partitions being moved. 
-You should save this to a file in case you need to revert the reassignment later on. 
+This command will print out two reassignment JSON objects.
+The first records the current assignment for the partitions being moved.
+You should save this to a file in case you need to revert the reassignment later on.
 The second JSON object is the target reassignment you have passed in your reassignment JSON file.
 
 . If you need to change the throttle during reassignment you can use the same command line with a different throttled rate. For example:
@@ -28,9 +28,9 @@ kafka-reassign-partitions.sh --zookeeper zookeeper1:2181 --reassignment-json-fil
 
 . Periodically verify whether the reassignment has completed using the `kafka-reassign-partitions.sh` command line tool. This is the same command as the previous step but with the `--verify` option instead of the `--execute` option.
 +
-[source,shell,subs=+quotes]
+[source,shell,subs="+quotes,attributes"]
 ----
-kafka-reassign-partitions.sh --zookeeper _<ZookeeperHostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --verify
+kafka-reassign-partitions.sh --zookeeper _<ZooKeeperHostAndPort>_ --reassignment-json-file _<ReassignmentJsonFile>_ --verify
 ----
 +
 For example:
@@ -40,6 +40,6 @@ For example:
 kafka-reassign-partitions.sh --zookeeper zookeeper1:2181 --reassignment-json-file reassignment.json --verify
 ----
 
-. The reassignment has finished when the `--verify` command reports each of  the partitions being moved as completed successfully. 
+. The reassignment has finished when the `--verify` command reports each of  the partitions being moved as completed successfully.
 This final `--verify` will also have the effect of removing any reassignment throttles.
 You can now delete the revert file if you saved the JSON for reverting the assignment to their original brokers.

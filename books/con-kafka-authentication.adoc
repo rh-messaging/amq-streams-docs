@@ -45,7 +45,7 @@ When TLS client authentication is not used and SASL is disabled, the principal n
 == SASL authentication
 
 SASL authentication is configured using Java Authentication and Authorization Service (JAAS).
-JAAS is also used for authentication of connections between Kafka and Zookeeper.
+JAAS is also used for authentication of connections between Kafka and ZooKeeper.
 JAAS uses its own configuration file.
 The recommended location for this file is `/opt/kafka/config/jaas.conf`.
 The file has to be readable by the `kafka` user.
@@ -67,8 +67,8 @@ Usernames and passwords are stored locally in Kafka configuration.
 
 `SCRAM-SHA-256` and `SCRAM-SHA-512`::
 Implements authentication using Salted Challenge Response Authentication Mechanism (SCRAM).
-SCRAM credentials are stored centrally in Zookeeper.
-SCRAM can be used in situations where Zookeeper cluster nodes are running isolated in a private network.
+SCRAM credentials are stored centrally in ZooKeeper.
+SCRAM can be used in situations where ZooKeeper cluster nodes are running isolated in a private network.
 
 `GSSAPI`::
 Implements authentication against a Kerberos server.
@@ -149,7 +149,7 @@ For example:
 sasl.enabled.mechanisms=SCRAM-SHA-256,SCRAM-SHA-512
 sasl.mechanism.inter.broker.protocol=SCRAM-SHA-512
 
-User credentials for the SCRAM mechanism are stored in Zookeeper.
+User credentials for the SCRAM mechanism are stored in ZooKeeper.
 The `kafka-configs.sh` tool can be used to manage them.
 For example, run the following command to add user user1 with password 123456:
 

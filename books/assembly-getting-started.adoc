@@ -11,7 +11,7 @@
 AMQ Streams is distributed as single ZIP file.
 This ZIP file contains AMQ Streams components:
 
-* Apache Zookeeper
+* Apache ZooKeeper
 * Apache Kafka
 * Apache Kafka Connect
 * Apache Kafka Mirror Maker

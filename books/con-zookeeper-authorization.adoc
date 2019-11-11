@@ -6,7 +6,7 @@
 
 = Authorization
 
-Zookeeper supports access control lists (ACLs) to protect data stored inside it.
-Kafka brokers can automatically configure the ACL rights for all Zookeeper records they create so no other Zookeeper user can modify them.
+ZooKeeper supports access control lists (ACLs) to protect data stored inside it.
+Kafka brokers can automatically configure the ACL rights for all ZooKeeper records they create so no other ZooKeeper user can modify them.
 
-For more information about enabling Zookeeper ACLs in Kafka brokers, see xref:assembly-kafka-zookeeper-authorization-{context}[].
+For more information about enabling ZooKeeper ACLs in Kafka brokers, see xref:assembly-kafka-zookeeper-authorization-{context}[].

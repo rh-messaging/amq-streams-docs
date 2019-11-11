@@ -6,9 +6,9 @@
 
 = Logging
 
-Zookeeper is using _log4j_ as their logging infrastructure. 
+ZooKeeper is using _log4j_ as their logging infrastructure. 
 Logging configuration is by default read from the `log4j.properties` configuration file which should be placed either in the `/opt/kafka/config/` directory or in the classpath. 
-The location and name of the configuration file can be changed using the Java property `log4j.configuration` which can be passed to Zookeeper using the `KAFKA_LOG4J_OPTS` environment variable:
+The location and name of the configuration file can be changed using the Java property `log4j.configuration` which can be passed to ZooKeeper using the `KAFKA_LOG4J_OPTS` environment variable:
 
 [source]
 ----

@@ -70,5 +70,8 @@
 // File locations
 :UpstreamDir: upstream/documentation/book
 
+//Format attributes
+:underscore: _
+
 // Section enablers
 //:Kubernetes:

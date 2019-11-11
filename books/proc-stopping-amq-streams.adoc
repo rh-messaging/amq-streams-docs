@@ -6,13 +6,13 @@
 
 = Stopping the AMQ Streams services
 
-You can stop the Kafka and Zookeeper services by running a script. 
-All connections to the Kafka and Zookeeper services will be terminated.
+You can stop the Kafka and ZooKeeper services by running a script. 
+All connections to the Kafka and ZooKeeper services will be terminated.
 
 .Prerequisites
 
 * AMQ Streams is installed on the host
-* Zookeeper and Kafka are up and running
+* ZooKeeper and Kafka are up and running
 
 .Procedure
 
@@ -31,7 +31,7 @@ su - kafka
 jcmd | grep kafka
 ----
 
-. Stop Zookeeper.
+. Stop ZooKeeper.
 +
 [source,shell,subs=+quotes]
 ----

@@ -4,18 +4,18 @@
 
 [id='proc-kafka-enabling-zookeeper-acls-{context}']
 
-= Enabling Zookeeper ACLs for a new Kafka cluster
+= Enabling ZooKeeper ACLs for a new Kafka cluster
 
-This procedure describes how to enable Zookeeper ACLs in Kafka configuration for a new Kafka cluster.
+This procedure describes how to enable ZooKeeper ACLs in Kafka configuration for a new Kafka cluster.
 Use this procedure only before the first start of the Kafka cluster.
-For enabling Zookeeper ACLs in a cluster that is already running, see xref:proc-kafka-migrating-zookeeper-acls-{context}[].
+For enabling ZooKeeper ACLs in a cluster that is already running, see xref:proc-kafka-migrating-zookeeper-acls-{context}[].
 
 .Prerequisites
 
 * AMQ Streams is xref:proc-installing-amq-streams-{context}[installed] on all hosts which will be used as Kafka brokers.
-* Zookeeper cluster is xref:proc-running-multinode-zookeeper-cluster-{context}[configured and running].
-* Client-to-server authentication is xref:proc-zookeeper-enable-client-to-server-auth-digest-md5-{context}[enabled] in Zookeeper.
-* Zookeeper authentication is xref:proc-kafka-enable-zookeeper-auth-{context}[enabled] in the Kafka brokers.
+* ZooKeeper cluster is xref:proc-running-multinode-zookeeper-cluster-{context}[configured and running].
+* Client-to-server authentication is xref:proc-zookeeper-enable-client-to-server-auth-digest-md5-{context}[enabled] in ZooKeeper.
+* ZooKeeper authentication is xref:proc-kafka-enable-zookeeper-auth-{context}[enabled] in the Kafka brokers.
 * Kafka brokers have not yet been started.
 
 .Procedure

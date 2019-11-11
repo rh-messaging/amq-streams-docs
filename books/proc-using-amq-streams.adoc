@@ -9,7 +9,7 @@
 .Prerequisites
 
 * AMQ Streams is installed on the host
-* Zookeeper and Kafka are up and running
+* ZooKeeper and Kafka are up and running
 
 .Procedure
 

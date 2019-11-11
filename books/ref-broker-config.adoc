@@ -22,7 +22,7 @@ The server can also have a ZooKeeper chroot path as part of its ZooKeeper connec
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead. 
+DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead.
 Hostname to publish to ZooKeeper for clients to use. In IaaS environments, this may need to be different from the interface to which the broker binds. If this is not set, it will use the value for `host.name` if configured. Otherwise it will use the value returned from java.net.InetAddress.getCanonicalHostName().
 
 `advertised.listeners`::
@@ -39,7 +39,7 @@ Listeners to publish to ZooKeeper for clients to use, if different than the `lis
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead. 
+DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead.
 The port to publish to ZooKeeper for clients to use. In IaaS environments, this may need to be different from the port to which the broker binds. If this is not set, it will publish the same port that the broker binds to.
 
 `auto.create.topics.enable`::
@@ -73,7 +73,7 @@ The number of threads to use for various background processing tasks.
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-The broker id for this server. If unset, a unique broker id will be generated.To avoid conflicts between zookeeper generated broker id's and user configured broker id's, generated broker ids start from reserved.broker.max.id + 1.
+The broker id for this server. If unset, a unique broker id will be generated.To avoid conflicts between ZooKeeper generated broker id's and user configured broker id's, generated broker ids start from reserved.broker.max.id + 1.
 
 `compression.type`::
 *Type:* string +
@@ -94,8 +94,8 @@ listeners = INTERNAL://192.1.1.8:9092, EXTERNAL://10.1.1.5:9093, CONTROLLER://19
 listener.security.protocol.map = INTERNAL:PLAINTEXT, EXTERNAL:SSL, CONTROLLER:SSL
 control.plane.listener.name = CONTROLLER
 On startup, the broker will start listening on "192.1.1.8:9094" with security protocol "SSL".
-On controller side, when it discovers a broker's published endpoints through zookeeper, it will use the control.plane.listener.name to find the endpoint, which it will use to establish connection to the broker.
-For example, if the broker's published endpoints on zookeeper are :
+On controller side, when it discovers a broker's published endpoints through ZooKeeper, it will use the control.plane.listener.name to find the endpoint, which it will use to establish connection to the broker.
+For example, if the broker's published endpoints on ZooKeeper are :
 "endpoints" : ["INTERNAL://broker1.example.com:9092","EXTERNAL://broker1.example.com:9093","CONTROLLER://broker1.example.com:9094"]
  and the controller's config is :
 listener.security.protocol.map = INTERNAL:PLAINTEXT, EXTERNAL:SSL, CONTROLLER:SSL
@@ -117,7 +117,7 @@ Enables delete topic. Delete topic through the admin tool will have no effect if
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `listeners` is not set. Use `listeners` instead. 
+DEPRECATED: only used when `listeners` is not set. Use `listeners` instead.
 hostname of broker. If this is set, it will only bind to this address. If this is not set, it will bind to all interfaces.
 
 `leader.imbalance.check.interval.seconds`::
@@ -454,7 +454,7 @@ The offsets topic segment bytes should be kept relatively small in order to faci
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `listeners` is not set. Use `listeners` instead. 
+DEPRECATED: only used when `listeners` is not set. Use `listeners` instead.
 the port to listen and accept connections on.
 
 `queued.max.requests`::
@@ -473,7 +473,7 @@ The number of queued requests allowed for data-plane, before blocking the networ
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: Used only when dynamic default quotas are not configured for <user, <client-id> or <user, client-id> in Zookeeper. Any consumer distinguished by clientId/consumer group will get throttled if it fetches more bytes than this value per-second.
+DEPRECATED: Used only when dynamic default quotas are not configured for <user, <client-id> or <user, client-id> in ZooKeeper. Any consumer distinguished by clientId/consumer group will get throttled if it fetches more bytes than this value per-second.
 
 `quota.producer.default`::
 *Type:* long +
@@ -482,7 +482,7 @@ DEPRECATED: Used only when dynamic default quotas are not configured for <user, 
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: Used only when dynamic default quotas are not configured for <user>, <client-id> or <user, client-id> in Zookeeper. Any producer distinguished by clientId will get throttled if it produces more bytes than this value per-second.
+DEPRECATED: Used only when dynamic default quotas are not configured for <user>, <client-id> or <user, client-id> in ZooKeeper. Any producer distinguished by clientId will get throttled if it produces more bytes than this value per-second.
 
 `replica.fetch.min.bytes`::
 *Type:* int +
@@ -642,7 +642,7 @@ Indicates whether to enable replicas not in the ISR set to be elected as leader 
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-The max time that the client waits to establish a connection to zookeeper. If not set, the value in zookeeper.session.timeout.ms is used.
+The max time that the client waits to establish a connection to ZooKeeper. If not set, the value in zookeeper.session.timeout.ms is used.
 
 `zookeeper.max.in.flight.requests`::
 *Type:* int +
@@ -651,7 +651,7 @@ The max time that the client waits to establish a connection to zookeeper. If no
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-The maximum number of unacknowledged requests the client will send to Zookeeper before blocking.
+The maximum number of unacknowledged requests the client will send to ZooKeeper before blocking.
 
 `zookeeper.session.timeout.ms`::
 *Type:* int +
@@ -659,7 +659,7 @@ The maximum number of unacknowledged requests the client will send to Zookeeper 
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-Zookeeper session timeout.
+ZooKeeper session timeout.
 
 `zookeeper.set.acl`::
 *Type:* boolean +
@@ -1275,10 +1275,10 @@ A list of cipher suites. This is a named combination of authentication, encrypti
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-Configures kafka broker to request client authentication. The following settings are common:  
- 
-* `ssl.client.auth=required` If set to required client authentication is required. 
-* `ssl.client.auth=requested` This means client authentication is optional. unlike requested , if this option is set client can choose not to provide authentication information about itself 
+Configures kafka broker to request client authentication. The following settings are common:
+
+* `ssl.client.auth=required` If set to required client authentication is required.
+* `ssl.client.auth=requested` This means client authentication is optional. unlike requested , if this option is set client can choose not to provide authentication information about itself
 * `ssl.client.auth=none` This means client authentication is not needed.
 
 `ssl.enabled.protocols`::

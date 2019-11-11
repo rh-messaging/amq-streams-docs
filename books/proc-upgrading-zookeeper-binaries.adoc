@@ -4,9 +4,9 @@
 
 [id='proc-upgrading-zookeeper-binaries-{context}']
 
-= Upgrading Zookeeper
+= Upgrading ZooKeeper
 
-This procedure describes how to upgrade Zookeeper on a host machine.
+This procedure describes how to upgrade ZooKeeper on a host machine.
 
 .Prerequisites
 
@@ -51,7 +51,7 @@ cp -r /tmp/kafka/kafka_y.y-x.x.x/docs /opt/kafka/
 rm -rf /tmp/kafka
 ----
 
-. Restart Zookeeper:
+. Restart ZooKeeper:
 +
 [source,shell,subs=+quotes]
 ----
