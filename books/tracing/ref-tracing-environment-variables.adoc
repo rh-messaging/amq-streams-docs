@@ -1,6 +1,6 @@
 // Module included in the following assemblies:
 //
-// assembly-setting-up-tracing-kafka-clients.adoc
+// assembly-distributed-tracing.adoc
 
 [id='ref-tracing-environment-variables-{context}']
 = Tracing environment variables

@@ -1,6 +1,6 @@
 // Module included in the following assemblies:
 //
-// assembly-instrumenting-kafka-clients-components-tracers.adoc
+// assembly-distributed-tracing.adoc
 
 [id='proc-enabling-tracing-for-kafka-bridge-{context}']
 = Enabling tracing for the Kafka Bridge
