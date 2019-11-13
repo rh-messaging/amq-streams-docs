@@ -83,7 +83,3 @@ m¦JAEGER_TAGS
 The value can also refer to an environment variable using the format `${envVarName:default}`. `:default` is optional and identifies a value to use if the environment variable cannot be found.
  
 |===
-
-.Additional resources
-
-* xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[]

@@ -9,7 +9,7 @@ Configure and enable a Jaeger tracer using the xref:ref-tracing-environment-vari
 
 .Procedure
 
-Perform the following steps for each Kafka client (Kafka Producer, Kafka Consumer, and Kafka Streams application).
+Perform the following steps for each Kafka client (Kafka Producer, Kafka Consumer, and Kafka Streams application):
 
 . Add Maven dependencies for Jaeger to the `pom.xml` file for the client:
 +

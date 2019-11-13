@@ -3,12 +3,40 @@
 // assembly-instrumenting-kafka-clients-components-tracers.adoc
 
 [id='proc-instrumenting-mirror-maker-connect-bridge-for-tracing-{context}']
-= Instrumenting Mirror Maker, Kafka Connect, and the Kafka Bridge for tracing
+= Enabling tracing for Kafka Connect
 
-You can instrument the Mirror Maker, Kafka Connect, and Kafka Bridge components for distributed tracing using an Interceptor pattern.
+Enable distributed tracing for Kafka Connect using configuration properties.
+
+Only messages produced and consumed by Kafka Connect itself are traced. To trace messages sent between Kafka Connect and external systems, you must configure tracing in the connectors for those systems. For more information, see xref:assembly-kafka-connect-{context}[].
 
 .Procedure
 
-. Initialize and configure a Jaeger tracer for use by Kafka Connect, Mirror Maker, and the Kafka Bridge. For instructions, see xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[].
+. Initialize and configure a Jaeger tracer.
 
-. Configure the integrated consumers and producers for Kafka Connect, Mirror Maker, and the Kafka Bridge. For instructions, see xref:proc-instrumenting-producers-consumers-for-opentracing-{context}[] (use the Interceptors example code).
+. Edit the relevant Kafka Connect configuration file.
++
+* If you are running Kafka Connect in standalone mode, edit the `/opt/kafka/config/connect-standalone.properties` file.
+
+* If you are running Kafka Connect in distributed mode, edit the `/opt/kafka/config/connect-distributed.properties` file.
+
+. Add the following properties to the configuration file:
++
+[source,properties]
+----
+producer.interceptor.classes=io.opentracing.contrib.kafka.TracingProducerInterceptor
+consumer.interceptor.classes=io.opentracing.contrib.kafka.TracingConsumerInterceptor
+----
++
+This enables the Interceptors in Kafka Connect's internal consumers and producers.
+
+. Save the configuration file.
+
+. Set tracing environment variables and then run Kafka Connect in standalone or distributed mode.
+
+.Additional resources
+
+* xref:ref-tracing-environment-variables-{context}[]
+
+* xref:proc-running-kafka-connect-standalone-{context}[]
+
+* xref:proc-running-kafka-connect-distributed-{context}[]

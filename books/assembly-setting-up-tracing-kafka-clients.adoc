@@ -9,3 +9,5 @@ This section describes how to configure Kafka clients (Kafka Producers, Kafka Co
 include::tracing/proc-configuring-jaeger-tracer-kafka-clients.adoc[leveloffset=+1]
 
 include::tracing/proc-instrumenting-producers-consumers-opentracing.adoc[leveloffset=+1]
+
+include::tracing/proc-instrumenting-kafka-streams-with-tracers.adoc[leveloffset=+1]

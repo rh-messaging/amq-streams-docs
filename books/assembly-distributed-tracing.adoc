@@ -13,16 +13,16 @@
 
 * Kafka Bridge
 
-The steps to configure distributed tracing vary by client and component; however, three high-level tasks are involved:
+The steps to configure distributed tracing vary by client and component. However, three high-level tasks are involved:
 
-. Enable a Jaeger tracer.
+. Enable a Jaeger tracer for the client or component.
 
 . Enable the Interceptors for the client or component.
 +
-* For Kafka clients, this step involves instrumenting the application code for OpenTracing.
-* For MirrorMaker, Kafka Connect, and the Kafka Bridge, this step involves modifying the relevant properties files.
+* For Kafka clients, enabling the Interceptors involves __instrumenting__ your application code for OpenTracing.
+* For MirrorMaker, Kafka Connect, and the Kafka Bridge, enabling the Interceptors involves setting configuration properties for each component.
 
-. Set tracing environment variables before deployment.
+. Set tracing environment variables before deploying the client or component.
 
 //How you configure distributed tracing varies depending on the client or component involved.
 
@@ -32,7 +32,7 @@ The steps to configure distributed tracing vary by client and component; however
 
 //Before you start instrumenting Kafka clients and components, you must first initialize and configure a Jaeger tracer in each client and component. This is described in xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[].
 
-This chapter provides an overview of distributed tracing, as well as instructions for configuring supported clients and components for tracing. Setting up distributed tracing for applications and systems beyond {ProductName} is outside the scope of this chapter. To learn more about this subject, see the {OpenTracingDocs} and search for "inject and extract".
+This chapter provides an overview of distributed tracing, as well as instructions for configuring supported clients and components. Setting up distributed tracing for applications and systems beyond {ProductName} is outside the scope of this chapter. To learn more about this subject, see the {OpenTracingDocs} and search for "inject and extract".
 
 NOTE: Distributed tracing is not supported for Kafka brokers.
 
@@ -68,5 +68,7 @@ include::tracing/con-overview-distributed-tracing.adoc[leveloffset=+1]
 include::assembly-setting-up-tracing-kafka-clients.adoc[leveloffset=+1]
 
 include::assembly-instrumenting-kafka-clients-components-tracers.adoc[leveloffset=+1]
+
+include::tracing/proc-enabling-tracing-for-kafka-bridge.adoc[leveloffset=+1]
 
 include::tracing/ref-tracing-environment-variables.adoc[leveloffset=+1]
