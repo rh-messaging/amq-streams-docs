@@ -1,0 +1,40 @@
+// Module included in the following assemblies:
+//
+// ????.adoc
+
+[id='proc-enabling-tracing-for-mirrormaker-{context}']
+= Enabling tracing for MirrorMaker
+
+Enable distributed tracing for MirrorMaker by passing the Interceptor properties as consumer and producer configuration parameters.
+
+Messages are traced from the source cluster to the target cluster; the trace data records messages entering and leaving the Mirror Maker component.
+
+.Procedure
+
+. Initialize and configure a Jaeger tracer.
+
+. Edit the `/opt/kafka/config/consumer.properties` file.
++
+Add the following Interceptor property:
++
+[source,properties]
+----
+consumer.interceptor.classes=io.opentracing.contrib.kafka.TracingConsumerInterceptor
+----
+
+. Edit the `/opt/kafka/config/producer.properties` file.
++
+Add the following Interceptor property:
++
+[source,properties]
+----
+producer.interceptor.classes=io.opentracing.contrib.kafka.TracingProducerInterceptor
+----
+
+. Start MirrorMaker with the consumer and producer configuration files as parameters:
++
+[source,shell,subs=attributes+]
+----
+su - kafka
+/opt/kafka/bin/kafka-mirror-maker.sh --consumer.config /opt/kafka/config/consumer.properties --producer.config /opt/kafka/config/producer.properties --num.streams=2
+----
