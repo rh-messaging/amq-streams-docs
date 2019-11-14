@@ -11,7 +11,7 @@ Messages are traced from the source cluster to the target cluster; the trace dat
 
 .Procedure
 
-. Initialize and configure a Jaeger tracer.
+. Configure and enable a Jaeger tracer.
 
 . Edit the `/opt/kafka/config/consumer.properties` file.
 +

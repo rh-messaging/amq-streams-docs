@@ -2,16 +2,16 @@
 //
 // assembly-instrumenting-kafka-clients-components-tracers.adoc
 
-[id='proc-instrumenting-mirror-maker-connect-bridge-for-tracing-{context}']
+[id='proc-enabling-tracing-for-kafka-connect-{context}']
 = Enabling tracing for Kafka Connect
 
 Enable distributed tracing for Kafka Connect using configuration properties.
 
-Only messages produced and consumed by Kafka Connect itself are traced. To trace messages sent between Kafka Connect and external systems, you must configure tracing in the connectors for those systems. For more information, see xref:assembly-kafka-connect-{context}[].
+Only messages produced and consumed by Kafka Connect itself are traced. To trace messages sent between Kafka Connect and external systems, you must configure tracing in the connectors for those systems.
 
 .Procedure
 
-. Initialize and configure a Jaeger tracer.
+. Configure and enable a Jaeger tracer.
 
 . Edit the relevant Kafka Connect configuration file.
 +

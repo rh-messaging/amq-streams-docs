@@ -10,4 +10,4 @@ You must enable a Jaeger tracer for each component.
 
 include::tracing/proc-enabling-tracing-for-mirrormaker.adoc[leveloffset=+1]
 
-include::tracing/proc-instrumenting-mirror-maker-connect-bridge-for-tracing.adoc[leveloffset=+1]
+include::tracing/proc-enabling-tracing-for-kafka-connect.adoc[leveloffset=+1]

@@ -5,7 +5,7 @@
 [id='assembly-distributed-tracing-{context}']
 = Distributed tracing
 
-{ProductName} on {ProductPlatformName} supports distributed tracing for:
+{ProductName} on {ProductPlatformName} supports distributed tracing with Jaeger for:
 
 * Kafka Producers, Kafka Consumers, and Kafka Streams applications (referred to as _Kafka clients_)
 
