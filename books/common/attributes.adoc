@@ -16,10 +16,10 @@
 :ProductLongName: Red Hat AMQ Streams
 :ProductName: AMQ Streams
 :ContextProduct: streams
-:ProductVersion: 1.3
+:ProductVersion: 1.4
 :BaseProductLongName: Red Hat AMQ
 :BaseProductName: AMQ
-:BaseProductVersion: 7.5
+:BaseProductVersion: 7.6
 :BaseProductMajorVersion: 7
 :ProductPlatformName: Red Hat Enterprise Linux
 :oauth: OAuth 2.0
