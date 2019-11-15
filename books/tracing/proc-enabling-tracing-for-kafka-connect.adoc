@@ -26,12 +26,12 @@ Only messages produced and consumed by Kafka Connect itself are traced. To trace
 producer.interceptor.classes=io.opentracing.contrib.kafka.TracingProducerInterceptor
 consumer.interceptor.classes=io.opentracing.contrib.kafka.TracingConsumerInterceptor
 ----
-+
-This enables the Interceptors in Kafka Connect's internal consumers and producers.
 
 . Save the configuration file.
 
 . Set tracing environment variables and then run Kafka Connect in standalone or distributed mode.
+
+The Interceptors in Kafka Connect's internal consumers and producers are now enabled.
 
 .Additional resources
 

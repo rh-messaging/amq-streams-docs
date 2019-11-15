@@ -36,6 +36,8 @@ cd kafka-bridge-0.xy.x.redhat-0000x
 ./bin/kafka_bridge_run.sh --config-file=config/application.properties
 ----
 
+The Interceptors in the Kafka Bridge's internal consumers and producers are now enabled.
+
 .Additional resources
 
 * xref:proc-configuring-kafka-bridge-kafka-bridge-overview[]
