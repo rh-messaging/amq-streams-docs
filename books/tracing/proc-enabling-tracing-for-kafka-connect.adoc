@@ -1,0 +1,42 @@
+// Module included in the following assemblies:
+//
+// assembly-instrumenting-kafka-clients-components-tracers.adoc
+
+[id='proc-enabling-tracing-for-kafka-connect-{context}']
+= Enabling tracing for Kafka Connect
+
+Enable distributed tracing for Kafka Connect using configuration properties.
+
+Only messages produced and consumed by Kafka Connect itself are traced. To trace messages sent between Kafka Connect and external systems, you must configure tracing in the connectors for those systems.
+
+.Procedure
+
+. Configure and enable a Jaeger tracer.
+
+. Edit the relevant Kafka Connect configuration file.
++
+* If you are running Kafka Connect in standalone mode, edit the `/opt/kafka/config/connect-standalone.properties` file.
+
+* If you are running Kafka Connect in distributed mode, edit the `/opt/kafka/config/connect-distributed.properties` file.
+
+. Add the following properties to the configuration file:
++
+[source,properties]
+----
+producer.interceptor.classes=io.opentracing.contrib.kafka.TracingProducerInterceptor
+consumer.interceptor.classes=io.opentracing.contrib.kafka.TracingConsumerInterceptor
+----
+
+. Save the configuration file.
+
+. Set tracing environment variables and then run Kafka Connect in standalone or distributed mode.
+
+The Interceptors in Kafka Connect's internal consumers and producers are now enabled.
+
+.Additional resources
+
+* xref:ref-tracing-environment-variables-{context}[]
+
+* xref:proc-running-kafka-connect-standalone-{context}[]
+
+* xref:proc-running-kafka-connect-distributed-{context}[]

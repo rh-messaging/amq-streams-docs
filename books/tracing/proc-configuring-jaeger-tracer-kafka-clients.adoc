@@ -3,15 +3,15 @@
 // assembly-setting-up-tracing-kafka-clients.adoc
 
 [id='proc-configuring-jaeger-tracer-kafka-clients-{context}']
-= Initializing a Jaeger tracer for Kafka clients
+= Enabling a Jaeger tracer for Kafka clients
 
-Configure and initialize a Jaeger tracer using a set of xref:ref-tracing-environment-variables-{context}[tracing environment variables].
+Configure and enable a Jaeger tracer using the xref:ref-tracing-environment-variables-{context}[tracing environment variables].
 
 .Procedure
 
-Perform the following steps for each client application.
+Perform the following steps for each Kafka client (Kafka Producer, Kafka Consumer, and Kafka Streams application):
 
-. Add Maven dependencies for Jaeger to the `pom.xml` file for the client application:
+. Add Maven dependencies for Jaeger to the `pom.xml` file for the client:
 +
 [source,xml,subs="attributes+"]
 ----
@@ -40,4 +40,4 @@ NOTE: For alternative ways to initialize a Jaeger tracer, see the https://github
 GlobalTracer.register(tracer);
 ----
 
-A Jaeger tracer is now initialized for the client application to use.
+A Jaeger tracer is now enabled for the Kafka client to use.

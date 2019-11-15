@@ -1,0 +1,13 @@
+// This assembly is included in the following assemblies:
+//
+// assembly-distributed-tracing.adoc
+[id='assembly-configuring-mirrormaker-kafka-connect-tracing-{context}']
+= Configuring MirrorMaker and Kafka Connect for tracing
+
+This section describes how to configure MirrorMaker and Kafka Connect for distributed tracing.
+
+You must enable a Jaeger tracer for each component.
+
+include::tracing/proc-enabling-tracing-for-mirrormaker.adoc[leveloffset=+1]
+
+include::tracing/proc-enabling-tracing-for-kafka-connect.adoc[leveloffset=+1]

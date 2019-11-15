@@ -30,6 +30,10 @@
 :LogMsgVersLower: 2.2
 :LogMsgVersHigher: 2.3
 
+//Tracing versions
+:JaegerClientVersion: 1.0.0
+:OpenTracingKafkaClient: 0.1.4
+
 //Links
 :LatestBridgeAPIDocs: link:https://strimzi.io/docs/bridge/latest/[Kafka Bridge API reference^]
 

@@ -22,7 +22,7 @@ You configure the Kafka Bridge, as any other Kafka client, using appropriate pre
 
 . Edit the `application.properties` file provided with the {ProductName} Kafka Bridge installation archive.
 +
-Use the properties file to specify Kafka and HTTP-related properties.
+Use the properties file to specify Kafka and HTTP-related properties, and to enable and disable distributed tracing. 
 
 .. Configure standard Kafka-related properties, including properties specific to the Kafka consumers and producers.
 +
@@ -36,7 +36,17 @@ For more information on configuration of Kafka properties, see the http://kafka.
 
 .. Configure HTTP-related properties to enable HTTP access to the Kafka cluster.
 +
-[source,shell]
+[source,properties]
 http.enabled=true
 http.host=0.0.0.0
 http.port=8080
+
+.. Enable and disable distributed tracing.
++
+[source,properties]
+bridge.tracing=jaeger
+
+.Additional resources
+
+* xref:assembly-distributed-tracing-str[] 
+* xref:proc-enabling-tracing-for-kafka-bridge-str[]

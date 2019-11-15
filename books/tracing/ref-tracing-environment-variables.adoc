@@ -1,11 +1,11 @@
 // Module included in the following assemblies:
 //
-// assembly-setting-up-tracing-kafka-clients.adoc
+// assembly-distributed-tracing.adoc
 
 [id='ref-tracing-environment-variables-{context}']
 = Tracing environment variables
 
-Use these environment variables when configuring a Jaeger tracer for Kafka clients.
+Use these environment variables when configuring a Jaeger tracer for Kafka clients and components.
 
 NOTE: The tracing environment variables are part of the Jaeger project and are subject to change. For the latest environment variables, see the https://github.com/jaegertracing/jaeger-client-java/tree/master/jaeger-core#configuration-via-environment[Jaeger documentation^].
 
@@ -83,7 +83,3 @@ m¦JAEGER_TAGS
 The value can also refer to an environment variable using the format `${envVarName:default}`. `:default` is optional and identifies a value to use if the environment variable cannot be found.
  
 |===
-
-.Additional resources
-
-* xref:proc-configuring-jaeger-tracer-kafka-clients-{context}[]
