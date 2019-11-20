@@ -1,9 +1,0 @@
-<productname>{BaseProductLongName}</productname>
-<productnumber>{BaseProductVersion}</productnumber>
-<subtitle>Release Notes for {ProductName} {ProductVersion}</subtitle>
-<abstract>
-  <para>These release notes contain the latest information about new
-  features, enhancements, fixes, and issues contained in the
-  {ProductName} {ProductVersion} release.</para>
-</abstract>
-<xi:include href="Common_Content/Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>

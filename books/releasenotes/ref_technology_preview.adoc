@@ -1,8 +1,0 @@
-// Module included in the following assemblies:
-//
-// master.adoc
-
-[id='tech-preview-{context}']
-= Technology previews
-
-//Tech previews here

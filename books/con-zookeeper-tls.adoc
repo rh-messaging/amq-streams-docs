@@ -1,9 +1,0 @@
-// Module included in the following assemblies:
-//
-// assembly-configuring-zookeeper.adoc
-
-[id='con-zookeeper-tls-{context}']
-
-= TLS
-
-The version of ZooKeeper which is part of AMQ Streams currently does not support TLS for encryption or authentication.
