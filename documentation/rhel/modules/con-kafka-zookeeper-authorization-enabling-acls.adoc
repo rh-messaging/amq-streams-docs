@@ -1,0 +1,34 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-zookeeper-authorization.adoc
+
+[id='con-kafka-zookeeper-authorization-enabling-acls-{context}']
+
+= ACL Configuration
+
+Enforcement of ZooKeeper ACL rules is controlled by the `zookeeper.set.acl` property in the `config/server.properties` Kafka configuration file.
+
+The property is disabled by default and enabled by setting to `true`:
+
+[source]
+----
+zookeeper.set.acl=true
+----
+
+If ACL rules are enabled, when a `znode` is created in ZooKeeper only the Kafka user who created it can modify or delete it.
+All other users have read-only access.
+
+Kafka sets ACL rules only for newly created ZooKeeper `znodes`.
+If the ACLs are only enabled after the first start of the cluster, the `zookeeper-security-migration.sh` tool can set ACLs on all existing `znodes`.
+
+.Confidentiality of data in ZooKeeper
+
+Data stored in ZooKeeper includes:
+
+* Topic names and their configuration
+* Salted and hashed user credentials when SASL SCRAM authentication is used.
+
+But ZooKeeper does not store any records sent and received using Kafka.
+The data stored in ZooKeeper is assumed to be non-confidential.
+
+If the data is to be regarded as confidential (for example because topic names contain customer IDs), the only option available for protection is isolating ZooKeeper on the network level and allowing access only to Kafka brokers.

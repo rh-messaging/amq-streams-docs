@@ -1,0 +1,299 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-authorization.adoc
+
+[id='con-kafka-authorization-simple-{context}']
+
+= Simple ACL authorizer
+
+Authorizer plugins, including `SimpleAclAuthorizer`, are enabled through the `authorizer.class.name` property:
+
+[source, properties]
+----
+authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
+----
+
+A fully-qualified name is required for the chosen authorizer.
+For `SimpleAclAuthorizer`, the fully-qualified name is `kafka.security.auth.SimpleAclAuthorizer`.
+
+== ACL rules
+
+`SimpleAclAuthorizer` uses ACL rules to manage access to Kafka brokers.
+
+ACL rules are defined in the format:
+
+[example]
+====
+Principal *P* is allowed / denied operation *O* on Kafka resource *R* from host *H*
+====
+
+For example, a rule might be set so that user:
+
+[example]
+====
+*John* can *view* the topic *comments* from host *127.0.0.1*
+====
+
+Host is the IP address of the machine that John is connecting from.
+
+In most cases, the user is a producer or consumer application:
+
+[example]
+====
+*Consumer01* can *write* to the consumer group *accounts* from host *127.0.0.1*
+====
+
+*If ACL rules are not present*
+
+If ACL rules are not present for a given resource, all actions are denied.
+This behavior can be changed by setting the property `allow.everyone.if.no.acl.found` to `true` in the Kafka configuration file `/opt/kafka/config/server.properties`.
+
+== Principals
+
+A _principal_ represents the identity of a user.
+The format of the ID depends on the authentication mechanism used by clients to connect to Kafka:
+
+* `User:ANONYMOUS` when connected without authentication.
+* `User:<username>` when connected using simple authentication mechanisms, such as PLAIN or SCRAM.
++
+For example `User:admin` or `User:user1`.
+* `User:<DistinguishedName>` when connected using TLS client authentication.
++
+For example `User:CN=user1,O=MyCompany,L=Prague,C=CZ`.
+* `User:<Kerberos username>` when connected using Kerberos.
+
+The _DistinguishedName_ is the distinguished name from the client certificate.
+
+The _Kerberos username_ is the primary part of the Kerberos principal, which is used by default when connecting using Kerberos.
+You can use the `sasl.kerberos.principal.to.local.rules` property to configure how the Kafka principal is built from the Kerberos principal.
+
+== Authentication of users
+
+To use authorization, you need to have authentication enabled and used by your clients.
+Otherwise, all connections will have the principal `User:ANONYMOUS`.
+
+For more information on methods of authentication, see xref:assembly-kafka-encryption-and-authentication-{context}[Encryption and authentication].
+
+.Super users
+
+Super users are allowed to take all actions regardless of the ACL rules.
+
+Super users are defined in the Kafka configuration file using the property `super.users`.
+
+For example:
+
+[source]
+super.users=User:admin,User:operator
+
+.Replica broker authentication
+
+When authorization is enabled, it is applied to all listeners and all connections.
+This includes the inter-broker connections used for replication of data between brokers.
+If enabling authorization, therefore, ensure that you use authentication for inter-broker connections and give the users used by the brokers sufficient rights.
+For example, if authentication between brokers uses the `kafka-broker` user, then super user configuration must include the username `super.users=User:kafka-broker`.
+
+== Supported resources
+
+You can apply Kafka ACLs to these types of resource:
+
+- Topics
+- Consumer groups
+- The cluster
+- TransactionId
+- DelegationToken
+
+== Supported operations
+
+`SimpleAclAuthorizer` authorizes operations on resources.
+
+Fields with `X` in the following table mark the supported operations for each resource.
+
+|===
+| |Topics | Consumer Groups |Cluster
+
+|Read
+|X|X|
+
+|Write
+|X||
+
+|Create
+|||X
+
+|Delete
+|X||
+
+|Alter
+|X||
+
+|Describe
+|X|X|X
+
+|ClusterAction
+|||X
+
+|All
+|X|X|X
+
+|===
+
+== ACL management options
+
+ACL rules are managed using the `bin/kafka-acls.sh` utility, which is provided as part of the Kafka distribution package.
+
+Use `kafka-acls.sh` parameter options to add, list and remove ACL rules, and perform other functions.
+
+The parameters require a double-hyphen convention, such as `--add`.
+
+|===
+|Option |Type | Description |Default
+
+|`add`
+|Action
+|Add ACL rule.
+|
+
+|`remove`
+|Action
+|Remove ACL rule.
+|
+
+|`list`
+|Action
+|List ACL rules.
+|
+
+|`authorizer`
+|Action
+|Fully-qualified class name of the authorizer.
+|`kafka.security.auth.SimpleAclAuthorizer`
+
+|`authorizer-properties`
+|Configuration
+|Key/value pairs passed to the authorizer for initialization.
+
+For `SimpleAclAuthorizer`, the example values are:
+`zookeeper.connect=zoo1.my-domain.com:2181`.
+|
+
+|`bootstrap-server`
+|Resource
+|Host/port pairs to connect to the Kafka cluster.
+|Use this option or the `authorizer` option, not both.
+
+|`command-config`
+|Resource
+|Configuration property file to pass to the Admin Client, which is used in conjunction with the `bootstrap-server` parameter.
+|
+
+|`cluster`
+|Resource
+|Specifies a cluster as an ACL resource.
+|
+
+|`topic`
+|Resource
+|Specifies a topic name as an ACL resource.
+
+An asterisk (`*`) used as a wildcard translates to _all topics_.
+
+A single command can specify multiple `--topic` options.
+|
+
+|`group`
+|Resource
+|Specifies a consumer group name as an ACL resource.
+
+A single command can specify multiple `--group` options.
+|
+
+|`transactional-id`
+|Resource
+|Specifies a transactional ID as an ACL resource.
+
+Transactional delivery means that all messages sent by a producer to multiple partitions must be successfully delivered or none of them.
+
+An asterisk (`*`) used as a wildcard translates to _all IDs_.
+|
+
+|`delegation-token`
+|Resource
+|Specifies a delegation token as an ACL resource.
+
+An asterisk (`*`) used as a wildcard translates to _all tokens_.
+|
+
+|`resource-pattern-type`
+|Configuration
+|Specifies a type of resource pattern for the `add` parameter or a resource pattern filter value for the `list` or `remove` parameters.
+
+Use `literal` or `prefixed` as the resource pattern type for a resource name.
+
+Use `any` or `match` as resource pattern filter values, or a specific pattern type filter.
+|`literal`
+
+|`allow-principal`
+|Principal
+|Principal added to an allow ACL rule.
+
+A single command can specify multiple `--allow-principal` options.
+|
+
+|`deny-principal`
+|Principal
+| Principal added to a deny ACL rule.
+
+A single command can specify multiple `--deny-principal` options.
+|
+
+|`principal`
+|Principal
+| Principal name used with the `list` parameter to return a list of ACLs for the principal.
+
+A single command can specify multiple `--principal` options.
+|
+
+|`allow-host`
+|Host
+|IP address that allows access to the principals listed in `--allow-principal`.
+
+Hostnames or CIDR ranges are not supported.
+|If `--allow-principal` is specified, defaults to `*` meaning "all hosts".
+
+|`deny-host`
+|Host
+|IP address that denies access to the principals listed in `--deny-principal`.
+
+Hostnames or CIDR ranges are not supported.
+|if `--deny-principal` is specified, defaults to `*` meaning "all hosts".
+
+|`operation`
+|Operation
+|Allows or denies an operation.
+
+A single command can specify multipleMultiple `--operation` options can be specified in single command.
+|All
+
+|`producer`
+|Shortcut
+|A shortcut to allow or deny all operations needed by a message producer (WRITE and DESCRIBE on topic, CREATE on cluster).
+|
+
+|`consumer`
+|Shortcut
+|A shortcut to allow or deny all operations needed by a message consumer (READ and DESCRIBE on topic, READ on consumer group).
+|
+
+|`idempotent`
+|Shortcut
+|A shortcut to enable idempotence when used with the `--producer` parameter, so that messages are delivered exactly once to a partition.
+
+Idepmotence is enabled automatically if the producer is authorized to send messages based on a specific transactional ID.
+|
+
+|`force`
+|Shortcut
+|A shortcut to accept all queries and do not prompt.
+|
+
+|===

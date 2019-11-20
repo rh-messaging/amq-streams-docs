@@ -1,0 +1,20 @@
+= Configuring ZooKeeper
+
+Kafka uses ZooKeeper to store configuration data and for cluster coordination.
+It is strongly recommended to run a cluster of replicated ZooKeeper instances.
+
+include::../modules/con-zookeeper-basic-configuration.adoc[leveloffset=+1]
+
+include::../modules/con-zookeeeper-cluster-configuration.adoc[leveloffset=+1]
+
+include::../modules/proc-running-multinode-zookeeper-cluster.adoc[leveloffset=+1]
+
+include::assembly-configuring-zookeeper-authentication.adoc[leveloffset=+1]
+
+include::../modules/con-zookeeper-authorization.adoc[leveloffset=+1]
+
+include::../modules/con-zookeeper-tls.adoc[leveloffset=+1]
+
+include::../modules/ref-zookeeper-additional-configuration.adoc[leveloffset=+1]
+
+include::../modules/con-zookeeper-logging.adoc[leveloffset=+1]

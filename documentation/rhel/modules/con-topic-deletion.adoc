@@ -1,0 +1,16 @@
+// Module included in the following assemblies:
+//
+// assembly-topics.adoc
+
+[id='con-topic-deletion-{context}']
+
+= Topic deletion
+
+Kafka offers the possibility to disable deletion of topics.
+This is configured through the `delete.topic.enable` property, which is set to `true` by default (that is, deleting topics is possible).
+When this property is set to `false` it will be not possible to delete topics and all attempts to delete topic will return success but the topic will not be deleted.
+
+[source]
+----
+delete.topic.enable=false
+----

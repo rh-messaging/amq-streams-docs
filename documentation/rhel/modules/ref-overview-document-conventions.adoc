@@ -1,0 +1,17 @@
+// Module included in the following assemblies:
+//
+// assembly-overview.adoc
+
+[id='overview-document-conventions-{context}']
+= Document conventions
+
+.Replaceables
+
+In this document, replaceable text is styled in monospace and surrounded by angle brackets.
+
+For example, in the following code, you will want to replace `_<bootstrap-address>_` and `_<topic-name>_` with your own address and topic name:
+
+[source,shell,subs="+quotes"]
+----
+bin/kafka-console-consumer.sh --bootstrap-server _<bootstrap-address>_ --topic _<topic-name>_ --from-beginning
+----

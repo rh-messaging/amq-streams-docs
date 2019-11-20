@@ -1,0 +1,33 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-connect-distributed.adoc
+
+[id='proc-deleting-connector-kafka-connect-distributed-{context}']
+
+= Deleting connectors
+
+This procedure describes how to use the Kafka Connect REST API to delete a connector plug-in from Kafka Connect in distributed mode.
+
+.Prerequisites
+
+* A Kafka Connect installation running in distributed mode.
+
+.Deleting connectors
+
+. Verify that the connector exists by sending a `GET` request to ``_<KafkaConnectAddress>_:8083/connectors/_<ConnectorName>_``.
+The following example uses `curl`:
++
+[source,shell]
+curl http://connect0.my-domain.com:8083/connectors
+
+. To delete the connector, send a `DELETE` request to ``_<KafkaConnectAddress>_:8083/connectors``.
+The following example uses `curl`:
++
+[source,shell]
+curl -X DELETE http://connect0.my-domain.com:8083/connectors/my-connector
+
+. Verify that the connector was deleted by sending a GET request to ``_<KafkaConnectAddress>_:8083/connectors``.
+The following example uses `curl`:
++
+[source,shell]
+curl http://connect0.my-domain.com:8083/connectors

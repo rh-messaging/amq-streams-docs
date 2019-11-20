@@ -1,0 +1,59 @@
+// Module included in the following assemblies:
+//
+// assembly-kafka-encryption-and-authentication.adoc
+
+[id='con-kafka-tls-encryption-{context}']
+
+= TLS Encryption
+
+In order to use TLS encryption and server authentication, a keystore containing private and public keys has to be provided.
+This is usually done using a file in the Java Keystore (JKS) format.
+A path to this file is set in the `ssl.keystore.location` property.
+The `ssl.keystore.password` property should be used to set the password protecting the keystore.
+For example:
+
+[source]
+ssl.keystore.location=/path/to/keystore/server-1.jks
+ssl.keystore.password=123456
+
+In some cases, an additional password is used to protect the private key.
+Any such password can be set using the `ssl.key.password` property.
+
+Kafka is able to use keys signed by certification authorities as well as self-signed keys.
+Using keys signed by certification authorities should always be the preferred method.
+In order to allow clients to verify the identity of the Kafka broker they are connecting to, the certificate should always contain the advertised hostname(s) as its Common Name (CN) or in the Subject Alternative Names (SAN).
+
+It is possible to use different SSL configurations for different listeners.
+All options starting with `ssl.` can be prefixed with `listener.name.<NameOfTheListener>.`, where the name of the listener has to be always in lower case.
+This will override the default SSL configuration for that specific listener.
+The following example shows how to use different SSL configurations for different listeners:
+
+[source]
+----
+listeners=INT1://:9092,INT2://:9093,REPLICATION://:9094
+listener.security.protocol.map=INT1:SSL,INT2:SSL,REPLICATION:SSL
+
+# Default configuration - will be used for listeners INT1 and INT2
+ssl.keystore.location=/path/to/keystore/server-1.jks
+ssl.keystore.password=123456
+
+# Different configuration for listener REPLICATION
+listener.name.replication.ssl.keystore.location=/path/to/keystore/server-1.jks
+listener.name.replication.ssl.keystore.password=123456
+----
+
+.Additional TLS configuration options
+
+In addition to the main TLS configuration options described above, Kafka supports many options for fine-tuning the TLS configuration.
+For example, to enable or disable TLS / SSL protocols or cipher suites:
+
+`ssl.cipher.suites`::
+List of enabled cipher suites.
+Each cipher suite is a combination of authentication, encryption, MAC and key exchange algorithms used for the TLS connection.
+By default, all available cipher suites are enabled.
+
+`ssl.enabled.protocols`::
+List of enabled TLS / SSL protocols.
+Defaults to `TLSv1.2,TLSv1.1,TLSv1`.
+
+For a complete list of supported Kafka broker configuration options, see xref:broker-configuration-parameters-{context}[].

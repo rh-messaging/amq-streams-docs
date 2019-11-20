@@ -1,0 +1,52 @@
+// Module included in the following assemblies:
+//
+// assembly-using-the-kafka-bridge.adoc
+
+[id='proc-configuring-kafka-bridge-{context}']
+= Configuring Kafka Bridge properties
+
+This procedure describes how to configure the properties used by the {ProductName} Kafka Bridge.
+
+You configure the Kafka Bridge, as any other Kafka client, using appropriate prefixes for Kafka-related properties.
+
+* `kafka.` for general configuration that applies to producers and consumers, such as server connection and security.
+* `kafka.consumer.` for consumer-specific configuration passed only to the consumer.
+* `kafka.producer.` for producer-specific configuration passed only to the producer.
+
+.Prerequisites
+
+* xref:proc-installing-amq-streams-str[{ProductName} is installed on the host]
+* xref:proc-downloading-kafka-bridge-{context}[The Kafka Bridge installation archive is downloaded]
+
+.Procedure
+
+. Edit the `application.properties` file provided with the {ProductName} Kafka Bridge installation archive.
++
+Use the properties file to specify Kafka and HTTP-related properties, and to enable and disable distributed tracing. 
+
+.. Configure standard Kafka-related properties, including properties specific to the Kafka consumers and producers.
++
+Use:
++
+* `kafka.bootstrap.servers` to define the host/port connections to the Kafka cluster
+* `kafka.producer.acks` to provide acknowledgments to the HTTP client
+* `kafka.consumer.auto.offset.reset` to determine how to manage reset of the offset in Kafka
++
+For more information on configuration of Kafka properties, see the http://kafka.apache.org[Apache Kafka website^]
+
+.. Configure HTTP-related properties to enable HTTP access to the Kafka cluster.
++
+[source,properties]
+http.enabled=true
+http.host=0.0.0.0
+http.port=8080
+
+.. Enable and disable distributed tracing.
++
+[source,properties]
+bridge.tracing=jaeger
+
+.Additional resources
+
+* xref:assembly-distributed-tracing-str[] 
+* xref:proc-enabling-tracing-for-kafka-bridge-str[]

@@ -1,0 +1,69 @@
+// Module included in the following assemblies:
+//
+// assembly-getting-started.adoc
+
+[id='proc-running-single-node-amq-streams-cluster-{context}']
+
+= Running single node AMQ Streams cluster
+
+This procedure will show you how to run a basic AMQ Streams cluster consisting of single ZooKeeper and single Apache Kafka node both running on the same host.
+It is using the default configuration files for both ZooKeeper and Kafka.
+
+WARNING: A single node AMQ Streams cluster does not provide reliability and high availability and is suitable only for development purposes.
+
+.Prerequisites
+
+* AMQ Streams is installed on the host
+
+.Running the cluster
+
+. Edit the ZooKeeper configuration file `/opt/kafka/config/zookeeper.properties`.
+Set the `dataDir` option to `/var/lib/zookeeper/`.
++
+[source,properties,subs=+quotes]
+----
+dataDir=/var/lib/zookeeper/
+----
+
+. Start ZooKeeper.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/zookeeper-server-start.sh -daemon /opt/kafka/config/zookeeper.properties
+----
+
+. Make sure that Apache ZooKeeper is running.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep zookeeper
+----
+
+. Edit the Kafka configuration file `/opt/kafka/config/server.properties`.
+Set the `log.dirs` option to `/var/lib/kafka/`.
++
+[source,properties,subs=+quotes]
+----
+log.dirs=/var/lib/kafka/
+----
+
+. Start Kafka.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties
+----
+
+. Make sure that Kafka is running.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep kafka
+----
+
+.Additional resources
+
+* For more information about installing AMQ Streams, see xref:proc-installing-amq-streams-{context}[].
+* For more information about configuring AMQ Streams, see xref:proc-configuring-amq-streams-{context}[].

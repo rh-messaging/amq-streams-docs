@@ -1,0 +1,27 @@
+// Module included in the following assemblies:
+//
+// assembly-monitoring.adoc
+
+[id='proc-connecting-to-jvm-from-different-machine-{context}']
+
+= Connecting to the JVM from a different machine
+
+You can connect to the JVM from a different machine by configuring the port that the JMX agent listens on. This is insecure because it allows JMX tools to connect from anywhere, with no authentication.
+
+.Procedure
+
+. Use the `KAFKA_JMX_OPTS` environment variable to set `-Dcom.sun.management.jmxremote.port=_<port>_`. For `_<port>_`, enter the name of the port on which you want the Kafka broker to listen for JMX connections.
++
+[source,shell,subs=+quotes]
+----
+export KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote=true
+  -Dcom.sun.management.jmxremote.port=_<port>_
+  -Dcom.sun.management.jmxremote.authenticate=false
+  -Dcom.sun.management.jmxremote.ssl=false"
+bin/kafka-server-start.sh
+----
+
+. Start the JVM.
+
+IMPORTANT: It is recommended that you configure authentication and SSL to ensure that the remote JMX connection is secure.
+For more information about the system properties needed to do this, see the link:https://docs.oracle.com/javase/6/docs/technotes/guides/management/agent.html[JMX documentation, window="_blank"].

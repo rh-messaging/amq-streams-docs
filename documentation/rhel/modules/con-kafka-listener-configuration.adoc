@@ -1,0 +1,52 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-kafka.adoc
+
+[id='con-kafka-listener-configuration-{context}']
+
+= Listeners
+
+Kafka brokers can be configured to use multiple listeners.
+Each listener can be used to listen on a different port or network interface and can have different configuration.
+Listeners are configured in the `listeners` property in the configuration file.
+The `listeners` property contains a list of listeners with each listener configured as `_<listenerName>_://_<hostname>_:_<port>_`.
+When the hostname value is empty, Kafka will use `java.net.InetAddress.getCanonicalHostName()` as hostname.
+The following example shows how multiple listeners might be configured:
+
+[source]
+----
+listeners=INT1://:9092,INT2://:9093,REPLICATION://:9094
+----
+
+
+When a Kafka client wants to connect to a Kafka cluster, it first connects to a _bootstrap server_.
+The _bootstrap server_ is one of the cluster nodes.
+It will provide the client with a list of all other brokers which are part of the cluster and the client will connect to them individually.
+By default the _bootstrap server_ will provide the client with a list of nodes based on the `listeners` field.
+
+.Advertised listeners
+
+It is possible to give the client a different set of addresses than given in the listeners property.
+It is useful in situations when additional network infrastructure, such as a proxy, is between the client and the broker, or when an external DNS name should be used instead of an IP address.
+Here, the broker allows defining the advertised addresses of the listeners in the advertised.listeners configuration property.
+This property has the same format as the listeners property.
+The following example shows how to configure advertised listeners:
+
+[source]
+----
+listeners=INT1://:9092,INT2://:9093
+advertised.listeners=INT1://my-broker-1.my-domain.com:1234,INT2://my-broker-1.my-domain.com:1234:9093
+----
+
+NOTE: The names of the listeners have to match the names of the listeners from the `listeners` property.
+
+.Inter-broker listeners
+
+When the cluster has replicated topics, the brokers responsible for such topics need to communicate with each other in order to replicate the messages in those topics.
+When multiple listeners are configured, the configuration field `inter.broker.listener.name` can be used to specify the name of the listener which should be used for replication between brokers.
+For example:
+
+[source]
+----
+inter.broker.listener.name=REPLICATION
+----

@@ -1,0 +1,81 @@
+// AsciiDoc settings
+:data-uri!:
+:doctype: book
+:experimental:
+:idprefix:
+:imagesdir: images
+:numbered:
+:sectanchors!:
+:sectnums:
+:source-highlighter: highlightjs
+:toc: left
+:linkattrs:
+:toclevels: 4
+
+// Name and version placeholders
+:ProductLongName: Red Hat AMQ Streams
+:ProductName: AMQ Streams
+:ContextProduct: streams
+:ProductVersion: 1.4
+:BaseProductLongName: Red Hat AMQ
+:BaseProductName: AMQ
+:BaseProductVersion: 7.6
+:BaseProductMajorVersion: 7
+:ProductPlatformName: Red Hat Enterprise Linux
+:oauth: OAuth 2.0
+:ssoVersion: 7.3
+
+//Kafka upgrade attributes used in upgrades section
+:DefaultKafkaVersion: 2.3.0
+:LogMsgVersLower: 2.2
+:LogMsgVersHigher: 2.3
+
+//Tracing versions
+:JaegerClientVersion: 1.0.0
+:OpenTracingKafkaClient: 0.1.4
+
+//Links
+:LatestBridgeAPIDocs: link:https://strimzi.io/docs/bridge/latest/[Kafka Bridge API reference^]
+
+//OAuth attributes and links
+:oauth2-site: link:https://oauth.net/2/[{oauth} site^]
+:oauth-artifact-version: 0.1.0.redhat-00002
+:sso-config: link:https://access.redhat.com/articles/2342861[Red Hat Single Sign-On Supported Configurations^]
+:sso-install-doc: link:https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/{ssoVersion}/html/server_installation_and_configuration_guide/index[Server Installation and Configuration Guide^]
+:sso-admin-doc: link:https://access.redhat.com/documentation/en-us/red_hat_single_sign-on/{ssoVersion}/html/server_administration_guide/index[Server Administration Guide]
+
+//Release Notes links
+//To
+:RelNotes: https://access.redhat.com/documentation/en-us/red_hat_amq/{BaseProductVersion}/html-single/amq_streams_{ProductVersion}_on_openshift_container_platform_release_notes
+//From
+:ContentRef: https://access.redhat.com/documentation/en-us/red_hat_amq/{BaseProductVersion}/html-single/using_amq_streams_on_openshift_container_platform
+
+// Source and download links
+:ReleaseDownload: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=jboss.amq.streams&productChanged=yes[Customer Portal^]
+
+// Distributed tracing links
+:OpenTracingHome: link:https://opentracing.io/[OpenTracing^]
+:OpenTelemetryHome: link:https://opentelemetry.io/[OpenTelemetry^]
+:JaegerHome: link:https://www.jaegertracing.io/[Jaeger^]
+:JaegerArch: link:https://www.jaegertracing.io/docs/1.14/architecture/[Jaeger architecure^]
+:OpenTracingDocs: link:https://opentracing.io/docs/overview/[OpenTracing documentation^]
+
+//kafka Exporter links
+:kafka-exporter-project: link:https://github.com/danielqsj/kafka_exporter[Kafka Exporter^]
+:grafana-example: link:https://grafana.com/grafana/dashboards/7589[Example dashboard for Kafka Exporter^]
+:Prometheus-Doc: link:https://prometheus.io/docs/[Prometheus documentation^]
+:PrometheusConfig: link:https://prometheus.io/docs/prometheus/latest/configuration/configuration[Configuration^]
+:Grafana-Doc: link:https://grafana.com/docs/[Grafana documentation^]
+
+// Maven dependencies
+:MavenRepo: https://maven.repository.redhat.com/ga/
+:ArtifactVersion: 2.3.0.redhat-00003
+
+// File locations
+:UpstreamDir: upstream/documentation/book
+
+//Format attributes
+:underscore: _
+
+// Section enablers
+//:Kubernetes:

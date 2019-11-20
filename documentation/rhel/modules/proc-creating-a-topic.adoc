@@ -1,0 +1,47 @@
+// Module included in the following assemblies:
+//
+// assembly-topics.adoc
+
+[id='proc-creating-a-topic-{context}']
+
+= Creating a topic
+
+The `kafka-topics.sh` tool can be used to manage topics.
+`kafka-topics.sh` is part of the AMQ Streams distribution and can be found in the `bin` directory.
+
+.Prerequisites
+
+* AMQ Streams cluster is installed and running
+
+.Creating a topic
+
+. Create a topic using the `kafka-topics.sh` utility and specify the following:
+ZooKeeper URL in the `--zookeeper` option.
+The new topic to be created in the `--create` option.
+Topic name in the `--topic` option.
+The number of partitions in the `--partitions` option.
+Replication factor in the `--replication-factor` option.
++
+You can also override some of the default topic configuration options using the option `--config`.
+This option can be used multiple times to override different options.
++
+[source,shell,subs="+quotes,attributes"]
+bin/kafka-topics.sh --zookeeper _<ZooKeeperAddress>_ --create --topic _<TopicName>_ --partitions _<NumberOfPartitions>_ --replication-factor _<ReplicationFactor>_ --config _<Option1>_=_<Value1>_ --config _<Option2>_=_<Value2>_
++
+.Example of the command to create a topic named `mytopic`
+[source,shell,subs=+quotes]
+bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --create --topic mytopic --partitions 50 --replication-factor 3 --config cleanup.policy=compact --config min.insync.replicas=2
+
+. Verify that the topic exists using `kafka-topics.sh`.
++
+[source,shell,subs="+quotes,attributes"]
+bin/kafka-topics.sh --zookeeper _<ZooKeeperAddress>_ --describe --topic _<TopicName>_
++
+.Example of the command to describe a topic named `mytopic`
+[source,shell,subs=+quotes]
+bin/kafka-topics.sh --zookeeper zoo1.my-domain.com:2181 --describe --topic mytopic
+
+.Additional resources
+
+* For more information about topic configuration, see xref:ref-topic-configuration-{context}[].
+* For list of all supported topic configuration options, see xref:topic-configuration-parameters-{context}[].

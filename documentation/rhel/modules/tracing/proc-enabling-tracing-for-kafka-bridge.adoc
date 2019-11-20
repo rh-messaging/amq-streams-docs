@@ -1,0 +1,43 @@
+// Module included in the following assemblies:
+//
+// assembly-distributed-tracing.adoc
+
+[id='proc-enabling-tracing-for-kafka-bridge-{context}']
+= Enabling tracing for the Kafka Bridge
+
+Enable distributed tracing for the Kafka Bridge by editing the Kafka Bridge configuration file. You can then deploy a Kafka Bridge instance that is configured for distributed tracing to the host operating system.
+
+Traces are generated for the following transactions:
+
+* The Kafka Bridge sends messages to HTTP clients and consumes messages from HTTP clients.
+
+* HTTP clients send HTTP requests to send and receive messages through the Kafka Bridge.
+
+In order to have end-to-end tracing, you must also configure tracing in your HTTP clients.
+
+.Procedure
+
+. Edit the `config/application.properties` file in the Kafka Bridge installation directory.
++
+Remove the code comments from the following line:
++
+[source,properties,subs="attributes+"]
+----
+bridge.tracing=jaeger
+----
+
+. Save the configuration file.
+
+. Run the `bin/kafka_bridge_run.sh` script using the configuration properties as a parameter:
++
+[source,shell,%hardbreaks,subs="attributes+"]
+----
+cd kafka-bridge-0.xy.x.redhat-0000x
+./bin/kafka_bridge_run.sh --config-file=config/application.properties
+----
+
+The Interceptors in the Kafka Bridge's internal consumers and producers are now enabled.
+
+.Additional resources
+
+* xref:proc-configuring-kafka-bridge-kafka-bridge-overview[]

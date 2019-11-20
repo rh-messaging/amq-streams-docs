@@ -1,0 +1,40 @@
+// Module included in the following assemblies:
+//
+// assembly-getting-started.adoc
+
+[id='proc-stopping-amq-streams-{context}']
+
+= Stopping the AMQ Streams services
+
+You can stop the Kafka and ZooKeeper services by running a script. 
+All connections to the Kafka and ZooKeeper services will be terminated.
+
+.Prerequisites
+
+* AMQ Streams is installed on the host
+* ZooKeeper and Kafka are up and running
+
+.Procedure
+
+. Stop the Kafka broker.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/kafka-server-stop.sh
+----
+
+. Confirm that the Kafka broker is stopped.
++
+[source,shell,subs=+quotes]
+----
+jcmd | grep kafka
+----
+
+. Stop ZooKeeper.
++
+[source,shell,subs=+quotes]
+----
+su - kafka
+/opt/kafka/bin/zookeeper-server-stop.sh
+----

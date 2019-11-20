@@ -1,0 +1,12 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-zookeeper.adoc
+
+[id='con-zookeeper-authorization-{context}']
+
+= Authorization
+
+ZooKeeper supports access control lists (ACLs) to protect data stored inside it.
+Kafka brokers can automatically configure the ACL rights for all ZooKeeper records they create so no other ZooKeeper user can modify them.
+
+For more information about enabling ZooKeeper ACLs in Kafka brokers, see xref:assembly-kafka-zookeeper-authorization-{context}[].
