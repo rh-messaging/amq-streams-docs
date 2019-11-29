@@ -52,4 +52,5 @@ ref-mbeans-kafka-streams-gen.adoc: metrics.sh $(TOOL)
 
 metrics: $(METRICS_DOCS)
 
-.PHONY: buildall docs clean configs metrics 
+
+.PHONY: buildall docs clean configs metrics check
