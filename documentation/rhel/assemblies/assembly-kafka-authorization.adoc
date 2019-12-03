@@ -1,0 +1,22 @@
+// This assembly is included in the following assemblies:
+//
+// assembly-configuring-kafka.adoc
+
+[id='assembly-authorization-{context}']
+= Authorization
+
+Authorization in Kafka brokers is implemented using authorizer plugins.
+
+You can use your own authorization plugins or `SimpleAclAuthorizer`, the authorizer plugin provided with Kafka.
+
+In this section we describe how to use `SimpleAclAuthorizer`.
+
+include::../modules/con-kafka-authorization-simple.adoc[leveloffset=+1]
+
+include::../modules/proc-kafka-enable-authorization.adoc[leveloffset=+1]
+
+include::../modules/proc-kafka-authorization-add-rules.adoc[leveloffset=+1]
+
+include::../modules/proc-kafka-authorization-list-rules.adoc[leveloffset=+1]
+
+include::../modules/proc-kafka-authorization-remove-rules.adoc[leveloffset=+1]

@@ -1,8 +1,0 @@
-// Module included in the following assemblies:
-//
-// master.adoc
-
-[id='resolved-issues-{context}']
-= Resolved issues
-
-//Resolved issues here

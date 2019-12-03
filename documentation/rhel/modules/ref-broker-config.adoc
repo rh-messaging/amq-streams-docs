@@ -1,0 +1,1 @@
+../../config/ref-broker-config.adoc

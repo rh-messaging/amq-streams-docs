@@ -1,0 +1,24 @@
+= Topics
+
+Messages in Kafka are always sent to or received from a topic.
+This chapter describes how to configure and manage Kafka topics.
+
+include::../modules/con-partitions-and-topics.adoc[leveloffset=+1]
+
+include::../modules/con-message-retention.adoc[leveloffset=+1]
+
+include::../modules/con-topic-autocreation.adoc[leveloffset=+1]
+
+include::../modules/con-topic-deletion.adoc[leveloffset=+1]
+
+include::../modules/ref-topic-configuration.adoc[leveloffset=+1]
+
+include::../modules/con-internal-topics.adoc[leveloffset=+1]
+
+include::../modules/proc-creating-a-topic.adoc[leveloffset=+1]
+
+include::../modules/proc-describing-a-topic.adoc[leveloffset=+1]
+
+include::../modules/proc-modifying-a-topic.adoc[leveloffset=+1]
+
+include::../modules/proc-deleting-a-topic.adoc[leveloffset=+1]

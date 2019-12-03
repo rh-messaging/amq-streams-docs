@@ -1,0 +1,15 @@
+// Module included in the following assemblies:
+//
+// assembly-configuring-kafka.adoc
+
+[id='assembly-kafka-zookeeper-authorization-{context}']
+
+= ZooKeeper authorization
+
+When authentication is enabled between Kafka and ZooKeeper, you can use ZooKeeper Access Control List (ACL) rules to automatically control access to Kafka's metadata stored in ZooKeeper.
+
+include::../modules/con-kafka-zookeeper-authorization-enabling-acls.adoc[leveloffset=+1]
+
+include::../modules/proc-kafka-enabling-zookeeper-acls.adoc[leveloffset=+1]
+
+include::../modules/proc-kafka-migrating-zookeeper-acls.adoc[leveloffset=+1]

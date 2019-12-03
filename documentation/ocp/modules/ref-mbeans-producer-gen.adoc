@@ -1,0 +1,1 @@
+../../mbean/ref-mbeans-producer-gen.adoc

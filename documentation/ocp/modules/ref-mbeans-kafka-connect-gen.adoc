@@ -1,0 +1,1 @@
+../../mbean/ref-mbeans-kafka-connect-gen.adoc

@@ -1,8 +1,0 @@
-// Module included in the following assemblies:
-//
-// master.adoc
-
-[id='enhancements-{context}']
-= Enhancements
-
-//Enhancements here

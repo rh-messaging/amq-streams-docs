@@ -1,0 +1,1 @@
+../../config/ref-topic-config.adoc

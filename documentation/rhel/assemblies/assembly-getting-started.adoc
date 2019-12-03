@@ -1,0 +1,32 @@
+// Module included in the following assemblies:
+//
+// master.adoc
+
+[id='assembly-getting-started-{context}']
+
+= Getting started
+
+== AMQ Streams distribution
+
+AMQ Streams is distributed as single ZIP file.
+This ZIP file contains AMQ Streams components:
+
+* Apache ZooKeeper
+* Apache Kafka
+* Apache Kafka Connect
+* Apache Kafka Mirror Maker
+* xref:assembly-kafka-exporter-{context}[Kafka Exporter]
+
+include::../modules/proc-downloading-amq-streams.adoc[leveloffset=+1]
+
+include::../modules/proc-installing-amq-streams.adoc[leveloffset=+1]
+
+include::../modules/con-considerations-for-data-storage.adoc[leveloffset=+1]
+
+include::../modules/proc-running-single-node-amq-streams-cluster.adoc[leveloffset=+1]
+
+include::../modules/proc-using-amq-streams.adoc[leveloffset=+1]
+
+include::../modules/proc-stopping-amq-streams.adoc[leveloffset=+1]
+
+include::../modules/proc-configuring-amq-streams.adoc[leveloffset=+1]
