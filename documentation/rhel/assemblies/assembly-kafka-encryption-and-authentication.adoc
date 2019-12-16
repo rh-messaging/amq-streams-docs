@@ -6,11 +6,7 @@
 
 = Encryption and authentication
 
-Kafka supports TLS for encrypting the communication with Kafka clients.
-Additionally, it supports two types of authentication:
-
-* TLS client authentication based on X.509 certificates
-* SASL Authentication based on a username and password
+{ProductName} supports encryption and authentication, which is configured as part of the listener configuration.
 
 include::../modules/con-kafka-securing-listeners.adoc[leveloffset=+1]
 

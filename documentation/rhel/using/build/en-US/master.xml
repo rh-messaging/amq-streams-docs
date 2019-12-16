@@ -9,7 +9,7 @@
 <info>
 <title>Using AMQ Streams on RHEL</title><subtitle>For use with AMQ Streams 1.4 on Red Hat Enterprise Linux</subtitle>
 
-<date>2019-11-20</date>
+<date>2019-12-03</date>
 <productname>Red Hat AMQ</productname>
 <productnumber>7.6</productnumber>
 <abstract>
@@ -8670,7 +8670,7 @@ The port to publish to ZooKeeper for clients to use. In IaaS environments, this 
 <emphasis role="strong">Default:</emphasis> -1<?asciidoc-br?>
 <emphasis role="strong">Importance:</emphasis> high<?asciidoc-br?>
 <emphasis role="strong">Dynamic update:</emphasis> read-only<?asciidoc-br?></simpara>
-<simpara>The broker id for this server. If unset, a unique broker id will be generated.To avoid conflicts between ZooKeeper generated broker id’s and user configured broker id’s, generated broker ids start from reserved.broker.max.id + 1.</simpara>
+<simpara>The broker id for this server. If unset, a unique broker id will be generated.To avoid conflicts between zookeeper generated broker id’s and user configured broker id’s, generated broker ids start from reserved.broker.max.id + 1.</simpara>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -8695,8 +8695,8 @@ listeners = INTERNAL://192.1.1.8:9092, EXTERNAL://10.1.1.5:9093, CONTROLLER://19
 listener.security.protocol.map = INTERNAL:PLAINTEXT, EXTERNAL:SSL, CONTROLLER:SSL
 control.plane.listener.name = CONTROLLER
 On startup, the broker will start listening on "192.1.1.8:9094" with security protocol "SSL".
-On controller side, when it discovers a broker’s published endpoints through ZooKeeper, it will use the control.plane.listener.name to find the endpoint, which it will use to establish connection to the broker.
-For example, if the broker’s published endpoints on ZooKeeper are :
+On controller side, when it discovers a broker’s published endpoints through zookeeper, it will use the control.plane.listener.name to find the endpoint, which it will use to establish connection to the broker.
+For example, if the broker’s published endpoints on zookeeper are :
 "endpoints" : ["INTERNAL://broker1.example.com:9092","EXTERNAL://broker1.example.com:9093","CONTROLLER://broker1.example.com:9094"]
  and the controller’s config is :
 listener.security.protocol.map = INTERNAL:PLAINTEXT, EXTERNAL:SSL, CONTROLLER:SSL
@@ -9153,7 +9153,7 @@ the port to listen and accept connections on.</simpara>
 <emphasis role="strong">Valid Values:</emphasis> [1,…​]<?asciidoc-br?>
 <emphasis role="strong">Importance:</emphasis> high<?asciidoc-br?>
 <emphasis role="strong">Dynamic update:</emphasis> read-only<?asciidoc-br?></simpara>
-<simpara>DEPRECATED: Used only when dynamic default quotas are not configured for &lt;user, &lt;client-id&gt; or &lt;user, client-id&gt; in ZooKeeper. Any consumer distinguished by clientId/consumer group will get throttled if it fetches more bytes than this value per-second.</simpara>
+<simpara>DEPRECATED: Used only when dynamic default quotas are not configured for &lt;user, &lt;client-id&gt; or &lt;user, client-id&gt; in Zookeeper. Any consumer distinguished by clientId/consumer group will get throttled if it fetches more bytes than this value per-second.</simpara>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -9164,7 +9164,7 @@ the port to listen and accept connections on.</simpara>
 <emphasis role="strong">Valid Values:</emphasis> [1,…​]<?asciidoc-br?>
 <emphasis role="strong">Importance:</emphasis> high<?asciidoc-br?>
 <emphasis role="strong">Dynamic update:</emphasis> read-only<?asciidoc-br?></simpara>
-<simpara>DEPRECATED: Used only when dynamic default quotas are not configured for &lt;user&gt;, &lt;client-id&gt; or &lt;user, client-id&gt; in ZooKeeper. Any producer distinguished by clientId will get throttled if it produces more bytes than this value per-second.</simpara>
+<simpara>DEPRECATED: Used only when dynamic default quotas are not configured for &lt;user&gt;, &lt;client-id&gt; or &lt;user, client-id&gt; in Zookeeper. Any producer distinguished by clientId will get throttled if it produces more bytes than this value per-second.</simpara>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -9362,7 +9362,7 @@ the port to listen and accept connections on.</simpara>
 <emphasis role="strong">Default:</emphasis> null<?asciidoc-br?>
 <emphasis role="strong">Importance:</emphasis> high<?asciidoc-br?>
 <emphasis role="strong">Dynamic update:</emphasis> read-only<?asciidoc-br?></simpara>
-<simpara>The max time that the client waits to establish a connection to ZooKeeper. If not set, the value in zookeeper.session.timeout.ms is used.</simpara>
+<simpara>The max time that the client waits to establish a connection to zookeeper. If not set, the value in zookeeper.session.timeout.ms is used.</simpara>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -9373,7 +9373,7 @@ the port to listen and accept connections on.</simpara>
 <emphasis role="strong">Valid Values:</emphasis> [1,…​]<?asciidoc-br?>
 <emphasis role="strong">Importance:</emphasis> high<?asciidoc-br?>
 <emphasis role="strong">Dynamic update:</emphasis> read-only<?asciidoc-br?></simpara>
-<simpara>The maximum number of unacknowledged requests the client will send to ZooKeeper before blocking.</simpara>
+<simpara>The maximum number of unacknowledged requests the client will send to Zookeeper before blocking.</simpara>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -9383,7 +9383,7 @@ the port to listen and accept connections on.</simpara>
 <emphasis role="strong">Default:</emphasis> 6000<?asciidoc-br?>
 <emphasis role="strong">Importance:</emphasis> high<?asciidoc-br?>
 <emphasis role="strong">Dynamic update:</emphasis> read-only<?asciidoc-br?></simpara>
-<simpara>ZooKeeper session timeout.</simpara>
+<simpara>Zookeeper session timeout.</simpara>
 </listitem>
 </varlistentry>
 <varlistentry>
