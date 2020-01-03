@@ -17,6 +17,11 @@ For more information on the configuration and authentication of Kafka broker lis
 * xref:con-kafka-listener-configuration-{context}[Listeners]
 * xref:assembly-kafka-encryption-and-authentication-{context}[Encryption and authentication]
 
+For a description of the properties used in the listener configuration, see:
+
+* xref:con-oauth-authentication-broker-{context}[{oauth} Kafka broker configuration]
+
+
 .Prerequisites
 
 * {ProductName} and Kafka are running
@@ -40,45 +45,44 @@ If they are not already present, the files are available from the xref:proc-down
 
 . Configure the Kafka broker listener configuration in the `server.properties` file.
 +
-[source,xml,subs="+attributes,quotes"]
+For example:
++
+[source,env,subs="+attributes,quotes"]
 ----
-sasl.enabled.mechanisms=OAUTHBEARER <1>
-
-listeners=CLIENTS://kafka:9092 <2>
-
-listener.security.protocol.map=CLIENTS:SASL_SSL <3>
-
-listener.name.clients.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required; <4>
+sasl.enabled.mechanisms=OAUTHBEARER
+listeners=CLIENT://kafka:9092
+listener.security.protocol.map=CLIENTS:SASL_PLAINTEXT
+listener.name.client.sasl.enabled.mechanisms=OAUTHBEARER
+sasl.mechanism.inter.broker.protocol=OAUTHBEARER
+inter.broker.listener.name=CLIENT
+listener.name.client.oauthbearer.sasl.server.callback.handler.class=io.strimzi.kafka.oauth.server.JaasServerOauthValidatorCallbackHandler
+listener.name.client.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
 listener.name.clients.oauthbearer.sasl.login.callback.handler.class=io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
-listener.name.clients.oauthbearer.sasl.server.callback.handler.class=io.strimzi.kafka.oauth.server.JaasServerOauthValidatorCallbackHandler
 ----
-<1> Enables the _OAUTHBEARER as SASL_ mechanism for credentials exchange over SASL.
-<2> Configures a listener for client applications, replacing `kafka` with a valid hostname, resolvable by clients.
-<3> Specifies the channel protocol for the listener. `SASL_SSL` is for TLS. `SASL_PLAINTEXT` is used for an unencrypted connection (no TLS), but there is risk of eavesdropping and interception at the TCP connection layer.
-<4> The three listener properties enable {oauth} for {ProductName}.
 
 . Add listener environment variables to configure broker connection options.
 +
-The examples here show possible configuration options.
+The examples here show additional configuration options.
 +
 --
 .Example 1: Local token validation using a JWKS endpoint configuration
 [source,env,subs="+attributes,quotes"]
 ----
-export OAUTH_JWKS_ENDPOINT_URI=https://_<auth-server-address>_/jwks <1>
-export OAUTH_JWKS_REFRESH_SECONDS=300 <2>
-export OAUTH_JWKS_EXPIRY_SECONDS=360 <3>
+export OAUTH_VALID_ISSUER_URI=https://_<auth-server-address>_
+export OAUTH_JWKS_ENDPOINT_URI=https://_<auth-server-address>_/jwks
+export OAUTH_JWKS_REFRESH_SECONDS=300
+export OAUTH_JWKS_EXPIRY_SECONDS=360
+export OAUTH_USERNAME_CLAIM=preferred_username
+export OAUTH_SSL_TRUSTSTORE_LOCATION=_<path-to-truststore-p12>_
+export OAUTH_SSL_TRUSTSTORE_PASSWORD=_<my-password>_
+export OAUTH_SSL_TRUSTSTORE_TYPE=pkcs12
 ----
-<1> The JWKS endpoint URL. For example, _\https://<auth-server-address>/auth/realms/master/protocol/openid-connect/certs_.
-<2> The period between endpoint refreshes (default 300).
-<3> The duration the JWKs certificates are considered valid before they expire. Default is `360` seconds. If you specify a longer time, consider the risk of allowing access to revoked certificates.
 
-.Example 2: Delegating token validation to the authorization server through the {oauth} introspection endpoint.
+.Example 2: Delegating token validation to the authorization server through the {oauth} introspection endpoint
 [source,env,subs="+attributes,quotes"]
 ----
-export OAUTH_INTROSPECTION_ENDPOINT_URI=https://_<auth-server-address>_/introspection <1>
+export OAUTH_INTROSPECTION_ENDPOINT_URI=https://_<auth-server-address>_/introspection
 ----
-<1> The {oauth} introspection endpoint URL. For example, _\https://<auth-server-address>/auth/realms/master/protocol/openid-connect/token/introspect_.
 --
 
 . If required, configure access to the authorization server.
@@ -94,13 +98,12 @@ For example:
 +
 [source,env,subs="+attributes,quotes"]
 ----
-export OAUTH_SSL_TRUSTSTORE_LOCATION=_<path-to-truststore-p12>_ <1>
-export OAUTH_SSL_TRUSTSTORE_PASSWORD=_<my-password>_ <2>
-export OAUTH_SSL_TRUSTSTORE_TYPE=pkcs12 <3>
+export OAUTH_CLIENT_ID=kafka-broker
+export OAUTH_CLIENT_SECRET=kafka-broker-secret
+export OAUTH_SSL_TRUSTSTORE_LOCATION=_<path-to-truststore-p12>_
+export OAUTH_SSL_TRUSTSTORE_PASSWORD=_<my-password>_
+export OAUTH_SSL_TRUSTSTORE_TYPE=pkcs12
 ----
-<1> Location of the truststore file in PKCS #12 format.
-<2> Password to access the truststore.
-<3> Truststore type in PKCS #12 format.
 
 .. If the certificate hostname does not match the access URL hostname, you can turn off certificate hostname validation:
 +
@@ -127,7 +130,7 @@ export OAUTH_ACCESS_TOKEN=_<my-access-token-for-kafka-brokers>_ <6>
 <1> The {oauth} token endpoint URL to your authorization server. For production, always use HTTPs.
 <2> A valid issuer URI. Only access tokens issued by this issuer will be accepted.
 <3> The configured client ID of the Kafka broker, which is the same for all brokers. This is the xref:proc-oauth-server-config-{context}[client registered with the authorization server as `kafka-broker`].
-<4> The configured secret for Kafka broker, which is the same for all brokers.
+<4> The configured secret for the Kafka broker, which is the same for all brokers.
 <5> (Optional) A long-lived refresh token for Kafka brokers.
 <6> (Optional) A long-lived access token for Kafka brokers.
 

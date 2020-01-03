@@ -17,3 +17,4 @@ books/build/**
 
 # Generated docs
 documentation/**/build/**
+documentation/**/**/build/**
