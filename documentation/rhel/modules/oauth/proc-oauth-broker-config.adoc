@@ -50,8 +50,8 @@ For example:
 [source,env,subs="+attributes,quotes"]
 ----
 sasl.enabled.mechanisms=OAUTHBEARER
-listeners=CLIENT://kafka:9092
-listener.security.protocol.map=CLIENTS:SASL_PLAINTEXT
+listeners=CLIENT://0.0.0.0:9092
+listener.security.protocol.map=CLIENT:SASL_PLAINTEXT
 listener.name.client.sasl.enabled.mechanisms=OAUTHBEARER
 sasl.mechanism.inter.broker.protocol=OAUTHBEARER
 inter.broker.listener.name=CLIENT

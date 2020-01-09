@@ -36,8 +36,8 @@ which is shown in the example TLS listener configuration.
 [source,env,subs="+quotes, attributes"]
 ----
 sasl.enabled.mechanisms=OAUTHBEARER <1>
-listeners=CLIENT://kafka:9092 <2>
-listener.security.protocol.map=CLIENTS:SASL_PLAINTEXT <3>
+listeners=CLIENT://0.0.0.0:9092 <2>
+listener.security.protocol.map=CLIENT:SASL_PLAINTEXT <3>
 listener.name.client.sasl.enabled.mechanisms=OAUTHBEARER <4>
 sasl.mechanism.inter.broker.protocol=OAUTHBEARER <5>
 inter.broker.listener.name=CLIENT <6>
