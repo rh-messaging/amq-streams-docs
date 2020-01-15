@@ -7,8 +7,8 @@
 
 Kafka broker configuration for {oauth} involves:
 
-* Client configuration (for the Kafka broker) on an authorization server
-* {oauth} authentication configuration in the Kafka cluster
+* Creating the {oauth} client in the authorization server
+* Configuring {oauth} authentication in the Kafka custom resource
 
 NOTE: In relation to the authorization server, Kafka brokers and Kafka clients are both regarded as {oauth} clients.
 
@@ -20,6 +20,9 @@ the recommended approach is to create a {oauth} _client_ definition in an author
 * Client ID of `kafka`
 * Client ID and secret as the authentication mechanism
 
+NOTE: You only need to use a client ID and secret when using a non-public introspection endpoint of the authorization server.
+The credentials are not typically required when using public authorization server endpoints, as with fast local JWT token validation.
+
 == {oauth} authentication configuration in the Kafka cluster
 
 To use {oauth} authentication in the Kafka cluster, you enable a listener configuration for your Kafka cluster in the Kafka `server.properties` file.
@@ -27,9 +30,9 @@ A minimum configuration is required.
 You can also configure a TLS listener, where TLS is used for inter-broker communication.
 
 The minimum configuration shown here applies a _global_ listener configuration.
-This means that inter-broker communication goes through the same listener as application clients.
+This means that inter-broker communication, goes through the same listener as application clients.
 
-To enable {oauth} configuration for a specific listener, you specify `listener.name.clients.sasl.enabled.mechanisms` instead of `sasl.enabled.mechanisms`,
+To enable {oauth} configuration for a specific listener, you specify `listener.name.client.sasl.enabled.mechanisms` instead of `sasl.enabled.mechanisms`,
 which is shown in the example TLS listener configuration.
 
 .Minimum listener configuration for {oauth} authentication
@@ -51,12 +54,12 @@ listener.name.client.oauthbearer.sasl.jaas.config=org.apache.kafka.common.securi
   oauth.token.endpoint.uri="https://_<auth-server-address>_/token" ; <14>
 listener.name.clients.oauthbearer.sasl.login.callback.handler.class=io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler  <15>
 ----
-<1> Enables the _OAUTHBEARER as SASL_ mechanism for credentials exchange over SASL.
-<2> Configures a listener for client applications, replacing `kafka` with a valid hostname, resolvable by clients.
+<1> Enables the _OAUTHBEARER_ as _SASL_ mechanism for credentials exchange over SASL.
+<2> Configures a listener for client applications to connect. The system `hostname` is used as an advertised hostname, which clients must resolve in order to reconnect.
 <3> Specifies the channel protocol for the listener. `SASL_SSL` is for TLS. `SASL_PLAINTEXT` is used for an unencrypted connection (no TLS), but there is risk of eavesdropping and interception at the TCP connection layer.
-<4> Specifies _OAUTHBEARER as SASL_ for client listeners.
-<5> Specifies _OAUTHBEARER as SASL_ for inter-broker communication.
-<6> Specifies the listener for inter-broker communication.
+<4> Specifies _OAUTHBEARER_ as _SASL_ for client listeners.
+<5> Specifies _OAUTHBEARER_ as _SASL_ for inter-broker communication.
+<6> Specifies the listener for inter-broker communication. The specification is required for the configuration to be valid.
 <7> Configures {oauth} authentication on the client listener.
 <8> Configures authentication settings for client and inter-broker communication.
 The `oauth.client.id`, `oauth.client.secret` and `auth.token.endpoint.uri` properties relate to inter-broker configuration.
@@ -68,7 +71,7 @@ The value will depend on the authentication flow and the authorization server us
 <12> Client ID of the Kafka broker, which is the same for all brokers. This is the xref:proc-oauth-server-config-{context}[client registered with the authorization server as `kafka-broker`].
 <13> Secret for the Kafka broker, which is the same for all brokers.
 <14> The {oauth} token endpoint URL to your authorization server. For production, always use HTTPs.
-<15> Enables (and is only required) for {oauth} authentication for inter-broker communication.
+<15> Enables (and is only required for) {oauth} authentication for inter-broker communication.
 
 .TLS listener configuration for {oauth} authentication
 [source,env,subs="+quotes, attributes"]
@@ -78,14 +81,14 @@ listeners=REPLICATION://kafka:9091,CLIENT://kafka:9092 <1>
 listener.security.protocol.map=REPLICATION:SSL,CLIENT:SASL_PLAINTEXT <2>
 listener.name.client.sasl.enabled.mechanisms=OAUTHBEARER
 inter.broker.listener.name=REPLICATION
-ssl.keystore.password=_<my-keystore-password>_ <3>
-ssl.truststore.password=_<my-truststore-password>_
-ssl.keystore.type=PKCS12
-ssl.truststore.type=PKCS12
-ssl.endpoint.identification.algorithm=HTTPS
-ssl.secure.random.implementation=SHA1PRNG
-listener.name.replication.ssl.keystore.location=_<path-to-keystore-p12>_ <4>
-listener.name.replication.ssl.truststore.location=_<path-to-truststore-p12>_ <5>
+listener.name.replication.ssl.keystore.password=_<my-keystore-password>_ <3>
+listener.name.replication.ssl.truststore.password=_<my-truststore-password>_
+listener.name.replication.ssl.keystore.type=JKS
+listener.name.replication.ssl.truststore.type=JKS
+listener.name.replication.ssl.endpoint.identification.algorithm=HTTPS
+listener.name.replication.ssl.secure.random.implementation=SHA1PRNG
+listener.name.replication.ssl.keystore.location=_<path-to-keystore>_ <4>
+listener.name.replication.ssl.truststore.location=_<path-to-truststore>_ <5>
 listener.name.replication.ssl.client.auth=required <6>
 listener.name.client.oauthbearer.sasl.server.callback.handler.class=io.strimzi.kafka.oauth.server.JaasServerOauthValidatorCallbackHandler
 listener.name.client.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
@@ -95,13 +98,12 @@ listener.name.client.oauthbearer.sasl.jaas.config=org.apache.kafka.common.securi
   unsecuredLoginStringClaim_sub="thePrincipalName" ; <7>
 ----
 <1> Separate configurations are required for inter-broker communication and client applications.
-<2> Separate channel protocols are required for inter-broker communication and client applications.
+<2> Configures the _REPLICATION_ listener to use TLS, and the _CLIENT_ listener to use SASL over an unencrypted channel. The client could use an encrypted channel (`SASL_SSL`) in a production environment.
 <3> The `ssl.` properties define the TLS configuration.
 <4> Path to the keystore for the listener.
 <5> Path to the truststore for the listener.
-<6> Specifies that TLS is required for the listener.
-<7> Configures the listener so that TLS client authentication with certificates is used for inter-broker communication.
-
+<6> Specifies that clients of the _REPLICATION_ listener have to authenticate with a client certificate when establishing a TLS connection (used for inter-broker connectivity).
+<7> Configures the _CLIENT_ listener for {oauth}. Connectivity with the authorization server should use secure HTTPS connections.
 
 == Fast local JWT token validation configuration
 
@@ -109,11 +111,11 @@ Fast local JWT token validation checks a JWT token signature locally.
 
 The local check ensures a token:
 
-* Conforms to type (`oauth`)
+* Conforms to type by containing a (_typ_) claim value of `Bearer` for an access token
 * Is valid (not expired)
-* Has an issuer that matches a valid issuer URI
+* Has an issuer that matches a `validIssuerURI`
 
-You specify a _valid issuer URI_ when you configure the listener environment variables, so that any tokens not issued by the authorization server are rejected.
+You specify a _valid issuer URI_ when you configure the listener, so that any tokens not issued by the authorization server are rejected.
 
 The authorization server does not need to be contacted during fast local JWT token validation.
 You activate fast local JWT token validation by specifying a _JWKs endpoint URI_ exposed by the {oauth} authorization server.
@@ -122,6 +124,20 @@ The endpoint contains the public keys used to validate signed JWT tokens, which 
 NOTE: All communication with the authorization server should be performed using HyperText Transfer Protocol Secure (HTTPS).
 
 For a TLS listener, you can configure a certificate _truststore_ and point to the truststore file.
+
+.Example properties file for fast local JWT token validation
+[source,env,subs="+quotes, attributes"]
+----
+listener.name.client.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+  oauth.valid.issuer.uri="https://_<auth-server-address>_" \
+  oauth.jwks.endpoint.uri="https://_<auth-server-address>_/jwks" \
+  oauth.username.claim="preferred_username" \
+  oauth.ssl.truststore.location="_<path-to-truststore-p12>_" \
+  oauth.ssl.truststore.password="_<my-password>_" \
+  oauth.ssl.truststore.type="PKCS12" ;
+----
+
+Instead of specifying the configuration for the JWT token validation in the `server.properties` file, you can use environment variables.
 
 .Example environment variables for fast local JWT token validation
 [source,env,subs="+quotes, attributes"]
@@ -146,20 +162,6 @@ The value will depend on the authentication flow and the authorization server us
 <7> Password to access the truststore.
 <8> The truststore type in PKCS #12 format.
 
-Instead of using environment variables, you can specify the configuration for the listener in the `server.properties` file.
-
-.Example properties file for fast local JWT token validation
-[source,env,subs="+quotes, attributes"]
-----
-listener.name.client.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
-  oauth.valid.issuer.uri="https://_<auth-server-address>_" \
-  oauth.jwks.endpoint.uri="https://_<auth-server-address>_/jwks" \
-  oauth.username.claim="preferred_username" \
-  oauth.ssl.truststore.location="_<path-to-truststore-p12>_" \
-  oauth.ssl.truststore.password="_<my-password>_" \
-  oauth.ssl.truststore.type="PKCS12" ;
-----
-
 == {oauth} introspection endpoint configuration
 
 Token validation using {oauth} an introspection endpoint treats a received access token as opaque.
@@ -168,6 +170,20 @@ Importantly, it returns up-to-date information if the specific access token is v
 
 To configure {oauth} introspection-based validation, you specify an _introspection endpoint URI_ rather than the JWKs endpoint URI specified for fast local JWT token validation.
 Depending on the authorization server, you typically have to specify a _client ID_ and _client secret_, as the introspection endpoint is usually protected.
+
+.Example properties file for an introspection endpoint
+[source,env,subs="+quotes, attributes"]
+----
+listener.name.client.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+  oauth.introspection.endpoint.uri="https://_<auth-server-address>_/introspection" \
+  oauth.client.id="kafka-broker" \
+  oauth.client.secret="kafka-broker-secret" \
+  oauth.ssl.truststore.location="PATH_TO_P12_FILE" \
+  oauth.ssl.truststore.password="TRUSTSTORE_PASSWORD" \
+  oauth.ssl.truststore.type="PKCS12" ;
+----
+
+Instead of specifying the configuration for the endpoint in the `server.properties` file, you can use environment variables.
 
 .Example environment variables for an introspection endpoint
 [source,env,subs="+quotes, attributes"]
@@ -185,17 +201,3 @@ export OAUTH_SSL_TRUSTSTORE_TYPE=pkcs12 <6>
 <4> The location of the truststore used in the TLS configuration.
 <5> Password to access the truststore.
 <6> The truststore type in PKCS #12 format.
-
-Instead of using environment variables, you can specify the configuration for a listener in the `server.properties` file.
-
-.Example properties file for an introspection endpoint
-[source,env,subs="+quotes, attributes"]
-----
-listener.name.client.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
-  oauth.introspection.endpoint.uri="https://_<auth-server-address>_/introspection" \
-  oauth.client.id="kafka-broker" \
-  oauth.client.secret="kafka-broker-secret" \
-  oauth.ssl.truststore.location="PATH_TO_P12_FILE" \
-  oauth.ssl.truststore.password="TRUSTSTORE_PASSWORD" \
-  oauth.ssl.truststore.type="PKCS12" ;
-----
