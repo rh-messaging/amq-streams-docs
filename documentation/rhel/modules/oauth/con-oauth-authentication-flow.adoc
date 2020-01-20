@@ -16,6 +16,6 @@ Kafka brokers and clients need to be configured to use {oauth}.
 You can configure {oauth} settings using Java Authentication and Authorization Service (JAAS) properties or environment variables.
 
 * JAAS properties are configured in the `server.properties` configuration file, and passed as key-values pairs of the `listener.name._<listener-name>_.oauthbearer.sasl.jaas.config` property.
-* Using environment variables, you still need the `listener.name._<listener-name>_.oauthbearer.sasl.jaas.config` in the `server.properties` file, but you can drop the properties.
+* Using environment variables, you still need the `listener.name._<listener-name>_.oauthbearer.sasl.jaas.config` in the `server.properties` file, but you can omit the properties.
 +
 You can use capitalized or upper-case environment variable naming conventions.

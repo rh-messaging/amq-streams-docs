@@ -14,7 +14,7 @@ The only information ever sent to the Kafka broker is an access token.
 When a client obtains an access token, no further communication with the authorization server is needed.
 
 The simplest mechanism is authentication with a client ID and Secret.
-Using a long-lived access token, or a long-lived refresh token, adds more complexity as there is additional dependency on authorization server tools.
+Using a long-lived access token, or a long-lived refresh token, adds more complexity because there is additional dependency on authorization server tools.
 
 NOTE: If you are using long-lived access tokens, you may need to configure the client in the authorization server to increase the maximum lifetime of the token.
 
