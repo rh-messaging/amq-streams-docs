@@ -8,7 +8,7 @@
 Kafka broker configuration for {oauth} involves:
 
 * Creating the {oauth} client in the authorization server
-* Configuring {oauth} authentication in the Kafka custom resource
+* Configuring {oauth} authentication in the Kafka cluster
 
 NOTE: In relation to the authorization server, Kafka brokers and Kafka clients are both regarded as {oauth} clients.
 
@@ -17,7 +17,7 @@ NOTE: In relation to the authorization server, Kafka brokers and Kafka clients a
 To configure a Kafka broker to validate the token received during session initiation,
 the recommended approach is to create a {oauth} _client_ definition in an authorization server, configured as _confidential_, with the following client credentials enabled:
 
-* Client ID of `kafka`
+* Client ID of `kafka-broker` (for example)
 * Client ID and secret as the authentication mechanism
 
 NOTE: You only need to use a client ID and secret when using a non-public introspection endpoint of the authorization server.
@@ -85,25 +85,27 @@ listener.name.replication.ssl.keystore.password=_<my-keystore-password>_ <3>
 listener.name.replication.ssl.truststore.password=_<my-truststore-password>_
 listener.name.replication.ssl.keystore.type=JKS
 listener.name.replication.ssl.truststore.type=JKS
-listener.name.replication.ssl.endpoint.identification.algorithm=HTTPS
-listener.name.replication.ssl.secure.random.implementation=SHA1PRNG
-listener.name.replication.ssl.keystore.location=_<path-to-keystore>_ <4>
-listener.name.replication.ssl.truststore.location=_<path-to-truststore>_ <5>
-listener.name.replication.ssl.client.auth=required <6>
+listener.name.replication.ssl.endpoint.identification.algorithm=HTTPS <4>
+listener.name.replication.ssl.secure.random.implementation=SHA1PRNG <5>
+listener.name.replication.ssl.keystore.location=_<path-to-keystore>_ <6>
+listener.name.replication.ssl.truststore.location=_<path-to-truststore>_ <7>
+listener.name.replication.ssl.client.auth=required <8>
 listener.name.client.oauthbearer.sasl.server.callback.handler.class=io.strimzi.kafka.oauth.server.JaasServerOauthValidatorCallbackHandler
 listener.name.client.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
   oauth.valid.issuer.uri="https://_<auth-server-address>_" \
   oauth.jwks.endpoint.uri="https://_<auth-server-address>_/jwks" \
   oauth.username.claim="preferred_username"  \
-  unsecuredLoginStringClaim_sub="thePrincipalName" ; <7>
+  unsecuredLoginStringClaim_sub="thePrincipalName" ; <9>
 ----
 <1> Separate configurations are required for inter-broker communication and client applications.
 <2> Configures the _REPLICATION_ listener to use TLS, and the _CLIENT_ listener to use SASL over an unencrypted channel. The client could use an encrypted channel (`SASL_SSL`) in a production environment.
 <3> The `ssl.` properties define the TLS configuration.
-<4> Path to the keystore for the listener.
-<5> Path to the truststore for the listener.
-<6> Specifies that clients of the _REPLICATION_ listener have to authenticate with a client certificate when establishing a TLS connection (used for inter-broker connectivity).
-<7> Configures the _CLIENT_ listener for {oauth}. Connectivity with the authorization server should use secure HTTPS connections.
+<4> Random number generator implementation. If not set, the Java platform SDK default is used.
+<5> Hostname verification. If set to an empty string, the hostname verification is turned off. If not set, the default value is HTTPS, which enforces hostname verification for server certificates.
+<6> Path to the keystore for the listener.
+<7> Path to the truststore for the listener.
+<8> Specifies that clients of the _REPLICATION_ listener have to authenticate with a client certificate when establishing a TLS connection (used for inter-broker connectivity).
+<9> Configures the _CLIENT_ listener for {oauth}. Connectivity with the authorization server should use secure HTTPS connections.
 
 == Fast local JWT token validation configuration
 
@@ -121,7 +123,7 @@ The authorization server does not need to be contacted during fast local JWT tok
 You activate fast local JWT token validation by specifying a _JWKs endpoint URI_ exposed by the {oauth} authorization server.
 The endpoint contains the public keys used to validate signed JWT tokens, which are sent as credentials by Kafka clients.
 
-NOTE: All communication with the authorization server should be performed using HyperText Transfer Protocol Secure (HTTPS).
+NOTE: All communication with the authorization server should be performed using HTTPS.
 
 For a TLS listener, you can configure a certificate _truststore_ and point to the truststore file.
 
