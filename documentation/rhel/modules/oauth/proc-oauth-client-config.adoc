@@ -32,9 +32,9 @@ Add a client callback plugin to your _pom.xml_ file, and configure the system pr
 +
 For example:
 +
-[source,xml, subs="+quotes,attributes"]
+[source,env, subs="+quotes,attributes"]
 ----
-System.setProperty(ClientConfig.OAUTH_TOKEN_ENDPOINT_URI, “_https://<authorization-server-address>/auth/realms/master/protocol/openid-connect/token_”); <1>
+System.setProperty(ClientConfig.OAUTH_TOKEN_ENDPOINT_URI, “_https://<auth-server-address>/auth/realms/master/protocol/openid-connect/token_”); <1>
 System.setProperty(ClientConfig.OAUTH_CLIENT_ID, "_<client-name>_"); <2>
 System.setProperty(ClientConfig.OAUTH_CLIENT_SECRET, "_<client-secret>_"); <3>
 ----
@@ -46,7 +46,7 @@ System.setProperty(ClientConfig.OAUTH_CLIENT_SECRET, "_<client-secret>_"); <3>
 +
 For example:
 +
-[source,xml]
+[source,env]
 ----
 props.put("sasl.jaas.config", "org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required;");
 props.put("security.protocol", "SASL_SSL"); <1>

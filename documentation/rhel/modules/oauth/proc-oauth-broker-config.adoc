@@ -7,12 +7,20 @@
 
 This procedure describes how to configure Kafka brokers so that the broker listeners are enabled to use {oauth} authentication using an authorization server.
 
+{oauth} requires configuration of TLS listeners.
+Plain listeners are not recommended.
+
 .Before you start
 
 For more information on the configuration and authentication of Kafka broker listeners, see:
 
 * xref:con-kafka-listener-configuration-{context}[Listeners]
 * xref:assembly-kafka-encryption-and-authentication-{context}[Encryption and authentication]
+
+For a description of the properties used in the listener configuration, see:
+
+* xref:con-oauth-authentication-broker-{context}[{oauth} Kafka broker configuration]
+
 
 .Prerequisites
 
@@ -35,67 +43,67 @@ bcprov-*.jar
 +
 If they are not already present, the files are available from the xref:proc-downloading-amq-streams-{context}[installation archive].
 
-. Update the Kafka `server.properties` file.
-+
-[source,xml,subs="+attributes,quotes"]
-----
-sasl.enabled.mechanisms=OAUTHBEARER <1>
-
-listeners=CLIENTS://kafka:9092 <2>
-
-listener.security.protocol.map=CLIENTS:SASL_PLAINTEXT <3>
-
-listener.name.clients.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required; <4>
-listener.name.clients.oauthbearer.sasl.login.callback.handler.class=io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
-listener.name.clients.oauthbearer.sasl.server.callback.handler.class=io.strimzi.kafka.oauth.server.JaasServerOauthValidatorCallbackHandler
-----
-<1> Enables the _OAUTHBEARER as SASL_ mechanism for credentials exchange over SASL.
-<2> Configures a listener for client applications, replacing `kafka` with a valid hostname, resolvable by clients.
-<3> Specifies the channel protocol for the listener. SASL_PLAINTEXT means unencrypted connection (no TLS), so there is risk of eavesdropping and interception at the TCP connection layer.
-<4> The three listener properties enable {oauth} for {ProductName}.
-
-. To further configure {oauth} support, use one of the following connection options.
-+
-* OPTION 1: Add environment variables to enable local token validation using a JWKS endpoint configuration.
-+
-[source,env,subs="+attributes,quotes"]
-----
-export OAUTH_JWKS_ENDPOINT_URI=https://<__authorization-server-address__>/jwks <1>
-export OAUTH_JWKS_REFRESH_SECONDS=300 <2>
-export OAUTH_JWKS_EXPIRY_SECONDS=360 <3>
-----
-<1> The JWKS endpoint URL. For example, `https://<authorization-server-address>/auth/realms/master/protocol/openid-connect/certs`.
-<2> The period between endpoint refreshes (default 300).
-<3> The certificate's expiry time (default 360). If you specify a longer time, consider the risk of allowing access to revoked certificates.
-+
-* OPTION 2: Add environment variables to enable delegating token validation to the authorization server through the {oauth} introspection endpoint.
-+
-[source,env,subs="+attributes,quotes"]
-----
-export OAUTH_INTROSPECTION_ENDPOINT_URI=https://<__authorization-server-address__>/introspection <1>
-----
-<1> The {oauth} introspection endpoint URL. For example, `https://<authorization-server-address>/auth/realms/master/protocol/openid-connect/token/introspect`.
-
-. If required, configure access to the authorization server.
-+
-This step is normally required for a production environment, unless a technology like _service mesh_ is used to configure secure channels outside containers.
-
-.. Provide a custom truststore for connecting to the authorization server.
-SSL is always required for access to the authorization server.
-+
-Set environment variables to configure a truststore for connecting to a secured authorization server:
+. Configure the Kafka broker listener configuration in the `server.properties` file.
 +
 For example:
 +
 [source,env,subs="+attributes,quotes"]
 ----
-export OAUTH_SSL_TRUSTSTORE_LOCATION=<__/path/to/truststore.p12__> <1>
-export OAUTH_SSL_TRUSTSTORE_PASSWORD=<__my-password__> <2>
-export OAUTH_SSL_TRUSTSTORE_TYPE=pkcs12 <3>
+sasl.enabled.mechanisms=OAUTHBEARER
+listeners=CLIENT://0.0.0.0:9092
+listener.security.protocol.map=CLIENT:SASL_PLAINTEXT
+listener.name.client.sasl.enabled.mechanisms=OAUTHBEARER
+sasl.mechanism.inter.broker.protocol=OAUTHBEARER
+inter.broker.listener.name=CLIENT
+listener.name.client.oauthbearer.sasl.server.callback.handler.class=io.strimzi.kafka.oauth.server.JaasServerOauthValidatorCallbackHandler
+listener.name.client.oauthbearer.sasl.jaas.config=org.apache.kafka.common.security.oauthbearer.OAuthBearerLoginModule required \
+listener.name.clients.oauthbearer.sasl.login.callback.handler.class=io.strimzi.kafka.oauth.client.JaasClientOauthLoginCallbackHandler
 ----
-<1> Location of the truststore file in PKCS format.
-<2> Password to access the truststore.
-<3> Truststore type in PKCS12 format.
+
+. Add listener environment variables to configure broker connection options.
++
+The examples here show additional configuration options.
++
+--
+.Example 1: Local token validation using a JWKS endpoint configuration
+[source,env,subs="+attributes,quotes"]
+----
+export OAUTH_VALID_ISSUER_URI=https://_<auth-server-address>_
+export OAUTH_JWKS_ENDPOINT_URI=https://_<auth-server-address>_/jwks
+export OAUTH_JWKS_REFRESH_SECONDS=300
+export OAUTH_JWKS_EXPIRY_SECONDS=360
+export OAUTH_USERNAME_CLAIM=preferred_username
+export OAUTH_SSL_TRUSTSTORE_LOCATION=_<path-to-truststore-p12>_
+export OAUTH_SSL_TRUSTSTORE_PASSWORD=_<my-password>_
+export OAUTH_SSL_TRUSTSTORE_TYPE=pkcs12
+----
+
+.Example 2: Delegating token validation to the authorization server through the {oauth} introspection endpoint
+[source,env,subs="+attributes,quotes"]
+----
+export OAUTH_INTROSPECTION_ENDPOINT_URI=https://_<auth-server-address>_/introspection
+----
+--
+
+. If required, configure access to the authorization server.
++
+This step is normally required for a production environment, unless a technology like _service mesh_ is used to configure secure channels outside containers.
+
+.. Provide a custom truststore for connecting to a secured authorization server.
+SSL is always required for access to the authorization server.
++
+Set environment variables to configure the truststore.
++
+For example:
++
+[source,env,subs="+attributes,quotes"]
+----
+export OAUTH_CLIENT_ID=kafka-broker
+export OAUTH_CLIENT_SECRET=kafka-broker-secret
+export OAUTH_SSL_TRUSTSTORE_LOCATION=_<path-to-truststore-p12>_
+export OAUTH_SSL_TRUSTSTORE_PASSWORD=_<my-password>_
+export OAUTH_SSL_TRUSTSTORE_TYPE=pkcs12
+----
 
 .. If the certificate hostname does not match the access URL hostname, you can turn off certificate hostname validation:
 +
@@ -111,18 +119,18 @@ You may wish to turn off the validation in a non-production environment.
 +
 [source,env,subs="+attributes,quotes"]
 ----
-export OAUTH_TOKEN_ENDPOINT_URI=https://<__authorization-server-address__>/token <1>
-export OAUTH_VALID_ISSUER_URI=https://<__authorization-server-address__> <2>
+export OAUTH_TOKEN_ENDPOINT_URI=https://_<auth-server-address>_/token <1>
+export OAUTH_VALID_ISSUER_URI=https://_<auth-server-address>_ <2>
 export OAUTH_CLIENT_ID=kafka-broker <3>
 export OAUTH_CLIENT_SECRET=kafka-broker-secret <4>
 
-export OAUTH_REFRESH_TOKEN=<__my-refresh-token-for-kafka-brokers__> <5>
-export OAUTH_ACCESS_TOKEN=<__my-access-token-for-kafka-brokers__> <6>
+export OAUTH_REFRESH_TOKEN=_<my-refresh-token-for-kafka-brokers>_ <5>
+export OAUTH_ACCESS_TOKEN=_<my-access-token-for-kafka-brokers>_ <6>
 ----
 <1> The {oauth} token endpoint URL to your authorization server. For production, always use HTTPs.
 <2> A valid issuer URI. Only access tokens issued by this issuer will be accepted.
 <3> The configured client ID of the Kafka broker, which is the same for all brokers. This is the xref:proc-oauth-server-config-{context}[client registered with the authorization server as `kafka-broker`].
-<4> The configured secret for Kafka broker, which is the same for all brokers.
+<4> The configured secret for the Kafka broker, which is the same for all brokers.
 <5> (Optional) A long-lived refresh token for Kafka brokers.
 <6> (Optional) A long-lived access token for Kafka brokers.
 

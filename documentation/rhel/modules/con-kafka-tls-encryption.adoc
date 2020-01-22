@@ -6,6 +6,8 @@
 
 = TLS Encryption
 
+Kafka supports TLS for encrypting communication with Kafka clients.
+
 In order to use TLS encryption and server authentication, a keystore containing private and public keys has to be provided.
 This is usually done using a file in the Java Keystore (JKS) format.
 A path to this file is set in the `ssl.keystore.location` property.

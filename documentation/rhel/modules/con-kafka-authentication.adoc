@@ -6,9 +6,11 @@
 
 = Authentication
 
-Kafka supports two methods of authentication.
-On all connections, authentication using one of the supported SASL (Simple Authentication and Security Layer) mechanisms can be used.
-On encrypted connections, TLS client authentication based on X.509 certificates can be used.
+For authentication, you can use:
+
+* TLS client authentication based on X.509 certificates on encrypted connections
+* A supported Kafka SASL (Simple Authentication and Security Layer) mechanism
+* xref:assembly-oauth-str[{oauth} token based authentication]
 
 == TLS client authentication
 
