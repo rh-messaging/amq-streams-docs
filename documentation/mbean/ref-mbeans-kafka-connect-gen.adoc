@@ -87,6 +87,7 @@ These are metrics at the connect level.
 |=======
 | Attribute                    | Description
 | completed-rebalances-total   | The total number of rebalances completed by this worker.
+| connect-protocol             | The Connect protocol used by this cluster.
 | epoch                        | The epoch or generation number of this worker.
 | leader-name                  | The name of the group leader.
 | rebalance-avg-time-ms        | The average time in milliseconds spent by this worker to rebalance.

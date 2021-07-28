@@ -25,14 +25,22 @@ A list of host/port pairs to use for establishing the initial connection to the 
 *Default:* 1 +
 *Importance:* high +
 +
-The replication factor for change log topics and repartition topics created by the stream processing application.
+The replication factor for change log topics and repartition topics created by the stream processing application. If your broker cluster is on version 2.4 or newer, you can set -1 to use the broker default replication factor.
 
 `state.dir`::
 *Type:* string +
 *Default:* /tmp/kafka-streams +
 *Importance:* high +
 +
-Directory location for state store.
+Directory location for state store. This path must be unique for each streams instance sharing the same underlying filesystem.
+
+`acceptable.recovery.lag`::
+*Type:* long +
+*Default:* 10000 +
+*Valid Values:* [0,...] +
+*Importance:* medium +
++
+The maximum acceptable lag (number of offsets to catch up) for a client to be considered caught-up for an active task.Should correspond to a recovery time of well under a minute for a given workload. Must be at least 0.
 
 `cache.max.bytes.buffering`::
 *Type:* long +
@@ -84,12 +92,34 @@ Default timestamp extractor class that implements the `org.apache.kafka.streams.
 +
 Default serializer / deserializer class for value that implements the `org.apache.kafka.common.serialization.Serde` interface. Note when windowed serde class is used, one needs to set the inner serde class that implements the `org.apache.kafka.common.serialization.Serde` interface via 'default.windowed.key.serde.inner' or 'default.windowed.value.serde.inner' as well.
 
+`default.windowed.key.serde.inner`::
+*Type:* class +
+*Default:* null +
+*Importance:* medium +
++
+Default serializer / deserializer for the inner class of a windowed key. Must implement the `org.apache.kafka.common.serialization.Serde` interface.
+
+`default.windowed.value.serde.inner`::
+*Type:* class +
+*Default:* null +
+*Importance:* medium +
++
+Default serializer / deserializer for the inner class of a windowed value. Must implement the `org.apache.kafka.common.serialization.Serde` interface.
+
 `max.task.idle.ms`::
 *Type:* long +
 *Default:* 0 +
 *Importance:* medium +
 +
-Maximum amount of time a stream task will stay idle when not all of its partition buffers contain records, to avoid potential out-of-order record processing across multiple input streams.
+Maximum amount of time in milliseconds a stream task will stay idle when not all of its partition buffers contain records, to avoid potential out-of-order record processing across multiple input streams.
+
+`max.warmup.replicas`::
+*Type:* int +
+*Default:* 2 +
+*Valid Values:* [1,...] +
+*Importance:* medium +
++
+The maximum number of warmup replicas (extra standbys beyond the configured num.standbys) that can be assigned at once for the purpose of keeping  the task available on one instance while it is warming up on another instance it has been reassigned to. Used to throttle how much extra broker  traffic and cluster state can be used for high availability. Must be at least 1.
 
 `num.standby.replicas`::
 *Type:* int +
@@ -108,10 +138,10 @@ The number of threads to execute stream processing.
 `processing.guarantee`::
 *Type:* string +
 *Default:* at_least_once +
-*Valid Values:* [at_least_once, exactly_once] +
+*Valid Values:* [at_least_once, exactly_once, exactly_once_beta] +
 *Importance:* medium +
 +
-The processing guarantee that should be used. Possible values are `at_least_once` (default) and `exactly_once`. Note that exactly-once processing requires a cluster of at least three brokers by default what is the recommended setting for production; for development you can change this, by adjusting broker setting `transaction.state.log.replication.factor` and `transaction.state.log.min.isr`.
+The processing guarantee that should be used. Possible values are `at_least_once` (default), `exactly_once` (requires brokers version 0.11.0 or higher), and `exactly_once_beta` (requires brokers version 2.5 or higher). Note that exactly-once processing requires a cluster of at least three brokers by default what is the recommended setting for production; for development you can change this, by adjusting broker setting `transaction.state.log.replication.factor` and `transaction.state.log.min.isr`.
 
 `security.protocol`::
 *Type:* string +
@@ -119,6 +149,14 @@ The processing guarantee that should be used. Possible values are `at_least_once
 *Importance:* medium +
 +
 Protocol used to communicate with brokers. Valid values are: PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL.
+
+`task.timeout.ms`::
+*Type:* long +
+*Default:* 300000 (5 minutes) +
+*Valid Values:* [0,...] +
+*Importance:* medium +
++
+The maximum amount of time in milliseconds a task might stall due to internal errors and retries until an error is raised. For a timeout of 0ms, a task would raise an error for the first internal error. For any timeout larger than 0ms, a task will retry at least once before an error is raised.
 
 `topology.optimization`::
 *Type:* string +
@@ -133,7 +171,7 @@ A configuration telling Kafka Streams if it should optimize the topology, disabl
 *Default:* "" +
 *Importance:* low +
 +
-A host:port pair pointing to an embedded user defined endpoint that can be used for discovering the locations of state stores within a single KafkaStreams application.
+A host:port pair pointing to a user-defined endpoint that can be used for state store discovery and interactive queries on this KafkaStreams instance.
 
 `buffered.records.per.partition`::
 *Type:* int +
@@ -142,24 +180,32 @@ A host:port pair pointing to an embedded user defined endpoint that can be used 
 +
 Maximum number of records to buffer per partition.
 
+`built.in.metrics.version`::
+*Type:* string +
+*Default:* latest +
+*Valid Values:* [0.10.0-2.4, latest] +
+*Importance:* low +
++
+Version of the built-in metrics to use.
+
 `commit.interval.ms`::
 *Type:* long +
-*Default:* 30000 +
+*Default:* 30000 (30 seconds) +
 *Valid Values:* [0,...] +
 *Importance:* low +
 +
-The frequency with which to save the position of the processor. (Note, if `processing.guarantee` is set to `exactly_once`, the default value is `100`, otherwise the default value is `30000`.
+The frequency in milliseconds with which to save the position of the processor. (Note, if `processing.guarantee` is set to `exactly_once`, the default value is `100`, otherwise the default value is `30000`.
 
 `connections.max.idle.ms`::
 *Type:* long +
-*Default:* 540000 +
+*Default:* 540000 (9 minutes) +
 *Importance:* low +
 +
 Close idle connections after the number of milliseconds specified by this config.
 
 `metadata.max.age.ms`::
 *Type:* long +
-*Default:* 300000 +
+*Default:* 300000 (5 minutes) +
 *Valid Values:* [0,...] +
 *Importance:* low +
 +
@@ -183,14 +229,14 @@ The number of samples maintained to compute metrics.
 `metrics.recording.level`::
 *Type:* string +
 *Default:* INFO +
-*Valid Values:* [INFO, DEBUG] +
+*Valid Values:* [INFO, DEBUG, TRACE] +
 *Importance:* low +
 +
 The highest recording level for metrics.
 
 `metrics.sample.window.ms`::
 *Type:* long +
-*Default:* 30000 +
+*Default:* 30000 (30 seconds) +
 *Valid Values:* [0,...] +
 *Importance:* low +
 +
@@ -201,7 +247,7 @@ The window of time a metrics sample is computed over.
 *Default:* org.apache.kafka.streams.processor.DefaultPartitionGrouper +
 *Importance:* low +
 +
-Partition grouper class that implements the `org.apache.kafka.streams.processor.PartitionGrouper` interface.
+Partition grouper class that implements the `org.apache.kafka.streams.processor.PartitionGrouper` interface. WARNING: This config is deprecated and will be removed in 3.0.0 release.
 
 `poll.ms`::
 *Type:* long +
@@ -210,9 +256,17 @@ Partition grouper class that implements the `org.apache.kafka.streams.processor.
 +
 The amount of time in milliseconds to block waiting for input.
 
+`probing.rebalance.interval.ms`::
+*Type:* long +
+*Default:* 600000 (10 minutes) +
+*Valid Values:* [60000,...] +
+*Importance:* low +
++
+The maximum time in milliseconds to wait before triggering a rebalance to probe for warmup replicas that have finished warming up and are ready to become active. Probing rebalances will continue to be triggered until the assignment is balanced. Must be at least 1 minute.
+
 `receive.buffer.bytes`::
 *Type:* int +
-*Default:* 32768 +
+*Default:* 32768 (32 kibibytes) +
 *Valid Values:* [-1,...] +
 *Importance:* low +
 +
@@ -220,7 +274,7 @@ The size of the TCP receive buffer (SO_RCVBUF) to use when reading data. If the 
 
 `reconnect.backoff.max.ms`::
 *Type:* long +
-*Default:* 1000 +
+*Default:* 1000 (1 second) +
 *Valid Values:* [0,...] +
 *Importance:* low +
 +
@@ -236,7 +290,7 @@ The base amount of time to wait before attempting to reconnect to a given host. 
 
 `request.timeout.ms`::
 *Type:* int +
-*Default:* 40000 +
+*Default:* 40000 (40 seconds) +
 *Valid Values:* [0,...] +
 *Importance:* low +
 +
@@ -248,7 +302,7 @@ The configuration controls the maximum amount of time the client will wait for t
 *Valid Values:* [0,...,2147483647] +
 *Importance:* low +
 +
-Setting a value greater than zero will cause the client to resend any request that fails with a potentially transient error.
+Setting a value greater than zero will cause the client to resend any request that fails with a potentially transient error. It is recommended to set the value to either zero or `MAX_VALUE` and use corresponding timeout parameters to control how long a client should retry a request.
 
 `retry.backoff.ms`::
 *Type:* long +
@@ -267,7 +321,7 @@ A Rocks DB config setter class or class name that implements the `org.apache.kaf
 
 `send.buffer.bytes`::
 *Type:* int +
-*Default:* 131072 +
+*Default:* 131072 (128 kibibytes) +
 *Valid Values:* [-1,...] +
 *Importance:* low +
 +
@@ -275,7 +329,7 @@ The size of the TCP send buffer (SO_SNDBUF) to use when sending data. If the val
 
 `state.cleanup.delay.ms`::
 *Type:* long +
-*Default:* 600000 +
+*Default:* 600000 (10 minutes) +
 *Importance:* low +
 +
 The amount of time in milliseconds to wait before deleting state when a partition has migrated. Only state directories that have not been modified for at least `state.cleanup.delay.ms` will be removed.
@@ -283,14 +337,21 @@ The amount of time in milliseconds to wait before deleting state when a partitio
 `upgrade.from`::
 *Type:* string +
 *Default:* null +
-*Valid Values:* [null, 0.10.0, 0.10.1, 0.10.2, 0.11.0, 1.0, 1.1] +
+*Valid Values:* [null, 0.10.0, 0.10.1, 0.10.2, 0.11.0, 1.0, 1.1, 2.0, 2.1, 2.2, 2.3] +
 *Importance:* low +
 +
-Allows upgrading from versions 0.10.0/0.10.1/0.10.2/0.11.0/1.0/1.1 to version 1.2 (or newer) in a backward compatible way. When upgrading from 1.2 to a newer version it is not required to specify this config.Default is null. Accepted values are "0.10.0", "0.10.1", "0.10.2", "0.11.0", "1.0", "1.1" (for upgrading from the corresponding old version).
+Allows upgrading in a backward compatible way. This is needed when upgrading from [0.10.0, 1.1] to 2.0+, or when upgrading from [2.0, 2.3] to 2.4+. When upgrading from 2.4 to a newer version it is not required to specify this config. Default is `null`. Accepted values are "0.10.0", "0.10.1", "0.10.2", "0.11.0", "1.0", "1.1", "2.0", "2.1", "2.2", "2.3" (for upgrading from the corresponding old version).
+
+`window.size.ms`::
+*Type:* long +
+*Default:* null +
+*Importance:* low +
++
+Sets window size for the deserializer in order to calculate window end times.
 
 `windowstore.changelog.additional.retention.ms`::
 *Type:* long +
-*Default:* 86400000 +
+*Default:* 86400000 (1 day) +
 *Importance:* low +
 +
 Added to a windows maintainMs to ensure data is not deleted from the log prematurely. Allows for clock drift. Default is 1 day.

@@ -133,11 +133,12 @@ These are metrics at the partition level about the consumer\'s fetcher.
 //kafka.consumer:type=consumer-fetch-manager-metrics,client-id=*,partition=*,topic=*
 [options="header"]
 |=======
-| Attribute        | Description
-| records-lag      | The latest lag of the partition.
-| records-lag-avg  | The average lag of the partition.
-| records-lag-max  | The max lag of the partition.
-| records-lead     | The latest lead of the partition.
-| records-lead-avg | The average lead of the partition.
-| records-lead-min | The min lead of the partition.
+| Attribute              | Description
+| preferred-read-replica | The current read replica for the partition, or -1 if reading from leader.
+| records-lag            | The latest lag of the partition.
+| records-lag-avg        | The average lag of the partition.
+| records-lag-max        | The max lag of the partition.
+| records-lead           | The latest lead of the partition.
+| records-lead-avg       | The average lead of the partition.
+| records-lead-min       | The min lead of the partition.
 |=======

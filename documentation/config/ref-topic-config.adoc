@@ -28,7 +28,7 @@ Specify the final compression type for a given topic. This configuration accepts
 
 `delete.retention.ms`::
 *Type:* long +
-*Default:* 86400000 +
+*Default:* 86400000 (1 day) +
 *Valid Values:* [0,...] +
 *Server Default Property:* log.cleaner.delete.retention.ms +
 *Importance:* medium +
@@ -37,7 +37,7 @@ The amount of time to retain delete tombstone markers for https://kafka.apache.o
 
 `file.delete.delay.ms`::
 *Type:* long +
-*Default:* 60000 +
+*Default:* 60000 (1 minute) +
 *Valid Values:* [0,...] +
 *Server Default Property:* log.segment.delete.delay.ms +
 *Importance:* medium +
@@ -73,7 +73,7 @@ A list of replicas for which log replication should be throttled on the follower
 
 `index.interval.bytes`::
 *Type:* int +
-*Default:* 4096 +
+*Default:* 4096 (4 kibibytes) +
 *Valid Values:* [0,...] +
 *Server Default Property:* log.index.interval.bytes +
 *Importance:* medium +
@@ -100,22 +100,17 @@ The maximum time a message will remain ineligible for compaction in the log. Onl
 
 `max.message.bytes`::
 *Type:* int +
-*Default:* 1000012 +
+*Default:* 1048588 +
 *Valid Values:* [0,...] +
 *Server Default Property:* message.max.bytes +
 *Importance:* medium +
 +
-
-+
-The largest record batch size allowed by Kafka. If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that the they can fetch record batches this large.
-+
-In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.
-
+The largest record batch size allowed by Kafka (after compression if compression is enabled). If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that they can fetch record batches this large. In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.
 
 `message.format.version`::
 *Type:* string +
-*Default:* 2.3-IV1 +
-*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1] +
+*Default:* 2.8-IV1 +
+*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0, 2.7-IV0, 2.7-IV1, 2.7-IV2, 2.8-IV0, 2.8-IV1] +
 *Server Default Property:* log.message.format.version +
 *Importance:* medium +
 +
@@ -146,7 +141,7 @@ Define whether the timestamp in the message is message create time or log append
 *Server Default Property:* log.cleaner.min.cleanable.ratio +
 *Importance:* medium +
 +
-This configuration controls how frequently the log compactor will attempt to clean the log (assuming https://kafka.apache.org/23/documentation.html#compaction[log compaction] is enabled). By default we will avoid cleaning a log where more than 50% of the log has been compacted. This ratio bounds the maximum space wasted in the log by duplicates (at 50% at most 50% of the log could be duplicates). A higher ratio will mean fewer, more efficient cleanings but will mean more wasted space in the log. If the max.compaction.lag.ms or the min.compaction.lag.ms configurations are also specified, then the log compactor considers the log eligible for compaction as soon as either: (i) the dirty ratio threshold has been met and the log has had dirty (uncompacted) records for at least the min.compaction.lag.ms duration, or (ii) if the log has had dirty (uncompacted) records for at most the max.compaction.lag.ms period.
+This configuration controls how frequently the log compactor will attempt to clean the log (assuming https://kafka.apache.org/23/documentation.html#compaction[log compaction] is enabled). By default we will avoid cleaning a log where more than 50% of the log has been compacted. This ratio bounds the maximum space wasted in the log by duplicates (at 50% at most 50% of the log could be duplicates). A higher ratio will mean fewer, more efficient cleanings but will mean more wasted space in the log. If the max.compaction.lag.ms or the min.compaction.lag.ms configurations are also specified, then the log compactor considers the log to be eligible for compaction as soon as either: (i) the dirty ratio threshold has been met and the log has had dirty (uncompacted) records for at least the min.compaction.lag.ms duration, or (ii) if the log has had dirty (uncompacted) records for at most the max.compaction.lag.ms period.
 
 `min.compaction.lag.ms`::
 *Type:* long +
@@ -185,7 +180,7 @@ This configuration controls the maximum size a partition (which consists of log 
 
 `retention.ms`::
 *Type:* long +
-*Default:* 604800000 +
+*Default:* 604800000 (7 days) +
 *Valid Values:* [-1,...] +
 *Server Default Property:* log.retention.ms +
 *Importance:* medium +
@@ -194,7 +189,7 @@ This configuration controls the maximum time we will retain a log before we will
 
 `segment.bytes`::
 *Type:* int +
-*Default:* 1073741824 +
+*Default:* 1073741824 (1 gibibyte) +
 *Valid Values:* [14,...] +
 *Server Default Property:* log.segment.bytes +
 *Importance:* medium +
@@ -203,7 +198,7 @@ This configuration controls the segment file size for the log. Retention and cle
 
 `segment.index.bytes`::
 *Type:* int +
-*Default:* 10485760 +
+*Default:* 10485760 (10 mebibytes) +
 *Valid Values:* [0,...] +
 *Server Default Property:* log.index.size.max.bytes +
 *Importance:* medium +
@@ -221,7 +216,7 @@ The maximum random jitter subtracted from the scheduled segment roll time to avo
 
 `segment.ms`::
 *Type:* long +
-*Default:* 604800000 +
+*Default:* 604800000 (7 days) +
 *Valid Values:* [1,...] +
 *Server Default Property:* log.roll.ms +
 *Importance:* medium +

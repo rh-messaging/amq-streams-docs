@@ -28,7 +28,7 @@ Serializer class for value that implements the `org.apache.kafka.common.serializ
 +
 The number of acknowledgments the producer requires the leader to have received before considering a request complete. This controls the  durability of records that are sent. The following settings are allowed:  
  
-* `acks=0` If set to zero then the producer will not wait for any acknowledgment from the server at all. The record will be immediately added to the socket buffer and considered sent. No guarantee can be made that the server has received the record in this case, and the `retries` configuration will not take effect (as the client won't generally know of any failures). The offset given back for each record will always be set to -1. 
+* `acks=0` If set to zero then the producer will not wait for any acknowledgment from the server at all. The record will be immediately added to the socket buffer and considered sent. No guarantee can be made that the server has received the record in this case, and the `retries` configuration will not take effect (as the client won't generally know of any failures). The offset given back for each record will always be set to `-1`. 
 * `acks=1` This will mean the leader will write the record to its local log but will respond without awaiting full acknowledgement from all followers. In this case should the leader fail immediately after acknowledging the record but before the followers have replicated it then the record will be lost. 
 * `acks=all` This means the leader will wait for the full set of in-sync replicas to acknowledge the record. This guarantees that the record will not be lost as long as at least one in-sync replica remains alive. This is the strongest available guarantee. This is equivalent to the acks=-1 setting.
 
@@ -70,7 +70,21 @@ Setting a value greater than zero will cause the client to resend any record who
 *Default:* null +
 *Importance:* high +
 +
-The password of the private key in the key store file. This is optional for client.
+The password of the private key in the key store file orthe PEM key specified in `ssl.keystore.key'. This is required for clients only if two-way authentication is configured.
+
+`ssl.keystore.certificate.chain`::
+*Type:* password +
+*Default:* null +
+*Importance:* high +
++
+Certificate chain in the format specified by 'ssl.keystore.type'. Default SSL engine factory supports only PEM format with a list of X.509 certificates.
+
+`ssl.keystore.key`::
+*Type:* password +
+*Default:* null +
+*Importance:* high +
++
+Private key in the format specified by 'ssl.keystore.type'. Default SSL engine factory supports only PEM format with PKCS#8 keys. If the key is encrypted, key password must be specified using 'ssl.key.password'.
 
 `ssl.keystore.location`::
 *Type:* string +
@@ -84,7 +98,14 @@ The location of the key store file. This is optional for client and can be used 
 *Default:* null +
 *Importance:* high +
 +
-The store password for the key store file. This is optional for client and only needed if ssl.keystore.location is configured.
+The store password for the key store file. This is optional for client and only needed if 'ssl.keystore.location' is configured.  Key store password is not supported for PEM format.
+
+`ssl.truststore.certificates`::
+*Type:* password +
+*Default:* null +
+*Importance:* high +
++
+Trusted certificates in the format specified by 'ssl.truststore.type'. Default SSL engine factory supports only PEM format with X.509 certificates.
 
 `ssl.truststore.location`::
 *Type:* string +
@@ -98,7 +119,7 @@ The location of the trust store file.
 *Default:* null +
 *Importance:* high +
 +
-The password for the trust store file. If a password is not set access to the truststore is still available, but integrity checking is disabled.
+The password for the trust store file. If a password is not set, trust store file configured will still be used, but integrity checking is disabled. Trust store password is not supported for PEM format.
 
 `batch.size`::
 *Type:* int +
@@ -116,18 +137,11 @@ A small batch size will make batching less common and may reduce throughput (a b
 
 `client.dns.lookup`::
 *Type:* string +
-*Default:* default +
+*Default:* use_all_dns_ips +
 *Valid Values:* [default, use_all_dns_ips, resolve_canonical_bootstrap_servers_only] +
 *Importance:* medium +
 +
-
-+
-Controls how the client uses DNS lookups.
-+
-If set to `use_all_dns_ips` then, when the lookup returns multiple IP addresses for a hostname, they will all be attempted to connect to before failing the connection. Applies to both bootstrap and advertised servers.
-+
-If the value is `resolve_canonical_bootstrap_servers_only` each entry will be resolved and expanded into a list of canonical names.
-
+Controls how the client uses DNS lookups. If set to `use_all_dns_ips`, connect to each returned IP address in sequence until a successful connection is established. After a disconnection, the next IP is used. Once all IPs have been used once, the client resolves the IP(s) from the hostname again (both the JVM and the OS cache DNS name lookups, however). If set to `resolve_canonical_bootstrap_servers_only`, resolve each bootstrap address into a list of canonical names. After the bootstrap phase, this behaves the same as `use_all_dns_ips`. If set to `default` (deprecated), attempt to connect to the first IP address returned by the lookup, even if the lookup returns multiple IP addresses.
 
 `client.id`::
 *Type:* string +
@@ -138,14 +152,14 @@ An id string to pass to the server when making requests. The purpose of this is 
 
 `connections.max.idle.ms`::
 *Type:* long +
-*Default:* 540000 +
+*Default:* 540000 (9 minutes) +
 *Importance:* medium +
 +
 Close idle connections after the number of milliseconds specified by this config.
 
 `delivery.timeout.ms`::
 *Type:* int +
-*Default:* 120000 +
+*Default:* 120000 (2 minutes) +
 *Valid Values:* [0,...] +
 *Importance:* medium +
 +
@@ -161,11 +175,11 @@ The producer groups together any records that arrive in between request transmis
 
 `max.block.ms`::
 *Type:* long +
-*Default:* 60000 +
+*Default:* 60000 (1 minute) +
 *Valid Values:* [0,...] +
 *Importance:* medium +
 +
-The configuration controls how long `KafkaProducer.send()` and `KafkaProducer.partitionsFor()` will block.These methods can be blocked either because the buffer is full or metadata unavailable.Blocking in the user-supplied serializers or partitioner will not be counted against this timeout.
+The configuration controls how long the `KafkaProducer`'s `send()`, `partitionsFor()`, `initTransactions()`, `sendOffsetsToTransaction()`, `commitTransaction()` and `abortTransaction()` methods will block. For `send()` this timeout bounds the total time waiting for both metadata fetch and buffer allocation (blocking in the user-supplied serializers or partitioner is not counted against this timeout). For `partitionsFor()` this timeout bounds the time spent waiting for metadata if it is unavailable. The transaction-related methods always block, but may timeout if the transaction coordinator could not be discovered or did not respond within the timeout.
 
 `max.request.size`::
 *Type:* int +
@@ -173,7 +187,7 @@ The configuration controls how long `KafkaProducer.send()` and `KafkaProducer.pa
 *Valid Values:* [0,...] +
 *Importance:* medium +
 +
-The maximum size of a request in bytes. This setting will limit the number of record batches the producer will send in a single request to avoid sending huge requests. This is also effectively a cap on the maximum record batch size. Note that the server has its own cap on record batch size which may be different from this.
+The maximum size of a request in bytes. This setting will limit the number of record batches the producer will send in a single request to avoid sending huge requests. This is also effectively a cap on the maximum uncompressed record batch size. Note that the server has its own cap on the record batch size (after compression if compression is enabled) which may be different from this.
 
 `partitioner.class`::
 *Type:* class +
@@ -184,7 +198,7 @@ Partitioner class that implements the `org.apache.kafka.clients.producer.Partiti
 
 `receive.buffer.bytes`::
 *Type:* int +
-*Default:* 32768 +
+*Default:* 32768 (32 kibibytes) +
 *Valid Values:* [-1,...] +
 *Importance:* medium +
 +
@@ -192,7 +206,7 @@ The size of the TCP receive buffer (SO_RCVBUF) to use when reading data. If the 
 
 `request.timeout.ms`::
 *Type:* int +
-*Default:* 30000 +
+*Default:* 30000 (30 seconds) +
 *Valid Values:* [0,...] +
 *Importance:* medium +
 +
@@ -210,7 +224,7 @@ The fully qualified name of a SASL client callback handler class that implements
 *Default:* null +
 *Importance:* medium +
 +
-JAAS login context parameters for SASL connections in the format used by JAAS configuration files. JAAS configuration file format is described http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html[here]. The format for the value is: '`loginModuleClass controlFlag (optionName=optionValue)*;`'. For brokers, the config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.jaas.config=com.example.ScramLoginModule required;.
+JAAS login context parameters for SASL connections in the format used by JAAS configuration files. JAAS configuration file format is described http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html[here]. The format for the value is: `loginModuleClass controlFlag (optionName=optionValue)*;`. For brokers, the config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.jaas.config=com.example.ScramLoginModule required;.
 
 `sasl.kerberos.service.name`::
 *Type:* string +
@@ -249,18 +263,32 @@ Protocol used to communicate with brokers. Valid values are: PLAINTEXT, SSL, SAS
 
 `send.buffer.bytes`::
 *Type:* int +
-*Default:* 131072 +
+*Default:* 131072 (128 kibibytes) +
 *Valid Values:* [-1,...] +
 *Importance:* medium +
 +
 The size of the TCP send buffer (SO_SNDBUF) to use when sending data. If the value is -1, the OS default will be used.
 
-`ssl.enabled.protocols`::
-*Type:* list +
-*Default:* TLSv1.2,TLSv1.1,TLSv1 +
+`socket.connection.setup.timeout.max.ms`::
+*Type:* long +
+*Default:* 30000 (30 seconds) +
 *Importance:* medium +
 +
-The list of protocols enabled for SSL connections.
+The maximum amount of time the client will wait for the socket connection to be established. The connection setup timeout will increase exponentially for each consecutive connection failure up to this maximum. To avoid connection storms, a randomization factor of 0.2 will be applied to the timeout resulting in a random range between 20% below and 20% above the computed value.
+
+`socket.connection.setup.timeout.ms`::
+*Type:* long +
+*Default:* 10000 (10 seconds) +
+*Importance:* medium +
++
+The amount of time the client will wait for the socket connection to be established. If the connection is not built before the timeout elapses, clients will close the socket channel.
+
+`ssl.enabled.protocols`::
+*Type:* list +
+*Default:* TLSv1.2,TLSv1.3 +
+*Importance:* medium +
++
+The list of protocols enabled for SSL connections. The default is 'TLSv1.2,TLSv1.3' when running with Java 11 or newer, 'TLSv1.2' otherwise. With the default value for Java 11, clients and servers will prefer TLSv1.3 if both support it and fallback to TLSv1.2 otherwise (assuming both support at least TLSv1.2). This default should be fine for most cases. Also see the config documentation for `ssl.protocol`.
 
 `ssl.keystore.type`::
 *Type:* string +
@@ -271,10 +299,10 @@ The file format of the key store file. This is optional for client.
 
 `ssl.protocol`::
 *Type:* string +
-*Default:* TLS +
+*Default:* TLSv1.3 +
 *Importance:* medium +
 +
-The SSL protocol used to generate the SSLContext. Default setting is TLS, which is fine for most cases. Allowed values in recent JVMs are TLS, TLSv1.1 and TLSv1.2. SSL, SSLv2 and SSLv3 may be supported in older JVMs, but their usage is discouraged due to known security vulnerabilities.
+The SSL protocol used to generate the SSLContext. The default is 'TLSv1.3' when running with Java 11 or newer, 'TLSv1.2' otherwise. This value should be fine for most use cases. Allowed values in recent JVMs are 'TLSv1.2' and 'TLSv1.3'. 'TLS', 'TLSv1.1', 'SSL', 'SSLv2' and 'SSLv3' may be supported in older JVMs, but their usage is discouraged due to known security vulnerabilities. With the default value for this config and 'ssl.enabled.protocols', clients will downgrade to 'TLSv1.2' if the server does not support 'TLSv1.3'. If this config is set to 'TLSv1.2', clients will not use 'TLSv1.3' even if it is one of the values in ssl.enabled.protocols and the server only supports 'TLSv1.3'.
 
 `ssl.provider`::
 *Type:* string +
@@ -315,11 +343,19 @@ The maximum number of unacknowledged requests the client will send on a single c
 
 `metadata.max.age.ms`::
 *Type:* long +
-*Default:* 300000 +
+*Default:* 300000 (5 minutes) +
 *Valid Values:* [0,...] +
 *Importance:* low +
 +
 The period of time in milliseconds after which we force a refresh of metadata even if we haven't seen any partition leadership changes to proactively discover any new brokers or partitions.
+
+`metadata.max.idle.ms`::
+*Type:* long +
+*Default:* 300000 (5 minutes) +
+*Valid Values:* [5000,...] +
+*Importance:* low +
++
+Controls how long the producer will cache metadata for a topic that's idle. If the elapsed time since a topic was last produced to exceeds the metadata idle duration, then the topic's metadata is forgotten and the next access to it will force a metadata fetch request.
 
 `metric.reporters`::
 *Type:* list +
@@ -340,14 +376,14 @@ The number of samples maintained to compute metrics.
 `metrics.recording.level`::
 *Type:* string +
 *Default:* INFO +
-*Valid Values:* [INFO, DEBUG] +
+*Valid Values:* [INFO, DEBUG, TRACE] +
 *Importance:* low +
 +
 The highest recording level for metrics.
 
 `metrics.sample.window.ms`::
 *Type:* long +
-*Default:* 30000 +
+*Default:* 30000 (30 seconds) +
 *Valid Values:* [0,...] +
 *Importance:* low +
 +
@@ -355,7 +391,7 @@ The window of time a metrics sample is computed over.
 
 `reconnect.backoff.max.ms`::
 *Type:* long +
-*Default:* 1000 +
+*Default:* 1000 (1 second) +
 *Valid Values:* [0,...] +
 *Importance:* low +
 +
@@ -437,6 +473,13 @@ Login refresh thread will sleep until the specified window factor relative to th
 +
 The maximum amount of random jitter relative to the credential's lifetime that is added to the login refresh thread's sleep time. Legal values are between 0 and 0.25 (25%) inclusive; a default value of 0.05 (5%) is used if no value is specified. Currently applies only to OAUTHBEARER.
 
+`security.providers`::
+*Type:* string +
+*Default:* null +
+*Importance:* low +
++
+A list of configurable creator classes each returning a provider implementing security algorithms. These classes should implement the `org.apache.kafka.common.security.auth.SecurityProviderCreator` interface.
+
 `ssl.cipher.suites`::
 *Type:* list +
 *Default:* null +
@@ -450,6 +493,13 @@ A list of cipher suites. This is a named combination of authentication, encrypti
 *Importance:* low +
 +
 The endpoint identification algorithm to validate server hostname using server certificate.
+
+`ssl.engine.factory.class`::
+*Type:* class +
+*Default:* null +
+*Importance:* low +
++
+The class of type org.apache.kafka.common.security.auth.SslEngineFactory to provide SSLEngine objects. Default value is org.apache.kafka.common.security.ssl.DefaultSslEngineFactory.
 
 `ssl.keymanager.algorithm`::
 *Type:* string +
@@ -474,10 +524,10 @@ The algorithm used by trust manager factory for SSL connections. Default value i
 
 `transaction.timeout.ms`::
 *Type:* int +
-*Default:* 60000 +
+*Default:* 60000 (1 minute) +
 *Importance:* low +
 +
-The maximum amount of time in ms that the transaction coordinator will wait for a transaction status update from the producer before proactively aborting the ongoing transaction.If this value is larger than the transaction.max.timeout.ms setting in the broker, the request will fail with a `InvalidTransactionTimeout` error.
+The maximum amount of time in ms that the transaction coordinator will wait for a transaction status update from the producer before proactively aborting the ongoing transaction.If this value is larger than the transaction.max.timeout.ms setting in the broker, the request will fail with a `InvalidTxnTimeoutException` error.
 
 `transactional.id`::
 *Type:* string +
@@ -485,4 +535,4 @@ The maximum amount of time in ms that the transaction coordinator will wait for 
 *Valid Values:* non-empty string +
 *Importance:* low +
 +
-The TransactionalId to use for transactional delivery. This enables reliability semantics which span multiple producer sessions since it allows the client to guarantee that transactions using the same TransactionalId have been completed prior to starting any new transactions. If no TransactionalId is provided, then the producer is limited to idempotent delivery. Note that `enable.idempotence` must be enabled if a TransactionalId is configured. The default is `null`, which means transactions cannot be used. Note that, by default, transactions require a cluster of at least three brokers which is the recommended setting for production; for development you can change this, by adjusting broker setting `transaction.state.log.replication.factor`.
+The TransactionalId to use for transactional delivery. This enables reliability semantics which span multiple producer sessions since it allows the client to guarantee that transactions using the same TransactionalId have been completed prior to starting any new transactions. If no TransactionalId is provided, then the producer is limited to idempotent delivery. If a TransactionalId is configured, `enable.idempotence` is implied. By default the TransactionId is not configured, which means transactions cannot be used. Note that, by default, transactions require a cluster of at least three brokers which is the recommended setting for production; for development you can change this, by adjusting broker setting `transaction.state.log.replication.factor`.

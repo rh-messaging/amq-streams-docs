@@ -26,7 +26,7 @@ These are metrics at the producer level.
 | buffer-available-bytes         | The total amount of buffer memory that is not being used (either unallocated or in the free list).
 | buffer-total-bytes             | The maximum amount of buffer memory the client can use (whether or not it is currently used).
 | bufferpool-wait-time           | The fraction of time an appender waits for space allocation.
-| compression-rate-avg           | The average compression rate of record batches.
+| compression-rate-avg           | The average compression rate of record batches, defined as the average ratio of the compressed batch size over the uncompressed size.
 | connection-close-rate          | Connections closed per second in the window.
 | connection-count               | The current number of active connections.
 | connection-creation-rate       | New connections established per second in the window.
@@ -94,7 +94,7 @@ These are metrics at the topic level about topics the producer is sending messag
 | Attribute          | Description
 | byte-rate          | The average number of bytes sent per second for a topic.
 | byte-total         | The total number of bytes sent for a topic.
-| compression-rate   | The average compression rate of record batches for a topic.
+| compression-rate   | The average compression rate of record batches for a topic, defined as the average ratio of the compressed batch size over the uncompressed size.
 | record-error-rate  | The average per-second number of record sends that resulted in errors for a topic.
 | record-error-total | The total number of record sends that resulted in errors for a topic.
 | record-retry-rate  | The average per-second number of retried record sends for a topic.
