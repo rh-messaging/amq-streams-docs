@@ -286,7 +286,7 @@ public class ConfigDocGenerator {
             Field instance = KafkaConfig$.class.getDeclaredField("MODULE$");
             instance.setAccessible(true);
             KafkaConfig$ x = (KafkaConfig$) instance.get(null);
-            Field config = KafkaConfig$.class.getDeclaredField("kafka$server$KafkaConfig$$configDef");
+            Field config = KafkaConfig$.class.getDeclaredField("configDef");
             config.setAccessible(true);
             return (ConfigDef) config.get(x);
         } catch (NoSuchFieldException | IllegalAccessException e) {

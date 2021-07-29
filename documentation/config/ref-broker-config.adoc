@@ -8,14 +8,6 @@
 [id='broker-configuration-parameters-{context}']
 = Broker configuration parameters
 
-`zookeeper.connect`::
-*Type:* string +
-*Importance:* high +
-*Dynamic update:* read-only +
-+
-Specifies the ZooKeeper connection string in the form `hostname:port` where host and port are the host and port of a ZooKeeper server. To allow connecting through other ZooKeeper nodes when that ZooKeeper machine is down you can also specify multiple hosts in the form `hostname1:port1,hostname2:port2,hostname3:port3`.
-The server can also have a ZooKeeper chroot path as part of its ZooKeeper connection string which puts its data under some path in the global ZooKeeper namespace. For example to give a chroot path of `/chroot/path` you would give the connection string as `hostname1:port1,hostname2:port2,hostname3:port3/chroot/path`.
-
 `advertised.host.name`::
 *Type:* string +
 *Default:* null +
@@ -31,7 +23,8 @@ Hostname to publish to ZooKeeper for clients to use. In IaaS environments, this 
 *Importance:* high +
 *Dynamic update:* per-broker +
 +
-Listeners to publish to ZooKeeper for clients to use, if different than the `listeners` config property. In IaaS environments, this may need to be different from the interface to which the broker binds. If this is not set, the value for `listeners` will be used. Unlike `listeners` it is not valid to advertise the 0.0.0.0 meta-address.
+Listeners to publish to ZooKeeper for clients to use, if different than the `listeners` config property. In IaaS environments, this may need to be different from the interface to which the broker binds. If this is not set, the value for `listeners` will be used. Unlike `listeners`, it is not valid to advertise the 0.0.0.0 meta-address.
+ Also unlike `listeners`, there can be duplicated ports in this property, so that one listener can be configured to advertise another listener's address. This can be useful in some cases where external load balancers are used.
 
 `advertised.port`::
 *Type:* int +
@@ -56,7 +49,7 @@ Enable auto creation of topic on the server.
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-Enables auto leader balancing. A background thread checks and triggers leader balance if required at regular intervals.
+Enables auto leader balancing. A background thread checks the distribution of partition leaders at regular intervals, configurable by `leader.imbalance.check.interval.seconds`. If the leader imbalance exceeds `leader.imbalance.per.broker.percentage`, leader rebalance to the preferred leader for partitions is triggered.
 
 `background.threads`::
 *Type:* int +
@@ -142,7 +135,8 @@ The ratio of leader imbalance allowed per broker. The controller would trigger a
 *Importance:* high +
 *Dynamic update:* per-broker +
 +
-Listener List - Comma-separated list of URIs we will listen on and the listener names. If the listener name is not a security protocol, listener.security.protocol.map must also be set.
+Listener List - Comma-separated list of URIs we will listen on and the listener names. If the listener name is not a security protocol, `listener.security.protocol.map` must also be set.
+ Listener names and port numbers must be unique.
  Specify hostname as 0.0.0.0 to bind to all interfaces.
  Leave hostname empty to bind to default interface.
  Examples of legal listener lists:
@@ -184,7 +178,7 @@ The maximum time in ms that a message in any topic is kept in memory before flus
 
 `log.flush.offset.checkpoint.interval.ms`::
 *Type:* int +
-*Default:* 60000 +
+*Default:* 60000 (1 minute) +
 *Valid Values:* [0,...] +
 *Importance:* high +
 *Dynamic update:* read-only +
@@ -201,7 +195,7 @@ The frequency in ms that the log flusher checks whether any log needs to be flus
 
 `log.flush.start.offset.checkpoint.interval.ms`::
 *Type:* int +
-*Default:* 60000 +
+*Default:* 60000 (1 minute) +
 *Valid Values:* [0,...] +
 *Importance:* high +
 *Dynamic update:* read-only +
@@ -276,7 +270,7 @@ The maximum time before a new log segment is rolled out (in milliseconds). If no
 
 `log.segment.bytes`::
 *Type:* int +
-*Default:* 1073741824 +
+*Default:* 1073741824 (1 gibibyte) +
 *Valid Values:* [14,...] +
 *Importance:* high +
 *Dynamic update:* cluster-wide +
@@ -285,7 +279,7 @@ The maximum size of a single log file.
 
 `log.segment.delete.delay.ms`::
 *Type:* long +
-*Default:* 60000 +
+*Default:* 60000 (1 minute) +
 *Valid Values:* [0,...] +
 *Importance:* high +
 *Dynamic update:* cluster-wide +
@@ -294,19 +288,12 @@ The amount of time to wait before deleting a file from the filesystem.
 
 `message.max.bytes`::
 *Type:* int +
-*Default:* 1000012 +
+*Default:* 1048588 +
 *Valid Values:* [0,...] +
 *Importance:* high +
 *Dynamic update:* cluster-wide +
 +
-
-+
-The largest record batch size allowed by Kafka. If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that the they can fetch record batches this large.
-+
-In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.
-+
-This can be set per topic with the topic level `max.message.bytes` config.
-
+The largest record batch size allowed by Kafka (after compression if compression is enabled). If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that they can fetch record batches this large. In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.This can be set per topic with the topic level `max.message.bytes` config.
 
 `min.insync.replicas`::
 *Type:* int +
@@ -363,7 +350,7 @@ Number of fetcher threads used to replicate messages from a source broker. Incre
 
 `offset.metadata.max.bytes`::
 *Type:* int +
-*Default:* 4096 +
+*Default:* 4096 (4 kibibytes) +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
@@ -379,7 +366,7 @@ The required acks before the commit can be accepted. In general, the default (-1
 
 `offsets.commit.timeout.ms`::
 *Type:* int +
-*Default:* 5000 +
+*Default:* 5000 (5 seconds) +
 *Valid Values:* [1,...] +
 *Importance:* high +
 *Dynamic update:* read-only +
@@ -397,7 +384,7 @@ Batch size for reading from the offsets segments when loading offsets into the c
 
 `offsets.retention.check.interval.ms`::
 *Type:* long +
-*Default:* 600000 +
+*Default:* 600000 (10 minutes) +
 *Valid Values:* [1,...] +
 *Importance:* high +
 *Dynamic update:* read-only +
@@ -441,7 +428,7 @@ The replication factor for the offsets topic (set higher to ensure availability)
 
 `offsets.topic.segment.bytes`::
 *Type:* int +
-*Default:* 104857600 +
+*Default:* 104857600 (100 mebibytes) +
 *Valid Values:* [1,...] +
 *Importance:* high +
 *Dynamic update:* read-only +
@@ -490,7 +477,7 @@ DEPRECATED: Used only when dynamic default quotas are not configured for <user>,
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-Minimum bytes expected for each fetch response. If not enough bytes, wait up to replicaMaxWaitTimeMs.
+Minimum bytes expected for each fetch response. If not enough bytes, wait up to `replica.fetch.wait.max.ms` (broker config).
 
 `replica.fetch.wait.max.ms`::
 *Type:* int +
@@ -502,7 +489,7 @@ max wait time for each fetcher request issued by follower replicas. This value s
 
 `replica.high.watermark.checkpoint.interval.ms`::
 *Type:* long +
-*Default:* 5000 +
+*Default:* 5000 (5 seconds) +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
@@ -510,7 +497,7 @@ The frequency with which the high watermark is saved out to disk.
 
 `replica.lag.time.max.ms`::
 *Type:* long +
-*Default:* 10000 +
+*Default:* 30000 (30 seconds) +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
@@ -518,7 +505,7 @@ If a follower hasn't sent any fetch requests or hasn't consumed up to the leader
 
 `replica.socket.receive.buffer.bytes`::
 *Type:* int +
-*Default:* 65536 +
+*Default:* 65536 (64 kibibytes) +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
@@ -526,7 +513,7 @@ The socket receive buffer for network requests.
 
 `replica.socket.timeout.ms`::
 *Type:* int +
-*Default:* 30000 +
+*Default:* 30000 (30 seconds) +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
@@ -534,7 +521,7 @@ The socket timeout for network requests. Its value should be at least replica.fe
 
 `request.timeout.ms`::
 *Type:* int +
-*Default:* 30000 +
+*Default:* 30000 (30 seconds) +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
@@ -542,7 +529,7 @@ The configuration controls the maximum amount of time the client will wait for t
 
 `socket.receive.buffer.bytes`::
 *Type:* int +
-*Default:* 102400 +
+*Default:* 102400 (100 kibibytes) +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
@@ -550,7 +537,7 @@ The SO_RCVBUF buffer of the socket server sockets. If the value is -1, the OS de
 
 `socket.request.max.bytes`::
 *Type:* int +
-*Default:* 104857600 +
+*Default:* 104857600 (100 mebibytes) +
 *Valid Values:* [1,...] +
 *Importance:* high +
 *Dynamic update:* read-only +
@@ -559,7 +546,7 @@ The maximum number of bytes in a socket request.
 
 `socket.send.buffer.bytes`::
 *Type:* int +
-*Default:* 102400 +
+*Default:* 102400 (100 kibibytes) +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
@@ -567,7 +554,7 @@ The SO_SNDBUF buffer of the socket server sockets. If the value is -1, the OS de
 
 `transaction.max.timeout.ms`::
 *Type:* int +
-*Default:* 900000 +
+*Default:* 900000 (15 minutes) +
 *Valid Values:* [1,...] +
 *Importance:* high +
 *Dynamic update:* read-only +
@@ -612,7 +599,7 @@ The replication factor for the transaction topic (set higher to ensure availabil
 
 `transaction.state.log.segment.bytes`::
 *Type:* int +
-*Default:* 104857600 +
+*Default:* 104857600 (100 mebibytes) +
 *Valid Values:* [1,...] +
 *Importance:* high +
 *Dynamic update:* read-only +
@@ -621,12 +608,12 @@ The transaction topic segment bytes should be kept relatively small in order to 
 
 `transactional.id.expiration.ms`::
 *Type:* int +
-*Default:* 604800000 +
+*Default:* 604800000 (7 days) +
 *Valid Values:* [1,...] +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-The maximum amount of time in ms that the transaction coordinator will wait before proactively expire a producer's transactional id without receiving any transaction status updates from it.
+The time in ms that the transaction coordinator will wait without receiving any transaction status updates for the current transaction before expiring its transactional id. This setting also influences producer id expiration - producer ids are expired once this time has elapsed after the last write with the given producer id. Note that producer ids may expire sooner if the last write from the producer id is deleted due to the topic's retention settings.
 
 `unclean.leader.election.enable`::
 *Type:* boolean +
@@ -635,6 +622,15 @@ The maximum amount of time in ms that the transaction coordinator will wait befo
 *Dynamic update:* cluster-wide +
 +
 Indicates whether to enable replicas not in the ISR set to be elected as leader as a last resort, even though doing so may result in data loss.
+
+`zookeeper.connect`::
+*Type:* string +
+*Default:* null +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+Specifies the ZooKeeper connection string in the form `hostname:port` where host and port are the host and port of a ZooKeeper server. To allow connecting through other ZooKeeper nodes when that ZooKeeper machine is down you can also specify multiple hosts in the form `hostname1:port1,hostname2:port2,hostname3:port3`.
+The server can also have a ZooKeeper chroot path as part of its ZooKeeper connection string which puts its data under some path in the global ZooKeeper namespace. For example to give a chroot path of `/chroot/path` you would give the connection string as `hostname1:port1,hostname2:port2,hostname3:port3/chroot/path`.
 
 `zookeeper.connection.timeout.ms`::
 *Type:* int +
@@ -655,7 +651,7 @@ The maximum number of unacknowledged requests the client will send to Zookeeper 
 
 `zookeeper.session.timeout.ms`::
 *Type:* int +
-*Default:* 6000 +
+*Default:* 18000 (18 seconds) +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
@@ -687,7 +683,7 @@ Rack of the broker. This will be used in rack aware replication assignment for f
 
 `connections.max.idle.ms`::
 *Type:* long +
-*Default:* 600000 +
+*Default:* 600000 (10 minutes) +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -719,7 +715,7 @@ Controlled shutdown can fail for multiple reasons. This determines the number of
 
 `controlled.shutdown.retry.backoff.ms`::
 *Type:* long +
-*Default:* 5000 +
+*Default:* 5000 (5 seconds) +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -727,7 +723,7 @@ Before each retry, the system needs time to recover from the state that caused t
 
 `controller.socket.timeout.ms`::
 *Type:* int +
-*Default:* 30000 +
+*Default:* 30000 (30 seconds) +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -743,7 +739,7 @@ default replication factors for automatically created topics.
 
 `delegation.token.expiry.time.ms`::
 *Type:* long +
-*Default:* 86400000 +
+*Default:* 86400000 (1 day) +
 *Valid Values:* [1,...] +
 *Importance:* medium +
 *Dynamic update:* read-only +
@@ -756,16 +752,24 @@ The token validity time in miliseconds before the token needs to be renewed. Def
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
-Master/secret key to generate and verify delegation tokens. Same key must be configured across all the brokers.  If the key is not set or set to empty string, brokers will disable the delegation token support.
+DEPRECATED: An alias for delegation.token.secret.key, which should be used instead of this config.
 
 `delegation.token.max.lifetime.ms`::
 *Type:* long +
-*Default:* 604800000 +
+*Default:* 604800000 (7 days) +
 *Valid Values:* [1,...] +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
 The token has a maximum lifetime beyond which it cannot be renewed anymore. Default value 7 days.
+
+`delegation.token.secret.key`::
+*Type:* password +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+Secret key to generate and verify delegation tokens. The same key must be configured across all the brokers.  If the key is not set or set to empty string, brokers will disable the delegation token support.
 
 `delete.records.purgatory.purge.interval.requests`::
 *Type:* int +
@@ -774,6 +778,15 @@ The token has a maximum lifetime beyond which it cannot be renewed anymore. Defa
 *Dynamic update:* read-only +
 +
 The purge interval (in number of requests) of the delete records request purgatory.
+
+`fetch.max.bytes`::
+*Type:* int +
+*Default:* 57671680 (55 mebibytes) +
+*Valid Values:* [1024,...] +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The maximum number of bytes we will return for a fetch request. Must be at least 1024.
 
 `fetch.purgatory.purge.interval.requests`::
 *Type:* int +
@@ -785,7 +798,7 @@ The purge interval (in number of requests) of the fetch request purgatory.
 
 `group.initial.rebalance.delay.ms`::
 *Type:* int +
-*Default:* 3000 +
+*Default:* 3000 (3 seconds) +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -793,7 +806,7 @@ The amount of time the group coordinator will wait for more consumers to join a 
 
 `group.max.session.timeout.ms`::
 *Type:* int +
-*Default:* 1800000 +
+*Default:* 1800000 (30 minutes) +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -810,7 +823,7 @@ The maximum number of consumers that a single consumer group can accommodate.
 
 `group.min.session.timeout.ms`::
 *Type:* int +
-*Default:* 6000 +
+*Default:* 6000 (6 seconds) +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -826,8 +839,8 @@ Name of listener used for communication between brokers. If this is unset, the l
 
 `inter.broker.protocol.version`::
 *Type:* string +
-*Default:* 2.3-IV1 +
-*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1] +
+*Default:* 2.8-IV1 +
+*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0, 2.7-IV0, 2.7-IV1, 2.7-IV2, 2.8-IV0, 2.8-IV1] +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -837,7 +850,7 @@ Specify which version of the inter-broker protocol will be used.
 
 `log.cleaner.backoff.ms`::
 *Type:* long +
-*Default:* 15000 +
+*Default:* 15000 (15 seconds) +
 *Valid Values:* [0,...] +
 *Importance:* medium +
 *Dynamic update:* cluster-wide +
@@ -854,7 +867,7 @@ The total memory used for log deduplication across all cleaner threads.
 
 `log.cleaner.delete.retention.ms`::
 *Type:* long +
-*Default:* 86400000 +
+*Default:* 86400000 (1 day) +
 *Importance:* medium +
 *Dynamic update:* cluster-wide +
 +
@@ -937,7 +950,7 @@ The default cleanup policy for segments beyond the retention window. A comma sep
 
 `log.index.interval.bytes`::
 *Type:* int +
-*Default:* 4096 +
+*Default:* 4096 (4 kibibytes) +
 *Valid Values:* [0,...] +
 *Importance:* medium +
 *Dynamic update:* cluster-wide +
@@ -946,7 +959,7 @@ The interval with which we add an entry to the offset index.
 
 `log.index.size.max.bytes`::
 *Type:* int +
-*Default:* 10485760 +
+*Default:* 10485760 (10 mebibytes) +
 *Valid Values:* [4,...] +
 *Importance:* medium +
 *Dynamic update:* cluster-wide +
@@ -955,8 +968,8 @@ The maximum size in bytes of the offset index.
 
 `log.message.format.version`::
 *Type:* string +
-*Default:* 2.3-IV1 +
-*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1] +
+*Default:* 2.8-IV1 +
+*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0, 2.7-IV0, 2.7-IV1, 2.7-IV2, 2.8-IV0, 2.8-IV1] +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -989,12 +1002,21 @@ Should pre allocate file when create new segment? If you are using Kafka on Wind
 
 `log.retention.check.interval.ms`::
 *Type:* long +
-*Default:* 300000 +
+*Default:* 300000 (5 minutes) +
 *Valid Values:* [1,...] +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
 The frequency in milliseconds that the log cleaner checks whether any log is eligible for deletion.
+
+`max.connection.creation.rate`::
+*Type:* int +
+*Default:* 2147483647 +
+*Valid Values:* [0,...] +
+*Importance:* medium +
+*Dynamic update:* cluster-wide +
++
+The maximum connection creation rate we allow in the broker at any time. Listener-level limits may also be configured by prefixing the config name with the listener prefix, for example, `listener.name.internal.max.connection.creation.rate`.Broker-wide connection rate limit should be configured based on broker capacity while listener limits should be configured based on application requirements. New connections will be throttled if either the listener or the broker limit is reached, with the exception of inter-broker listener. Connections on the inter-broker listener will be throttled only when the listener-level rate limit is reached.
 
 `max.connections`::
 *Type:* int +
@@ -1082,7 +1104,7 @@ The number of queued bytes allowed before no more requests are read.
 
 `replica.fetch.backoff.ms`::
 *Type:* int +
-*Default:* 1000 +
+*Default:* 1000 (1 second) +
 *Valid Values:* [0,...] +
 *Importance:* medium +
 *Dynamic update:* read-only +
@@ -1091,7 +1113,7 @@ The amount of time to sleep when fetch partition error occurs.
 
 `replica.fetch.max.bytes`::
 *Type:* int +
-*Default:* 1048576 +
+*Default:* 1048576 (1 mebibyte) +
 *Valid Values:* [0,...] +
 *Importance:* medium +
 *Dynamic update:* read-only +
@@ -1100,12 +1122,20 @@ The number of bytes of messages to attempt to fetch for each partition. This is 
 
 `replica.fetch.response.max.bytes`::
 *Type:* int +
-*Default:* 10485760 +
+*Default:* 10485760 (10 mebibytes) +
 *Valid Values:* [0,...] +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
 Maximum bytes expected for the entire fetch response. Records are fetched in batches, and if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that progress can be made. As such, this is not an absolute maximum. The maximum record batch size accepted by the broker is defined via `message.max.bytes` (broker config) or `max.message.bytes` (topic config).
+
+`replica.selector.class`::
+*Type:* string +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The fully qualified class name that implements ReplicaSelector. This is used by the broker to find the preferred read replica. By default, we use an implementation that returns the leader.
 
 `reserved.broker.max.id`::
 *Type:* int +
@@ -1138,7 +1168,7 @@ The list of SASL mechanisms enabled in the Kafka server. The list may contain an
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-JAAS login context parameters for SASL connections in the format used by JAAS configuration files. JAAS configuration file format is described http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html[here]. The format for the value is: '`loginModuleClass controlFlag (optionName=optionValue)*;`'. For brokers, the config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.jaas.config=com.example.ScramLoginModule required;.
+JAAS login context parameters for SASL connections in the format used by JAAS configuration files. JAAS configuration file format is described http://docs.oracle.com/javase/8/docs/technotes/guides/security/jgss/tutorials/LoginConfigFile.html[here]. The format for the value is: `loginModuleClass controlFlag (optionName=optionValue)*;`. For brokers, the config must be prefixed with listener prefix and SASL mechanism name in lower-case. For example, listener.name.sasl_ssl.scram-sha-256.sasl.jaas.config=com.example.ScramLoginModule required;.
 
 `sasl.kerberos.kinit.cmd`::
 *Type:* string +
@@ -1260,6 +1290,22 @@ The fully qualified name of a SASL server callback handler class that implements
 +
 Security protocol used to communicate between brokers. Valid values are: PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL. It is an error to set this and inter.broker.listener.name properties at the same time.
 
+`socket.connection.setup.timeout.max.ms`::
+*Type:* long +
+*Default:* 30000 (30 seconds) +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The maximum amount of time the client will wait for the socket connection to be established. The connection setup timeout will increase exponentially for each consecutive connection failure up to this maximum. To avoid connection storms, a randomization factor of 0.2 will be applied to the timeout resulting in a random range between 20% below and 20% above the computed value.
+
+`socket.connection.setup.timeout.ms`::
+*Type:* long +
+*Default:* 10000 (10 seconds) +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The amount of time the client will wait for the socket connection to be established. If the connection is not built before the timeout elapses, clients will close the socket channel.
+
 `ssl.cipher.suites`::
 *Type:* list +
 *Default:* "" +
@@ -1278,16 +1324,16 @@ A list of cipher suites. This is a named combination of authentication, encrypti
 Configures kafka broker to request client authentication. The following settings are common:  
  
 * `ssl.client.auth=required` If set to required client authentication is required. 
-* `ssl.client.auth=requested` This means client authentication is optional. unlike requested , if this option is set client can choose not to provide authentication information about itself 
+* `ssl.client.auth=requested` This means client authentication is optional. unlike required, if this option is set client can choose not to provide authentication information about itself 
 * `ssl.client.auth=none` This means client authentication is not needed.
 
 `ssl.enabled.protocols`::
 *Type:* list +
-*Default:* TLSv1.2,TLSv1.1,TLSv1 +
+*Default:* TLSv1.2,TLSv1.3 +
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-The list of protocols enabled for SSL connections.
+The list of protocols enabled for SSL connections. The default is 'TLSv1.2,TLSv1.3' when running with Java 11 or newer, 'TLSv1.2' otherwise. With the default value for Java 11, clients and servers will prefer TLSv1.3 if both support it and fallback to TLSv1.2 otherwise (assuming both support at least TLSv1.2). This default should be fine for most cases. Also see the config documentation for `ssl.protocol`.
 
 `ssl.key.password`::
 *Type:* password +
@@ -1295,7 +1341,7 @@ The list of protocols enabled for SSL connections.
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-The password of the private key in the key store file. This is optional for client.
+The password of the private key in the key store file orthe PEM key specified in `ssl.keystore.key'. This is required for clients only if two-way authentication is configured.
 
 `ssl.keymanager.algorithm`::
 *Type:* string +
@@ -1304,6 +1350,22 @@ The password of the private key in the key store file. This is optional for clie
 *Dynamic update:* per-broker +
 +
 The algorithm used by key manager factory for SSL connections. Default value is the key manager factory algorithm configured for the Java Virtual Machine.
+
+`ssl.keystore.certificate.chain`::
+*Type:* password +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* per-broker +
++
+Certificate chain in the format specified by 'ssl.keystore.type'. Default SSL engine factory supports only PEM format with a list of X.509 certificates.
+
+`ssl.keystore.key`::
+*Type:* password +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* per-broker +
++
+Private key in the format specified by 'ssl.keystore.type'. Default SSL engine factory supports only PEM format with PKCS#8 keys. If the key is encrypted, key password must be specified using 'ssl.key.password'.
 
 `ssl.keystore.location`::
 *Type:* string +
@@ -1319,7 +1381,7 @@ The location of the key store file. This is optional for client and can be used 
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-The store password for the key store file. This is optional for client and only needed if ssl.keystore.location is configured.
+The store password for the key store file. This is optional for client and only needed if 'ssl.keystore.location' is configured.  Key store password is not supported for PEM format.
 
 `ssl.keystore.type`::
 *Type:* string +
@@ -1331,11 +1393,11 @@ The file format of the key store file. This is optional for client.
 
 `ssl.protocol`::
 *Type:* string +
-*Default:* TLS +
+*Default:* TLSv1.3 +
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-The SSL protocol used to generate the SSLContext. Default setting is TLS, which is fine for most cases. Allowed values in recent JVMs are TLS, TLSv1.1 and TLSv1.2. SSL, SSLv2 and SSLv3 may be supported in older JVMs, but their usage is discouraged due to known security vulnerabilities.
+The SSL protocol used to generate the SSLContext. The default is 'TLSv1.3' when running with Java 11 or newer, 'TLSv1.2' otherwise. This value should be fine for most use cases. Allowed values in recent JVMs are 'TLSv1.2' and 'TLSv1.3'. 'TLS', 'TLSv1.1', 'SSL', 'SSLv2' and 'SSLv3' may be supported in older JVMs, but their usage is discouraged due to known security vulnerabilities. With the default value for this config and 'ssl.enabled.protocols', clients will downgrade to 'TLSv1.2' if the server does not support 'TLSv1.3'. If this config is set to 'TLSv1.2', clients will not use 'TLSv1.3' even if it is one of the values in ssl.enabled.protocols and the server only supports 'TLSv1.3'.
 
 `ssl.provider`::
 *Type:* string +
@@ -1353,6 +1415,14 @@ The name of the security provider used for SSL connections. Default value is the
 +
 The algorithm used by trust manager factory for SSL connections. Default value is the trust manager factory algorithm configured for the Java Virtual Machine.
 
+`ssl.truststore.certificates`::
+*Type:* password +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* per-broker +
++
+Trusted certificates in the format specified by 'ssl.truststore.type'. Default SSL engine factory supports only PEM format with X.509 certificates.
+
 `ssl.truststore.location`::
 *Type:* string +
 *Default:* null +
@@ -1367,7 +1437,7 @@ The location of the trust store file.
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-The password for the trust store file. If a password is not set access to the truststore is still available, but integrity checking is disabled.
+The password for the trust store file. If a password is not set, trust store file configured will still be used, but integrity checking is disabled. Trust store password is not supported for PEM format.
 
 `ssl.truststore.type`::
 *Type:* string +
@@ -1376,6 +1446,70 @@ The password for the trust store file. If a password is not set access to the tr
 *Dynamic update:* per-broker +
 +
 The file format of the trust store file.
+
+`zookeeper.clientCnxnSocket`::
+*Type:* string +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+Typically set to `org.apache.zookeeper.ClientCnxnSocketNetty` when using TLS connectivity to ZooKeeper. Overrides any explicit value set via the same-named `zookeeper.clientCnxnSocket` system property.
+
+`zookeeper.ssl.client.enable`::
+*Type:* boolean +
+*Default:* false +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+Set client to use TLS when connecting to ZooKeeper. An explicit value overrides any value set via the `zookeeper.client.secure` system property (note the different name). Defaults to false if neither is set; when true, `zookeeper.clientCnxnSocket` must be set (typically to `org.apache.zookeeper.ClientCnxnSocketNetty`); other values to set may include `zookeeper.ssl.cipher.suites`, `zookeeper.ssl.crl.enable`, `zookeeper.ssl.enabled.protocols`, `zookeeper.ssl.endpoint.identification.algorithm`, `zookeeper.ssl.keystore.location`, `zookeeper.ssl.keystore.password`, `zookeeper.ssl.keystore.type`, `zookeeper.ssl.ocsp.enable`, `zookeeper.ssl.protocol`, `zookeeper.ssl.truststore.location`, `zookeeper.ssl.truststore.password`, `zookeeper.ssl.truststore.type`.
+
+`zookeeper.ssl.keystore.location`::
+*Type:* string +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+Keystore location when using a client-side certificate with TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.keyStore.location` system property (note the camelCase).
+
+`zookeeper.ssl.keystore.password`::
+*Type:* password +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+Keystore password when using a client-side certificate with TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.keyStore.password` system property (note the camelCase). Note that ZooKeeper does not support a key password different from the keystore password, so be sure to set the key password in the keystore to be identical to the keystore password; otherwise the connection attempt to Zookeeper will fail.
+
+`zookeeper.ssl.keystore.type`::
+*Type:* string +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+Keystore type when using a client-side certificate with TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.keyStore.type` system property (note the camelCase). The default value of `null` means the type will be auto-detected based on the filename extension of the keystore.
+
+`zookeeper.ssl.truststore.location`::
+*Type:* string +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+Truststore location when using TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.trustStore.location` system property (note the camelCase).
+
+`zookeeper.ssl.truststore.password`::
+*Type:* password +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+Truststore password when using TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.trustStore.password` system property (note the camelCase).
+
+`zookeeper.ssl.truststore.type`::
+*Type:* string +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+Truststore type when using TLS connectivity to ZooKeeper. Overrides any explicit value set via the `zookeeper.ssl.trustStore.type` system property (note the camelCase). The default value of `null` means the type will be auto-detected based on the filename extension of the truststore.
 
 `alter.config.policy.class.name`::
 *Type:* class +
@@ -1409,7 +1543,7 @@ The time span of each sample for alter log dirs replication quotas.
 *Importance:* low +
 *Dynamic update:* read-only +
 +
-The authorizer class that should be used for authorization.
+The fully qualified name of a class that implements sorg.apache.kafka.server.authorizer.Authorizer interface, which is used by the broker for authorization. This config also supports authorizers that implement the deprecated kafka.security.auth.Authorizer trait which was previously used for authorization.
 
 `client.quota.callback.class`::
 *Type:* class +
@@ -1428,6 +1562,24 @@ The fully qualified name of a class that implements the ClientQuotaCallback inte
 +
 Connection close delay on failed authentication: this is the time (in milliseconds) by which connection close will be delayed on authentication failure. This must be configured to be less than connections.max.idle.ms to prevent connection timeout.
 
+`controller.quota.window.num`::
+*Type:* int +
+*Default:* 11 +
+*Valid Values:* [1,...] +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The number of samples to retain in memory for controller mutation quotas.
+
+`controller.quota.window.size.seconds`::
+*Type:* int +
+*Default:* 1 +
+*Valid Values:* [1,...] +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The time span of each sample for controller mutations quotas.
+
 `create.topic.policy.class.name`::
 *Type:* class +
 *Default:* null +
@@ -1438,7 +1590,7 @@ The create topic policy class that should be used for validation. The class shou
 
 `delegation.token.expiry.check.interval.ms`::
 *Type:* long +
-*Default:* 3600000 +
+*Default:* 3600000 (1 hour) +
 *Valid Values:* [1,...] +
 *Importance:* low +
 *Dynamic update:* read-only +
@@ -1505,7 +1657,7 @@ The highest recording level for metrics.
 
 `metrics.sample.window.ms`::
 *Type:* long +
-*Default:* 30000 +
+*Default:* 30000 (30 seconds) +
 *Valid Values:* [1,...] +
 *Importance:* low +
 *Dynamic update:* read-only +
@@ -1582,6 +1734,14 @@ The number of samples to retain in memory for replication quotas.
 +
 The time span of each sample for replication quotas.
 
+`security.providers`::
+*Type:* string +
+*Default:* null +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+A list of configurable creator classes each returning a provider implementing security algorithms. These classes should implement the `org.apache.kafka.common.security.auth.SecurityProviderCreator` interface.
+
 `ssl.endpoint.identification.algorithm`::
 *Type:* string +
 *Default:* https +
@@ -1590,8 +1750,16 @@ The time span of each sample for replication quotas.
 +
 The endpoint identification algorithm to validate server hostname using server certificate.
 
+`ssl.engine.factory.class`::
+*Type:* class +
+*Default:* null +
+*Importance:* low +
+*Dynamic update:* per-broker +
++
+The class of type org.apache.kafka.common.security.auth.SslEngineFactory to provide SSLEngine objects. Default value is org.apache.kafka.common.security.ssl.DefaultSslEngineFactory.
+
 `ssl.principal.mapping.rules`::
-*Type:* list +
+*Type:* string +
 *Default:* DEFAULT +
 *Importance:* low +
 *Dynamic update:* read-only +
@@ -1608,7 +1776,7 @@ The SecureRandom PRNG implementation to use for SSL cryptography operations.
 
 `transaction.abort.timed.out.transaction.cleanup.interval.ms`::
 *Type:* int +
-*Default:* 60000 +
+*Default:* 10000 (10 seconds) +
 *Valid Values:* [1,...] +
 *Importance:* low +
 *Dynamic update:* read-only +
@@ -1617,16 +1785,64 @@ The interval at which to rollback transactions that have timed out.
 
 `transaction.remove.expired.transaction.cleanup.interval.ms`::
 *Type:* int +
-*Default:* 3600000 +
+*Default:* 3600000 (1 hour) +
 *Valid Values:* [1,...] +
 *Importance:* low +
 *Dynamic update:* read-only +
 +
 The interval at which to remove transactions that have expired due to `transactional.id.expiration.ms` passing.
 
+`zookeeper.ssl.cipher.suites`::
+*Type:* list +
+*Default:* null +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+Specifies the enabled cipher suites to be used in ZooKeeper TLS negotiation (csv). Overrides any explicit value set via the `zookeeper.ssl.ciphersuites` system property (note the single word "ciphersuites"). The default value of `null` means the list of enabled cipher suites is determined by the Java runtime being used.
+
+`zookeeper.ssl.crl.enable`::
+*Type:* boolean +
+*Default:* false +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+Specifies whether to enable Certificate Revocation List in the ZooKeeper TLS protocols. Overrides any explicit value set via the `zookeeper.ssl.crl` system property (note the shorter name).
+
+`zookeeper.ssl.enabled.protocols`::
+*Type:* list +
+*Default:* null +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+Specifies the enabled protocol(s) in ZooKeeper TLS negotiation (csv). Overrides any explicit value set via the `zookeeper.ssl.enabledProtocols` system property (note the camelCase). The default value of `null` means the enabled protocol will be the value of the `zookeeper.ssl.protocol` configuration property.
+
+`zookeeper.ssl.endpoint.identification.algorithm`::
+*Type:* string +
+*Default:* HTTPS +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+Specifies whether to enable hostname verification in the ZooKeeper TLS negotiation process, with (case-insensitively) "https" meaning ZooKeeper hostname verification is enabled and an explicit blank value meaning it is disabled (disabling it is only recommended for testing purposes). An explicit value overrides any "true" or "false" value set via the `zookeeper.ssl.hostnameVerification` system property (note the different name and values; true implies https and false implies blank).
+
+`zookeeper.ssl.ocsp.enable`::
+*Type:* boolean +
+*Default:* false +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+Specifies whether to enable Online Certificate Status Protocol in the ZooKeeper TLS protocols. Overrides any explicit value set via the `zookeeper.ssl.ocsp` system property (note the shorter name).
+
+`zookeeper.ssl.protocol`::
+*Type:* string +
+*Default:* TLSv1.2 +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+Specifies the protocol to be used in ZooKeeper TLS negotiation. An explicit value overrides any value set via the same-named `zookeeper.ssl.protocol` system property.
+
 `zookeeper.sync.time.ms`::
 *Type:* int +
-*Default:* 2000 +
+*Default:* 2000 (2 seconds) +
 *Importance:* low +
 *Dynamic update:* read-only +
 +
