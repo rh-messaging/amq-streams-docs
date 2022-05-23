@@ -11,7 +11,7 @@ The following MBeans will exist in Kafka producer applications, including Kafka 
 Kafka Connect with source connectors.
 
 [id='producer-mbeans-producer-metrics-client-id-{context}']
-== MBeans matching `kafka.producer:type=producer-metrics,client-id=*`
+. MBeans matching `kafka.producer:type=producer-metrics,client-id=*`
 
 These are metrics at the producer level.
 
@@ -88,7 +88,7 @@ These are metrics at the producer level.
 |=======
 
 [id='producer-mbeans-producer-metrics-client-id-node-id-{context}']
-== MBeans matching `kafka.producer:type=producer-metrics,client-id=\*,node-id=*`
+. MBeans matching `kafka.producer:type=producer-metrics,client-id=\*,node-id=*`
 
 These are metrics at the producer level about connection to each broker.
 
@@ -111,7 +111,7 @@ These are metrics at the producer level about connection to each broker.
 |=======
 
 [id='producer-mbeans-producer-metrics-client-id-topic-{context}']
-== MBeans matching `kafka.producer:type=producer-topic-metrics,client-id=\*,topic=*`
+. MBeans matching `kafka.producer:type=producer-topic-metrics,client-id=\*,topic=*`
 
 These are metrics at the topic level about topics the producer is sending messages to.
 

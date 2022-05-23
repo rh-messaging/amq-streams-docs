@@ -35,21 +35,21 @@ The following MBeans will exist in Kafka producer applications, including Kafka 
 Kafka Connect with source connectors.
 
 [id='producer-mbeans-producer-metrics-client-id-{context}']
-== MBeans matching \`kafka.producer:type=producer-metrics,client-id=*\`
+. MBeans matching \`kafka.producer:type=producer-metrics,client-id=*\`
 
 These are metrics at the producer level.
 
 $(metrics 'kafka.producer:type=producer-metrics,client-id=*' snip-mbean-common-client.csv snip-mbean-producer-client.csv)
 
 [id='producer-mbeans-producer-metrics-client-id-node-id-{context}']
-== MBeans matching \`kafka.producer:type=producer-metrics,client-id=\*,node-id=*\`
+. MBeans matching \`kafka.producer:type=producer-metrics,client-id=\*,node-id=*\`
 
 These are metrics at the producer level about connection to each broker.
 
 $(metrics 'kafka.producer:type=producer-metrics,client-id=*,node-id=*' snip-mbean-common-client-node.csv)
 
 [id='producer-mbeans-producer-metrics-client-id-topic-{context}']
-== MBeans matching \`kafka.producer:type=producer-topic-metrics,client-id=\*,topic=*\`
+. MBeans matching \`kafka.producer:type=producer-topic-metrics,client-id=\*,topic=*\`
 
 These are metrics at the topic level about topics the producer is sending messages to.
 
@@ -63,42 +63,42 @@ The following MBeans will exist in Kafka consumer applications, including Kafka 
 Kafka Connect with sink connectors.
 
 [id='consumer-mbeans-consumer-metrics-client-id-{context}']
-== MBeans matching \`kafka.consumer:type=consumer-metrics,client-id=*\`
+. MBeans matching \`kafka.consumer:type=consumer-metrics,client-id=*\`
 
 These are metrics at the consumer level.
 
 $(metrics 'kafka.consumer:type=consumer-metrics,client-id=*' snip-mbean-common-client.csv)
 
 [id='consumer-mbeans-consumer-metrics-client-id-node-id-{context}']
-== MBeans matching \`kafka.consumer:type=consumer-metrics,client-id=\*,node-id=*\`
+. MBeans matching \`kafka.consumer:type=consumer-metrics,client-id=\*,node-id=*\`
 
 These are metrics at the consumer level about connection to each broker.
 
 $(metrics 'kafka.consumer:type=consumer-metrics,client-id=*,node-id=*' snip-mbean-common-client-node.csv)
 
 [id='consumer-mbeans-consumer-coordinator-metrics-client-id-{context}']
-== MBeans matching \`kafka.consumer:type=consumer-coordinator-metrics,client-id=*\`
+. MBeans matching \`kafka.consumer:type=consumer-coordinator-metrics,client-id=*\`
 
 These are metrics at the consumer level about the consumer group.
 
 $(metrics 'kafka.consumer:type=consumer-coordinator-metrics,client-id=*' snip-mbean-consumer-coord-client.csv)
 
 [id='consumer-mbeans-consumer-fetch-manager-metrics-client-id-{context}']
-== MBeans matching \`kafka.consumer:type=consumer-fetch-manager-metrics,client-id=*\`
+. MBeans matching \`kafka.consumer:type=consumer-fetch-manager-metrics,client-id=*\`
 
 These are metrics at the consumer level about the consumer\'s fetcher.
 
 $(metrics kafka.consumer:type=consumer-fetch-manager-metrics,client-id=*)
 
 [id='consumer-mbeans-consumer-fetch-manager-metrics-client-id-topic-{context}']
-== MBeans matching \`kafka.consumer:type=consumer-fetch-manager-metrics,client-id=\*,topic=*\`
+. MBeans matching \`kafka.consumer:type=consumer-fetch-manager-metrics,client-id=\*,topic=*\`
 
 These are metrics at the topic level about the consumer\'s fetcher.
 
 $(metrics kafka.consumer:type=consumer-fetch-manager-metrics,client-id=*,topic=*)
 
 [id='consumer-mbeans-consumer-fetch-manager-metrics-client-id-topic-partition-{context}']
-== MBeans matching \`kafka.consumer:type=consumer-fetch-manager-metrics,client-id=\*,topic=*,partition=*\`
+. MBeans matching \`kafka.consumer:type=consumer-fetch-manager-metrics,client-id=\*,topic=*,partition=*\`
 
 These are metrics at the partition level about the consumer\'s fetcher.
 
@@ -111,53 +111,53 @@ function connect {
 NOTE: Kafka Connect will contain the xref:producer-mbeans-str[producer] MBeans for source connectors and xref:consumer-mbeans-str[consumer] MBeans for sink connectors in addition to those documented here.
 
 [id='connect-mbeans-connect-metrics-client-id-{context}']
-== MBeans matching \`kafka.connect:type=connect-metrics,client-id=*\`
+. MBeans matching \`kafka.connect:type=connect-metrics,client-id=*\`
 
 These are metrics at the connect level.
 
 $(metrics           'kafka.connect:type=connect-metrics,client-id=*' snip-mbean-common-client.csv)
 
 [id='connect-mbeans-connect-metrics-client-id-node-id-{context}']
-== MBeans matching \`kafka.connect:type=connect-metrics,client-id=\*,node-id=*\`
+. MBeans matching \`kafka.connect:type=connect-metrics,client-id=\*,node-id=*\`
 
 These are metrics at the connect level about connection to each broker.
 
 $(metrics           'kafka.connect:type=connect-metrics,client-id=*,node-id=*' snip-mbean-common-client-node.csv)
 
 [id='connect-mbeans-connect-worker-metrics-{context}']
-== MBeans matching \`kafka.connect:type=connect-worker-metrics\`
+. MBeans matching \`kafka.connect:type=connect-worker-metrics\`
 
 These are metrics at the connect level.
 
 $(metrics           'kafka.connect:type=connect-worker-metrics')
 
 [id='connect-mbeans-connect-worker-rebalance-metrics-{context}']
-== MBeans matching \`kafka.connect:type=connect-worker-rebalance-metrics\`
+. MBeans matching \`kafka.connect:type=connect-worker-rebalance-metrics\`
 
 $(metrics           'kafka.connect:type=connect-worker-rebalance-metrics')
 
 [id='connect-mbeans-connector-metrics-connector-{context}']
-== MBeans matching \`kafka.connect:type=connector-metrics,connector=*\`
+. MBeans matching \`kafka.connect:type=connector-metrics,connector=*\`
 
 $(metrics           'kafka.connect:type=connector-metrics,connector=*')
 
 [id='connect-mbeans-connector-task-metrics-metrics-connector-task-{context}']
-== MBeans matching \`kafka.connect:type=connector-task-metrics,connector=\*,task=*\`
+. MBeans matching \`kafka.connect:type=connector-task-metrics,connector=\*,task=*\`
 
 $(metrics           'kafka.connect:type=connector-task-metrics,connector=*,task=*')
 
 [id='connect-mbeans-sink-task-metrics-connector-task-{context}']
-== MBeans matching \`kafka.connect:type=sink-task-metrics,connector=\*,task=*\`
+. MBeans matching \`kafka.connect:type=sink-task-metrics,connector=\*,task=*\`
 
 $(metrics           'kafka.connect:type=sink-task-metrics,connector=*,task=*')
 
 [id='connect-mbeans-source-task-metrics-connector-task-{context}']
-== MBeans matching \`kafka.connect:type=source-task-metrics,connector=\*,task=*\`
+. MBeans matching \`kafka.connect:type=source-task-metrics,connector=\*,task=*\`
 
 $(metrics           'kafka.connect:type=source-task-metrics,connector=*,task=*')
 
 [id='connect-mbeans-task-error-metrics-connector-task-{context}']
-== MBeans matching \`kafka.connect:type=task-error-metrics,connector=\*,task=*\`
+. MBeans matching \`kafka.connect:type=task-error-metrics,connector=\*,task=*\`
 
 $(metrics           'kafka.connect:type=task-error-metrics,connector=*,task=*')
 EOF
@@ -167,35 +167,35 @@ function streams {
     cat <<EOF
 NOTE: A Streams application will contain the xref:producer-mbeans-str[producer] and xref:consumer-mbeans-str[consumer] MBeans in addition to those documented here.
 
-== MBeans matching \`kafka.streams:type=stream-metrics,client-id=*\`
+. MBeans matching \`kafka.streams:type=stream-metrics,client-id=*\`
 
 These metrics are collected when the \`metrics.recording.level\` configuration parameter is \`info\` or \`debug\`.
 
 $(metrics           'kafka.streams:type=stream-metrics,client-id=*' snip-mbean-streams-client.csv)
 
 
-== MBeans matching \`kafka.streams:type=stream-task-metrics,client-id=\*,task-id=*\`
+. MBeans matching \`kafka.streams:type=stream-task-metrics,client-id=\*,task-id=*\`
 Task metrics.
 
 These metrics are collected when the \`metrics.recording.level\` configuration parameter is \`debug\`.
 
 $(metrics           'kafka.streams:type=stream-task-metrics,client-id=*,task-id=*' snip-mbean-streams-client-task.csv)
 
-== MBeans matching \`kafka.streams:type=stream-processor-node-metrics,client-id=\*,task-id=*,processor-node-id=*\`
+. MBeans matching \`kafka.streams:type=stream-processor-node-metrics,client-id=\*,task-id=*,processor-node-id=*\`
 Processor node metrics.
 
 These metrics are collected when the \`metrics.recording.level\` configuration parameter is \`debug\`.
 
 $(metrics           'kafka.streams:type=stream-processor-node-metrics,client-id=*,task-id=*,processor-node-id=*' snip-mbean-streams-client-task-processor.csv)
 
-== MBeans matching \`kafka.streams:type=stream-[store-scope]-metrics,client-id=\*,task-id=*,[store-scope]-id=*\`
+. MBeans matching \`kafka.streams:type=stream-[store-scope]-metrics,client-id=\*,task-id=*,[store-scope]-id=*\`
 State store metrics.
 
 These metrics are collected when the \`metrics.recording.level\` configuration parameter is \`debug\`.
 
 $(metrics           'kafka.streams:type=stream-[store-scope]-metrics,client-id=*,task-id=*,[store-scope]-id=*' snip-mbean-streams-client-task-store.csv)
 
-== MBeans matching \`kafka.streams:type=stream-record-cache-metrics,client-id=\*,task-id=*,record-cache-id=*\`
+. MBeans matching \`kafka.streams:type=stream-record-cache-metrics,client-id=\*,task-id=*,record-cache-id=*\`
 Record cache metrics.
 
 These metrics are collected when the \`metrics.recording.level\` configuration parameter is \`debug\`.

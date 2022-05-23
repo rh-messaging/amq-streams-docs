@@ -9,7 +9,7 @@
 
 NOTE: A Streams application will contain the xref:producer-mbeans-str[producer] and xref:consumer-mbeans-str[consumer] MBeans in addition to those documented here.
 
-== MBeans matching `kafka.streams:type=stream-metrics,client-id=*`
+. MBeans matching `kafka.streams:type=stream-metrics,client-id=*`
 
 These metrics are collected when the `metrics.recording.level` configuration parameter is `info` or `debug`.
 
@@ -40,7 +40,7 @@ These metrics are collected when the `metrics.recording.level` configuration par
 |=======
 
 
-== MBeans matching `kafka.streams:type=stream-task-metrics,client-id=\*,task-id=*`
+. MBeans matching `kafka.streams:type=stream-task-metrics,client-id=\*,task-id=*`
 Task metrics.
 
 These metrics are collected when the `metrics.recording.level` configuration parameter is `debug`.
@@ -66,7 +66,7 @@ These metrics are collected when the `metrics.recording.level` configuration par
 | record-lateness-max       | The max observed lateness of records (stream time - record timestamp).
 |=======
 
-== MBeans matching `kafka.streams:type=stream-processor-node-metrics,client-id=\*,task-id=*,processor-node-id=*`
+. MBeans matching `kafka.streams:type=stream-processor-node-metrics,client-id=\*,task-id=*,processor-node-id=*`
 Processor node metrics.
 
 These metrics are collected when the `metrics.recording.level` configuration parameter is `debug`.
@@ -84,7 +84,7 @@ These metrics are collected when the `metrics.recording.level` configuration par
 | suppression-emit-total | The total number of records that have been emitted downstream from suppression operation nodes.
 |=======
 
-== MBeans matching `kafka.streams:type=stream-[store-scope]-metrics,client-id=\*,task-id=*,[store-scope]-id=*`
+. MBeans matching `kafka.streams:type=stream-[store-scope]-metrics,client-id=\*,task-id=*,[store-scope]-id=*`
 State store metrics.
 
 These metrics are collected when the `metrics.recording.level` configuration parameter is `debug`.
@@ -129,7 +129,7 @@ These metrics are collected when the `metrics.recording.level` configuration par
 | suppression-buffer-size-max  | The maximum total size, in bytes, of the buffered data over the sampling window.
 |=======
 
-== MBeans matching `kafka.streams:type=stream-record-cache-metrics,client-id=\*,task-id=*,record-cache-id=*`
+. MBeans matching `kafka.streams:type=stream-record-cache-metrics,client-id=\*,task-id=*,record-cache-id=*`
 Record cache metrics.
 
 These metrics are collected when the `metrics.recording.level` configuration parameter is `debug`.

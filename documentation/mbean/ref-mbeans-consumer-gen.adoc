@@ -11,7 +11,7 @@ The following MBeans will exist in Kafka consumer applications, including Kafka 
 Kafka Connect with sink connectors.
 
 [id='consumer-mbeans-consumer-metrics-client-id-{context}']
-== MBeans matching `kafka.consumer:type=consumer-metrics,client-id=*`
+. MBeans matching `kafka.consumer:type=consumer-metrics,client-id=*`
 
 These are metrics at the consumer level.
 
@@ -60,7 +60,7 @@ These are metrics at the consumer level.
 |=======
 
 [id='consumer-mbeans-consumer-metrics-client-id-node-id-{context}']
-== MBeans matching `kafka.consumer:type=consumer-metrics,client-id=\*,node-id=*`
+. MBeans matching `kafka.consumer:type=consumer-metrics,client-id=\*,node-id=*`
 
 These are metrics at the consumer level about connection to each broker.
 
@@ -83,7 +83,7 @@ These are metrics at the consumer level about connection to each broker.
 |=======
 
 [id='consumer-mbeans-consumer-coordinator-metrics-client-id-{context}']
-== MBeans matching `kafka.consumer:type=consumer-coordinator-metrics,client-id=*`
+. MBeans matching `kafka.consumer:type=consumer-coordinator-metrics,client-id=*`
 
 These are metrics at the consumer level about the consumer group.
 
@@ -125,7 +125,7 @@ These are metrics at the consumer level about the consumer group.
 |=======
 
 [id='consumer-mbeans-consumer-fetch-manager-metrics-client-id-{context}']
-== MBeans matching `kafka.consumer:type=consumer-fetch-manager-metrics,client-id=*`
+. MBeans matching `kafka.consumer:type=consumer-fetch-manager-metrics,client-id=*`
 
 These are metrics at the consumer level about the consumer\'s fetcher.
 
@@ -151,7 +151,7 @@ These are metrics at the consumer level about the consumer\'s fetcher.
 |=======
 
 [id='consumer-mbeans-consumer-fetch-manager-metrics-client-id-topic-{context}']
-== MBeans matching `kafka.consumer:type=consumer-fetch-manager-metrics,client-id=\*,topic=*`
+. MBeans matching `kafka.consumer:type=consumer-fetch-manager-metrics,client-id=\*,topic=*`
 
 These are metrics at the topic level about the consumer\'s fetcher.
 
@@ -169,7 +169,7 @@ These are metrics at the topic level about the consumer\'s fetcher.
 |=======
 
 [id='consumer-mbeans-consumer-fetch-manager-metrics-client-id-topic-partition-{context}']
-== MBeans matching `kafka.consumer:type=consumer-fetch-manager-metrics,client-id=\*,topic=*,partition=*`
+. MBeans matching `kafka.consumer:type=consumer-fetch-manager-metrics,client-id=\*,topic=*,partition=*`
 
 These are metrics at the partition level about the consumer\'s fetcher.
 
