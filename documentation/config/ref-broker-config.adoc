@@ -8,15 +8,6 @@
 [id='broker-configuration-parameters-{context}']
 = Broker configuration parameters
 
-`advertised.host.name`::
-*Type:* string +
-*Default:* null +
-*Importance:* high +
-*Dynamic update:* read-only +
-+
-DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead. 
-Hostname to publish to ZooKeeper for clients to use. In IaaS environments, this may need to be different from the interface to which the broker binds. If this is not set, it will use the value for `host.name` if configured. Otherwise it will use the value returned from java.net.InetAddress.getCanonicalHostName().
-
 `advertised.listeners`::
 *Type:* string +
 *Default:* null +
@@ -25,15 +16,6 @@ Hostname to publish to ZooKeeper for clients to use. In IaaS environments, this 
 +
 Listeners to publish to ZooKeeper for clients to use, if different than the `listeners` config property. In IaaS environments, this may need to be different from the interface to which the broker binds. If this is not set, the value for `listeners` will be used. Unlike `listeners`, it is not valid to advertise the 0.0.0.0 meta-address.
  Also unlike `listeners`, there can be duplicated ports in this property, so that one listener can be configured to advertise another listener's address. This can be useful in some cases where external load balancers are used.
-
-`advertised.port`::
-*Type:* int +
-*Default:* null +
-*Importance:* high +
-*Dynamic update:* read-only +
-+
-DEPRECATED: only used when `advertised.listeners` or `listeners` are not set. Use `advertised.listeners` instead. 
-The port to publish to ZooKeeper for clients to use. In IaaS environments, this may need to be different from the port to which the broker binds. If this is not set, it will publish the same port that the broker binds to.
 
 `auto.create.topics.enable`::
 *Type:* boolean +
@@ -96,6 +78,48 @@ control.plane.listener.name = CONTROLLER
 then controller will use "broker1.example.com:9094" with security protocol "SSL" to connect to the broker.
 If not explicitly configured, the default value will be null and there will be no dedicated endpoints for controller connections.
 
+`controller.listener.names`::
+*Type:* string +
+*Default:* null +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+A comma-separated list of the names of the listeners used by the controller. This is required if running in KRaft mode. When communicating with the controller quorum, the broker will always use the first listener in this list.
+ Note: The ZK-based controller should not set this configuration.
+
+`controller.quorum.election.backoff.max.ms`::
+*Type:* int +
+*Default:* 1000 (1 second) +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+Maximum time in milliseconds before starting new elections. This is used in the binary exponential backoff mechanism that helps prevent gridlocked elections.
+
+`controller.quorum.election.timeout.ms`::
+*Type:* int +
+*Default:* 1000 (1 second) +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+Maximum time in milliseconds to wait without being able to fetch from the leader before triggering a new election.
+
+`controller.quorum.fetch.timeout.ms`::
+*Type:* int +
+*Default:* 2000 (2 seconds) +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+Maximum time without a successful fetch from the current leader before becoming a candidate and triggering a election for voters; Maximum time without receiving fetch from a majority of the quorum before asking around to see if there's a new epoch for leader.
+
+`controller.quorum.voters`::
+*Type:* list +
+*Default:* "" +
+*Valid Values:* non-empty list +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+Map of id/endpoint information for the set of voters in a comma-separated list of `{id}@{host}:{port}` entries. For example: `1@localhost:9092,2@localhost:9093,3@localhost:9094`.
+
 `delete.topic.enable`::
 *Type:* boolean +
 *Default:* true +
@@ -104,18 +128,10 @@ If not explicitly configured, the default value will be null and there will be n
 +
 Enables delete topic. Delete topic through the admin tool will have no effect if this config is turned off.
 
-`host.name`::
-*Type:* string +
-*Default:* "" +
-*Importance:* high +
-*Dynamic update:* read-only +
-+
-DEPRECATED: only used when `listeners` is not set. Use `listeners` instead. 
-hostname of broker. If this is set, it will only bind to this address. If this is not set, it will bind to all interfaces.
-
 `leader.imbalance.check.interval.seconds`::
 *Type:* long +
 *Default:* 300 +
+*Valid Values:* [1,...] +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
@@ -131,7 +147,7 @@ The ratio of leader imbalance allowed per broker. The controller would trigger a
 
 `listeners`::
 *Type:* string +
-*Default:* null +
+*Default:* PLAINTEXT://:9092 +
 *Importance:* high +
 *Dynamic update:* per-broker +
 +
@@ -295,6 +311,56 @@ The amount of time to wait before deleting a file from the filesystem.
 +
 The largest record batch size allowed by Kafka (after compression if compression is enabled). If this is increased and there are consumers older than 0.10.2, the consumers' fetch size must also be increased so that they can fetch record batches this large. In the latest message format version, records are always grouped into batches for efficiency. In previous message format versions, uncompressed records are not grouped into batches and this limit only applies to a single record in that case.This can be set per topic with the topic level `max.message.bytes` config.
 
+`metadata.log.dir`::
+*Type:* string +
+*Default:* null +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+This configuration determines where we put the metadata log for clusters in KRaft mode. If it is not set, the metadata log is placed in the first log directory from log.dirs.
+
+`metadata.log.max.record.bytes.between.snapshots`::
+*Type:* long +
+*Default:* 20971520 +
+*Valid Values:* [1,...] +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+This is the maximum number of bytes in the log between the latest snapshot and the high-watermark needed before generating a new snapshot.
+
+`metadata.log.segment.bytes`::
+*Type:* int +
+*Default:* 1073741824 (1 gibibyte) +
+*Valid Values:* [12,...] +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+The maximum size of a single metadata log file.
+
+`metadata.log.segment.ms`::
+*Type:* long +
+*Default:* 604800000 (7 days) +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+The maximum time before a new metadata log file is rolled out (in milliseconds).
+
+`metadata.max.retention.bytes`::
+*Type:* long +
+*Default:* -1 +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+The maximum combined size of the metadata log and snapshots before deleting old snapshots and log files. Since at least one snapshot must exist before any logs can be deleted, this is a soft limit.
+
+`metadata.max.retention.ms`::
+*Type:* long +
+*Default:* 604800000 (7 days) +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+The number of milliseconds to keep a metadata log file or snapshot before deleting it. Since at least one snapshot must exist before any logs can be deleted, this is a soft limit.
+
 `min.insync.replicas`::
 *Type:* int +
 *Default:* 1 +
@@ -304,6 +370,14 @@ The largest record batch size allowed by Kafka (after compression if compression
 +
 When a producer sets acks to "all" (or "-1"), min.insync.replicas specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful. If this minimum cannot be met, then the producer will raise an exception (either NotEnoughReplicas or NotEnoughReplicasAfterAppend).
 When used together, min.insync.replicas and acks allow you to enforce greater durability guarantees. A typical scenario would be to create a topic with a replication factor of 3, set min.insync.replicas to 2, and produce with acks of "all". This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
+
+`node.id`::
+*Type:* int +
+*Default:* -1 +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+The node ID associated with the roles this process is playing when `process.roles` is non-empty. This is required configuration when running in KRaft mode.
 
 `num.io.threads`::
 *Type:* int +
@@ -435,14 +509,14 @@ The replication factor for the offsets topic (set higher to ensure availability)
 +
 The offsets topic segment bytes should be kept relatively small in order to facilitate faster log compaction and cache loads.
 
-`port`::
-*Type:* int +
-*Default:* 9092 +
+`process.roles`::
+*Type:* list +
+*Default:* "" +
+*Valid Values:* [broker, controller] +
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-DEPRECATED: only used when `listeners` is not set. Use `listeners` instead. 
-the port to listen and accept connections on.
+The roles that this process plays: 'broker', 'controller', or 'broker,controller' if it is both. This configuration is only applicable for clusters in KRaft (Kafka Raft) mode (instead of ZooKeeper). Leave this config undefined or empty for Zookeeper clusters.
 
 `queued.max.requests`::
 *Type:* int +
@@ -452,24 +526,6 @@ the port to listen and accept connections on.
 *Dynamic update:* read-only +
 +
 The number of queued requests allowed for data-plane, before blocking the network threads.
-
-`quota.consumer.default`::
-*Type:* long +
-*Default:* 9223372036854775807 +
-*Valid Values:* [1,...] +
-*Importance:* high +
-*Dynamic update:* read-only +
-+
-DEPRECATED: Used only when dynamic default quotas are not configured for <user, <client-id> or <user, client-id> in Zookeeper. Any consumer distinguished by clientId/consumer group will get throttled if it fetches more bytes than this value per-second.
-
-`quota.producer.default`::
-*Type:* long +
-*Default:* 9223372036854775807 +
-*Valid Values:* [1,...] +
-*Importance:* high +
-*Dynamic update:* read-only +
-+
-DEPRECATED: Used only when dynamic default quotas are not configured for <user>, <client-id> or <user, client-id> in Zookeeper. Any producer distinguished by clientId will get throttled if it produces more bytes than this value per-second.
 
 `replica.fetch.min.bytes`::
 *Type:* int +
@@ -485,7 +541,7 @@ Minimum bytes expected for each fetch response. If not enough bytes, wait up to 
 *Importance:* high +
 *Dynamic update:* read-only +
 +
-max wait time for each fetcher request issued by follower replicas. This value should always be less than the replica.lag.time.max.ms at all times to prevent frequent shrinking of ISR for low throughput topics.
+The maximum wait time for each fetcher request issued by follower replicas. This value should always be less than the replica.lag.time.max.ms at all times to prevent frequent shrinking of ISR for low throughput topics.
 
 `replica.high.watermark.checkpoint.interval.ms`::
 *Type:* long +
@@ -526,6 +582,14 @@ The socket timeout for network requests. Its value should be at least replica.fe
 *Dynamic update:* read-only +
 +
 The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
+
+`sasl.mechanism.controller.protocol`::
+*Type:* string +
+*Default:* GSSAPI +
+*Importance:* high +
+*Dynamic update:* read-only +
++
+SASL mechanism used for communication with controllers. Default is GSSAPI.
 
 `socket.receive.buffer.bytes`::
 *Type:* int +
@@ -665,6 +729,14 @@ Zookeeper session timeout.
 +
 Set client to use secure ACLs.
 
+`broker.heartbeat.interval.ms`::
+*Type:* int +
+*Default:* 2000 (2 seconds) +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The length of time in milliseconds between broker heartbeats. Used when running in KRaft mode.
+
 `broker.id.generation.enable`::
 *Type:* boolean +
 *Default:* true +
@@ -680,6 +752,14 @@ Enable automatic broker id generation on the server. When enabled the value conf
 *Dynamic update:* read-only +
 +
 Rack of the broker. This will be used in rack aware replication assignment for fault tolerance. Examples: `RACK1`, `us-east-1d`.
+
+`broker.session.timeout.ms`::
+*Type:* int +
+*Default:* 9000 (9 seconds) +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The length of time in milliseconds that a broker lease lasts if no heartbeats are made. Used when running in KRaft mode.
 
 `connections.max.idle.ms`::
 *Type:* long +
@@ -721,6 +801,22 @@ Controlled shutdown can fail for multiple reasons. This determines the number of
 +
 Before each retry, the system needs time to recover from the state that caused the previous failure (Controller fail over, replica lag etc). This config determines the amount of time to wait before retrying.
 
+`controller.quorum.append.linger.ms`::
+*Type:* int +
+*Default:* 25 +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The duration in milliseconds that the leader will wait for writes to accumulate before flushing them to disk.
+
+`controller.quorum.request.timeout.ms`::
+*Type:* int +
+*Default:* 2000 (2 seconds) +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
+
 `controller.socket.timeout.ms`::
 *Type:* int +
 *Default:* 30000 (30 seconds) +
@@ -735,7 +831,7 @@ The socket timeout for controller-to-broker channels.
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
-default replication factors for automatically created topics.
+The default replication factors for automatically created topics.
 
 `delegation.token.expiry.time.ms`::
 *Type:* long +
@@ -829,6 +925,14 @@ The maximum number of consumers that a single consumer group can accommodate.
 +
 The minimum allowed session timeout for registered consumers. Shorter timeouts result in quicker failure detection at the cost of more frequent consumer heartbeating, which can overwhelm broker resources.
 
+`initial.broker.registration.timeout.ms`::
+*Type:* int +
+*Default:* 60000 (1 minute) +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+When initially registering with the controller quorum, the number of milliseconds to wait before declaring failure and exiting the broker process.
+
 `inter.broker.listener.name`::
 *Type:* string +
 *Default:* null +
@@ -839,8 +943,8 @@ Name of listener used for communication between brokers. If this is unset, the l
 
 `inter.broker.protocol.version`::
 *Type:* string +
-*Default:* 2.8-IV1 +
-*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0, 2.7-IV0, 2.7-IV1, 2.7-IV2, 2.8-IV0, 2.8-IV1] +
+*Default:* 3.2-IV0 +
+*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0, 2.7-IV0, 2.7-IV1, 2.7-IV2, 2.8-IV0, 2.8-IV1, 3.0-IV0, 3.0-IV1, 3.1-IV0, 3.2-IV0] +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -871,7 +975,7 @@ The total memory used for log deduplication across all cleaner threads.
 *Importance:* medium +
 *Dynamic update:* cluster-wide +
 +
-How long are delete records retained?
+The amount of time to retain delete tombstone markers for log compacted topics. This setting also gives a bound on the time in which a consumer must complete a read if they begin from offset 0 to ensure that they get a valid snapshot of the final stage (otherwise delete tombstones may be collected before they complete their scan).
 
 `log.cleaner.enable`::
 *Type:* boolean +
@@ -968,8 +1072,8 @@ The maximum size in bytes of the offset index.
 
 `log.message.format.version`::
 *Type:* string +
-*Default:* 2.8-IV1 +
-*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0, 2.7-IV0, 2.7-IV1, 2.7-IV2, 2.8-IV0, 2.8-IV1] +
+*Default:* 3.0-IV1 +
+*Valid Values:* [0.8.0, 0.8.1, 0.8.2, 0.9.0, 0.10.0-IV0, 0.10.0-IV1, 0.10.1-IV0, 0.10.1-IV1, 0.10.1-IV2, 0.10.2-IV0, 0.11.0-IV0, 0.11.0-IV1, 0.11.0-IV2, 1.0-IV0, 1.1-IV0, 2.0-IV0, 2.0-IV1, 2.1-IV0, 2.1-IV1, 2.1-IV2, 2.2-IV0, 2.2-IV1, 2.3-IV0, 2.3-IV1, 2.4-IV0, 2.4-IV1, 2.5-IV0, 2.6-IV0, 2.7-IV0, 2.7-IV1, 2.7-IV2, 2.8-IV0, 2.8-IV1, 3.0-IV0, 3.0-IV1, 3.1-IV0, 3.2-IV0] +
 *Importance:* medium +
 *Dynamic update:* read-only +
 +
@@ -1080,11 +1184,11 @@ The secret used for encoding dynamically configured passwords for this broker.
 
 `principal.builder.class`::
 *Type:* class +
-*Default:* null +
+*Default:* org.apache.kafka.common.security.authenticator.DefaultKafkaPrincipalBuilder +
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-The fully qualified name of a class that implements the KafkaPrincipalBuilder interface, which is used to build the KafkaPrincipal object used during authorization. This config also supports the deprecated PrincipalBuilder interface which was previously used for client authentication over SSL. If no principal builder is defined, the default behavior depends on the security protocol in use. For SSL authentication,  the principal will be derived using the rules defined by `ssl.principal.mapping.rules` applied on the distinguished name from the client certificate if one is provided; otherwise, if client authentication is not required, the principal name will be ANONYMOUS. For SASL authentication, the principal will be derived using the rules defined by `sasl.kerberos.principal.to.local.rules` if GSSAPI is in use, and the SASL authentication ID for other mechanisms. For PLAINTEXT, the principal will be ANONYMOUS.
+The fully qualified name of a class that implements the KafkaPrincipalBuilder interface, which is used to build the KafkaPrincipal object used during authorization. If no principal builder is defined, the default behavior depends on the security protocol in use. For SSL authentication,  the principal will be derived using the rules defined by `ssl.principal.mapping.rules` applied on the distinguished name from the client certificate if one is provided; otherwise, if client authentication is not required, the principal name will be ANONYMOUS. For SASL authentication, the principal will be derived using the rules defined by `sasl.kerberos.principal.to.local.rules` if GSSAPI is in use, and the SASL authentication ID for other mechanisms. For PLAINTEXT, the principal will be ANONYMOUS.
 
 `producer.purgatory.purge.interval.requests`::
 *Type:* int +
@@ -1274,6 +1378,22 @@ The maximum amount of random jitter relative to the credential's lifetime that i
 +
 SASL mechanism used for inter-broker communication. Default is GSSAPI.
 
+`sasl.oauthbearer.jwks.endpoint.url`::
+*Type:* string +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The OAuth/OIDC provider URL from which the provider's https://datatracker.ietf.org/doc/html/rfc7517#section-5[JWKS (JSON Web Key Set)] can be retrieved. The URL can be HTTP(S)-based or file-based. If the URL is HTTP(S)-based, the JWKS data will be retrieved from the OAuth/OIDC provider via the configured URL on broker startup. All then-current keys will be cached on the broker for incoming requests. If an authentication request is received for a JWT that includes a "kid" header claim value that isn't yet in the cache, the JWKS endpoint will be queried again on demand. However, the broker polls the URL every sasl.oauthbearer.jwks.endpoint.refresh.ms milliseconds to refresh the cache with any forthcoming keys before any JWT requests that include them are received. If the URL is file-based, the broker will load the JWKS file from a configured location on startup. In the event that the JWT includes a "kid" header value that isn't in the JWKS file, the broker will reject the JWT and authentication will fail.
+
+`sasl.oauthbearer.token.endpoint.url`::
+*Type:* string +
+*Default:* null +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The URL for the OAuth/OIDC identity provider. If the URL is HTTP(S)-based, it is the issuer's token endpoint URL to which requests will be made to login based on the configuration in sasl.jaas.config. If the URL is file-based, it specifies a file containing an access token (in JWT serialized form) issued by the OAuth/OIDC identity provider to use for authorization.
+
 `sasl.server.callback.handler.class`::
 *Type:* class +
 *Default:* null +
@@ -1305,6 +1425,15 @@ The maximum amount of time the client will wait for the socket connection to be 
 *Dynamic update:* read-only +
 +
 The amount of time the client will wait for the socket connection to be established. If the connection is not built before the timeout elapses, clients will close the socket channel.
+
+`socket.listen.backlog.size`::
+*Type:* int +
+*Default:* 50 +
+*Valid Values:* [1,...] +
+*Importance:* medium +
+*Dynamic update:* read-only +
++
+The maximum number of pending connections on the socket. In Linux, you may also need to configure `somaxconn` and `tcp_max_syn_backlog` kernel parameters accordingly to make the configuration takes effect.
 
 `ssl.cipher.suites`::
 *Type:* list +
@@ -1341,7 +1470,7 @@ The list of protocols enabled for SSL connections. The default is 'TLSv1.2,TLSv1
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-The password of the private key in the key store file orthe PEM key specified in `ssl.keystore.key'. This is required for clients only if two-way authentication is configured.
+The password of the private key in the key store file or the PEM key specified in `ssl.keystore.key'. This is required for clients only if two-way authentication is configured.
 
 `ssl.keymanager.algorithm`::
 *Type:* string +
@@ -1381,7 +1510,7 @@ The location of the key store file. This is optional for client and can be used 
 *Importance:* medium +
 *Dynamic update:* per-broker +
 +
-The store password for the key store file. This is optional for client and only needed if 'ssl.keystore.location' is configured.  Key store password is not supported for PEM format.
+The store password for the key store file. This is optional for client and only needed if 'ssl.keystore.location' is configured. Key store password is not supported for PEM format.
 
 `ssl.keystore.type`::
 *Type:* string +
@@ -1543,7 +1672,7 @@ The time span of each sample for alter log dirs replication quotas.
 *Importance:* low +
 *Dynamic update:* read-only +
 +
-The fully qualified name of a class that implements sorg.apache.kafka.server.authorizer.Authorizer interface, which is used by the broker for authorization. This config also supports authorizers that implement the deprecated kafka.security.auth.Authorizer trait which was previously used for authorization.
+The fully qualified name of a class that implements `org.apache.kafka.server.authorizer.Authorizer` interface, which is used by the broker for authorization.
 
 `client.quota.callback.class`::
 *Type:* class +
@@ -1551,7 +1680,7 @@ The fully qualified name of a class that implements sorg.apache.kafka.server.aut
 *Importance:* low +
 *Dynamic update:* read-only +
 +
-The fully qualified name of a class that implements the ClientQuotaCallback interface, which is used to determine quota limits applied to client requests. By default, <user, client-id>, <user> or <client-id> quotas stored in ZooKeeper are applied. For any given request, the most specific quota that matches the user principal of the session and the client-id of the request is applied.
+The fully qualified name of a class that implements the ClientQuotaCallback interface, which is used to determine quota limits applied to client requests. By default, &lt;user&gt;, &lt;client-id&gt;, &lt;user&gt; or &lt;client-id&gt; quotas stored in ZooKeeper are applied. For any given request, the most specific quota that matches the user principal of the session and the client-id of the request is applied.
 
 `connection.failed.authentication.delay.ms`::
 *Type:* int +
@@ -1561,6 +1690,14 @@ The fully qualified name of a class that implements the ClientQuotaCallback inte
 *Dynamic update:* read-only +
 +
 Connection close delay on failed authentication: this is the time (in milliseconds) by which connection close will be delayed on authentication failure. This must be configured to be less than connections.max.idle.ms to prevent connection timeout.
+
+`controller.quorum.retry.backoff.ms`::
+*Type:* int +
+*Default:* 20 +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The amount of time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
 
 `controller.quota.window.num`::
 *Type:* int +
@@ -1620,7 +1757,7 @@ A list of classes to use as Yammer metrics custom reporters. The reporters shoul
 *Importance:* low +
 *Dynamic update:* per-broker +
 +
-Map between listener names and security protocols. This must be defined for the same security protocol to be usable in more than one port or IP. For example, internal and external traffic can be separated even if SSL is required for both. Concretely, the user could define listeners with names INTERNAL and EXTERNAL and this property as: `INTERNAL:SSL,EXTERNAL:SSL`. As shown, key and value are separated by a colon and map entries are separated by commas. Each listener name should only appear once in the map. Different security (SSL and SASL) settings can be configured for each listener by adding a normalised prefix (the listener name is lowercased) to the config name. For example, to set a different keystore for the INTERNAL listener, a config with name `listener.name.internal.ssl.keystore.location` would be set. If the config for the listener name is not set, the config will fallback to the generic config (i.e. `ssl.keystore.location`).
+Map between listener names and security protocols. This must be defined for the same security protocol to be usable in more than one port or IP. For example, internal and external traffic can be separated even if SSL is required for both. Concretely, the user could define listeners with names INTERNAL and EXTERNAL and this property as: `INTERNAL:SSL,EXTERNAL:SSL`. As shown, key and value are separated by a colon and map entries are separated by commas. Each listener name should only appear once in the map. Different security (SSL and SASL) settings can be configured for each listener by adding a normalised prefix (the listener name is lowercased) to the config name. For example, to set a different keystore for the INTERNAL listener, a config with name `listener.name.internal.ssl.keystore.location` would be set. If the config for the listener name is not set, the config will fallback to the generic config (i.e. `ssl.keystore.location`). Note that in KRaft a default mapping from the listener names defined by `controller.listener.names` to PLAINTEXT is assumed if no explicit mapping is provided and no other security protocol is in use.
 
 `log.message.downconversion.enable`::
 *Type:* boolean +
@@ -1734,6 +1871,102 @@ The number of samples to retain in memory for replication quotas.
 +
 The time span of each sample for replication quotas.
 
+`sasl.login.connect.timeout.ms`::
+*Type:* int +
+*Default:* null +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The (optional) value in milliseconds for the external authentication provider connection timeout. Currently applies only to OAUTHBEARER.
+
+`sasl.login.read.timeout.ms`::
+*Type:* int +
+*Default:* null +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The (optional) value in milliseconds for the external authentication provider read timeout. Currently applies only to OAUTHBEARER.
+
+`sasl.login.retry.backoff.max.ms`::
+*Type:* long +
+*Default:* 10000 (10 seconds) +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The (optional) value in milliseconds for the maximum wait between login attempts to the external authentication provider. Login uses an exponential backoff algorithm with an initial wait based on the sasl.login.retry.backoff.ms setting and will double in wait length between attempts up to a maximum wait length specified by the sasl.login.retry.backoff.max.ms setting. Currently applies only to OAUTHBEARER.
+
+`sasl.login.retry.backoff.ms`::
+*Type:* long +
+*Default:* 100 +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The (optional) value in milliseconds for the initial wait between login attempts to the external authentication provider. Login uses an exponential backoff algorithm with an initial wait based on the sasl.login.retry.backoff.ms setting and will double in wait length between attempts up to a maximum wait length specified by the sasl.login.retry.backoff.max.ms setting. Currently applies only to OAUTHBEARER.
+
+`sasl.oauthbearer.clock.skew.seconds`::
+*Type:* int +
+*Default:* 30 +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The (optional) value in seconds to allow for differences between the time of the OAuth/OIDC identity provider and the broker.
+
+`sasl.oauthbearer.expected.audience`::
+*Type:* list +
+*Default:* null +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The (optional) comma-delimited setting for the broker to use to verify that the JWT was issued for one of the expected audiences. The JWT will be inspected for the standard OAuth "aud" claim and if this value is set, the broker will match the value from JWT's "aud" claim  to see if there is an exact match. If there is no match, the broker will reject the JWT and authentication will fail.
+
+`sasl.oauthbearer.expected.issuer`::
+*Type:* string +
+*Default:* null +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The (optional) setting for the broker to use to verify that the JWT was created by the expected issuer. The JWT will be inspected for the standard OAuth "iss" claim and if this value is set, the broker will match it exactly against what is in the JWT's "iss" claim. If there is no match, the broker will reject the JWT and authentication will fail.
+
+`sasl.oauthbearer.jwks.endpoint.refresh.ms`::
+*Type:* long +
+*Default:* 3600000 (1 hour) +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The (optional) value in milliseconds for the broker to wait between refreshing its JWKS (JSON Web Key Set) cache that contains the keys to verify the signature of the JWT.
+
+`sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms`::
+*Type:* long +
+*Default:* 10000 (10 seconds) +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The (optional) value in milliseconds for the maximum wait between attempts to retrieve the JWKS (JSON Web Key Set) from the external authentication provider. JWKS retrieval uses an exponential backoff algorithm with an initial wait based on the sasl.oauthbearer.jwks.endpoint.retry.backoff.ms setting and will double in wait length between attempts up to a maximum wait length specified by the sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms setting.
+
+`sasl.oauthbearer.jwks.endpoint.retry.backoff.ms`::
+*Type:* long +
+*Default:* 100 +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The (optional) value in milliseconds for the initial wait between JWKS (JSON Web Key Set) retrieval attempts from the external authentication provider. JWKS retrieval uses an exponential backoff algorithm with an initial wait based on the sasl.oauthbearer.jwks.endpoint.retry.backoff.ms setting and will double in wait length between attempts up to a maximum wait length specified by the sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms setting.
+
+`sasl.oauthbearer.scope.claim.name`::
+*Type:* string +
+*Default:* scope +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The OAuth claim for the scope is often named "scope", but this (optional) setting can provide a different name to use for the scope included in the JWT payload's claims if the OAuth/OIDC provider uses a different name for that claim.
+
+`sasl.oauthbearer.sub.claim.name`::
+*Type:* string +
+*Default:* sub +
+*Importance:* low +
+*Dynamic update:* read-only +
++
+The OAuth claim for the subject is often named "sub", but this (optional) setting can provide a different name to use for the subject included in the JWT payload's claims if the OAuth/OIDC provider uses a different name for that claim.
+
 `security.providers`::
 *Type:* string +
 *Default:* null +
@@ -1839,11 +2072,3 @@ Specifies whether to enable Online Certificate Status Protocol in the ZooKeeper 
 *Dynamic update:* read-only +
 +
 Specifies the protocol to be used in ZooKeeper TLS negotiation. An explicit value overrides any value set via the same-named `zookeeper.ssl.protocol` system property.
-
-`zookeeper.sync.time.ms`::
-*Type:* int +
-*Default:* 2000 (2 seconds) +
-*Importance:* low +
-*Dynamic update:* read-only +
-+
-How far a ZK follower can be behind a ZK leader.
