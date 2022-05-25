@@ -1,5 +1,5 @@
-# amq-streams-rhel
-Documentation for AMQ Streams on RHEL
+# (Retired) amq-streams-rhel
+This repo is no longer used to create documentation for AMQ Streams on RHEL
 
 ## Use the make file to build locally
 * `make rhel-using` for Using Streams on RHEL guide
